@@ -28,10 +28,8 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             {
                 return null;
             }
-            else
-            {
-                return m_Destination.Name;
-            }
+
+            return m_Destination.Name;
         }
         set{
             m_DestinationString = value;
@@ -162,7 +160,8 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             Say("I am looking to go to {0}, will you take me?", dest.Name == "Ocllo" && m.Map == Map.Trammel ? "Haven" : dest.Name);
             return true;
         }
-        else if (escorter == m)
+
+        if (escorter == m)
         {
             Say("Lead on! Payment will be made when we arrive in {0}.", dest.Name == "Ocllo" && m.Map == Map.Trammel ? "Haven" : dest.Name);
             return true;
@@ -200,14 +199,15 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             Say("I see you already have an escort.");
             return false;
         }
-        else if (m is PlayerMobile mobile && mobile.LastEscortTime + m_EscortDelay >= DateTime.Now)
+
+        if (m is PlayerMobile mobile && mobile.LastEscortTime + m_EscortDelay >= DateTime.Now)
         {
             int minutes = (int)Math.Ceiling((mobile.LastEscortTime + m_EscortDelay - DateTime.Now).TotalMinutes);
 
             Say("You must rest {0} minute{1} before we set out on this journey.", minutes, minutes == 1 ? "" : "s");
             return false;
         }
-        else if (SetControlMaster(m))
+        if (SetControlMaster(m))
         {
             m_LastSeenEscorter = DateTime.Now;
 
@@ -346,14 +346,12 @@ public class TalkingBaseEscortable : TalkingBaseCreature
                 SetControlMaster(null);
                 m_EscortTable.Remove(master);
 
-                Timer.DelayCall(TimeSpan.FromSeconds(5.0), new TimerCallback(Delete));
+                Timer.DelayCall(TimeSpan.FromSeconds(5.0), Delete);
                 return null;
             }
-            else
-            {
-                ControlOrder = OrderType.Stay;
-                return master;
-            }
+
+            ControlOrder = OrderType.Stay;
+            return master;
         }
 
         if (ControlOrder != OrderType.Follow)

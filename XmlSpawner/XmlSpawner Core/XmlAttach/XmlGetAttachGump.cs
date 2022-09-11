@@ -45,7 +45,7 @@ public class XmlGetAttGump : Gump
     private int DisplayFrom;
     private bool [] m_SelectionList;
 
-    private bool SelectAll = false;
+    private bool SelectAll;
 
     private ArrayList m_SearchList;
 
@@ -468,10 +468,8 @@ public class XmlGetAttGump : Gump
             {
                 return String.Compare(ystr, xstr, true);
             }
-            else
-            {
-                return String.Compare(xstr, ystr, true);
-            }
+
+            return String.Compare(xstr, ystr, true);
         }
     }
 
@@ -499,10 +497,8 @@ public class XmlGetAttGump : Gump
             {
                 return String.Compare(ystr, xstr, true);
             }
-            else
-            {
-                return String.Compare(xstr, ystr, true);
-            }
+
+            return String.Compare(xstr, ystr, true);
         }
     }
 

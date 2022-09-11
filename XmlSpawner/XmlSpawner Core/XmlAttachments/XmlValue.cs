@@ -66,9 +66,7 @@ public class XmlValue : XmlAttachment
         {
             return String.Format("{2}: Value {0} expires in {1} mins",Value,Expiration.TotalMinutes, Name);
         }
-        else
-        {
-            return String.Format("{1}: Value {0}",Value, Name);
-        }
+
+        return String.Format("{1}: Value {0}",Value, Name);
     }
 }

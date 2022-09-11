@@ -14,26 +14,24 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlDialog : XmlAttachment
 {
-
-
     // speech entry
     public class SpeechEntry
     {
         public int EntryNumber;
         private int m_ID;
-        public string Text;     // text displayed when the entry is activated
-        public string Keywords; // comma separated list of keywords that can be matched to activate the entry.  If no keywords are present then it is automatically activated
-        public string Action;   // action string
-        public string Condition;    // condition test string
-        public string DependsOn;   // the previous entrynumber required to activate this entry
-        public int Pause = 1;       // pause in seconds before advancing to the next entry
-        public int PrePause = -1;    // pause in seconds before saying the speech for this entry.  -1 indicates the use of auto pause calculation based on triggering speech length.
-        public bool LockConversation = true;    // flag to determine if the conversation locks to one player
-        public bool AllowNPCTrigger = false; // flag to determine if npc speech can trigger it
+        public string Text;                  // text displayed when the entry is activated
+        public string Keywords;              // comma separated list of keywords that can be matched to activate the entry.  If no keywords are present then it is automatically activated
+        public string Action;                // action string
+        public string Condition;             // condition test string
+        public string DependsOn;             // the previous entrynumber required to activate this entry
+        public int Pause = 1;                // pause in seconds before advancing to the next entry
+        public int PrePause = -1;            // pause in seconds before saying the speech for this entry.  -1 indicates the use of auto pause calculation based on triggering speech length.
+        public bool LockConversation = true; // flag to determine if the conversation locks to one player
+        public bool AllowNPCTrigger;         // flag to determine if npc speech can trigger it
         public MessageType SpeechStyle = MessageType.Regular;
-        public string Gump;		// GUMP specification string
-        public int m_SpeechHue = -1;			// speech hue
-        public bool IgnoreCarried = false; // ignore the TriggerOnCarried/NoTriggerOnCarried settings for the dialog when activating this entry
+        public string Gump;          // GUMP specification string
+        public int m_SpeechHue = -1; // speech hue
+        public bool IgnoreCarried;   // ignore the TriggerOnCarried/NoTriggerOnCarried settings for the dialog when activating this entry
 
         public int SpeechHue
         {
@@ -80,12 +78,12 @@ public class XmlDialog : XmlAttachment
     private SpeechEntry m_CurrentEntry;
     private bool m_Running = true;
     private int m_ProximityRange = defProximityRange;
-    private bool m_AllowGhostTriggering = false;
+    private bool m_AllowGhostTriggering;
     private AccessLevel m_TriggerAccessLevel = AccessLevel.Player;
     private DateTime m_LastInteraction;
     private TimeSpan m_ResetTime = defResetTime;
     private int m_ResetRange = defResetRange;
-    private bool m_IsActive = false;
+    private bool m_IsActive;
     private InternalTimer m_Timer;
     private string m_ConfigFile;
     private Mobile m_ActivePlayer;  // keep track of the player that is currently engaged in conversation so that other players speech can be ignored.
@@ -114,11 +112,8 @@ public class XmlDialog : XmlAttachment
         set => m_ActivePlayer = value;
     }
 
-
-
     // a serial constructor is REQUIRED
-    public XmlDialog(ASerial serial)
-        : base(serial)
+    public XmlDialog(ASerial serial) : base(serial)
     {
     }
 
@@ -787,32 +782,30 @@ public class XmlDialog : XmlAttachment
                             matchlist.Add(s);
                             break;
                         }
+
+                        bool error = false;
+                        Regex r = null;
+                        string status_str = null;
+                        try
+                        {
+                            r = new Regex(arglist[i], RegexOptions.IgnoreCase);
+                        }
+                        catch (Exception e) { error = true; status_str = e.Message; }
+
+                        if (!error && r != null)
+                        {
+
+                            Match m = r.Match(keyword);
+                            if (m.Success)
+                            {
+                                // add it to the list of match candidates
+                                matchlist.Add(s);
+                                break;
+                            }
+                        }
                         else
                         {
-                            bool error = false;
-                            Regex r = null;
-                            string status_str = null;
-                            try
-                            {
-                                r = new Regex(arglist[i], RegexOptions.IgnoreCase);
-                            }
-                            catch (Exception e) { error = true; status_str = e.Message; }
-
-                            if (!error && r != null)
-                            {
-
-                                Match m = r.Match(keyword);
-                                if (m.Success)
-                                {
-                                    // add it to the list of match candidates
-                                    matchlist.Add(s);
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                ReportError(from, $"Bad regular expression: {status_str} ");
-                            }
+                            ReportError(from, $"Bad regular expression: {status_str} ");
                         }
                     }
                 }
@@ -826,11 +819,9 @@ public class XmlDialog : XmlAttachment
 
             return (SpeechEntry)matchlist[select];
         }
-        else
-        {
-            // didnt find a match
-            return null;
-        }
+
+        // didnt find a match
+        return null;
     }
 
     public static void DialogGumpCallback(Mobile from, object invoker, string response)
@@ -1697,17 +1688,15 @@ public class XmlDialog : XmlAttachment
 
             return false;
         }
-        else
-        {
-            if (from != null && !from.Deleted)
-            {
-                from.SendMessage("Saved npc to file {0}", dirname);
-            }
 
-            if (updateconfig)
-            {
-                ConfigFile = configname;
-            }
+        if (from != null && !from.Deleted)
+        {
+            from.SendMessage("Saved npc to file {0}", dirname);
+        }
+
+        if (updateconfig)
+        {
+            ConfigFile = configname;
         }
 
         return true;

@@ -66,7 +66,7 @@ namespace Server.Mobiles
         public static string XmlSpawnDir = "XmlSpawner";            // default directory for saving/loading .xml files with [xmlload [xmlsave
         private const int MaxSmartSectorListSize = 1024;        // maximum sector list size for use in smart spawning. This gives a 512x512 tile range.
 
-        private static string defwaypointname = null;            // default waypoint name will get assigned in Initialize
+        private static string defwaypointname;            // default waypoint name will get assigned in Initialize
         private const string XmlTableName = "Properties";
         private const string XmlDataSetName = "XmlSpawner";
         public static AccessLevel DiskAccessLevel = AccessLevel.Administrator; // minimum access level required by commands that can access the disk such as XmlLoad, XmlSave, and the Save function of XmlEdit
@@ -89,8 +89,8 @@ namespace Server.Mobiles
         private static TimeSpan defTODEnd = TimeSpan.FromMinutes(0);
         private static TimeSpan defDuration = TimeSpan.FromMinutes(0);
         private static TimeSpan defDespawnTime = TimeSpan.FromHours(0);
-        private static bool defIsGroup = false;
-        private static int defTeam = 0;
+        private static bool defIsGroup;
+        private static int defTeam;
         private static int defProximityTriggerSound = defaultTriggerSound;
         private static int defAmount = 1;
         private static bool defRelativeHome = true;
@@ -102,7 +102,7 @@ namespace Server.Mobiles
         private static TODModeType defTODMode = TODModeType.Realtime;
 
         private static Timer m_GlobalSectorTimer;
-        private static bool SmartSpawningSystemEnabled = false;
+        private static bool SmartSpawningSystemEnabled;
 
         private static WarnTimer2 m_WarnTimer;
 
@@ -120,8 +120,8 @@ namespace Server.Mobiles
 
         private string m_Name = string.Empty;
         private string m_UniqueId = string.Empty;
-        private bool m_PlayerCreated = false;
-        private bool m_HomeRangeIsRelative = false;
+        private bool m_PlayerCreated;
+        private bool m_HomeRangeIsRelative;
         private int m_Team;
         private int m_HomeRange;
         // added a amount parameter for stacked item spawns
@@ -179,9 +179,9 @@ namespace Server.Mobiles
         private Mobile m_mob_who_triggered;
         private Item m_SetPropertyItem;
 
-        private bool m_skipped = false;
+        private bool m_skipped;
         private int m_KillReset = defKillReset;      // number of spawn ticks that pass without kills before killcount gets reset to zero
-        private int m_spawncheck = 0;
+        private int m_spawncheck;
         private TODModeType m_TODMode = TODModeType.Realtime;
         private string m_GumpState;
         private bool m_ExternalTriggering;
@@ -195,12 +195,12 @@ namespace Server.Mobiles
         public List<XmlTextEntryBook> m_TextEntryBook;
         private XmlSpawnerGump m_SpawnerGump;
 
-        private bool m_AllowGhostTriggering = false;
-        private bool m_AllowNPCTriggering = false;
+        private bool m_AllowGhostTriggering;
+        private bool m_AllowNPCTriggering;
         private string m_ConfigFile;
-        private bool m_OnHold = false;
-        private bool m_HoldSequence = false;
-        private bool m_SpawnOnTrigger = false;
+        private bool m_OnHold;
+        private bool m_HoldSequence;
+        private bool m_SpawnOnTrigger;
 
         private List<MovementInfo> m_MovementList;
         private MovementTimer m_MovementTimer;
@@ -213,23 +213,23 @@ namespace Server.Mobiles
 
         private string m_SkillTrigger;
         private SkillName m_skill_that_triggered;
-        private bool m_FreeRun = false;     // override for all other triggering modes
+        private bool m_FreeRun;     // override for all other triggering modes
 
         private Map currentmap;
 
-        public bool m_IsInactivated = false;
-        private bool m_SmartSpawning = false;
+        public bool m_IsInactivated;
+        private bool m_SmartSpawning;
         private SectorTimer m_SectorTimer;
 
         private List<Static> m_ShowBoundsItems = new List<Static>();
 
         public List<BaseXmlSpawner.TypeInfo> PropertyInfoList = null;   // used to optimize property info lookup used by set and get property methods.
 
-        private Dictionary<string, List<Item>> spawnPositionWayTable = null;  // used to optimize #waypoint lookup
+        private Dictionary<string, List<Item>> spawnPositionWayTable;  // used to optimize #waypoint lookup
 
-        private bool inrespawn = false;
+        private bool inrespawn;
 
-        private List<Sector> sectorList = null;
+        private List<Sector> sectorList;
 
         private bool m_DisableGlobalAutoReset;
 
@@ -255,9 +255,9 @@ namespace Server.Mobiles
 
         public bool DebugThis { get; set; } = false;
 
-        public int MovingPlayerCount { get; set; } = 0;
+        public int MovingPlayerCount { get; set; }
 
-        public int FastestPlayerSpeed { get; set; } = 0;
+        public int FastestPlayerSpeed { get; set; }
 
         public int NearbyPlayerCount
         {
@@ -332,7 +332,7 @@ namespace Server.Mobiles
         }
 
         private readonly bool sectorIsActive = false;
-        private bool UseSectorActivate = false;
+        private bool UseSectorActivate;
 
         public bool SingleSector => UseSectorActivate;
 
@@ -411,7 +411,7 @@ namespace Server.Mobiles
             }
         }
 
-        private static int totalSectorsMonitored = 0;
+        private static int totalSectorsMonitored;
 
         public bool HasActiveSectors
         {
@@ -704,10 +704,8 @@ namespace Server.Mobiles
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+
+                return false;
             }
         }
 
@@ -804,20 +802,16 @@ namespace Server.Mobiles
                     {
                         return true;
                     }
-                    else
-                    {
-                        return false;
-                    }
+
+                    return false;
                 }
 
                 if (IsFull)
                 {
                     return false;
                 }
-                else
-                {
-                    return true;
-                }
+
+                return true;
             }
         }
 
@@ -1329,10 +1323,8 @@ namespace Server.Mobiles
                 {
                     return m_RefractEnd - DateTime.UtcNow;
                 }
-                else
-                {
-                    return TimeSpan.FromSeconds(0);
-                }
+
+                return TimeSpan.FromSeconds(0);
             }
             set => DoTimer3(value);
         }
@@ -1479,20 +1471,16 @@ namespace Server.Mobiles
                     {
                         return true;
                     }
-                    else
-                    {
-                        return false;
-                    }
+
+                    return false;
                 }
 
                 if (now > TOD_start && now < TOD_end)
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+
+                return false;
             }
         }
 
@@ -1522,10 +1510,8 @@ namespace Server.Mobiles
                 {
                     return m_DurEnd - DateTime.UtcNow;
                 }
-                else
-                {
-                    return TimeSpan.FromSeconds(0);
-                }
+
+                return TimeSpan.FromSeconds(0);
             }
             set => DoTimer2(value);
         }
@@ -1598,10 +1584,8 @@ namespace Server.Mobiles
                 {
                     return m_End - DateTime.UtcNow;
                 }
-                else
-                {
-                    return TimeSpan.FromSeconds(0);
-                }
+
+                return TimeSpan.FromSeconds(0);
             }
             set
             {
@@ -1647,10 +1631,8 @@ namespace Server.Mobiles
                 {
                     return m_SeqEnd - DateTime.UtcNow;
                 }
-                else
-                {
-                    return TimeSpan.FromSeconds(0);
-                }
+
+                return TimeSpan.FromSeconds(0);
             }
             set => m_SeqEnd = DateTime.UtcNow + value;
         }
@@ -1967,7 +1949,7 @@ namespace Server.Mobiles
             }
         }
 
-        static bool IgnoreLocationChange = false;
+        static bool IgnoreLocationChange;
         public override void OnLocationChange(Point3D oldLocation)
         {
             if (IgnoreLocationChange)
@@ -2607,7 +2589,7 @@ namespace Server.Mobiles
         public static string[] _traceName = new string[MaxTraces];
         public static int[] _traceCount = new int[MaxTraces];
         private static DateTime _traceStartTime = DateTime.UtcNow;
-        private static double _startProcessTime = 0;
+        private static double _startProcessTime;
 
         public static void _TraceStart(int index)
         {
@@ -8413,10 +8395,8 @@ namespace Server.Mobiles
             {
                 return NextSequentialIndex(-1);
             }
-            else
-            {
-                return largergroup;
-            }
+
+            return largergroup;
         }
 
         // returns the spawn index of a spawn entry in the current sequential subgroup
@@ -8635,7 +8615,7 @@ namespace Server.Mobiles
 
         #region Spawn methods
 
-        int killcount_held = 0;
+        int killcount_held;
 
         public void OnTick()
         {
@@ -10164,10 +10144,8 @@ namespace Server.Mobiles
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public Rectangle2D SpawnerBounds => new Rectangle2D(m_X, m_Y, m_Width + 1, m_Height + 1);
@@ -12506,11 +12484,11 @@ namespace Server.Mobiles
             public int SpawnsPerTick { get; set; } = 1;
             public int SequentialResetTo { get; set; }
             public int KillsNeeded { get; set; }
-            public bool RestrictKillsToSubgroup { get; set; } = false;
+            public bool RestrictKillsToSubgroup { get; set; }
             public bool ClearOnAdvance { get; set; } = true;
             public double MinDelay { get; set; } = -1;
             public double MaxDelay { get; set; } = -1;
-            public bool Disabled { get; set; } = false;
+            public bool Disabled { get; set; }
             public bool Ignore { get; set; } = false;
             public int PackRange { get; set; } = -1;
 

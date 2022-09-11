@@ -12,8 +12,7 @@ namespace Server.Engines.XmlSpawner2;
 public class XmlAosAttributes : XmlBaseAttributes
 {
     // a serial constructor is REQUIRED
-    public XmlAosAttributes(ASerial serial)
-        : base(serial)
+    public XmlAosAttributes(ASerial serial) : base(serial)
     {
     }
 

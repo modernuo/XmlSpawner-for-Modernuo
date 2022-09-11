@@ -35,17 +35,17 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     private string m_Description3;
     private string m_Description4;
     private string m_Description5;
-    private bool m_Completed1 = false;
-    private bool m_Completed2 = false;
-    private bool m_Completed3 = false;
-    private bool m_Completed4 = false;
-    private bool m_Completed5 = false;
+    private bool m_Completed1;
+    private bool m_Completed2;
+    private bool m_Completed3;
+    private bool m_Completed4;
+    private bool m_Completed5;
     private string m_State1;
     private string m_State2;
     private string m_State3;
     private string m_State4;
     private string m_State5;
-    private bool m_PartyEnabled = false;
+    private bool m_PartyEnabled;
     private int m_PartyRange = -1;
     private string m_ConfigFile;
     private string m_NoteString;
@@ -60,10 +60,10 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     private Item m_RewardItem;
     private XmlAttachment m_RewardAttachment;
     private int m_RewardAttachmentSerialNumber;
-    private bool m_AutoReward = false;
+    private bool m_AutoReward;
 
     private bool m_CanSeeReward = true;
-    private bool m_PlayerMade = false;
+    private bool m_PlayerMade;
     private PlayerMobile m_Creator;
     private Container m_ReturnContainer;
     private string m_status_str;
@@ -261,7 +261,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         }
     }
 
-    private static Item PlaceHolderItem = null;
+    private static Item PlaceHolderItem;
 
     public static void Initialize()
     {
@@ -345,10 +345,8 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         {
             return false;
         }
-        else
-        {
-            return base.CheckItemUse(from, item);
-        }
+
+        return base.CheckItemUse(from, item);
     }
 
     public override void DisplayTo(Mobile to)
@@ -899,10 +897,8 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             {
                 return "PQ: " + base.Name;
             }
-            else
-            {
-                return base.Name;
-            }
+
+            return base.Name;
         }
         set
         {
@@ -1326,10 +1322,8 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                  */
                 return m_TimeCreated + TimeSpan.FromHours(m_ExpirationDuration) - DateTime.Now;
             }
-            else
-            {
-                return TimeSpan.FromHours(0);
-            }
+
+            return TimeSpan.FromHours(0);
         }
     }
 
@@ -1343,10 +1337,8 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 
@@ -1388,39 +1380,32 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             {
                 return "Already done";
             }
-            else
+
             if (m_ExpirationDuration <= 0)
             {
                 return "Never expires";
             }
-            else
             if (IsExpired)
             {
                 return "Expired";
             }
-            else
+            TimeSpan ts = ExpiresIn;
+
+            int days = (int)ts.TotalDays;
+            int hours = (int)(ts - TimeSpan.FromDays(days)).TotalHours;
+            int minutes = (int)(ts - TimeSpan.FromHours(hours)).TotalMinutes;
+            int seconds = (int)(ts - TimeSpan.FromMinutes(minutes)).TotalSeconds;
+
+            if (days > 0)
             {
-                TimeSpan ts = ExpiresIn;
-
-                int days = (int)ts.TotalDays;
-                int hours = (int)(ts - TimeSpan.FromDays(days)).TotalHours;
-                int minutes = (int)(ts - TimeSpan.FromHours(hours)).TotalMinutes;
-                int seconds = (int)(ts - TimeSpan.FromMinutes(minutes)).TotalSeconds;
-
-                if (days > 0)
-                {
-                    return $"Expires in {days} days {hours} hrs";
-                }
-                else
-                if (hours > 0)
-                {
-                    return $"Expires in {hours} hrs {minutes} mins";
-                }
-                else
-                {
-                    return $"Expires in {minutes} mins {seconds} secs";
-                }
+                return $"Expires in {days} days {hours} hrs";
             }
+
+            if (hours > 0)
+            {
+                return $"Expires in {hours} hrs {minutes} mins";
+            }
+            return $"Expires in {minutes} mins {seconds} secs";
         }
     }
 
@@ -1440,15 +1425,12 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
                 return false;
             }
-            else
+
             if (AlreadyDone)
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
     }
 
@@ -1463,14 +1445,12 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 (Completed3 || Objective3 == null || Objective3.Length == 0) &&
                 (Completed4 || Objective4 == null || Objective4.Length == 0) &&
                 (Completed5 || Objective5 == null || Objective5.Length == 0)
-              )
+               )
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 

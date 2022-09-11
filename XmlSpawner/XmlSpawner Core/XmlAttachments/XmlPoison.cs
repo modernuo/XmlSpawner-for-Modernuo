@@ -2,7 +2,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlPoison : XmlAttachment
 {
-    private int p_level = 0;
+    private int p_level;
     // a serial constructor is REQUIRED
     public XmlPoison(ASerial serial)
         : base(serial)
@@ -23,26 +23,24 @@ public class XmlPoison : XmlAttachment
             {
                 return Poison.Lesser;
             }
-            else if (p_level == 1)
+
+            if (p_level == 1)
             {
                 return Poison.Regular;
             }
-            else if (p_level == 2)
+            if (p_level == 2)
             {
                 return Poison.Greater;
             }
-            else if (p_level == 3)
+            if (p_level == 3)
             {
                 return Poison.Deadly;
             }
-            else if (p_level > 3)
+            if (p_level > 3)
             {
                 return Poison.Lethal;
             }
-            else
-            {
-                return Poison.Regular;
-            }
+            return Poison.Regular;
         }
     }
     public Poison HitPoison
@@ -53,26 +51,24 @@ public class XmlPoison : XmlAttachment
             {
                 return Poison.Lesser;
             }
-            else if (p_level == 1)
+
+            if (p_level == 1)
             {
                 return Poison.Regular;
             }
-            else if (p_level == 2)
+            if (p_level == 2)
             {
                 return Poison.Greater;
             }
-            else if (p_level == 3)
+            if (p_level == 3)
             {
                 return Poison.Deadly;
             }
-            else if (p_level > 3)
+            if (p_level > 3)
             {
                 return Poison.Lethal;
             }
-            else
-            {
-                return Poison.Regular;
-            }
+            return Poison.Regular;
         }
     }
     public override void Serialize(IGenericWriter writer)

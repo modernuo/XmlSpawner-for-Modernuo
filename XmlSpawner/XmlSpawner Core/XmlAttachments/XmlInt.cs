@@ -48,7 +48,7 @@ public class XmlInt : XmlAttachment
             ((Mobile)AttachedTo).AddStatMod(new StatMod(StatType.Int, "XmlInt"+Name, m_Value, m_Duration));
         }
         // and then remove the attachment
-        Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
+        Timer.DelayCall(TimeSpan.Zero, Delete);
         //Delete();
     }
 }

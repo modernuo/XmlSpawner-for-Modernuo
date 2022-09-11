@@ -21,21 +21,21 @@ public class SimpleLever : Item, ILinkable
 {
     public enum leverType { Two_State, Three_State }
 
-    private int m_LeverState = 0;
+    private int m_LeverState;
     private leverType m_LeverType = leverType.Two_State;
     private int m_LeverSound = 936;
-    private Item m_TargetItem0 = null;
-    private string m_TargetProperty0 = null;
-    private Item m_TargetItem1 = null;
-    private string m_TargetProperty1 = null;
-    private Item m_TargetItem2 = null;
-    private string m_TargetProperty2 = null;
+    private Item m_TargetItem0;
+    private string m_TargetProperty0;
+    private Item m_TargetItem1;
+    private string m_TargetProperty1;
+    private Item m_TargetItem2;
+    private string m_TargetProperty2;
 
 
-    private Item m_LinkedItem = null;
-    private bool already_being_activated = false;
+    private Item m_LinkedItem;
+    private bool already_being_activated;
 
-    private bool m_Disabled = false;
+    private bool m_Disabled;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
@@ -136,10 +136,8 @@ public class SimpleLever : Item, ILinkable
             {
                 return m_TargetItem0.Name;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 
@@ -165,10 +163,8 @@ public class SimpleLever : Item, ILinkable
                 return
                     m_TargetItem1.Name;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 
@@ -195,10 +191,8 @@ public class SimpleLever : Item, ILinkable
             {
                 return m_TargetItem2.Name;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 
@@ -424,17 +418,17 @@ public class SimpleLever : Item, ILinkable
 
 public class SimpleSwitch : Item, ILinkable
 {
-    private int m_SwitchState = 0;
+    private int m_SwitchState;
     private int m_SwitchSound = 939;
-    private Item m_TargetItem0 = null;
-    private string m_TargetProperty0 = null;
-    private Item m_TargetItem1 = null;
-    private string m_TargetProperty1 = null;
+    private Item m_TargetItem0;
+    private string m_TargetProperty0;
+    private Item m_TargetItem1;
+    private string m_TargetProperty1;
 
-    private Item m_LinkedItem = null;
-    private bool already_being_activated = false;
+    private Item m_LinkedItem;
+    private bool already_being_activated;
 
-    private bool m_Disabled = false;
+    private bool m_Disabled;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
@@ -535,10 +529,8 @@ public class SimpleSwitch : Item, ILinkable
             {
                 return m_TargetItem0.Name;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 
@@ -567,10 +559,8 @@ public class SimpleSwitch : Item, ILinkable
             {
                 return m_TargetItem1.Name;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 
@@ -749,25 +739,25 @@ public class SimpleSwitch : Item, ILinkable
 
 public class CombinationLock : Item
 {
-    private int m_Combination = 0;
-    private Item m_Digit0Object = null;
-    private string m_Digit0Property = null;
-    private Item m_Digit1Object = null;
-    private string m_Digit1Property = null;
-    private Item m_Digit2Object = null;
-    private string m_Digit2Property = null;
-    private Item m_Digit3Object = null;
-    private string m_Digit3Property = null;
-    private Item m_Digit4Object = null;
-    private string m_Digit4Property = null;
-    private Item m_Digit5Object = null;
-    private string m_Digit5Property = null;
-    private Item m_Digit6Object = null;
-    private string m_Digit6Property = null;
-    private Item m_Digit7Object = null;
-    private string m_Digit7Property = null;
-    private Item m_TargetItem = null;
-    private string m_TargetProperty = null;
+    private int m_Combination;
+    private Item m_Digit0Object;
+    private string m_Digit0Property;
+    private Item m_Digit1Object;
+    private string m_Digit1Property;
+    private Item m_Digit2Object;
+    private string m_Digit2Property;
+    private Item m_Digit3Object;
+    private string m_Digit3Property;
+    private Item m_Digit4Object;
+    private string m_Digit4Property;
+    private Item m_Digit5Object;
+    private string m_Digit5Property;
+    private Item m_Digit6Object;
+    private string m_Digit6Property;
+    private Item m_Digit7Object;
+    private string m_Digit7Property;
+    private Item m_TargetItem;
+    private string m_TargetProperty;
     private int m_CombinationSound = 940;
 
     [Constructible]
@@ -823,10 +813,8 @@ public class CombinationLock : Item
             {
                 return 1; // true
             }
-            else
-            {
-                return 0; // false
-            }
+
+            return 0; // false
         }
         // otherwise get the value of the property requested
         string result = BaseXmlSpawner.GetPropertyValue(null, o, property, out ptype);
@@ -1015,14 +1003,14 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string TargetItemName
-    { get { if (m_TargetItem != null && !m_TargetItem.Deleted)
+    { get
+    {
+        if (m_TargetItem != null && !m_TargetItem.Deleted)
         {
             return m_TargetItem.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     } }
 
     [CommandProperty(AccessLevel.GameMaster)]

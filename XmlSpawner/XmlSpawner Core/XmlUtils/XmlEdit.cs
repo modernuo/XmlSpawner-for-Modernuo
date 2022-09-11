@@ -31,7 +31,7 @@ public class XmlEditDialogGump : Gump
     private bool [] m_SelectionList;
     private XmlDialog m_Dialog;
 
-    private bool SelectAll = false;
+    private bool SelectAll;
 
     private ArrayList m_SearchList;
 
@@ -650,10 +650,8 @@ public class XmlEditDialogGump : Gump
             {
                 return yn - xn;
             }
-            else
-            {
-                return xn- yn;
-            }
+
+            return xn- yn;
         }
     }
 

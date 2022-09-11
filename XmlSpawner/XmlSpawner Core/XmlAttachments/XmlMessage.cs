@@ -6,10 +6,10 @@ namespace Server.Engines.XmlSpawner2;
 public class XmlMessage : XmlAttachment
 {
     private string m_MessageStr;
-    private string m_Word = null;                            // no word activation by default
+    private string m_Word;                            // no word activation by default
     private TimeSpan m_Refractory = TimeSpan.FromSeconds(5); // 5 seconds default time between activations
     private DateTime m_EndTime;
-    private int m_Charges = 0;      // no charge limit
+    private int m_Charges;      // no charge limit
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -137,10 +137,8 @@ public class XmlMessage : XmlAttachment
         {
             return msg;
         }
-        else
-        {
-            return $"{msg} : trigger on '{ActivationWord}'";
-        }
+
+        return $"{msg} : trigger on '{ActivationWord}'";
 
     }
 

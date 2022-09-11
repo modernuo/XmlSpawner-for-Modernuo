@@ -101,7 +101,7 @@ public partial class ItemFlags
     {
         private CommandEventArgs m_e;
         private bool m_state;
-        private bool set = false;
+        private bool set;
 
         public SetStealableTarget(CommandEventArgs e, bool state) :  base (30, false, TargetFlags.None)
         {

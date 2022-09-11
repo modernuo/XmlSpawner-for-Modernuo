@@ -70,7 +70,8 @@ public class XmlSpawnTime : XmlAttachment
             {
                 return ((Item)AttachedTo).Spawner as XmlSpawner;
             }
-            else if (AttachedTo is Mobile mobile)
+
+            if (AttachedTo is Mobile mobile)
             {
                 return ((Mobile)AttachedTo).Spawner as XmlSpawner;
             }

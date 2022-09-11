@@ -70,10 +70,8 @@ public class XmlHue : XmlAttachment
         {
             return $"Hue {m_Hue} expires in {Expiration.TotalMinutes} mins";
         }
-        else
-        {
-            return $"Hue {m_Hue}";
-        }
+
+        return $"Hue {m_Hue}";
     }
 
     public override void OnDelete()

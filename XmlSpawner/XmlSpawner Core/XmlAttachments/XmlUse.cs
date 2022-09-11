@@ -15,15 +15,15 @@ public class XmlUse : XmlAttachment
     private string m_FailureAction;     // action performed if the player cannot use the object for reasons other than range, refractory, or maxuses
     private string m_RefractoryAction;  // action performed if the object is used before the refractory interval expires
     private string m_MaxUsesAction;     // action performed if the object is used when the maxuses are exceeded
-    private int m_NUses = 0;
+    private int m_NUses;
     private int m_MaxRange = 3;        // must be within 3 tiles to use by default
     private int m_MaxTargetRange = 30; // must be within 30 tiles to target by default
-    private int m_MaxUses = 0;
+    private int m_MaxUses;
     private TimeSpan m_Refractory = TimeSpan.Zero;
     public DateTime m_EndTime;
-    private bool m_RequireLOS = false;
+    private bool m_RequireLOS;
     private bool m_AllowCarried = true;
-    private bool m_TargetingEnabled = false;
+    private bool m_TargetingEnabled;
 
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -369,8 +369,8 @@ public class XmlUse : XmlAttachment
             {
                 return AllowCarried;
             }
-            else
-                // block use in other containers or on other mobiles
+
+            // block use in other containers or on other mobiles
             if (targetitem.Parent != null)
             {
                 return false;

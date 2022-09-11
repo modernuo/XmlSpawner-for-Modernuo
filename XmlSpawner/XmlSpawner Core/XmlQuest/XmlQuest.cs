@@ -355,7 +355,8 @@ public abstract class XmlQuest
             {
                 return (Item)TheSpawn.SpawnedObjects[0];
             }
-            else if (TheSpawn.SpawnedObjects[0] is Mobile)
+
+            if (TheSpawn.SpawnedObjects[0] is Mobile)
             {
                 // dont do mobiles as rewards at this point
                 ((Mobile)TheSpawn.SpawnedObjects[0]).Delete();
@@ -679,11 +680,9 @@ public abstract class XmlQuest
             }
             return true;
         }
-        else
-            // not a collect task
-        {
-            return false;
-        }
+
+        // not a collect task
+        return false;
     }
 
     public static bool ApplyGiven(Mobile mob, Item target, IXmlQuest quest)
@@ -983,11 +982,9 @@ public abstract class XmlQuest
             return added > 0;
 
         }
-        else
-        {
-            // not a give task
-            return false;
-        }
+
+        // not a give task
+        return false;
     }
 
     public static bool CheckKillObjective(IXmlQuest quest, Mobile m_killed, Mobile m_killer, string objectivestr, string statestr, out string newstatestr, out bool killstatus)
@@ -1061,11 +1058,9 @@ public abstract class XmlQuest
             }
             return true;
         }
-        else
-            // not a kill task
-        {
-            return false;
-        }
+
+        // not a kill task
+        return false;
     }
 
     public static void ApplyKilled(Mobile m_killed, Mobile m_killer, IXmlQuest quest)
@@ -1274,11 +1269,9 @@ public abstract class XmlQuest
             }
             return true;
         }
-        else
-            // not an escort task
-        {
-            return false;
-        }
+
+        // not an escort task
+        return false;
     }
 
     public static void ApplyEscorted(Mobile m_escorted, Mobile m_escorter, IXmlQuest quest)
@@ -1523,11 +1516,9 @@ public abstract class XmlQuest
             }
             return true;
         }
-        else
-            // not a visitation task
-        {
-            return false;
-        }
+
+        // not a visitation task
+        return false;
     }
 
     public static void ApplyVisited(PlayerMobile m_player, IXmlQuest quest)

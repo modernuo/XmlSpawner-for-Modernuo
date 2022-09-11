@@ -223,9 +223,7 @@ public class XmlMinionStrike : XmlAttachment
         {
             return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
-        else
-        {
-            return msg;
-        }
+
+        return msg;
     }
 }

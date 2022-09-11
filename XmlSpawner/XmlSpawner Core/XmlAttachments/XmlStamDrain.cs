@@ -5,7 +5,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlStamDrain : XmlAttachment
 {
-    private int m_Drain = 0;
+    private int m_Drain;
     private TimeSpan m_Refractory = TimeSpan.FromSeconds(5); // 5 seconds default time between activations
     private DateTime m_EndTime;
     private int proximityrange = 5; // default movement activation from 5 tiles away
@@ -167,10 +167,8 @@ public class XmlStamDrain : XmlAttachment
         {
             return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
-        else
-        {
-            return msg;
-        }
+
+        return msg;
     }
 
     public override void OnAttach()

@@ -5,9 +5,9 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlRestrictEquip : XmlAttachment
 {
-    private string m_TestValue = null;          // default Test condition
-    private string m_FailMsg = null;            // message given when equipping fails
-    private string m_PropertyListString = null; // string displayed in the properties list
+    private string m_TestValue;          // default Test condition
+    private string m_FailMsg;            // message given when equipping fails
+    private string m_PropertyListString; // string displayed in the properties list
 
     // a serial constructor is REQUIRED
     public XmlRestrictEquip(ASerial serial)
@@ -136,9 +136,7 @@ public class XmlRestrictEquip : XmlAttachment
         {
             return $"{Name}: RestrictEquip '{Test}' expires in {Expiration.TotalMinutes} mins";
         }
-        else
-        {
-            return $"{Name}: RestrictEquip '{Test}'";
-        }
+
+        return $"{Name}: RestrictEquip '{Test}'";
     }
 }

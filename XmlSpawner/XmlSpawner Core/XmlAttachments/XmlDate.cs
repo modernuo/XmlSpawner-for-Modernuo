@@ -7,7 +7,9 @@ public class XmlDate : XmlAttachment
     private DateTime m_DataValue;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public DateTime Date { get => m_DataValue;
+    public DateTime Date
+    {
+        get => m_DataValue;
         set => m_DataValue = value;
     }
 
@@ -42,7 +44,6 @@ public class XmlDate : XmlAttachment
         Name = name;
         Date = value;
         Expiration = TimeSpan.FromMinutes(expiresin);
-
     }
 
 
@@ -74,11 +75,9 @@ public class XmlDate : XmlAttachment
 
         if (Expiration > TimeSpan.Zero)
         {
-            return String.Format("{2}: Date {0} expires in {1} mins",Date,Expiration.TotalMinutes, Name);
+            return $"{Name}: Date {Date} expires in {Expiration.TotalMinutes} mins";
         }
-        else
-        {
-            return String.Format("{1}: Date {0}",Date, Name);
-        }
+
+        return $"{Name}: Date {Date}";
     }
 }

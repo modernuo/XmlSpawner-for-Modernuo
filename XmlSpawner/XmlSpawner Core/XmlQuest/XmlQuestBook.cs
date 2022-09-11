@@ -123,10 +123,9 @@ public class XmlQuestBook : Container
         if (dropped is IXmlQuest  && !Locked)
         {
             return base.OnDragDrop(from,dropped);
-        } else
-        {
-            return false;
         }
+
+        return false;
     }
 
     private void CheckOwnerFlag()

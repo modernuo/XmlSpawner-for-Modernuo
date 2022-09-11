@@ -6,15 +6,15 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlSkill : XmlAttachment
 {
-    private string m_Word = null;                             // not speech activated by default
+    private string m_Word;                             // not speech activated by default
     private TimeSpan m_Duration = TimeSpan.FromMinutes(30.0); // 30 min default duration for effects
     private int m_Value = 10;                                 // default value of 10
     private SkillName m_Skill;
 
     // note that support for player identification requires modification of the identification skill (see the installation notes for details)
-    private bool m_Identified = false;  // optional identification flag that can suppress application of the mod until identified when applied to items
+    private bool m_Identified;  // optional identification flag that can suppress application of the mod until identified when applied to items
 
-    private bool m_RequireIdentification = false; // by default no identification is required for the mod to be activatable
+    private bool m_RequireIdentification; // by default no identification is required for the mod to be activatable
 
     [CommandProperty(AccessLevel.GameMaster)]
     // this property can be set allowing individual items to determine whether they must be identified for the mod to be activatable
@@ -141,10 +141,8 @@ public class XmlSkill : XmlAttachment
             }
             return $"activated by {m_Word} : skill {m_Skill} mod of {m_Value} when equipped";
         }
-        else
-        {
-            return $"activated by {m_Word} : skill {m_Skill} mod of {m_Value} lasting {m_Duration.TotalMinutes} mins";
-        }
+
+        return $"activated by {m_Word} : skill {m_Skill} mod of {m_Value} lasting {m_Duration.TotalMinutes} mins";
     }
 
 
@@ -180,7 +178,7 @@ public class XmlSkill : XmlAttachment
         {
             OnTrigger(null, (Mobile)AttachedTo);
             // and then remove the attachment
-            Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
+            Timer.DelayCall(TimeSpan.Zero, Delete);
             //Delete();
         }
         else

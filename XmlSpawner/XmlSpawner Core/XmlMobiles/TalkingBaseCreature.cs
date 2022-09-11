@@ -27,7 +27,7 @@ public class TalkingBaseCreature : BaseCreature
     }
 
     private DateTime lasteffect;
-    private int m_EItemID = 0; // 0 = disable, 14202 = sparkle, 6251 = round stone, 7885 = light pyramid
+    private int m_EItemID; // 0 = disable, 14202 = sparkle, 6251 = round stone, 7885 = light pyramid
     private int m_Duration = 70;
     private Point3D m_Offset = new Point3D(0,0,20); // overhead
     private int m_EHue = 68;                        // green
@@ -126,10 +126,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.ActivePlayer;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -148,10 +146,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.SpeechEntries;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -200,10 +196,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.TriggerAccessLevel;
             }
-            else
-            {
-                return AccessLevel.Player;
-            }
+
+            return AccessLevel.Player;
         }
         set
         {
@@ -223,10 +217,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.LastInteraction;
             }
-            else
-            {
-                return DateTime.MinValue;
-            }
+
+            return DateTime.MinValue;
         }
         set
         {
@@ -259,10 +251,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.IsActive;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         set
         {
@@ -282,10 +272,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.AllowGhostTrig;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         set
         {
@@ -305,10 +293,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.Running;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         set
         {
@@ -328,10 +314,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.ResetTime;
             }
-            else
-            {
-                return TimeSpan.Zero;
-            }
+
+            return TimeSpan.Zero;
         }
         set
         {
@@ -351,10 +335,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.SpeechPace;
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
         set
         {
@@ -375,10 +357,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.Keywords;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -398,10 +378,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.Action;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -421,10 +399,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.Condition;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -445,10 +421,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.Text;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -470,10 +444,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.DependsOn;
             }
-            else
-            {
-                return "-1";
-            }
+
+            return "-1";
         }
         set
         {
@@ -494,10 +466,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.LockConversation;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         set
         {
@@ -519,10 +489,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.SpeechStyle;
             }
-            else
-            {
-                return MessageType.Regular;
-            }
+
+            return MessageType.Regular;
         }
         set
         {
@@ -543,10 +511,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.AllowNPCTrigger;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         set
         {
@@ -569,10 +535,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.Pause;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
         }
         set
         {
@@ -592,10 +556,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.PrePause;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
         }
         set
         {
@@ -615,10 +577,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry.ID;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
         }
         set
         {
@@ -638,10 +598,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.EntryNumber;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
         }
         set
         {
@@ -661,10 +619,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.ProximityRange;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
         }
         set
         {
@@ -684,10 +640,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.ConfigFile;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -731,10 +685,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.TriggerOnCarried;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -754,10 +706,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.NoTriggerOnCarried;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -777,10 +727,8 @@ public class TalkingBaseCreature : BaseCreature
             {
                 return DialogAttachment.CurrentEntry;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {

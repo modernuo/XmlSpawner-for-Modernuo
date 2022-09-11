@@ -9,7 +9,9 @@ public class XmlAddKarma : XmlAttachment
     private int m_DataValue; // default data
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Value { get => m_DataValue;
+    public int Value
+    {
+        get => m_DataValue;
         set => m_DataValue = value;
     }
 
@@ -53,16 +55,14 @@ public class XmlAddKarma : XmlAttachment
         if (AttachedTo is PlayerMobile mobile)
         {
             // for players just add it immediately
-            ((Mobile)AttachedTo).Karma += Value;
-
-            ((Mobile)AttachedTo).SendMessage("Receive {0}",OnIdentify((Mobile)AttachedTo));
+            mobile.Karma += Value;
+            mobile.SendMessage("Receive {0}",OnIdentify((Mobile)AttachedTo));
 
             // and then remove the attachment
-            Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
+            Timer.DelayCall(TimeSpan.Zero, Delete);
             //Delete();
         }
-        else
-        if (AttachedTo is Item)
+        else if (AttachedTo is Item)
         {
             // dont allow item attachments
             Delete();

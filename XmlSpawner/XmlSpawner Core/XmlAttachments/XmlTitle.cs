@@ -4,7 +4,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlTitle : XmlAttachment
 {
-    private string m_Title = null; // title string
+    private string m_Title; // title string
 
     // a serial constructor is REQUIRED
     public XmlTitle(ASerial serial)
@@ -143,9 +143,7 @@ public class XmlTitle : XmlAttachment
         {
             return String.Format("{2}: Title {0} expires in {1} mins", Title, Expiration.TotalMinutes, Name);
         }
-        else
-        {
-            return String.Format("{1}: Title {0}", Title, Name);
-        }
+
+        return String.Format("{1}: Title {0}", Title, Name);
     }
 }

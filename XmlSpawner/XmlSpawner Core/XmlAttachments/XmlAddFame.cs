@@ -53,16 +53,14 @@ public class XmlAddFame : XmlAttachment
         if (AttachedTo is PlayerMobile mobile)
         {
             // for players just add it immediately
-            ((Mobile)AttachedTo).Fame += Value;
-
-            ((Mobile)AttachedTo).SendMessage("Receive {0}",OnIdentify((Mobile)AttachedTo));
+            mobile.Fame += Value;
+            mobile.SendMessage("Receive {0}",OnIdentify((Mobile)AttachedTo));
 
             // and then remove the attachment
-            Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
+            Timer.DelayCall(TimeSpan.Zero, Delete);
             //Delete();
         }
-        else
-        if (AttachedTo is Item)
+        else if (AttachedTo is Item)
         {
             // dont allow item attachments
             Delete();

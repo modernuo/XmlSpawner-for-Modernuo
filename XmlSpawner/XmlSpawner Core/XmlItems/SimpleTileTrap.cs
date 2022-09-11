@@ -17,10 +17,10 @@ public class SimpleTileTrap : Item
 {
 
     private int m_SwitchSound = 939;
-    private Item m_TargetItem0 = null;
-    private string m_TargetProperty0 = null;
-    private Item m_TargetItem1 = null;
-    private string m_TargetProperty1 = null;
+    private Item m_TargetItem0;
+    private string m_TargetProperty0;
+    private Item m_TargetItem1;
+    private string m_TargetProperty1;
 
     [Constructible]
     public SimpleTileTrap() : base(7107)
@@ -62,14 +62,14 @@ public class SimpleTileTrap : Item
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {         get{ if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+    {         get
+    {
+        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
         {
             return m_TargetItem0.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }     }
 
 
@@ -89,14 +89,14 @@ public class SimpleTileTrap : Item
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {         get{ if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+    {         get
+    {
+        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
         {
             return m_TargetItem1.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }     }
 
 

@@ -4,23 +4,22 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlAnimate : XmlAttachment
 {
-    private int m_AnimationValue = 0;                        // default animation
+    private int m_AnimationValue;                            // default animation
     private int m_FrameCount = 7;                            // default framecount
     private int m_RepeatCount = 1;                           // default repeatcount
-    private int m_AnimationDelay = 0;                        // default animation delay
-    private bool m_Repeat = false;                           // default repeat
+    private int m_AnimationDelay;                            // default animation delay
+    private bool m_Repeat;                                   // default repeat
     private bool m_Forward = true;                           // default animation direction
-    private string m_ActivationWord = null;                  // no word activation by default
+    private string m_ActivationWord;                         // no word activation by default
     private TimeSpan m_Refractory = TimeSpan.FromSeconds(5); // 5 seconds default time between activations
     private DateTime m_EndTime;
     private int m_ProximityRange = 5; // default movement activation from 5 tiles away
     private LoopTimer m_Timer;
-    private int m_LoopCount = 0; // repeat animations using a timed loop
+    private int m_LoopCount; // repeat animations using a timed loop
     private int m_LoopDelay = 5; // interval in seconds between loop ticks
-    private int m_CurrentCount = 0;
+    private int m_CurrentCount;
     // a serial constructor is REQUIRED
-    public XmlAnimate(ASerial serial)
-        : base(serial)
+    public XmlAnimate(ASerial serial) : base(serial)
     {
     }
 
@@ -239,10 +238,8 @@ public class XmlAnimate : XmlAttachment
         {
             return msg;
         }
-        else
-        {
-            return $"{msg} : trigger on '{ActivationWord}'";
-        }
+
+        return $"{msg} : trigger on '{ActivationWord}'";
     }
 
     public override void OnSpeech(SpeechEventArgs e)

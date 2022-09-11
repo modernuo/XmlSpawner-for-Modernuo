@@ -189,7 +189,7 @@ public class BaseXmlSpawner
         private XmlSpawner m_Spawner;
         public string m_Condition;
         public int m_Goto;
-        public bool Deleted = false;
+        public bool Deleted;
         public int Serial = -1;
         public Mobile m_TrigMob;
         public string Typename;
@@ -2509,35 +2509,31 @@ public class BaseXmlSpawner
             // simple test with no and/or operators
             return SingleCheckForCarried(m, objectivestr);
         }
-        else
+
+        // test each half independently and combine the results
+        bool first = SingleCheckForCarried(m, arglist[0]);
+
+        // this will recursively parse the property test string with implicit nesting for multiple logical tests of the
+        // form A * B * C * D    being grouped as A * (B * (C * D))
+        bool second = CheckForCarried(m, arglist[1]);
+
+        int andposition = objectivestr.IndexOf("&");
+        int orposition = objectivestr.IndexOf("|");
+
+        // combine them based upon the operator
+        if (andposition > 0 && orposition <= 0 || andposition > 0 && andposition < orposition)
         {
-            // test each half independently and combine the results
-            bool first = SingleCheckForCarried(m, arglist[0]);
-
-            // this will recursively parse the property test string with implicit nesting for multiple logical tests of the
-            // form A * B * C * D    being grouped as A * (B * (C * D))
-            bool second = CheckForCarried(m, arglist[1]);
-
-            int andposition = objectivestr.IndexOf("&");
-            int orposition = objectivestr.IndexOf("|");
-
-            // combine them based upon the operator
-            if (andposition > 0 && orposition <= 0 || andposition > 0 && andposition < orposition)
-            {
-                // and operator
-                return first && second;
-            }
-            else if (orposition > 0 && andposition <= 0 || orposition > 0 && orposition < andposition)
-            {
-                // or operator
-                return first || second;
-            }
-            else
-            {
-                // should never get here
-                return false;
-            }
+            // and operator
+            return first && second;
         }
+
+        if (orposition > 0 && andposition <= 0 || orposition > 0 && orposition < andposition)
+        {
+            // or operator
+            return first || second;
+        }
+        // should never get here
+        return false;
     }
     public static bool SingleCheckForCarried(Mobile m, string objectivestr)
     {
@@ -2575,15 +2571,11 @@ public class BaseXmlSpawner
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
+
                 return false;
             }
+
+            return false;
         }
 
         bool equippedonly = false;
@@ -2603,7 +2595,8 @@ public class BaseXmlSpawner
                     // this is the start of the numeric objective specifications
                     break;
                 }
-                else if (objstr[objoffset] == "EQUIPPED")
+
+                if (objstr[objoffset] == "EQUIPPED")
                 {
                     equippedonly = true;
                 }
@@ -2720,44 +2713,40 @@ public class BaseXmlSpawner
             // simple test with no and/or operators
             return SingleCheckForNotCarried(m, objectivestr);
         }
-        else
+
+        // test each half independently and combine the results
+        bool first = SingleCheckForNotCarried(m, arglist[0]);
+
+        // this will recursively parse the property test string with implicit nesting for multiple logical tests of the
+        // form A * B * C * D    being grouped as A * (B * (C * D))
+        bool second = CheckForNotCarried(m, arglist[1]);
+
+        int andposition = objectivestr.IndexOf("&");
+        int orposition = objectivestr.IndexOf("|");
+
+        // for the & operator
+        // notrigger if
+        // notcarrying A | notcarrying B
+        // people will actually think of it as  not(carrying A | carrying B)
+        // which is
+        // notrigger if
+        // notcarrying A && notcarrying B
+        // similarly for the & operator
+
+        // combine them based upon the operator
+        if (andposition > 0 && orposition <= 0 || andposition > 0 && andposition < orposition)
         {
-            // test each half independently and combine the results
-            bool first = SingleCheckForNotCarried(m, arglist[0]);
-
-            // this will recursively parse the property test string with implicit nesting for multiple logical tests of the
-            // form A * B * C * D    being grouped as A * (B * (C * D))
-            bool second = CheckForNotCarried(m, arglist[1]);
-
-            int andposition = objectivestr.IndexOf("&");
-            int orposition = objectivestr.IndexOf("|");
-
-            // for the & operator
-            // notrigger if
-            // notcarrying A | notcarrying B
-            // people will actually think of it as  not(carrying A | carrying B)
-            // which is
-            // notrigger if
-            // notcarrying A && notcarrying B
-            // similarly for the & operator
-
-            // combine them based upon the operator
-            if (andposition > 0 && orposition <= 0 || andposition > 0 && andposition < orposition)
-            {
-                // and operator (see explanation above)
-                return first || second;
-            }
-            else if (orposition > 0 && andposition <= 0 || orposition > 0 && orposition < andposition)
-            {
-                // or operator (see explanation above)
-                return first && second;
-            }
-            else
-            {
-                // should never get here
-                return false;
-            }
+            // and operator (see explanation above)
+            return first || second;
         }
+
+        if (orposition > 0 && andposition <= 0 || orposition > 0 && orposition < andposition)
+        {
+            // or operator (see explanation above)
+            return first && second;
+        }
+        // should never get here
+        return false;
     }
 
     public static bool SingleCheckForNotCarried(Mobile m, string objectivestr)
@@ -2796,15 +2785,11 @@ public class BaseXmlSpawner
                 {
                     return false;
                 }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
+
                 return true;
             }
+
+            return true;
         }
 
         bool equippedonly = false;
@@ -2825,7 +2810,7 @@ public class BaseXmlSpawner
                     // this is the start of the numeric objective specifications
                     break;
                 }
-                else
+
                 if (objstr[objoffset] == "EQUIPPED")
                 {
                     equippedonly = true;

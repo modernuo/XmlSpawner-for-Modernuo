@@ -158,10 +158,8 @@ public abstract class XmlAttachment : IXmlAttachment
             {
                 return m_ExpirationEnd - DateTime.Now;
             }
-            else
-            {
-                return m_Expiration;
-            }
+
+            return m_Expiration;
         }
         set
         {

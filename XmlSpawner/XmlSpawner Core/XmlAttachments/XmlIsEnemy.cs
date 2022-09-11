@@ -5,7 +5,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlIsEnemy : XmlAttachment
 {
-    private string m_TestString = null; // Test condition to see if mobile is an enemy of the object this is attached to
+    private string m_TestString; // Test condition to see if mobile is an enemy of the object this is attached to
     public XmlIsEnemy(ASerial serial)
         : base(serial)
     {
@@ -97,9 +97,7 @@ public class XmlIsEnemy : XmlAttachment
         {
             return $"{Name}: IsEnemy '{Test}' expires in {Expiration.TotalMinutes} mins";
         }
-        else
-        {
-            return $"{Name}: IsEnemy '{Test}'";
-        }
+
+        return $"{Name}: IsEnemy '{Test}'";
     }
 }

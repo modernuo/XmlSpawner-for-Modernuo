@@ -77,9 +77,7 @@ public class XmlQuestAttachment : XmlAttachment
         {
             return String.Format("Quest '{2}' Completed {0} expires in {1} mins", Date, Expiration.TotalMinutes, Name);
         }
-        else
-        {
-            return String.Format("Quest '{1}' Completed {0}", Date, Name);
-        }
+
+        return String.Format("Quest '{1}' Completed {0}", Date, Name);
     }
 }

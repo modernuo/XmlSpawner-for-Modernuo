@@ -17,9 +17,9 @@ public class XmlMagicWord : XmlAttachment
     private static string [] keywordlist = new string[] { "Shoda", "Malik", "Lepto" , "Velas", "Tarda", "Marda", "Vas Malik", "Nartor", "Santor"};
 
     // note that support for player identification requires modification of the identification skill (see the installation notes for details)
-    private bool m_Identified = false;  // optional identification flag that can suppress application of the mod until identified when applied to items
+    private bool m_Identified;  // optional identification flag that can suppress application of the mod until identified when applied to items
 
-    private bool m_RequireIdentification = false; // by default no identification is required for the mod to be activatable
+    private bool m_RequireIdentification; // by default no identification is required for the mod to be activatable
 
     // this property can be set allowing individual items to determine whether they must be identified for the mod to be activatable
     public bool RequireIdentification { get => m_RequireIdentification;
@@ -131,10 +131,8 @@ public class XmlMagicWord : XmlAttachment
         {
             return $"{msg} : {Charges} charge(s) remaining";
         }
-        else
-        {
-            return msg;
-        }
+
+        return msg;
     }
 
     // by overriding these properties armor and weapons can be restricted to trigger on speech only when equipped and not when in the pack or in the world
@@ -146,10 +144,8 @@ public class XmlMagicWord : XmlAttachment
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
     }
 
@@ -161,10 +157,8 @@ public class XmlMagicWord : XmlAttachment
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
     }
 

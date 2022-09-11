@@ -4,7 +4,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlLocalVariable : XmlAttachment
 {
-    private string m_DataValue = null; // default data
+    private string m_DataValue; // default data
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Data { get => m_DataValue;
@@ -73,9 +73,7 @@ public class XmlLocalVariable : XmlAttachment
         {
             return String.Format("{2} = {0} : expires in {1} mins",Data,Expiration.TotalMinutes, Name);
         }
-        else
-        {
-            return String.Format("{1} = {0}",Data, Name);
-        }
+
+        return String.Format("{1} = {0}",Data, Name);
     }
 }

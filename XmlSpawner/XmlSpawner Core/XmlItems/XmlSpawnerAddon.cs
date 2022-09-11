@@ -249,10 +249,8 @@ public class XmlSpawnerAddon : BaseAddon
         {
             return 0;
         }
-        else
-        {
-            return ncomponents;
-        }
+
+        return ncomponents;
     }
 
     public override BaseAddonDeed Deed => null;

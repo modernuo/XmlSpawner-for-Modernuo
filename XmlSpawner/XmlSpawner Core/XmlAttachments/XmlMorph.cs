@@ -4,7 +4,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlMorph : XmlAttachment
 {
-    private string m_Word = null;  // no word activation by default
+    private string m_Word;  // no word activation by default
     private int m_OriginalID = -1; // default value indicating that it has not been morphed
     private int m_MorphID;
     private int proximityrange = 2;                           // default movement activation from 5 tiles away
@@ -140,10 +140,8 @@ public class XmlMorph : XmlAttachment
         {
             return $"{msg} activated by '{ActivationWord}'";
         }
-        else
-        {
-            return msg;
-        }
+
+        return msg;
     }
 
     public override void OnDelete()

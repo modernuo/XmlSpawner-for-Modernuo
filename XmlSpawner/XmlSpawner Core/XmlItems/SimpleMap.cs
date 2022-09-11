@@ -21,10 +21,8 @@ public class SimpleMap : MapItem
             {
                 return Pins.Count;
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
     }
 
@@ -50,10 +48,8 @@ public class SimpleMap : MapItem
                 ConvertToWorld(Pins[CurrentPin -1].X, Pins[CurrentPin -1].Y, out mapx, out mapy);
                 return new Point2D(mapx, mapy);
             }
-            else
-            {
-                return Point2D.Zero;
-            }
+
+            return Point2D.Zero;
         }
     }
 
@@ -75,10 +71,8 @@ public class SimpleMap : MapItem
                 ConvertToWorld(Pins[NPins -1].X, Pins[NPins -1].Y, out mapx, out mapy);
                 return new Point2D(mapx, mapy);
             }
-            else
-            {
-                return Point2D.Zero;
-            }
+
+            return Point2D.Zero;
         }
     }
 

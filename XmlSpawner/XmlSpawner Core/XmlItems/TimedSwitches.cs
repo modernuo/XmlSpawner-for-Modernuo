@@ -17,8 +17,8 @@ public class XmlLatch : Item
     private TimeSpan m_MaxDelay;
     private DateTime m_End;
     private InternalTimer m_Timer;
-    private int m_State = 0;
-    private int m_ResetState = 0;
+    private int m_State;
+    private int m_ResetState;
 
 
 
@@ -63,10 +63,8 @@ public class XmlLatch : Item
             {
                 return m_End - DateTime.Now;
             }
-            else
-            {
-                return TimeSpan.FromSeconds(0);
-            }
+
+            return TimeSpan.FromSeconds(0);
         }
         set
         {
@@ -213,17 +211,17 @@ public class TimedLever : XmlLatch, ILinkable
     public enum leverType { Two_State, Three_State}
     private leverType m_LeverType = leverType.Two_State;
     private int m_LeverSound = 936;
-    private Item m_TargetItem0 = null;
-    private string m_TargetProperty0 = null;
-    private Item m_TargetItem1 = null;
-    private string m_TargetProperty1 = null;
-    private Item m_TargetItem2 = null;
-    private string m_TargetProperty2 = null;
+    private Item m_TargetItem0;
+    private string m_TargetProperty0;
+    private Item m_TargetItem1;
+    private string m_TargetProperty1;
+    private Item m_TargetItem2;
+    private string m_TargetProperty2;
 
-    private Item m_LinkedItem = null;
-    private bool already_being_activated = false;
+    private Item m_LinkedItem;
+    private bool already_being_activated;
 
-    private bool m_Disabled = false;
+    private bool m_Disabled;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
@@ -388,14 +386,14 @@ public class TimedLever : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get{  if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+    {      	get
+    {
+        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
         {
             return m_TargetItem0.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }      }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -412,14 +410,14 @@ public class TimedLever : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get{  if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+    {      	get
+    {
+        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
         {
             return m_TargetItem1.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }      }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -436,14 +434,14 @@ public class TimedLever : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target2ItemName
-    {      	get{  if (m_TargetItem2 != null && !m_TargetItem2.Deleted)
+    {      	get
+    {
+        if (m_TargetItem2 != null && !m_TargetItem2.Deleted)
         {
             return m_TargetItem2.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }      }
 
     public override void Serialize(IGenericWriter writer)
@@ -589,15 +587,15 @@ public class TimedLever : XmlLatch, ILinkable
 public class TimedSwitch : XmlLatch, ILinkable
 {
     private int m_SwitchSound = 939;
-    private Item m_TargetItem0 = null;
-    private string m_TargetProperty0 = null;
-    private Item m_TargetItem1 = null;
-    private string m_TargetProperty1 = null;
+    private Item m_TargetItem0;
+    private string m_TargetProperty0;
+    private Item m_TargetItem1;
+    private string m_TargetProperty1;
 
-    private Item m_LinkedItem = null;
-    private bool already_being_activated = false;
+    private Item m_LinkedItem;
+    private bool already_being_activated;
 
-    private bool m_Disabled = false;
+    private bool m_Disabled;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
@@ -743,14 +741,14 @@ public class TimedSwitch : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get{  if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+    {      	get
+    {
+        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
         {
             return m_TargetItem0.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }      }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -767,14 +765,14 @@ public class TimedSwitch : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get{  if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+    {      	get
+    {
+        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
         {
             return m_TargetItem1.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }      }
 
 
@@ -885,20 +883,20 @@ public class TimedSwitch : XmlLatch, ILinkable
 public class TimedSwitchableItem : XmlLatch, ILinkable
 {
     private int m_SwitchSound = 939;
-    private Item m_TargetItem0 = null;
-    private string m_TargetProperty0 = null;
-    private Item m_TargetItem1 = null;
-    private string m_TargetProperty1 = null;
+    private Item m_TargetItem0;
+    private string m_TargetProperty0;
+    private Item m_TargetItem1;
+    private string m_TargetProperty1;
     private int m_ItemID0 = 0x108F;
     private int m_ItemID1 = 0x1090;
 
-    private Item m_LinkedItem = null;
-    private bool already_being_activated = false;
+    private Item m_LinkedItem;
+    private bool already_being_activated;
 
     private Point3D m_Offset = Point3D.Zero;
 
-    private bool m_Disabled = false;
-    private bool m_NoDoubleClick = false;
+    private bool m_Disabled;
+    private bool m_NoDoubleClick;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
@@ -1081,14 +1079,14 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get{  if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+    {      	get
+    {
+        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
         {
             return m_TargetItem0.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }      }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -1105,14 +1103,14 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get{  if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+    {      	get
+    {
+        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
         {
             return m_TargetItem1.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }      }
 
 

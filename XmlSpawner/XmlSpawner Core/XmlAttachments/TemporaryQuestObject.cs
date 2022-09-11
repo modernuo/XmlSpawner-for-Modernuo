@@ -103,9 +103,8 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
         if (Expiration > TimeSpan.Zero)
         {
             return String.Format("{1} expires in {0} mins",Expiration.TotalMinutes, Name);
-        } else
-        {
-            return String.Format("{1}: QuestOwner {0}",QuestOwner, Name);
         }
+
+        return String.Format("{1}: QuestOwner {0}",QuestOwner, Name);
     }
 }

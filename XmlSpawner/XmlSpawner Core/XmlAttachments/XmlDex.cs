@@ -9,7 +9,9 @@ public class XmlDex : XmlAttachment
     private int m_Value = 10;                                 // default value of 10
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Value { get => m_Value;
+    public int Value
+    {
+        get => m_Value;
         set => m_Value  = value;
     }
 
@@ -21,7 +23,6 @@ public class XmlDex : XmlAttachment
     public XmlDex(ASerial serial) : base(serial)
     {
     }
-
 
     [Attachable]
     public XmlDex()
@@ -45,10 +46,10 @@ public class XmlDex : XmlAttachment
         // apply the mod
         if (AttachedTo is Mobile mobile)
         {
-            ((Mobile)AttachedTo).AddStatMod(new StatMod(StatType.Dex, "XmlDex"+Name, m_Value, m_Duration));
+            mobile.AddStatMod(new StatMod(StatType.Dex, "XmlDex"+Name, m_Value, m_Duration));
         }
         // and then remove the attachment
-        Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
+        Timer.DelayCall(TimeSpan.Zero, Delete);
         //Delete();
     }
 }

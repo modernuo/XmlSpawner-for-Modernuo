@@ -13,7 +13,7 @@ public class XmlStr : XmlAttachment
         set => m_Value = value;
     }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
 
@@ -48,7 +48,7 @@ public class XmlStr : XmlAttachment
             ((Mobile)AttachedTo).AddStatMod(new StatMod(StatType.Str, "XmlStr" + Name, m_Value, m_Duration));
         }
         // and then remove the attachment
-        Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
+        Timer.DelayCall(TimeSpan.Zero, Delete);
 
         //Delete();
     }

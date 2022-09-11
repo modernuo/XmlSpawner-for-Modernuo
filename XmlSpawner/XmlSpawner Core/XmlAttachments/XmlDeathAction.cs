@@ -9,12 +9,16 @@ public class XmlDeathAction : XmlAttachment
     private string m_Condition; // condition string
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Action { get => m_Action;
+    public string Action
+    {
+        get => m_Action;
         set => m_Action = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Condition { get => m_Condition;
+    public string Condition
+    {
+        get => m_Condition;
         set => m_Condition = value;
     }
 
@@ -23,8 +27,7 @@ public class XmlDeathAction : XmlAttachment
     // Other overloads could be defined to handle other types of arguments
 
     // a serial constructor is REQUIRED
-    public XmlDeathAction(ASerial serial)
-        : base(serial)
+    public XmlDeathAction(ASerial serial) : base(serial)
     {
     }
 
@@ -160,8 +163,7 @@ public class XmlDeathAction : XmlAttachment
                 {
                     status_str = "invalid type specification: " + arglist[0];
                 }
-                else
-                if (o is Mobile mobile)
+                else if (o is Mobile mobile)
                 {
                     if (mobile is BaseCreature creature)
                     {
@@ -173,8 +175,7 @@ public class XmlDeathAction : XmlAttachment
 
                     BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, mobile, killer, corpse, out status_str);
                 }
-                else
-                if (o is Item item)
+                else if (o is Item item)
                 {
                     BaseXmlSpawner.AddSpawnItem(null, corpse, TheSpawn, item, loc, map, killer, false, substitutedtypeName, out status_str);
                 }

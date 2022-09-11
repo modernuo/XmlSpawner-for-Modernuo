@@ -6,7 +6,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlWeaponAbility : XmlAttachment
 {
-    private WeaponAbility m_Ability = null; // default data
+    private WeaponAbility m_Ability; // default data
 
     public WeaponAbility WeaponAbility
     {
@@ -23,10 +23,8 @@ public class XmlWeaponAbility : XmlAttachment
             {
                 return m_Ability.GetType().Name;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
         set
         {
@@ -107,9 +105,7 @@ public class XmlWeaponAbility : XmlAttachment
         {
             return String.Format("{2}: Weapon ability {0} expires in {1} mins", Ability, Expiration.TotalMinutes, Name);
         }
-        else
-        {
-            return String.Format("{1}: Weapon ability {0}", Ability, Name);
-        }
+
+        return String.Format("{1}: Weapon ability {0}", Ability, Name);
     }
 }

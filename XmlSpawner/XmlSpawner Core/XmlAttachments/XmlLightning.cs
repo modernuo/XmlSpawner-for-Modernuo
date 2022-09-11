@@ -6,7 +6,7 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlLightning : XmlAttachment
 {
-    private int m_Damage = 0;
+    private int m_Damage;
     private TimeSpan m_Refractory = TimeSpan.FromSeconds(5); // 5 seconds default time between activations
     private DateTime m_EndTime;
     private int proximityrange = 5; // default movement activation from 5 tiles away
@@ -95,10 +95,8 @@ public class XmlLightning : XmlAttachment
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 
@@ -178,10 +176,8 @@ public class XmlLightning : XmlAttachment
         {
             return $"{msg} - {Refractory.TotalSeconds} secs between uses";
         }
-        else
-        {
-            return msg;
-        }
+
+        return msg;
     }
 
     public override void OnTrigger(object activator, Mobile m)

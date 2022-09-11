@@ -33,7 +33,7 @@ public class ASerial
 
     private static int m_GlobalSerialValue;
 
-    public static bool serialInitialized = false;
+    public static bool serialInitialized;
 
     public static ASerial NewSerial()
     {
@@ -964,7 +964,7 @@ public class XmlAttach
         }
 
     }
-    private static ArrayList desererror = null;
+    private static ArrayList desererror;
     private static void ReportDeserError(string typestr, string detailstr)
     {
         if (desererror == null)
@@ -1400,7 +1400,7 @@ public class XmlAttach
     private class AttachTarget : Target
     {
         private CommandEventArgs m_e;
-        private string m_set = null;
+        private string m_set;
 
         public AttachTarget(CommandEventArgs e, string set)
             : base(30, false, TargetFlags.None)
@@ -2001,46 +2001,40 @@ public class XmlAttach
                 {
                     return (ArrayList)attachments[o];
                 }
-                else
-                {
-                    return (ArrayList)((ArrayList)attachments[o]).Clone();
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-        else
-        {
-            // just get those of a particular type and/or name
-            ArrayList list = (ArrayList)attachments[o];
 
-            if (list != null)
-            {
-                ArrayList newlist = new ArrayList();
-
-                foreach (XmlAttachment i in list)
-                {
-                    // see if it is deleted
-                    if (i == null || i.Deleted)
-                    {
-                        continue;
-                    }
-
-                    Type itype = i.GetType();
-
-                    if ((type == null || itype != null && (itype == type || itype.IsSubclassOf(type))) && (name == null || name == i.Name))
-                    {
-                        newlist.Add(i);
-                    }
-                }
-
-                return newlist;
+                return (ArrayList)((ArrayList)attachments[o]).Clone();
             }
 
             return null;
         }
+
+        // just get those of a particular type and/or name
+        ArrayList list = (ArrayList)attachments[o];
+
+        if (list != null)
+        {
+            ArrayList newlist = new ArrayList();
+
+            foreach (XmlAttachment i in list)
+            {
+                // see if it is deleted
+                if (i == null || i.Deleted)
+                {
+                    continue;
+                }
+
+                Type itype = i.GetType();
+
+                if ((type == null || itype != null && (itype == type || itype.IsSubclassOf(type))) && (name == null || name == i.Name))
+                {
+                    newlist.Add(i);
+                }
+            }
+
+            return newlist;
+        }
+
+        return null;
     }
 
     public static XmlAttachment FindAttachment(object o) => FindAttachment(o, null, null);

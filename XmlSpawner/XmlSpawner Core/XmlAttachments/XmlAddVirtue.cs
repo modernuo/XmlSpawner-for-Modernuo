@@ -10,10 +10,14 @@ public class XmlAddVirtue : XmlAttachment
     private string m_Virtue;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Value { get => m_DataValue;
+    public int Value
+    {
+        get => m_DataValue;
         set => m_DataValue = value;
     }
-    public string Virtue { get => m_Virtue;
+    public string Virtue
+    {
+        get => m_Virtue;
         set => m_Virtue = value;
     }
 
@@ -60,37 +64,41 @@ public class XmlAddVirtue : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if (AttachedTo is PlayerMobile)
+        if (AttachedTo is PlayerMobile mobile)
         {
             // for players just add it immediately
             // lookup the virtue type
             VirtueName g = 0;
             bool valid = true;
             bool gainedPath = false;
-            try{
-                g = (VirtueName)Enum.Parse(typeof(VirtueName),Virtue, true);
-            } catch{valid = false;}
+            try
+            {
+                g = (VirtueName)Enum.Parse(typeof(VirtueName), Virtue, true);
+            }
+            catch
+            {
+                valid = false;
+            }
 
             if (valid)
             {
 
                 VirtueHelper.Award((Mobile)AttachedTo, g, Value, ref gainedPath);
 
-                ((Mobile)AttachedTo).SendMessage("Receive {0}",OnIdentify((Mobile)AttachedTo));
+                mobile.SendMessage("Receive {0}",OnIdentify(mobile));
 
                 if (gainedPath)
                 {
-                    ((Mobile)AttachedTo).SendMessage("You have gained a path in {0}",Virtue);
+                    mobile.SendMessage("You have gained a path in {0}",Virtue);
                 }
             } else
             {
-                ((Mobile)AttachedTo).SendMessage("{0}: no such Virtue", Virtue);
+                mobile.SendMessage("{0}: no such Virtue", Virtue);
             }
             // and then remove the attachment
-            Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
+            Timer.DelayCall(TimeSpan.Zero, Delete);
             //Delete();
-        } else
-        if (AttachedTo is Item)
+        } else if (AttachedTo is Item)
         {
             // dont allow item attachments
             Delete();
@@ -112,9 +120,14 @@ public class XmlAddVirtue : XmlAttachment
         VirtueName g = 0;
         bool valid = true;
         bool gainedPath = false;
-        try{
-            g = (VirtueName)Enum.Parse(typeof(VirtueName),Virtue, true);
-        } catch{valid = false;}
+        try
+        {
+            g = (VirtueName)Enum.Parse(typeof(VirtueName), Virtue, true);
+        }
+        catch
+        {
+            valid = false;
+        }
 
         if (valid)
         {

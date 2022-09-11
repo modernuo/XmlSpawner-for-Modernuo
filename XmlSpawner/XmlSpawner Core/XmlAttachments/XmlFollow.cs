@@ -105,10 +105,8 @@ namespace Server.Engines.XmlSpawner2
                 return
                     $"Following {b.SummonMaster} at Distance {Distance} expires in {Expiration.TotalMinutes} mins";
             }
-            else
-            {
-                return $"Following {b.SummonMaster} at Distance {Distance}";
-            }
+
+            return $"Following {b.SummonMaster} at Distance {Distance}";
         }
     }
 }

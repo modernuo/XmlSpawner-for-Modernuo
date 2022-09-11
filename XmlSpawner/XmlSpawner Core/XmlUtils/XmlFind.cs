@@ -106,7 +106,7 @@ public class XmlFindGump : Gump
         public bool Dosearchnull;
         public bool Dosearcherr;
         public bool Dosearchage;
-        public bool Dohidevalidint = false;
+        public bool Dohidevalidint;
         public bool Searchagedirection;
         public double Searchage;
         public int Searchrange;
@@ -173,7 +173,7 @@ public class XmlFindGump : Gump
     private string SaveFilename;
     private string CommandString;
 
-    private bool SelectAll = false;
+    private bool SelectAll;
 
     private ArrayList m_SearchList;
 
@@ -1632,11 +1632,12 @@ public class XmlFindGump : Gump
             {
                 return 0;
             }
-            else if (entity1 == null)
+
+            if (entity1 == null)
             {
                 return Dsort ? 1 : -1;
             }
-            else if (entity2 == null)
+            if (entity2 == null)
             {
                 return Dsort ? -1 : 1;
             }
