@@ -1,4 +1,11 @@
-.DS_Store
-*/obj
-*/bin
+**/obj
+**/bin
+
+*.log
+*.user
 /.idea
+/.vs
+/.vscode
+
+.DS_Store
+/packages/*
