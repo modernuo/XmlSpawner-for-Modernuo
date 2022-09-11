@@ -1539,8 +1539,19 @@ public class XmlFindGump : Gump
 
         public int Compare(object e1, object e2)
         {
-            string xstr = ((e1 as SearchEntry)?.Object as IEntity)?.Name;
-            string ystr = ((e2 as SearchEntry)?.Object as IEntity)?.Name;
+            string xstr = (e1 as SearchEntry)?.Object switch
+            {
+                Item item     => item.Name,
+                Mobile mobile => mobile.Name,
+                _             => null
+            };
+
+            string ystr = (e2 as SearchEntry)?.Object switch
+            {
+                Item item     => item.Name,
+                Mobile mobile => mobile.Name,
+                _             => null
+            };
 
             if (Dsort)
             {
