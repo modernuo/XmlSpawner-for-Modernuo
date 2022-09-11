@@ -1,49 +1,45 @@
-using System;
-using Server;
+namespace Server.Items;
 
-namespace Server.Items
+public class SingleUseSwitch : SimpleSwitch
 {
-	public class SingleUseSwitch : SimpleSwitch
-	{
 
-		[Constructable]
-		public SingleUseSwitch()
-		{
-		}
+    [Constructable]
+    public SingleUseSwitch()
+    {
+    }
 
-		public SingleUseSwitch(Serial serial)
-			: base(serial)
-		{
-		}
+    public SingleUseSwitch(Serial serial)
+        : base(serial)
+    {
+    }
 
-		public override void OnDoubleClick(Mobile from)
-		{
-			if (from == null || Disabled) return;
+    public override void OnDoubleClick(Mobile from)
+    {
+        if (from == null || Disabled) return;
 
-			if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
-			{
-				from.SendLocalizedMessage(500446); // That is too far away.
-				return;
-			}
+        if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
+        {
+            from.SendLocalizedMessage(500446); // That is too far away.
+            return;
+        }
 
-			base.OnDoubleClick(from);
+        base.OnDoubleClick(from);
 
-			// delete after use
-			Delete();
-		}
+        // delete after use
+        Delete();
+    }
 
-		public override void Serialize(GenericWriter writer)
-		{
-			base.Serialize(writer);
+    public override void Serialize(GenericWriter writer)
+    {
+        base.Serialize(writer);
 
-			writer.Write((int)0); // version
-		}
+        writer.Write((int)0); // version
+    }
 
-		public override void Deserialize(GenericReader reader)
-		{
-			base.Deserialize(reader);
+    public override void Deserialize(GenericReader reader)
+    {
+        base.Deserialize(reader);
 
-			int version = reader.ReadInt();
-		}
-	}
+        int version = reader.ReadInt();
+    }
 }

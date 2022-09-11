@@ -1,6 +1,4 @@
 #define BOOKTEXTENTRY
-using Server.Network;
-
 namespace Server.Items
 {
     public class XmlTextEntryBook : BaseEntryBook
