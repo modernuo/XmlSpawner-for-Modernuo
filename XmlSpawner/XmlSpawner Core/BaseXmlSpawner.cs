@@ -236,24 +236,32 @@ public class BaseXmlSpawner
                 switch (type)
                 {
                     case 0: // WAIT timer type
-                        // start up the timer
-                        DoTimer(delay, m_Delay, condition, gotogroup);
-                        Flags |= KeywordFlags.HoldSpawn;
-                        Flags |= KeywordFlags.Serialize;
+                        {
+                            // start up the timer
+                            DoTimer(delay, m_Delay, condition, gotogroup);
+                            Flags |= KeywordFlags.HoldSpawn;
+                            Flags |= KeywordFlags.Serialize;
 
-                        break;
+                            break;
+                        }
                     case 1: // GUMP type
+                        {
+                            break;
+                        }
 
-                        break;
                     case 2: // GOTO type
-                        Flags |= KeywordFlags.HoldSequence;
-                        Flags |= KeywordFlags.Serialize;
+                        {
+                            Flags |= KeywordFlags.HoldSequence;
+                            Flags |= KeywordFlags.Serialize;
 
-                        break;
+                            break;
+                        }
                     default:
-                        // dont do anything for other types
-                        Flags |= KeywordFlags.Defrag;
-                        break;
+                        {
+                            // dont do anything for other types
+                            Flags |= KeywordFlags.Defrag;
+                            break;
+                        }
                 }
             }
         }
@@ -312,28 +320,32 @@ public class BaseXmlSpawner
             switch (version)
             {
                 case 1:
-                    Flags = (KeywordFlags)reader.ReadInt();
-                    goto case 0;
-                case 0:
-                    m_Spawner = (XmlSpawner)reader.ReadItem();
-                    Type = reader.ReadInt();
-                    Serial = reader.ReadInt();
-                    if (Type == 0)
                     {
-                        // get any timer info
-                        TimeSpan delay = reader.ReadTimeSpan();
-                        m_Delay = reader.ReadTimeSpan();
-                        m_Condition = reader.ReadString();
-                        m_Goto = reader.ReadInt();
-
-                        TimeSpan timeoutdelay = reader.ReadTimeSpan();
-                        m_TimeoutEnd = DateTime.UtcNow + timeoutdelay;
-                        m_Timeout = reader.ReadTimeSpan();
-                        m_TrigMob = reader.ReadMobile();
-
-                        DoTimer(delay, m_Delay, m_Condition, m_Goto);
+                        Flags = (KeywordFlags)reader.ReadInt();
+                        goto case 0;
                     }
-                    break;
+                case 0:
+                    {
+                        m_Spawner = (XmlSpawner)reader.ReadItem();
+                        Type = reader.ReadInt();
+                        Serial = reader.ReadInt();
+                        if (Type == 0)
+                        {
+                            // get any timer info
+                            TimeSpan delay = reader.ReadTimeSpan();
+                            m_Delay = reader.ReadTimeSpan();
+                            m_Condition = reader.ReadString();
+                            m_Goto = reader.ReadInt();
+
+                            TimeSpan timeoutdelay = reader.ReadTimeSpan();
+                            m_TimeoutEnd = DateTime.UtcNow + timeoutdelay;
+                            m_Timeout = reader.ReadTimeSpan();
+                            m_TrigMob = reader.ReadMobile();
+
+                            DoTimer(delay, m_Delay, m_Condition, m_Goto);
+                        }
+                        break;
+                    }
             }
         }
 
@@ -2398,20 +2410,30 @@ public class BaseXmlSpawner
                                 switch (int.Parse(objstr[n]) - objoffset + 1)
                                 {
                                     case 1:
-                                        if (!token.Completed1) has_valid_item = false;
-                                        break;
+                                        {
+                                            if (!token.Completed1) has_valid_item = false;
+                                            break;
+                                        }
                                     case 2:
-                                        if (!token.Completed2) has_valid_item = false;
-                                        break;
+                                        {
+                                            if (!token.Completed2) has_valid_item = false;
+                                            break;
+                                        }
                                     case 3:
-                                        if (!token.Completed3) has_valid_item = false;
-                                        break;
+                                        {
+                                            if (!token.Completed3) has_valid_item = false;
+                                            break;
+                                        }
                                     case 4:
-                                        if (!token.Completed4) has_valid_item = false;
-                                        break;
+                                        {
+                                            if (!token.Completed4) has_valid_item = false;
+                                            break;
+                                        }
                                     case 5:
-                                        if (!token.Completed5) has_valid_item = false;
-                                        break;
+                                        {
+                                            if (!token.Completed5) has_valid_item = false;
+                                            break;
+                                        }
                                 }
                             }
                             catch { }
@@ -2575,20 +2597,30 @@ public class BaseXmlSpawner
                             switch (int.Parse(objstr[n]) - objoffset + 1)
                             {
                                 case 1:
-                                    if (token.Completed1) has_no_such_item = false;
-                                    break;
+                                    {
+                                        if (token.Completed1) has_no_such_item = false;
+                                        break;
+                                    }
                                 case 2:
-                                    if (token.Completed2) has_no_such_item = false;
-                                    break;
+                                    {
+                                        if (token.Completed2) has_no_such_item = false;
+                                        break;
+                                    }
                                 case 3:
-                                    if (token.Completed3) has_no_such_item = false;
-                                    break;
+                                    {
+                                        if (token.Completed3) has_no_such_item = false;
+                                        break;
+                                    }
                                 case 4:
-                                    if (token.Completed4) has_no_such_item = false;
-                                    break;
+                                    {
+                                        if (token.Completed4) has_no_such_item = false;
+                                        break;
+                                    }
                                 case 5:
-                                    if (token.Completed5) has_no_such_item = false;
-                                    break;
+                                    {
+                                        if (token.Completed5) has_no_such_item = false;
+                                        break;
+                                    }
                             }
                         }
                         catch { }

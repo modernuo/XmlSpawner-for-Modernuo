@@ -95,9 +95,11 @@ public class XmlPoison : XmlAttachment
         switch(version)
         {
             case 0:
-                // version 0
-                this.p_level = reader.ReadInt();
-                break;
+                {
+                    // version 0
+                    this.p_level = reader.ReadInt();
+                    break;
+                }
         }
     }
 }

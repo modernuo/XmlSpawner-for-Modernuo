@@ -192,52 +192,72 @@ public class XmlMagicWord : XmlAttachment
         switch ( Word )
         {
             case "Shoda":
-                m.AddStatMod( new StatMod( StatType.Int, "Shoda", 20, Duration ) );
-                m.SendMessage("Your mind expands!");
-                break;
+                {
+                    m.AddStatMod( new StatMod( StatType.Int, "Shoda", 20, Duration ) );
+                    m.SendMessage("Your mind expands!");
+                    break;
+                }
             case "Malik":
-                m.AddStatMod( new StatMod( StatType.Str, "Malik", 20, Duration ) );
-                m.SendMessage("Your strength surges!");
-                break;
+                {
+                    m.AddStatMod( new StatMod( StatType.Str, "Malik", 20, Duration ) );
+                    m.SendMessage("Your strength surges!");
+                    break;
+                }
             case "Lepto":
-                m.AddStatMod( new StatMod( StatType.Dex, "Lepto", 20, Duration ) );
-                m.SendMessage("You are more nimble!");
-                break;
+                {
+                    m.AddStatMod( new StatMod( StatType.Dex, "Lepto", 20, Duration ) );
+                    m.SendMessage("You are more nimble!");
+                    break;
+                }
             case "Velas":
-                Timer.DelayCall( TimeSpan.Zero, new TimerStateCallback( Hide_Callback ), new object[]{ m } );
-                m.SendMessage("You disappear!");
-                break;
+                {
+                    Timer.DelayCall( TimeSpan.Zero, new TimerStateCallback( Hide_Callback ), new object[]{ m } );
+                    m.SendMessage("You disappear!");
+                    break;
+                }
             case "Tarda":
-                m.AddSkillMod( new TimedSkillMod( SkillName.Tactics, true, 20, Duration ) );
-                m.SendMessage("You are more skillful warrior!");
-                break;
+                {
+                    m.AddSkillMod( new TimedSkillMod( SkillName.Tactics, true, 20, Duration ) );
+                    m.SendMessage("You are more skillful warrior!");
+                    break;
+                }
             case "Marda":
-                m.AddSkillMod( new TimedSkillMod( SkillName.Magery, true, 20, Duration ) );
-                m.SendMessage("You are more skillful mage!");
-                break;
+                {
+                    m.AddSkillMod( new TimedSkillMod( SkillName.Magery, true, 20, Duration ) );
+                    m.SendMessage("You are more skillful mage!");
+                    break;
+                }
             case "Vas Malik":
-                m.AddStatMod( new StatMod( StatType.Str, "Vas Malik", 40, Duration ) );
-                m.SendMessage("You are exceptionally strong!");
-                break;
+                {
+                    m.AddStatMod( new StatMod( StatType.Str, "Vas Malik", 40, Duration ) );
+                    m.SendMessage("You are exceptionally strong!");
+                    break;
+                }
             case "Nartor":
-                BaseCreature b = new Drake();
-                b.MoveToWorld(m.Location, m.Map);
-                b.Owners.Add( m );
-                b.SetControlMaster( m );
-                if(b.Controlled)
-                    m.SendMessage("You master the beast!");
-                break;
+                {
+                    BaseCreature b = new Drake();
+                    b.MoveToWorld(m.Location, m.Map);
+                    b.Owners.Add( m );
+                    b.SetControlMaster( m );
+                    if(b.Controlled)
+                        m.SendMessage("You master the beast!");
+                    break;
+                }
             case "Santor":
-                b = new Horse();
-                b.MoveToWorld(m.Location, m.Map);
-                b.Owners.Add( m );
-                b.SetControlMaster( m );
-                if(b.Controlled)
-                    m.SendMessage("You master the beast!");
-                break;
+                {
+                    b = new Horse();
+                    b.MoveToWorld(m.Location, m.Map);
+                    b.Owners.Add( m );
+                    b.SetControlMaster( m );
+                    if(b.Controlled)
+                        m.SendMessage("You master the beast!");
+                    break;
+                }
             default:
-                m.SendMessage("There is no effect.");
-                break;
+                {
+                    m.SendMessage("There is no effect.");
+                    break;
+                }
         }
             
         // display activation effects

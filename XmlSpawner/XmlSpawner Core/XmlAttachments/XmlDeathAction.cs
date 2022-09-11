@@ -56,11 +56,15 @@ public class XmlDeathAction : XmlAttachment
         switch (version)
         {
             case 1:
-                m_Condition = reader.ReadString();
-                goto case 0;
+                {
+                    m_Condition = reader.ReadString();
+                    goto case 0;
+                }
             case 0:
-                m_Action = reader.ReadString();
-                break;
+                {
+                    m_Action = reader.ReadString();
+                    break;
+                }
         }
 
     }

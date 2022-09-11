@@ -88,8 +88,10 @@ public class TextEntryGump : Gump
                     break;
                 }
             default:
-                update_entry = true;
-                break;
+                {
+                    update_entry = true;
+                    break;
+                }
         }
         if (edit_entry)
         {

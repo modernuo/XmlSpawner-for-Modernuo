@@ -134,7 +134,11 @@ public abstract class XmlAttachment : IXmlAttachment
 
     public bool Deleted { get { return m_Deleted; } }
 
-    public bool DoDelete { get { return false; } set { if (value == true) Delete(); } }
+    public bool DoDelete { get { return false; } set { if (value == true)
+        {
+            Delete();
+        }
+    } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public int SerialValue { get { return m_Serial.Value; } }
@@ -152,7 +156,9 @@ public abstract class XmlAttachment : IXmlAttachment
                 return m_ExpirationEnd - DateTime.Now;
             }
             else
+            {
                 return m_Expiration;
+            }
         }
         set
         {
@@ -220,7 +226,9 @@ public abstract class XmlAttachment : IXmlAttachment
         m_ExpirationEnd = DateTime.Now + delay;
 
         if (m_ExpirationTimer != null)
+        {
             m_ExpirationTimer.Stop();
+        }
 
         m_ExpirationTimer = new AttachmentTimer(this, delay);
         m_ExpirationTimer.Start();
@@ -293,7 +301,9 @@ public abstract class XmlAttachment : IXmlAttachment
     {
         // start up the expiration timer on attachment
         if (m_Expiration > TimeSpan.Zero)
+        {
             DoTimer(m_Expiration);
+        }
     }
 
     public virtual void OnReattach()
@@ -425,12 +435,17 @@ public abstract class XmlAttachment : IXmlAttachment
 
     public void Delete()
     {
-        if (m_Deleted) return;
+        if (m_Deleted)
+        {
+            return;
+        }
 
         m_Deleted = true;
 
         if (m_ExpirationTimer != null)
+        {
             m_ExpirationTimer.Stop();
+        }
 
         OnDelete();
 
@@ -465,7 +480,9 @@ public abstract class XmlAttachment : IXmlAttachment
             writer.Write((Mobile)OwnedBy);
         }
         else
+        {
             writer.Write((int)-1);
+        }
 
         // version 0
         writer.Write(Name);
@@ -489,34 +506,44 @@ public abstract class XmlAttachment : IXmlAttachment
         switch (version)
         {
             case 2:
-                m_AttachedBy = reader.ReadString();
-                goto case 1;
+                {
+                    m_AttachedBy = reader.ReadString();
+                    goto case 1;
+                }
             case 1:
-                int owned = reader.ReadInt();
-                if (owned == 0)
                 {
-                    OwnedBy = reader.ReadItem();
-                }
-                else
-                if (owned == 1)
-                {
-                    OwnedBy = reader.ReadMobile();
-                }
-                else
-                    OwnedBy = null;
+                    int owned = reader.ReadInt();
+                    if (owned == 0)
+                    {
+                        OwnedBy = reader.ReadItem();
+                    }
+                    else
+                    if (owned == 1)
+                    {
+                        OwnedBy = reader.ReadMobile();
+                    }
+                    else
+                    {
+                        OwnedBy = null;
+                    }
 
-                goto case 0;
+                    goto case 0;
+                }
             case 0:
-                // version 0
-                Name = (string)reader.ReadString();
-                m_Expiration = reader.ReadTimeSpan();
-                TimeSpan remaining = (TimeSpan)reader.ReadTimeSpan();
+                {
+                    // version 0
+                    Name = (string)reader.ReadString();
+                    m_Expiration = reader.ReadTimeSpan();
+                    TimeSpan remaining = (TimeSpan)reader.ReadTimeSpan();
 
-                if (remaining > TimeSpan.Zero)
-                    DoTimer(remaining);
+                    if (remaining > TimeSpan.Zero)
+                    {
+                        DoTimer(remaining);
+                    }
 
-                m_CreationTime = reader.ReadDateTime();
-                break;
+                    m_CreationTime = reader.ReadDateTime();
+                    break;
+                }
         }
     }
 }

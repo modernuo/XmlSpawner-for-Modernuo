@@ -130,9 +130,11 @@ public class XmlSpawnTime : XmlAttachment
         switch (version)
         {
             case 0:
-                this.m_MinDelay = reader.ReadTimeSpan();
-                this.m_MaxDelay = reader.ReadTimeSpan();
-                break;
+                {
+                    this.m_MinDelay = reader.ReadTimeSpan();
+                    this.m_MaxDelay = reader.ReadTimeSpan();
+                    break;
+                }
         }
     }
 

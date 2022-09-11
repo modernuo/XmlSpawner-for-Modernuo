@@ -667,33 +667,47 @@ public class XmlEditDialogGump : Gump
         switch(textid)
         {
             case 0: // text
-                if(entry != null)
-                    entry.Text = text;
-                break;
+                {
+                    if(entry != null)
+                        entry.Text = text;
+                    break;
+                }
             case 1: // keywords
-                if(entry != null)
-                    entry.Keywords = text;
-                break;
+                {
+                    if(entry != null)
+                        entry.Keywords = text;
+                    break;
+                }
             case 2: // condition
-                if(entry != null)
-                    entry.Condition = text;
-                break;
+                {
+                    if(entry != null)
+                        entry.Condition = text;
+                    break;
+                }
             case 3: // action
-                if(entry != null)
-                    entry.Action = text;
-                break;
+                {
+                    if(entry != null)
+                        entry.Action = text;
+                    break;
+                }
             case 4: // gump
-                if(entry != null)
-                    entry.Gump = text;
-                break;
+                {
+                    if(entry != null)
+                        entry.Gump = text;
+                    break;
+                }
             case 5: // trigoncarried
-                if(dialog != null)
-                    dialog.TriggerOnCarried = text;
-                break;
+                {
+                    if(dialog != null)
+                        dialog.TriggerOnCarried = text;
+                    break;
+                }
             case 6: // notrigoncarried
-                if(dialog != null)
-                    dialog.NoTriggerOnCarried = text;
-                break;
+                {
+                    if(dialog != null)
+                        dialog.NoTriggerOnCarried = text;
+                    break;
+                }
         }
 
 
@@ -1115,38 +1129,52 @@ public class XmlEditDialogGump : Gump
                         switch(textid)
                         {
                             case 0: // text
-                                if(entry != null)
-                                    text = entry.Text;
-                                title = "Text";
-                                break;
+                                {
+                                    if(entry != null)
+                                        text = entry.Text;
+                                    title = "Text";
+                                    break;
+                                }
                             case 1: // keywords
-                                if(entry != null)
-                                    text = entry.Keywords;
-                                title = "Keywords";
-                                break;
+                                {
+                                    if(entry != null)
+                                        text = entry.Keywords;
+                                    title = "Keywords";
+                                    break;
+                                }
                             case 2: // condition
-                                if(entry != null)
-                                    text = entry.Condition;
-                                title = "Condition";
-                                break;
+                                {
+                                    if(entry != null)
+                                        text = entry.Condition;
+                                    title = "Condition";
+                                    break;
+                                }
                             case 3: // action
-                                if(entry != null)
-                                    text = entry.Action;
-                                title = "Action";
-                                break;
+                                {
+                                    if(entry != null)
+                                        text = entry.Action;
+                                    title = "Action";
+                                    break;
+                                }
                             case 4: // gump
-                                if(entry != null)
-                                    text = entry.Gump;
-                                title = "Gump";
-                                break;
+                                {
+                                    if(entry != null)
+                                        text = entry.Gump;
+                                    title = "Gump";
+                                    break;
+                                }
                             case 5: // trigoncarried
-                                text = m_Dialog.TriggerOnCarried;
-                                title = "TrigOnCarried";
-                                break;
+                                {
+                                    text = m_Dialog.TriggerOnCarried;
+                                    title = "TrigOnCarried";
+                                    break;
+                                }
                             case 6: // notrigoncarried
-                                text = m_Dialog.NoTriggerOnCarried;
-                                title = "NoTrigOnCarried";
-                                break;
+                                {
+                                    text = m_Dialog.NoTriggerOnCarried;
+                                    title = "NoTrigOnCarried";
+                                    break;
+                                }
                         }
 
                         object [] args = new object[6];

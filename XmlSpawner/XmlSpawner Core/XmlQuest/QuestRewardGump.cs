@@ -120,27 +120,31 @@ public class QuestRewardGump : Gump
         switch ( info.ButtonID ) 
         {
             case 12:
-                // page up
-                int nitems = 0;
-                if(Rewards != null)
-                    nitems = Rewards.Count;
+                {
+                    // page up
+                    int nitems = 0;
+                    if(Rewards != null)
+                        nitems = Rewards.Count;
 
-                int page = viewpage+1;
-                if(page > (int)(nitems/maxItemsPerPage))
-                {
-                    page = (int)(nitems/maxItemsPerPage);
+                    int page = viewpage+1;
+                    if(page > (int)(nitems/maxItemsPerPage))
+                    {
+                        page = (int)(nitems/maxItemsPerPage);
+                    }
+                    state.Mobile.SendGump( new QuestRewardGump( state.Mobile, page));
+                    break;
                 }
-                state.Mobile.SendGump( new QuestRewardGump( state.Mobile, page));
-                break;
             case 13:
-                // page down
-                page = viewpage-1;
-                if(page < 0)
                 {
-                    page = 0;
+                    // page down
+                    page = viewpage-1;
+                    if(page < 0)
+                    {
+                        page = 0;
+                    }
+                    state.Mobile.SendGump( new QuestRewardGump( state.Mobile, page));
+                    break;
                 }
-                state.Mobile.SendGump( new QuestRewardGump( state.Mobile, page));
-                break;
             default:
                 {
                     if(info.ButtonID >= 1000)

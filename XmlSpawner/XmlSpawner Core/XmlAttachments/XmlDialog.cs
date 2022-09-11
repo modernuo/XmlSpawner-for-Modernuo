@@ -1831,22 +1831,34 @@ public class XmlDialog : XmlAttachment
         switch (argname)
         {
             case "XmlQuestNPCDir":
-                DefsDir = value;
-                break;
+                {
+                    DefsDir = value;
+                    break;
+                }
             case "defResetTime":
-                defResetTime = TimeSpan.FromSeconds(XmlSpawner.ConvertToInt(value));
-                break;
+                {
+                    defResetTime = TimeSpan.FromSeconds(XmlSpawner.ConvertToInt(value));
+                    break;
+                }
             case "defProximityRange":
-                defProximityRange = XmlSpawner.ConvertToInt(value);
-                break;
+                {
+                    defProximityRange = XmlSpawner.ConvertToInt(value);
+                    break;
+                }
             case "defResetRange":
-                defResetRange = XmlSpawner.ConvertToInt(value);
-                break;
+                {
+                    defResetRange = XmlSpawner.ConvertToInt(value);
+                    break;
+                }
             case "defSpeechPace":
-                defSpeechPace = XmlSpawner.ConvertToInt(value);
-                break;
+                {
+                    defSpeechPace = XmlSpawner.ConvertToInt(value);
+                    break;
+                }
             default:
-                return false;
+                {
+                    return false;
+                }
         }
 
         return true;

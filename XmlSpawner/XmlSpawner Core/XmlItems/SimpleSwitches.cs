@@ -236,9 +236,14 @@ public class SimpleLever : Item, ILinkable
                     int ltype = reader.ReadInt();
                     switch (ltype)
                     {
-                        case (int)leverType.Two_State:   this.m_LeverType = leverType.Two_State; break;
-                        case (int)leverType.Three_State: this.m_LeverType = leverType.Three_State; break;
-
+                        case (int)leverType.Two_State:
+                            {
+                                this.m_LeverType = leverType.Two_State; break;
+                            }
+                        case (int)leverType.Three_State:
+                            {
+                                this.m_LeverType = leverType.Three_State; break;
+                            }
                     }
                     this.m_TargetItem0 = reader.ReadItem();
                     this.m_TargetProperty0 = reader.ReadString();
@@ -260,22 +265,28 @@ public class SimpleLever : Item, ILinkable
             case Direction.South:
             case Direction.Right:
             case Direction.Up:
-                if (m_LeverType == leverType.Two_State)
-                    this.ItemID = 0x108c + m_LeverState * 2;
-                else
-                    this.ItemID = 0x108c + m_LeverState;
-                break;
+                {
+                    if (m_LeverType == leverType.Two_State)
+                        this.ItemID = 0x108c + m_LeverState * 2;
+                    else
+                        this.ItemID = 0x108c + m_LeverState;
+                    break;
+                }
             case Direction.East:
             case Direction.West:
             case Direction.Left:
             case Direction.Down:
-                if (m_LeverType == leverType.Two_State)
-                    this.ItemID = 0x1093 + m_LeverState * 2;
-                else
-                    this.ItemID = 0x1093 + m_LeverState;
-                break;
+                {
+                    if (m_LeverType == leverType.Two_State)
+                        this.ItemID = 0x1093 + m_LeverState * 2;
+                    else
+                        this.ItemID = 0x1093 + m_LeverState;
+                    break;
+                }
             default:
-                break;
+                {
+                    break;
+                }
         }
     }
 
@@ -567,17 +578,23 @@ public class SimpleSwitch : Item, ILinkable
             case Direction.South:
             case Direction.Right:
             case Direction.Up:
-                this.ItemID = 0x108f + m_SwitchState;
-                break;
+                {
+                    this.ItemID = 0x108f + m_SwitchState;
+                    break;
+                }
             case Direction.East:
             case Direction.West:
             case Direction.Left:
             case Direction.Down:
-                this.ItemID = 0x1091 + m_SwitchState;
-                break;
+                {
+                    this.ItemID = 0x1091 + m_SwitchState;
+                    break;
+                }
             default:
-                this.ItemID = 0x108f + m_SwitchState;
-                break;
+                {
+                    this.ItemID = 0x108f + m_SwitchState;
+                    break;
+                }
         }
     }
 

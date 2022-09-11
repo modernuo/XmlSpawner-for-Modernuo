@@ -57,7 +57,10 @@ public class XmlGetAttGump : Gump
 
     private bool TestAge(object o)
     {
-        if(Searchage <= 0) return true;
+        if(Searchage <= 0)
+        {
+            return true;
+        }
 
         if(o is XmlAttachment){
             XmlAttachment a = (XmlAttachment)o;
@@ -65,12 +68,18 @@ public class XmlGetAttGump : Gump
             if(Searchagedirection)
             {
                 // true means allow only mobs greater than the age
-                if((DateTime.Now - a.CreationTime) > TimeSpan.FromHours(Searchage)) return true;
+                if((DateTime.Now - a.CreationTime) > TimeSpan.FromHours(Searchage))
+                {
+                    return true;
+                }
             }
             else
             {
                 // false means allow only mobs less than the age
-                if((DateTime.Now - a.CreationTime) < TimeSpan.FromHours(Searchage)) return true;
+                if((DateTime.Now - a.CreationTime) < TimeSpan.FromHours(Searchage))
+                {
+                    return true;
+                }
             }
 
         }
@@ -96,12 +105,16 @@ public class XmlGetAttGump : Gump
 
         // do the search through attachments
         if(attachments != null)
+        {
             foreach(XmlAttachment i in attachments)
             {
                 bool hastype = false;
                 bool hasname = false;
 
-                if(i == null || i.Deleted ) continue;
+                if(i == null || i.Deleted )
+                {
+                    continue;
+                }
 
 
                 // check for type
@@ -109,19 +122,26 @@ public class XmlGetAttGump : Gump
                 {
                     hastype = true;
                 }
-                if(Dosearchtype && !hastype) continue;
+                if(Dosearchtype && !hastype)
+                {
+                    continue;
+                }
 
                 // check for name
                 if (Dosearchname && (i.Name != null) && (Searchname != null) && (i.Name.ToLower().IndexOf(Searchname.ToLower()) >= 0))
                 {
                     hasname = true;
                 }
-                if(Dosearchname && !hasname) continue;
+                if(Dosearchname && !hasname)
+                {
+                    continue;
+                }
 
 
                 // satisfied all conditions so add it
                 newarray.Add(i);
             }
+        }
 
         return newarray;
     }
@@ -137,7 +157,10 @@ public class XmlGetAttGump : Gump
         }
         protected override void OnTarget( Mobile from, object targeted )
         {
-            if(from == null || targeted == null) return;
+            if(from == null || targeted == null)
+            {
+                return;
+            }
 
 
             from.SendGump( new XmlGetAttGump(from, targeted, 0,0));
@@ -284,7 +307,11 @@ public class XmlGetAttGump : Gump
         for ( int i = 0;  i < MaxEntries; i++ )
         {
             int index = i + DisplayFrom;
-            if(m_SearchList == null || index >= m_SearchList.Count) break;
+            if(m_SearchList == null || index >= m_SearchList.Count)
+            {
+                break;
+            }
+
             int page = (int)(i/MaxEntriesPerPage);
             if(i%MaxEntriesPerPage == 0){
                 AddPage(page+1);
@@ -323,9 +350,15 @@ public class XmlGetAttGump : Gump
             if(m_SelectionList != null && i < m_SelectionList.Length){
                 sel = m_SelectionList[i];
             }
-            if(sel) texthue = 33;
+            if(sel)
+            {
+                texthue = 33;
+            }
 
-            if(i == Selected) texthue = 68;
+            if(i == Selected)
+            {
+                texthue = 68;
+            }
 
             // display the name
             AddImageTiled( 36, 22 * (i%MaxEntriesPerPage)  + 31, 102, 21, 0xBBC );
@@ -358,13 +391,19 @@ public class XmlGetAttGump : Gump
 
     private void DoShowProps(int index)
     {
-        if(m_From == null || m_From.Deleted) return;
+        if(m_From == null || m_From.Deleted)
+        {
+            return;
+        }
 
         if(index < m_SearchList.Count){
             object o = m_SearchList[index];
             if(o is XmlAttachment){
                 XmlAttachment x = (XmlAttachment)o;
-                if(x == null || x.Deleted ) return;
+                if(x == null || x.Deleted )
+                {
+                    return;
+                }
 
                 m_From.SendGump( new PropertiesGump( m_From, o ) );
             }
@@ -413,9 +452,13 @@ public class XmlGetAttGump : Gump
                 ystr = arglist[arglist.Length-1];
             }
             if(Dsort)
+            {
                 return String.Compare(ystr, xstr, true);
+            }
             else
+            {
                 return String.Compare(xstr, ystr, true);
+            }
         }
     }
 
@@ -440,9 +483,13 @@ public class XmlGetAttGump : Gump
                 ystr = ((XmlAttachment)y).Name;
             }
             if(Dsort)
+            {
                 return String.Compare(ystr, xstr, true);
+            }
             else
+            {
                 return String.Compare(xstr, ystr, true);
+            }
         }
     }
 
@@ -460,8 +507,11 @@ public class XmlGetAttGump : Gump
 
     public override void OnResponse( NetState state, RelayInfo info )
     {
-        if(info == null || state == null || state.Mobile == null) return;
-            
+        if(info == null || state == null || state.Mobile == null)
+        {
+            return;
+        }
+
         int radiostate = -1;
         if(info.Switches.Length > 0){
             radiostate = info.Switches[0];
@@ -489,7 +539,10 @@ public class XmlGetAttGump : Gump
                     Refresh(state);
                     int allcount = 0;
                     if(m_SearchList != null)
+                    {
                         allcount = m_SearchList.Count;
+                    }
+
                     state.Mobile.SendGump( new XmlConfirmDeleteGump(state.Mobile, m_TargetObject, m_SearchList, m_SelectionList, DisplayFrom, SelectAll, allcount) );
                     return;
                 }
@@ -497,7 +550,11 @@ public class XmlGetAttGump : Gump
             case 201: // forward block
                 {
                     // clear the selections
-                    if(m_SelectionList != null && !SelectAll) Array.Clear(m_SelectionList,0,m_SelectionList.Length);
+                    if(m_SelectionList != null && !SelectAll)
+                    {
+                        Array.Clear(m_SelectionList,0,m_SelectionList.Length);
+                    }
+
                     if(m_SearchList != null && DisplayFrom + MaxEntries < m_SearchList.Count) {
                         DisplayFrom += MaxEntries;
                         // clear any selection
@@ -508,9 +565,17 @@ public class XmlGetAttGump : Gump
             case 202: // backward block
                 {
                     // clear the selections
-                    if(m_SelectionList != null && !SelectAll) Array.Clear(m_SelectionList,0,m_SelectionList.Length);
+                    if(m_SelectionList != null && !SelectAll)
+                    {
+                        Array.Clear(m_SelectionList,0,m_SelectionList.Length);
+                    }
+
                     DisplayFrom -= MaxEntries;
-                    if(DisplayFrom < 0) DisplayFrom = 0;
+                    if(DisplayFrom < 0)
+                    {
+                        DisplayFrom = 0;
+                    }
+
                     // clear any selection
                     Selected = -1;
                     break;
@@ -521,7 +586,11 @@ public class XmlGetAttGump : Gump
                     // clear any selection
                     Selected = -1;
                     // clear the selections
-                    if(m_SelectionList != null && !SelectAll) Array.Clear(m_SelectionList,0,m_SelectionList.Length);
+                    if(m_SelectionList != null && !SelectAll)
+                    {
+                        Array.Clear(m_SelectionList,0,m_SelectionList.Length);
+                    }
+
                     Sorttype = false;
                     Sortname = false;
 
@@ -661,7 +730,10 @@ public class XmlGetAttGump : Gump
             } else
             {
                 for(int i =0;i<SelectedList.Length;i++){
-                    if(SelectedList[i]) count++;
+                    if(SelectedList[i])
+                    {
+                        count++;
+                    }
                 }
             }
 
@@ -676,7 +748,10 @@ public class XmlGetAttGump : Gump
         public override void OnResponse( NetState state, RelayInfo info )
         {
 
-            if(info == null || state == null || state.Mobile == null) return;
+            if(info == null || state == null || state.Mobile == null)
+            {
+                return;
+            }
 
             int radiostate = -1;
             if(info.Switches.Length > 0){

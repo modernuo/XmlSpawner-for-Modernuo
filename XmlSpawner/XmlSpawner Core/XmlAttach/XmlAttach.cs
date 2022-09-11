@@ -44,9 +44,15 @@ public class ASerial
         // it is possible for new attachments to be constructed before existing attachments are deserialized and the current m_globalserialvalue
         // restored.  This creates a possible serial conflict, so dont allow assignment of valid serials until proper deser of m_globalserialvalue
         // Resolve unassigned serials in initialization
-        if (!serialInitialized) return new ASerial(0);
+        if (!serialInitialized)
+        {
+            return new ASerial(0);
+        }
 
-        if (m_GlobalSerialValue == int.MaxValue || m_GlobalSerialValue < 0) m_GlobalSerialValue = 0;
+        if (m_GlobalSerialValue == int.MaxValue || m_GlobalSerialValue < 0)
+        {
+            m_GlobalSerialValue = 0;
+        }
 
         // try the next serial number in the series
         int newserialno = m_GlobalSerialValue + 1;
@@ -55,7 +61,10 @@ public class ASerial
         while (XmlAttach.AllAttachments.Contains(newserialno))
         {
             newserialno++;
-            if (newserialno == int.MaxValue || newserialno < 0) newserialno = 1;
+            if (newserialno == int.MaxValue || newserialno < 0)
+            {
+                newserialno = 1;
+            }
         }
 
         m_GlobalSerialValue = newserialno;
@@ -105,18 +114,27 @@ public class XmlAttach
 
     public static bool HasAttachments(object o)
     {
-        if (o == null) return false;
+        if (o == null)
+        {
+            return false;
+        }
 
         if (o is Item && ItemAttachments.Contains(o))
         {
             ArrayList alist = (ArrayList)ItemAttachments[o];
             // see if the attachment list is empty
-            if (alist == null || alist.Count == 0) return false;
+            if (alist == null || alist.Count == 0)
+            {
+                return false;
+            }
 
             // check to see if there are any valid attachments in the list
             foreach (XmlAttachment a in alist)
             {
-                if (!a.Deleted) return true;
+                if (!a.Deleted)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -126,12 +144,18 @@ public class XmlAttach
         {
             ArrayList alist = (ArrayList)MobileAttachments[o];
             // see if the attachment list is empty
-            if (alist == null || alist.Count == 0) return false;
+            if (alist == null || alist.Count == 0)
+            {
+                return false;
+            }
 
             // check to see if there are any valid attachments in the list
             foreach (XmlAttachment a in alist)
             {
-                if (!a.Deleted) return true;
+                if (!a.Deleted)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -204,7 +228,9 @@ public class XmlAttach
         public override bool ValidateArgs(BaseCommandImplementor impl, CommandEventArgs e)
         {
             if (e.Arguments.Length >= 1)
+            {
                 return true;
+            }
 
             e.Mobile.SendMessage("Usage: " + Usage);
             return false;
@@ -253,8 +279,9 @@ public class XmlAttach
                             count++;
                         }
                         else
+                        {
                             LogFailure(String.Format("Attachment {0} not added to {1}", attachtype.Name, list[i]));
-
+                        }
                     }
                     if (count > 0)
                     {
@@ -289,7 +316,9 @@ public class XmlAttach
         public override bool ValidateArgs(BaseCommandImplementor impl, CommandEventArgs e)
         {
             if (e.Arguments.Length >= 1)
+            {
                 return true;
+            }
 
             e.Mobile.SendMessage("Usage: " + Usage);
             return false;
@@ -358,12 +387,17 @@ public class XmlAttach
 
     public static void Save(WorldSaveEventArgs e)
     {
-        if (XmlAttach.MobileAttachments == null && XmlAttach.ItemAttachments == null) return;
+        if (XmlAttach.MobileAttachments == null && XmlAttach.ItemAttachments == null)
+        {
+            return;
+        }
 
         CleanUp();
 
         if (!Directory.Exists("Saves/Attachments"))
+        {
             Directory.CreateDirectory("Saves/Attachments");
+        }
 
         string filePath = Path.Combine("Saves/Attachments", "Attachments.bin"); // the attachment serializations
         string imaPath = Path.Combine("Saves/Attachments", "Attachments.ima");  // the item/mob attachment tables
@@ -889,11 +923,19 @@ public class XmlAttach
                 }
             }
             if (fs != null)
+            {
                 fs.Close();
+            }
+
             if (imafs != null)
+            {
                 imafs.Close();
+            }
+
             if (fpifs != null)
+            {
                 fpifs.Close();
+            }
 
             if (desererror != null)
             {
@@ -919,16 +961,25 @@ public class XmlAttach
     private static void ReportDeserError(string typestr, string detailstr)
     {
         if (desererror == null)
+        {
             desererror = new ArrayList();
+        }
 
         desererror.Add(new DeserErrorDetails(typestr, detailstr));
     }
     private static bool AlreadyReported(string typestr)
     {
-        if (desererror == null) return false;
+        if (desererror == null)
+        {
+            return false;
+        }
+
         foreach (DeserErrorDetails s in desererror)
         {
-            if (s.Type == typestr) return true;
+            if (s.Type == typestr)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -961,7 +1012,11 @@ public class XmlAttach
             {
                 foreach (Item i in equiplist)
                 {
-                    if (i == null || i.Deleted) continue;
+                    if (i == null || i.Deleted)
+                    {
+                        continue;
+                    }
+
                     alist = XmlAttach.FindAttachments(i);
                     if (alist != null)
                     {
@@ -1023,7 +1078,11 @@ public class XmlAttach
             {
                 foreach (Item i in equiplist)
                 {
-                    if (i == null || i.Deleted) continue;
+                    if (i == null || i.Deleted)
+                    {
+                        continue;
+                    }
+
                     alist = XmlAttach.FindAttachments(i);
                     if (alist != null)
                     {
@@ -1061,7 +1120,9 @@ public class XmlAttach
         Mobile from = args.Mobile;
 
         if (!from.Player /* || from.AccessLevel > AccessLevel.Player */)
+        {
             return;
+        }
 
         // check for any items in the same sector
         if (from.Map != null)
@@ -1071,7 +1132,10 @@ public class XmlAttach
             {
                 foreach (Item i in itemlist)
                 {
-                    if (i == null || i.Deleted) continue;
+                    if (i == null || i.Deleted)
+                    {
+                        continue;
+                    }
 
                     ArrayList alist = XmlAttach.FindAttachments(i);
                     if (alist != null)
@@ -1096,7 +1160,10 @@ public class XmlAttach
                 foreach (Mobile i in moblist)
                 {
                     // dont respond to self motion
-                    if (i == null || i.Deleted || i == from) continue;
+                    if (i == null || i.Deleted || i == from)
+                    {
+                        continue;
+                    }
 
                     ArrayList alist = XmlAttach.FindAttachments(i);
                     if (alist != null)
@@ -1119,7 +1186,10 @@ public class XmlAttach
     {
         Mobile from = args.Mobile;
 
-        if (from == null || from.Map == null /*|| from.AccessLevel > AccessLevel.Player */) return;
+        if (from == null || from.Map == null /*|| from.AccessLevel > AccessLevel.Player */)
+        {
+            return;
+        }
 
         // check the mob for any attachments that might handle speech
         ArrayList alist = XmlAttach.FindAttachments(from);
@@ -1140,7 +1210,10 @@ public class XmlAttach
         {
             foreach (Item i in itemlist)
             {
-                if (i == null || i.Deleted) continue;
+                if (i == null || i.Deleted)
+                {
+                    continue;
+                }
 
                 alist = XmlAttach.FindAttachments(i);
                 if (alist != null)
@@ -1164,7 +1237,10 @@ public class XmlAttach
         {
             foreach (Mobile i in moblist)
             {
-                if (i == null || i.Deleted) continue;
+                if (i == null || i.Deleted)
+                {
+                    continue;
+                }
 
                 alist = XmlAttach.FindAttachments(i);
                 if (alist != null)
@@ -1191,7 +1267,11 @@ public class XmlAttach
             {
                 foreach (Item i in packlist)
                 {
-                    if (i == null || i.Deleted) continue;
+                    if (i == null || i.Deleted)
+                    {
+                        continue;
+                    }
+
                     alist = XmlAttach.FindAttachments(i);
                     if (alist != null)
                     {
@@ -1213,7 +1293,11 @@ public class XmlAttach
         {
             foreach (Item i in equiplist)
             {
-                if (i == null || i.Deleted) continue;
+                if (i == null || i.Deleted)
+                {
+                    continue;
+                }
+
                 alist = XmlAttach.FindAttachments(i);
                 if (alist != null)
                 {
@@ -1231,7 +1315,11 @@ public class XmlAttach
 
     public static XmlAttachment FindAttachmentOnMobile(Mobile from, Type type, string name)
     {
-        if (from == null) return null;
+        if (from == null)
+        {
+            return null;
+        }
+
         // check the mob for any attachments
         ArrayList alist = XmlAttach.FindAttachments(from);
         if (alist != null)
@@ -1254,7 +1342,11 @@ public class XmlAttach
             {
                 foreach (Item i in itemlist)
                 {
-                    if (i == null || i.Deleted) continue;
+                    if (i == null || i.Deleted)
+                    {
+                        continue;
+                    }
+
                     alist = XmlAttach.FindAttachments(i);
                     if (alist != null)
                     {
@@ -1276,7 +1368,10 @@ public class XmlAttach
         {
             foreach (Item i in equiplist)
             {
-                if (i == null || i.Deleted) continue;
+                if (i == null || i.Deleted)
+                {
+                    continue;
+                }
 
                 alist = XmlAttach.FindAttachments(i);
 
@@ -1308,7 +1403,10 @@ public class XmlAttach
         }
         protected override void OnTarget(Mobile from, object targeted)
         {
-            if (from == null || targeted == null) return;
+            if (from == null || targeted == null)
+            {
+                return;
+            }
 
             Type type = null;
             string name = null;
@@ -1337,50 +1435,57 @@ public class XmlAttach
             switch (m_set)
             {
                 case "add":
-
-                    if (m_e.Arguments.Length < 1)
                     {
-                        from.SendMessage("Must specify an attachment type.");
-                        return;
-                    }
+                        if (m_e.Arguments.Length < 1)
+                        {
+                            from.SendMessage("Must specify an attachment type.");
+                            return;
+                        }
 
-                    // create a new attachment and add it to the item
-                    int nargs = m_e.Arguments.Length - 1;
+                        // create a new attachment and add it to the item
+                        int nargs = m_e.Arguments.Length - 1;
 
-                    string[] args = new string[nargs];
+                        string[] args = new string[nargs];
 
-                    for (int j = 0; j < nargs; j++)
-                    {
-                        args[j] = (string)m_e.Arguments[j + 1];
-                    }
+                        for (int j = 0; j < nargs; j++)
+                        {
+                            args[j] = (string)m_e.Arguments[j + 1];
+                        }
 
 
-                    XmlAttachment o = null;
+                        XmlAttachment o = null;
 
-                    Type attachtype = SpawnerType.GetType(m_e.Arguments[0]);
+                        Type attachtype = SpawnerType.GetType(m_e.Arguments[0]);
 
-                    if (attachtype != null && attachtype.IsSubclassOf(typeof(XmlAttachment)))
-                    {
+                        if (attachtype != null && attachtype.IsSubclassOf(typeof(XmlAttachment)))
+                        {
 
-                        o = (XmlAttachment)XmlSpawner.CreateObject(attachtype, args, false);
-                    }
+                            o = (XmlAttachment)XmlSpawner.CreateObject(attachtype, args, false);
+                        }
 
-                    if (o != null)
-                    {
-                        //o.Name = aname;
-                        if (XmlAttach.AttachTo(from, targeted, o, true))
-                            from.SendMessage("Added attachment {2} : {0} to {1}", m_e.Arguments[0], targeted, o.Serial.Value);
+                        if (o != null)
+                        {
+                            //o.Name = aname;
+                            if (XmlAttach.AttachTo(from, targeted, o, true))
+                            {
+                                from.SendMessage("Added attachment {2} : {0} to {1}", m_e.Arguments[0], targeted, o.Serial.Value);
+                            }
+                            else
+                            {
+                                from.SendMessage("Attachment not added: {0}", m_e.Arguments[0]);
+                            }
+                        }
                         else
-                            from.SendMessage("Attachment not added: {0}", m_e.Arguments[0]);
-                    }
-                    else
-                    {
-                        from.SendMessage("Unable to construct attachment {0}", m_e.Arguments[0]);
+                        {
+                            from.SendMessage("Unable to construct attachment {0}", m_e.Arguments[0]);
+                        }
+
+                        break;
                     }
 
-                    break;
                 case "get":
-                    /*
+                    {
+                        /*
                         foreach(XmlAttachment p in plist)
                         {
                             if(p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType())) continue;
@@ -1389,11 +1494,13 @@ public class XmlAttach
 
                         }
                         */
-                    from.SendGump(new XmlGetAttGump(from, targeted, 0, 0));
+                        from.SendGump(new XmlGetAttGump(from, targeted, 0, 0));
 
-                    break;
+                        break;
+                    }
                 case "delete":
-                    /*
+                    {
+                        /*
                         foreach(XmlAttachment p in plist)
                         {
                             if(p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType())) continue;
@@ -1402,19 +1509,25 @@ public class XmlAttach
                             p.Delete();
                         }
                         */
-                    from.SendGump(new XmlGetAttGump(from, targeted, 0, 0));
+                        from.SendGump(new XmlGetAttGump(from, targeted, 0, 0));
 
-                    break;
-                case "activate":
-                    foreach (XmlAttachment p in plist)
-                    {
-                        if (p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType())) continue;
-
-                        from.SendMessage("Activating attachment {3} : {0} : {1} : {2}", p.GetType().Name, p.Name, p.OnIdentify(from), p.Serial.Value);
-                        p.OnTrigger(null, from);
+                        break;
                     }
+                case "activate":
+                    {
+                        foreach (XmlAttachment p in plist)
+                        {
+                            if (p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType()))
+                            {
+                                continue;
+                            }
 
-                    break;
+                            from.SendMessage("Activating attachment {3} : {0} : {1} : {2}", p.GetType().Name, p.Name, p.OnIdentify(from), p.Serial.Value);
+                            p.OnTrigger(null, from);
+                        }
+
+                        break;
+                    }
             }
         }
     }
@@ -1450,7 +1563,9 @@ public class XmlAttach
         }
 
         if (ser == -1)
+        {
             e.Mobile.Target = new AttachTarget(e, "get");
+        }
     }
 
     [Usage("AddAtt type [args]")]
@@ -1490,7 +1605,9 @@ public class XmlAttach
         }
 
         if (ser == -1)
+        {
             e.Mobile.Target = new AttachTarget(e, "delete");
+        }
     }
 
     [Usage("TrigAtt [type [name]]")]
@@ -1504,7 +1621,10 @@ public class XmlAttach
     [Description("Lists all item attachments.")]
     public static void ListItemAttachments_OnCommand(CommandEventArgs e)
     {
-        if (ItemAttachments == null) return;
+        if (ItemAttachments == null)
+        {
+            return;
+        }
 
         XmlAttach.FullDefrag(ItemAttachments);
 
@@ -1524,7 +1644,9 @@ public class XmlAttach
                 foreach (XmlAttachment a in list)
                 {
                     if (a != null && !a.Deleted)
+                    {
                         e.Mobile.SendMessage("\t{0} : {1} : {2}", a.GetType().Name, a.Name, a.OnIdentify(e.Mobile));
+                    }
                 }
             }
         }
@@ -1533,7 +1655,10 @@ public class XmlAttach
     [Description("Lists all mobile attachments.")]
     public static void ListMobileAttachments_OnCommand(CommandEventArgs e)
     {
-        if (MobileAttachments == null) return;
+        if (MobileAttachments == null)
+        {
+            return;
+        }
 
         XmlAttach.FullDefrag(MobileAttachments);
 
@@ -1553,7 +1678,9 @@ public class XmlAttach
                 foreach (XmlAttachment a in list)
                 {
                     if (a != null && !a.Deleted)
+                    {
                         e.Mobile.SendMessage("\t{0} : {1} : {2}", a.GetType().Name, a.Name, a.OnIdentify(e.Mobile));
+                    }
                 }
             }
         }
@@ -1562,7 +1689,9 @@ public class XmlAttach
     private static void Match(Type matchtype, Type[] types, ArrayList results)
     {
         if (matchtype == null)
+        {
             return;
+        }
 
         for (int i = 0; i < types.Length; ++i)
         {
@@ -1689,11 +1818,17 @@ public class XmlAttach
 
     public static void RevealAttachments(Mobile from, object o)
     {
-        if (from == null || o == null) return;
+        if (from == null || o == null)
+        {
+            return;
+        }
 
         ArrayList plist = XmlAttach.FindAttachments(o);
 
-        if (plist == null) return;
+        if (plist == null)
+        {
+            return;
+        }
 
         string msg = null;
 
@@ -1703,7 +1838,9 @@ public class XmlAttach
             {
                 string pmsg = p.OnIdentify(from);
                 if (pmsg != null)
+                {
                     msg += String.Format("\n{0}\n", pmsg);
+                }
             }
         }
         if (msg != null)
@@ -1732,7 +1869,10 @@ public class XmlAttach
 
     private static bool AttachTo(object from, object o, XmlAttachment attachment, bool first)
     {
-        if (!(o is Item || o is Mobile) || attachment == null) return false;
+        if (!(o is Item || o is Mobile) || attachment == null)
+        {
+            return false;
+        }
 
         Hashtable attachments = null;
         if (o is Item)
@@ -1863,24 +2003,33 @@ public class XmlAttach
 
     public static ArrayList FindAttachments(Hashtable attachments, object o, Type type, string name, bool original)
     {
-        if (o == null || attachments == null) return null;
+        if (o == null || attachments == null)
+        {
+            return null;
+        }
 
-        if ((o is Item && ((Item)o).Deleted) || (o is Mobile && ((Mobile)o).Deleted)) return null;
+        if ((o is Item && ((Item)o).Deleted) || (o is Mobile && ((Mobile)o).Deleted))
+        {
+            return null;
+        }
 
         if (type == null && name == null)
         {
             if (attachments[o] != null)
             {
                 if (original)
+                {
                     return (ArrayList)attachments[o];
+                }
                 else
+                {
                     return (ArrayList)(((ArrayList)attachments[o]).Clone());
-
-
+                }
             }
             else
+            {
                 return null;
-
+            }
         }
         else
         {
@@ -1895,7 +2044,9 @@ public class XmlAttach
                 {
                     // see if it is deleted
                     if (i == null || i.Deleted)
+                    {
                         continue;
+                    }
 
                     Type itype = i.GetType();
 
@@ -1949,9 +2100,15 @@ public class XmlAttach
 
     public static XmlAttachment FindAttachment(Hashtable attachments, object o, Type type, string name)
     {
-        if (o == null || attachments == null) return null;
+        if (o == null || attachments == null)
+        {
+            return null;
+        }
 
-        if ((o is Item && ((Item)o).Deleted) || (o is Mobile && ((Mobile)o).Deleted)) return null;
+        if ((o is Item && ((Item)o).Deleted) || (o is Mobile && ((Mobile)o).Deleted))
+        {
+            return null;
+        }
 
         ArrayList list = attachments[o] as ArrayList;
         if (type == null && name == null)
@@ -1962,7 +2119,9 @@ public class XmlAttach
                 foreach (XmlAttachment i in list)
                 {
                     if (i != null && !i.Deleted)
+                    {
                         return i;
+                    }
                 }
             }
         }
@@ -1976,7 +2135,9 @@ public class XmlAttach
                 {
                     // see if it is deleted
                     if (i == null || i.Deleted)
+                    {
                         continue;
+                    }
 
                     Type itype = i.GetType();
 
@@ -1992,7 +2153,11 @@ public class XmlAttach
 
     public static XmlAttachment FindAttachmentBySerial(int serialno)
     {
-        if (serialno <= 0) return null;
+        if (serialno <= 0)
+        {
+            return null;
+        }
+
         XmlAttachment a = AllAttachments[serialno] as XmlAttachment;
 
         return a;
@@ -2045,7 +2210,9 @@ public class XmlAttach
     private static void SerialDefrag(XmlAttachment a)
     {
         if (a != null && a.Deleted)
+        {
             AllAttachments.Remove(a.Serial.Value);
+        }
     }
 
     public static void Defrag(object o)
@@ -2066,7 +2233,10 @@ public class XmlAttach
 
     private static void Defrag(Hashtable attachments, object o)
     {
-        if (o == null || attachments == null) return;
+        if (o == null || attachments == null)
+        {
+            return;
+        }
 
         bool removeall = false;
 
@@ -2089,7 +2259,9 @@ public class XmlAttach
                 {
                     // then flag for removal from the original list
                     if (defraglist == null)
+                    {
                         defraglist = new ArrayList();
+                    }
 
                     defraglist.Add(i);
                 }
@@ -2109,8 +2281,9 @@ public class XmlAttach
             }
         }
         else
+        {
             attachments.Remove(o);
-
+        }
     }
 
     public static bool CheckCanEquip(Item item, Mobile from)
@@ -2124,7 +2297,12 @@ public class XmlAttach
             foreach (XmlAttachment a in attachments)
             {
                 if (a != null && !a.Deleted)
-                    if (!a.CanEquip(from)) return false;
+                {
+                    if (!a.CanEquip(from))
+                    {
+                        return false;
+                    }
+                }
             }
         }
         return true;
@@ -2140,7 +2318,9 @@ public class XmlAttach
             foreach (XmlAttachment a in attachments)
             {
                 if (a != null && !a.Deleted)
+                {
                     a.OnEquip(from);
+                }
             }
         }
     }
@@ -2155,7 +2335,9 @@ public class XmlAttach
             foreach (XmlAttachment a in attachments)
             {
                 if (a != null && !a.Deleted)
+                {
                     a.OnRemoved(parent);
+                }
             }
         }
     }
@@ -2170,7 +2352,9 @@ public class XmlAttach
             foreach (XmlAttachment a in attachments)
             {
                 if (a != null && !a.Deleted)
+                {
                     a.OnWeaponHit(attacker, defender, weapon, damage);
+                }
             }
         }
 
@@ -2182,7 +2366,9 @@ public class XmlAttach
             foreach (XmlAttachment a in attachments)
             {
                 if (a != null && !a.Deleted)
+                {
                     a.OnWeaponHit(attacker, defender, weapon, damage);
+                }
             }
         }
     }
@@ -2203,7 +2389,9 @@ public class XmlAttach
                 foreach (XmlAttachment a in attachments)
                 {
                     if (a != null && !a.Deleted)
+                    {
                         damageTaken += a.OnArmorHit(attacker, defender, armor, weapon, damage);
+                    }
                 }
             }
         }
@@ -2213,7 +2401,10 @@ public class XmlAttach
 
     public static void AddAttachmentProperties(object parent, ObjectPropertyList list)
     {
-        if (parent == null) return;
+        if (parent == null)
+        {
+            return;
+        }
 
         string propstr = null;
 
@@ -2236,7 +2427,10 @@ public class XmlAttach
                     {
                         propstr += str;
 
-                        if (i < plist.Count - 1) propstr += "\n";
+                        if (i < plist.Count - 1)
+                        {
+                            propstr += "\n";
+                        }
                     }
 
                 }
@@ -2244,7 +2438,9 @@ public class XmlAttach
         }
 
         if (propstr != null && list != null)
+        {
             list.Add(1062613, propstr);
+        }
     }
 
     public static void UseReq(NetState state, PacketReader pvSrc)
@@ -2280,7 +2476,10 @@ public class XmlAttach
                                 if (a != null && !a.Deleted)
                                 {
                                     if (a.BlockDefaultOnUse(from, m))
+                                    {
                                         blockdefaultonuse = true;
+                                    }
+
                                     a.OnUser(m);
                                 }
                             }
@@ -2295,14 +2494,19 @@ public class XmlAttach
                                 if (a != null && !a.Deleted)
                                 {
                                     if (a.BlockDefaultOnUse(from, m))
+                                    {
                                         blockdefaultonuse = true;
+                                    }
+
                                     a.OnUse(from);
                                 }
                             }
                         }
 
                         if (!blockdefaultonuse && m != null && !m.Deleted)
+                        {
                             from.Use(m);
+                        }
                     }
                 }
                 else if (s.IsItem)
@@ -2320,7 +2524,10 @@ public class XmlAttach
                                 if (a != null && !a.Deleted)
                                 {
                                     if (a.BlockDefaultOnUse(from, item))
+                                    {
                                         blockdefaultonuse = true;
+                                    }
+
                                     a.OnUser(item);
                                 }
                             }
@@ -2335,14 +2542,19 @@ public class XmlAttach
                                 if (a != null && !a.Deleted)
                                 {
                                     if (a.BlockDefaultOnUse(from, item))
+                                    {
                                         blockdefaultonuse = true;
+                                    }
+
                                     a.OnUse(from);
                                 }
                             }
                         }
                         // need to check the item again in case it was modified in the OnUse or OnUser method
                         if (!blockdefaultonuse && item != null && !item.Deleted)
+                        {
                             from.Use(item);
+                        }
                     }
                 }
             }
@@ -2367,7 +2579,9 @@ public class XmlAttach
                 foreach (XmlAttachment a in attachments)
                 {
                     if (a != null && !a.Deleted && !a.OnDragLift(from, item))
+                    {
                         return false;
+                    }
                 }
             }
         }
@@ -2403,9 +2617,13 @@ public class XmlAttach
             message.Attachments.Add(new Attachment(filePath));
 
             if (Email.Send(message))
+            {
                 Console.WriteLine("done");
+            }
             else
+            {
                 Console.WriteLine("failed");
+            }
         }
 
         private static string GetRoot()
@@ -2423,7 +2641,9 @@ public class XmlAttach
         private static string Combine(string path1, string path2)
         {
             if (path1 == "")
+            {
                 return path2;
+            }
 
             return Path.Combine(path1, path2);
         }
@@ -2432,7 +2652,9 @@ public class XmlAttach
         private static void CreateDirectory(string path)
         {
             if (!Directory.Exists(path))
+            {
                 Directory.CreateDirectory(path);
+            }
         }
 
         private static void CreateDirectory(string path1, string path2)
@@ -2448,7 +2670,9 @@ public class XmlAttach
             try
             {
                 if (File.Exists(originPath))
+                {
                     File.Copy(originPath, backupPath);
+                }
             }
             catch
             {
@@ -2496,7 +2720,9 @@ public class XmlAttach
                 Console.WriteLine("done");
 
                 if (Email.CrashAddresses != null)
+                {
                     SendEmail(filePath);
+                }
             }
             catch
             {

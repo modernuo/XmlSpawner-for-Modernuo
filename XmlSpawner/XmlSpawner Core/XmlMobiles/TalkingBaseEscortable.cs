@@ -101,9 +101,18 @@ public class TalkingBaseEscortable : TalkingBaseCreature
 
         switch (gender)
         {
-            case -1: this.Female = Utility.RandomBool(); break;
-            case 0:  this.Female = false; break;
-            case 1:  this.Female = true; break;
+            case -1:
+                {
+                    this.Female = Utility.RandomBool(); break;
+                }
+            case 0:
+                {
+                    this.Female = false; break;
+                }
+            case 1:
+                {
+                    this.Female = true; break;
+                }
         }
 
         if ( Female )

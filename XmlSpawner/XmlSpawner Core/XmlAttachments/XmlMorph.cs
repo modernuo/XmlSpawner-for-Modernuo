@@ -87,20 +87,24 @@ public class XmlMorph : XmlAttachment
         switch(version)
         {
             case 1:
-                Range = reader.ReadInt();
-                goto case 0;
+                {
+                    Range = reader.ReadInt();
+                    goto case 0;
+                }
             case 0:
-                // version 0
+                {
+                    // version 0
     
-                m_OriginalID = reader.ReadInt();
-                m_MorphID = reader.ReadInt();
-                m_Duration = reader.ReadTimeSpan();
-                ActivationWord = reader.ReadString();
-                TimeSpan remaining = (TimeSpan)reader.ReadTimeSpan();
+                    m_OriginalID = reader.ReadInt();
+                    m_MorphID = reader.ReadInt();
+                    m_Duration = reader.ReadTimeSpan();
+                    ActivationWord = reader.ReadString();
+                    TimeSpan remaining = (TimeSpan)reader.ReadTimeSpan();
     
-                if(remaining > TimeSpan.Zero)
-                    DoTimer(remaining);
-                break;
+                    if(remaining > TimeSpan.Zero)
+                        DoTimer(remaining);
+                    break;
+                }
         }
     }
 

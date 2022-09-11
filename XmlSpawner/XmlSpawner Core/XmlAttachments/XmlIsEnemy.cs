@@ -86,8 +86,10 @@ public class XmlIsEnemy : XmlAttachment
         switch (version)
         {
             case 0:
-                this.m_TestString = reader.ReadString();
-                break;
+                {
+                    this.m_TestString = reader.ReadString();
+                    break;
+                }
         }
     }
 

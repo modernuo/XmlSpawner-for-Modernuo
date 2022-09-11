@@ -114,15 +114,19 @@ public class XmlFire : XmlAttachment
         switch(version)
         {
             case 1:
-                Range = reader.ReadInt();
-                goto case 0;
+                {
+                    Range = reader.ReadInt();
+                    goto case 0;
+                }
             case 0:
-                // version 0
-                m_Damage = reader.ReadInt();
-                Refractory = reader.ReadTimeSpan();
-                TimeSpan remaining = reader.ReadTimeSpan();
-                m_EndTime = DateTime.Now + remaining;
-                break;
+                {
+                    // version 0
+                    m_Damage = reader.ReadInt();
+                    Refractory = reader.ReadTimeSpan();
+                    TimeSpan remaining = reader.ReadTimeSpan();
+                    m_EndTime = DateTime.Now + remaining;
+                    break;
+                }
         }
     }
 

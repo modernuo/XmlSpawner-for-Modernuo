@@ -445,18 +445,20 @@ public class XmlQuestLeaders
         {
 
             case 0:
-                bool running = reader.ReadBool();
-                m_QuestLeaderboardSaveInterval = reader.ReadTimeSpan();
-                m_QuestLeaderboardSaveRanks = reader.ReadInt();
-                m_QuestLeaderboardFile = reader.ReadString();
-
-                if(running)
                 {
-                    if(m_QuestLeaderboardTimer != null) m_QuestLeaderboardTimer.Stop();
-                    m_QuestLeaderboardTimer = new QuestLeaderboardTimer(m_QuestLeaderboardFile, m_QuestLeaderboardSaveInterval, m_QuestLeaderboardSaveRanks);
-                    m_QuestLeaderboardTimer.Start();
+                    bool running = reader.ReadBool();
+                    m_QuestLeaderboardSaveInterval = reader.ReadTimeSpan();
+                    m_QuestLeaderboardSaveRanks = reader.ReadInt();
+                    m_QuestLeaderboardFile = reader.ReadString();
+
+                    if(running)
+                    {
+                        if(m_QuestLeaderboardTimer != null) m_QuestLeaderboardTimer.Stop();
+                        m_QuestLeaderboardTimer = new QuestLeaderboardTimer(m_QuestLeaderboardFile, m_QuestLeaderboardSaveInterval, m_QuestLeaderboardSaveRanks);
+                        m_QuestLeaderboardTimer.Start();
+                    }
+                    break;
                 }
-                break;
         }
 
     }

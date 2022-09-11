@@ -101,18 +101,22 @@ public class XmlSound : XmlAttachment
         switch(version)
         {
             case 1:
-                // version 1
-                proximityrange = reader.ReadInt();
-                goto case 0;
+                {
+                    // version 1
+                    proximityrange = reader.ReadInt();
+                    goto case 0;
+                }
             case 0:
-                // version 0
-                SoundValue = reader.ReadInt();
-                ActivationWord = reader.ReadString();
-                Charges = reader.ReadInt();
-                Refractory = reader.ReadTimeSpan();
-                TimeSpan remaining = reader.ReadTimeSpan();
-                m_EndTime = DateTime.Now + remaining;
-                break;
+                {
+                    // version 0
+                    SoundValue = reader.ReadInt();
+                    ActivationWord = reader.ReadString();
+                    Charges = reader.ReadInt();
+                    Refractory = reader.ReadTimeSpan();
+                    TimeSpan remaining = reader.ReadTimeSpan();
+                    m_EndTime = DateTime.Now + remaining;
+                    break;
+                }
         }
     }
 

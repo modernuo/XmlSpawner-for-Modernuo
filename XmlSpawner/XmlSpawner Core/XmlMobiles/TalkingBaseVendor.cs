@@ -789,14 +789,18 @@ public abstract class TalkingBaseVendor : BaseVendor
         switch ( version )
         {
             case 7:
-                m_EItemID = reader.ReadInt();
-                m_Duration = reader.ReadInt();
-                m_Offset = reader.ReadPoint3D();
-                m_EHue = reader.ReadInt();
-                goto case 6;
+                {
+                    m_EItemID = reader.ReadInt();
+                    m_Duration = reader.ReadInt();
+                    m_Offset = reader.ReadPoint3D();
+                    m_EHue = reader.ReadInt();
+                    goto case 6;
+                }
             case 6:
-                TalkText = reader.ReadString();
-                break;
+                {
+                    TalkText = reader.ReadString();
+                    break;
+                }
             case 5:
                 {
                     break;

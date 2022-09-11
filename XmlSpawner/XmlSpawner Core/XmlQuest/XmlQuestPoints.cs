@@ -91,14 +91,16 @@ public class XmlQuestPoints : XmlAttachment
             switch(version)
             {
                 case 0:
-                    Quester = reader.ReadMobile();
-                    Name = reader.ReadString();
-                    WhenCompleted = reader.ReadDateTime();
-                    WhenStarted = reader.ReadDateTime();
-                    Difficulty = reader.ReadInt();
-                    TimesCompleted = reader.ReadInt();
-                    PartyEnabled = reader.ReadBool();
-                    break;
+                    {
+                        Quester = reader.ReadMobile();
+                        Name = reader.ReadString();
+                        WhenCompleted = reader.ReadDateTime();
+                        WhenStarted = reader.ReadDateTime();
+                        Difficulty = reader.ReadInt();
+                        TimesCompleted = reader.ReadInt();
+                        PartyEnabled = reader.ReadBool();
+                        break;
+                    }
             }
 
         }
@@ -332,40 +334,41 @@ public class XmlQuestPoints : XmlAttachment
         switch(version)
         {
             case 0:
-
-                m_Points = reader.ReadInt();
-                m_Credits = reader.ReadInt();
-                m_Completed = reader.ReadInt();
-                m_Rank = reader.ReadInt();
-                m_DeltaRank = reader.ReadInt();
-                m_WhenRanked = reader.ReadDateTime();
-
-                int nquests = reader.ReadInt();
-
-                if(nquests > 0)
                 {
-                    QuestList = new ArrayList(nquests);
-                    for(int i = 0; i< nquests;i++)
+                    m_Points = reader.ReadInt();
+                    m_Credits = reader.ReadInt();
+                    m_Completed = reader.ReadInt();
+                    m_Rank = reader.ReadInt();
+                    m_DeltaRank = reader.ReadInt();
+                    m_WhenRanked = reader.ReadDateTime();
+
+                    int nquests = reader.ReadInt();
+
+                    if(nquests > 0)
                     {
-                        QuestEntry e = new QuestEntry();
-                        e.Deserialize(reader);
+                        QuestList = new ArrayList(nquests);
+                        for(int i = 0; i< nquests;i++)
+                        {
+                            QuestEntry e = new QuestEntry();
+                            e.Deserialize(reader);
 
-                        QuestList.Add(e);
+                            QuestList.Add(e);
+                        }
                     }
+
+
+
+                    // get the owner of this in order to rebuild the rankings
+                    Mobile quester = reader.ReadMobile();
+
+                    // rebuild the ranking list
+                    // if they have never made a kill, then dont rank
+                    if(quester != null && QuestsCompleted > 0)
+                    {
+                        XmlQuestLeaders.UpdateQuestRanking(quester, this);
+                    }
+                    break;
                 }
-
-
-
-                // get the owner of this in order to rebuild the rankings
-                Mobile quester = reader.ReadMobile();
-
-                // rebuild the ranking list
-                // if they have never made a kill, then dont rank
-                if(quester != null && QuestsCompleted > 0)
-                {
-                    XmlQuestLeaders.UpdateQuestRanking(quester, this);
-                }
-                break;
         }
     }
 

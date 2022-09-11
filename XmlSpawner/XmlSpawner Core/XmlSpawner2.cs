@@ -2787,42 +2787,66 @@ namespace Server.Mobiles
             switch (argname)
             {
                 case "XmlSpawnDir":
-                    XmlSpawnDir = value;
-                    break;
+                    {
+                        XmlSpawnDir = value;
+                        break;
+                    }
                 case "DiskAccessLevel":
-                    DiskAccessLevel = (AccessLevel)Enum.Parse(typeof(AccessLevel), value, true);
-                    break;
+                    {
+                        DiskAccessLevel = (AccessLevel)Enum.Parse(typeof(AccessLevel), value, true);
+                        break;
+                    }
                 case "SmartSpawnAccessLevel":
-                    SmartSpawnAccessLevel = (AccessLevel)Enum.Parse(typeof(AccessLevel), value, true);
-                    break;
+                    {
+                        SmartSpawnAccessLevel = (AccessLevel)Enum.Parse(typeof(AccessLevel), value, true);
+                        break;
+                    }
                 case "defaultTriggerSound":
-                    defaultTriggerSound = ConvertToInt(value);
-                    defProximityTriggerSound = defaultTriggerSound;
-                    break;
+                    {
+                        defaultTriggerSound = ConvertToInt(value);
+                        defProximityTriggerSound = defaultTriggerSound;
+                        break;
+                    }
                 case "BaseItemId":
-                    BaseItemId = ConvertToInt(value);
-                    break;
+                    {
+                        BaseItemId = ConvertToInt(value);
+                        break;
+                    }
                 case "ShowItemId":
-                    ShowItemId = ConvertToInt(value);
-                    break;
+                    {
+                        ShowItemId = ConvertToInt(value);
+                        break;
+                    }
                 case "MaxMoveCheck":
-                    MaxMoveCheck = ConvertToInt(value);
-                    break;
+                    {
+                        MaxMoveCheck = ConvertToInt(value);
+                        break;
+                    }
                 case "defMinDelay":
-                    defMinDelay = TimeSpan.FromMinutes(ConvertToInt(value));
-                    break;
+                    {
+                        defMinDelay = TimeSpan.FromMinutes(ConvertToInt(value));
+                        break;
+                    }
                 case "defMaxDelay":
-                    defMaxDelay = TimeSpan.FromMinutes(ConvertToInt(value));
-                    break;
+                    {
+                        defMaxDelay = TimeSpan.FromMinutes(ConvertToInt(value));
+                        break;
+                    }
                 case "defRelativeHome":
-                    defRelativeHome = bool.Parse(value);
-                    break;
+                    {
+                        defRelativeHome = bool.Parse(value);
+                        break;
+                    }
                 case "defSpawnRange":
-                    defSpawnRange = ConvertToInt(value);
-                    break;
+                    {
+                        defSpawnRange = ConvertToInt(value);
+                        break;
+                    }
                 case "defHomeRange":
-                    defHomeRange = ConvertToInt(value);
-                    break;
+                    {
+                        defHomeRange = ConvertToInt(value);
+                        break;
+                    }
                 case "BlockKeyword":
                     {
                         // parse the keyword list and remove them from the keyword hashtables
@@ -2840,11 +2864,15 @@ namespace Server.Mobiles
                     }
                 case "BlockCommand":
                 case "ChangeCommand":
-                    // delay processing of these settings until after all commands have been registered in their Initialize methods
-                    Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(DelayedAssignSettings), new object[] { argname, value });
-                    break;
+                    {
+                        // delay processing of these settings until after all commands have been registered in their Initialize methods
+                        Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(DelayedAssignSettings), new object[] { argname, value });
+                        break;
+                    }
                 default:
-                    return false;
+                    {
+                        return false;
+                    }
             }
 
             return true;

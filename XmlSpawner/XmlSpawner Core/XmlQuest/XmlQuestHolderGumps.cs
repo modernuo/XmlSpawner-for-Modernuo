@@ -40,94 +40,108 @@ public class XmlQuestStatusGump : Gump
                 switch (arglist[0])
                 {
                     case "GIVE":
-                        // format for the objective string will be GIVE,mobname,itemtype[,count][,proptest]
-                        if (arglist.Length > 2)
                         {
-                            mobname = arglist[1];
-                            //name = arglist[2];
-                            type = arglist[2];
+                            // format for the objective string will be GIVE,mobname,itemtype[,count][,proptest]
+                            if (arglist.Length > 2)
+                            {
+                                mobname = arglist[1];
+                                //name = arglist[2];
+                                type = arglist[2];
+                            }
+
+                            XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+
+                            foundgive = true;
+                            break;
                         }
-
-                        XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
-
-                        foundgive = true;
-                        break;
                     case "GIVENAMED":
-                        // format for the objective string will be GIVENAMED,mobname,itemname[,type][,count][,proptest]
-                        if (arglist.Length > 2)
                         {
-                            mobname = arglist[1];
-                            name = arglist[2];
+                            // format for the objective string will be GIVENAMED,mobname,itemname[,type][,count][,proptest]
+                            if (arglist.Length > 2)
+                            {
+                                mobname = arglist[1];
+                                name = arglist[2];
+                            }
+
+                            XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+
+                            if (typestr != null) type = typestr;
+
+                            foundgive = true;
+                            break;
                         }
-
-                        XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
-
-                        if (typestr != null) type = typestr;
-
-                        foundgive = true;
-                        break;
                     case "KILL":
-                        // format for the objective string will be KILL,mobtype[,count][,proptest]
-
-                        if (arglist.Length > 1)
                         {
-                            //name = arglist[1];
-                            type = arglist[1];
+                            // format for the objective string will be KILL,mobtype[,count][,proptest]
+
+                            if (arglist.Length > 1)
+                            {
+                                //name = arglist[1];
+                                type = arglist[1];
+                            }
+
+                            XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+
+                            foundkill = true;
+                            break;
                         }
-
-                        XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
-
-                        foundkill = true;
-                        break;
 
                     case "KILLNAMED":
-                        // format for the objective string KILLNAMED,mobname[,type][,count][,proptest]
-                        if (arglist.Length > 1)
                         {
-                            name = arglist[1];
+                            // format for the objective string KILLNAMED,mobname[,type][,count][,proptest]
+                            if (arglist.Length > 1)
+                            {
+                                name = arglist[1];
+                            }
+
+                            XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+
+                            if (typestr != null) type = typestr;
+
+                            foundkill = true;
+                            break;
                         }
-
-                        XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
-
-                        if (typestr != null) type = typestr;
-
-                        foundkill = true;
-                        break;
                     case "COLLECT":
-                        // format for the objective string will be COLLECT,itemtype[,count][,proptest]
-                        if (arglist.Length > 1)
                         {
-                            //name = arglist[1];
-                            type = arglist[1];
+                            // format for the objective string will be COLLECT,itemtype[,count][,proptest]
+                            if (arglist.Length > 1)
+                            {
+                                //name = arglist[1];
+                                type = arglist[1];
+                            }
+
+                            XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+
+
+
+                            foundcollect = true;
+                            break;
                         }
-
-                        XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
-
-
-
-                        foundcollect = true;
-                        break;
                     case "COLLECTNAMED":
-                        // format for the objective string will be COLLECTNAMED,itemname[,itemtype][,count][,proptest]
-                        if (arglist.Length > 1)
                         {
-                            name = arglist[1];
+                            // format for the objective string will be COLLECTNAMED,itemname[,itemtype][,count][,proptest]
+                            if (arglist.Length > 1)
+                            {
+                                name = arglist[1];
+                            }
+
+                            XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+
+                            if (typestr != null) type = typestr;
+
+                            foundcollect = true;
+                            break;
                         }
-
-                        XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
-
-                        if (typestr != null) type = typestr;
-
-                        foundcollect = true;
-                        break;
                     case "ESCORT":
-                        // format for the objective string will be ESCORT,mobname[,proptest]
-                        if (arglist.Length > 1)
                         {
-                            name = arglist[1];
+                            // format for the objective string will be ESCORT,mobname[,proptest]
+                            if (arglist.Length > 1)
+                            {
+                                name = arglist[1];
+                            }
+                            foundescort = true;
+                            break;
                         }
-                        foundescort = true;
-                        break;
                 }
 
             if (foundkill)
@@ -494,48 +508,58 @@ public class XmlQuestStatusGump : Gump
         switch (info.ButtonID)
         {
             case 700:
-                state.Mobile.Target = new XmlQuest.GetCollectTarget(m_questitem);
-                state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, m_screen));
-                break;
-            case 800:
-                if (m_questitem.RewardItem != null || m_questitem.RewardAttachment != null)
                 {
-                    // open a new status gump
+                    state.Mobile.Target = new XmlQuest.GetCollectTarget(m_questitem);
                     state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, m_screen));
+                    break;
                 }
-                // display the reward item
-                if (m_questitem.RewardItem != null)
+            case 800:
                 {
-                    // show the contents of the xmlquest pack
-                    if (m_questitem.Pack != null)
-                        m_questitem.Pack.DisplayTo(state.Mobile);
+                    if (m_questitem.RewardItem != null || m_questitem.RewardAttachment != null)
+                    {
+                        // open a new status gump
+                        state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, m_screen));
+                    }
+                    // display the reward item
+                    if (m_questitem.RewardItem != null)
+                    {
+                        // show the contents of the xmlquest pack
+                        if (m_questitem.Pack != null)
+                            m_questitem.Pack.DisplayTo(state.Mobile);
+                    }
+                    // identify the reward attachment
+                    if (m_questitem.RewardAttachment != null)
+                    {
+                        //state.Mobile.SendMessage("{0}",m_questitem.RewardAttachment.OnIdentify(state.Mobile));
+                        state.Mobile.CloseGump(typeof(DisplayAttachmentGump));
+                        state.Mobile.SendGump(new DisplayAttachmentGump(state.Mobile, m_questitem.RewardAttachment.OnIdentify(state.Mobile)));
+                    }
+                    break;
                 }
-                // identify the reward attachment
-                if (m_questitem.RewardAttachment != null)
-                {
-                    //state.Mobile.SendMessage("{0}",m_questitem.RewardAttachment.OnIdentify(state.Mobile));
-                    state.Mobile.CloseGump(typeof(DisplayAttachmentGump));
-                    state.Mobile.SendGump(new DisplayAttachmentGump(state.Mobile, m_questitem.RewardAttachment.OnIdentify(state.Mobile)));
-                }
-                break;
             case 900:
-                // open a new status gump with status display
-                state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, 0));
-                break;
-            case 901:
-                // open a new status gump with journal display
-                state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, 1));
-                break;
-            case 952:
-                // open a new status gump with journal display
-                state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, 1));
-                // and open the journal entry editing gump
-                // only allow this to be used if the questholder is theirs
-                if (m_questitem.Owner == state.Mobile)
                 {
-                    state.Mobile.SendGump(new JournalEntryGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid));
+                    // open a new status gump with status display
+                    state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, 0));
+                    break;
                 }
-                break;
+            case 901:
+                {
+                    // open a new status gump with journal display
+                    state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, 1));
+                    break;
+                }
+            case 952:
+                {
+                    // open a new status gump with journal display
+                    state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, 1));
+                    // and open the journal entry editing gump
+                    // only allow this to be used if the questholder is theirs
+                    if (m_questitem.Owner == state.Mobile)
+                    {
+                        state.Mobile.SendGump(new JournalEntryGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid));
+                    }
+                    break;
+                }
         }
     }
 
@@ -637,8 +661,10 @@ public class XmlQuestStatusGump : Gump
                         break;
                     }
                 default:
-                    update_entry = true;
-                    break;
+                    {
+                        update_entry = true;
+                        break;
+                    }
             }
 
             if (update_entry)

@@ -285,22 +285,24 @@ public class XmlAnimate : XmlAttachment
         switch (version)
         {
             case 0:
-                // version 0
-                this.m_CurrentCount = reader.ReadInt();
-                this.m_LoopCount = reader.ReadInt();
-                this.m_LoopDelay = reader.ReadInt();
-                this.m_ProximityRange = reader.ReadInt();
-                this.m_AnimationValue = reader.ReadInt();
-                this.m_FrameCount = reader.ReadInt();
-                this.m_RepeatCount = reader.ReadInt();
-                this.m_AnimationDelay = reader.ReadInt();
-                this.m_Forward = reader.ReadBool();
-                this.m_Repeat = reader.ReadBool();
-                this.m_ActivationWord = reader.ReadString();
-                this.m_Refractory = reader.ReadTimeSpan();
-                TimeSpan remaining = reader.ReadTimeSpan();
-                this.m_EndTime = DateTime.UtcNow + remaining;
-                break;
+                {
+                    // version 0
+                    this.m_CurrentCount = reader.ReadInt();
+                    this.m_LoopCount = reader.ReadInt();
+                    this.m_LoopDelay = reader.ReadInt();
+                    this.m_ProximityRange = reader.ReadInt();
+                    this.m_AnimationValue = reader.ReadInt();
+                    this.m_FrameCount = reader.ReadInt();
+                    this.m_RepeatCount = reader.ReadInt();
+                    this.m_AnimationDelay = reader.ReadInt();
+                    this.m_Forward = reader.ReadBool();
+                    this.m_Repeat = reader.ReadBool();
+                    this.m_ActivationWord = reader.ReadString();
+                    this.m_Refractory = reader.ReadTimeSpan();
+                    TimeSpan remaining = reader.ReadTimeSpan();
+                    this.m_EndTime = DateTime.UtcNow + remaining;
+                    break;
+                }
         }
 
         // restart any animation loops that were active

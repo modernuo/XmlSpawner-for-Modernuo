@@ -126,12 +126,16 @@ public class XmlRestrictEquip : XmlAttachment
         switch (version)
         {
             case 1:
-                this.m_PropertyListString = reader.ReadString();
-                this.m_FailMsg = reader.ReadString();
-                goto case 0;
+                {
+                    this.m_PropertyListString = reader.ReadString();
+                    this.m_FailMsg = reader.ReadString();
+                    goto case 0;
+                }
             case 0:
-                this.m_TestValue = reader.ReadString();
-                break;
+                {
+                    this.m_TestValue = reader.ReadString();
+                    break;
+                }
         }
     }
 

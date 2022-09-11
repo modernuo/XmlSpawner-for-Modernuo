@@ -268,8 +268,10 @@ public class XmlSpawnerAddon : BaseAddon
         switch (version)
         {
             case 1:
-                PartialVisibility = reader.ReadInt();
-                break;
+                {
+                    PartialVisibility = reader.ReadInt();
+                    break;
+                }
         }
     }
 }

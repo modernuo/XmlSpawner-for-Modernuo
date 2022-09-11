@@ -1504,54 +1504,62 @@ public abstract class XmlQuest
         {
             case "COLLECT":
             case "KILL":
-                XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
-                if (arglist.Length > 1)
                 {
-                    if (SpawnerType.GetType(arglist[1]) == null)
+                    XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+                    if (arglist.Length > 1)
                     {
-                        status_str = "Invalid type: " + arglist[1];
+                        if (SpawnerType.GetType(arglist[1]) == null)
+                        {
+                            status_str = "Invalid type: " + arglist[1];
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        status_str = arglist[0] + "missing args";
                         return false;
                     }
+                    break;
                 }
-                else
-                {
-                    status_str = arglist[0] + "missing args";
-                    return false;
-                }
-                break;
             case "COLLECTNAMED":
             case "KILLNAMED":
-                XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
-                if (arglist.Length < 1)
                 {
-                    status_str = arglist[0] + "missing args";
-                    return false;
-                }
-                break;
-            case "GIVENAMED":
-                XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
-                if (arglist.Length < 1)
-                {
-                    status_str = arglist[0] + "missing args";
-                    return false;
-                }
-                break;
-            case "GIVE":
-                XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
-                if (arglist.Length > 2)
-                {
-                    if (SpawnerType.GetType(arglist[2]) == null)
+                    XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+                    if (arglist.Length < 1)
                     {
-                        status_str = "Invalid type: " + arglist[2];
+                        status_str = arglist[0] + "missing args";
                         return false;
                     }
+                    break;
                 }
-                else
+            case "GIVENAMED":
                 {
-                    status_str = arglist[0] + "missing args";
-                    return false;
+                    XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+                    if (arglist.Length < 1)
+                    {
+                        status_str = arglist[0] + "missing args";
+                        return false;
+                    }
+                    break;
                 }
-                break;
+            case "GIVE":
+                {
+                    XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+                    if (arglist.Length > 2)
+                    {
+                        if (SpawnerType.GetType(arglist[2]) == null)
+                        {
+                            status_str = "Invalid type: " + arglist[2];
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        status_str = arglist[0] + "missing args";
+                        return false;
+                    }
+                    break;
+                }
         }
 
 

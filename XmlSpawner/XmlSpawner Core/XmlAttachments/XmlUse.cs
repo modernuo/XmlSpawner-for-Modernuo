@@ -136,33 +136,41 @@ public class XmlUse : XmlAttachment
         switch (version)
         {
             case 3:
-                m_MaxTargetRange = reader.ReadInt();
-                goto case 2;
+                {
+                    m_MaxTargetRange = reader.ReadInt();
+                    goto case 2;
+                }
             case 2:
-                m_TargetingEnabled = reader.ReadBool();
-                m_TargetingAction = reader.ReadString();
-                m_TargetCondition = reader.ReadString();
-                m_TargetFailureAction = reader.ReadString();
-                goto case 1;
+                {
+                    m_TargetingEnabled = reader.ReadBool();
+                    m_TargetingAction = reader.ReadString();
+                    m_TargetCondition = reader.ReadString();
+                    m_TargetFailureAction = reader.ReadString();
+                    goto case 1;
+                }
             case 1:
-                m_AllowCarried = reader.ReadBool();
-                goto case 0;
+                {
+                    m_AllowCarried = reader.ReadBool();
+                    goto case 0;
+                }
             case 0:
-                // version 0
-                m_RequireLOS = reader.ReadBool();
-                m_MaxRange = reader.ReadInt();
-                Refractory = reader.ReadTimeSpan();
-                TimeSpan remaining = reader.ReadTimeSpan();
-                m_EndTime = DateTime.Now + remaining;
-                m_MaxUses = reader.ReadInt();
-                m_NUses = reader.ReadInt();
-                m_BlockDefaultUse = reader.ReadBool();
-                m_Condition = reader.ReadString();
-                m_SuccessAction = reader.ReadString();
-                m_FailureAction = reader.ReadString();
-                m_RefractoryAction = reader.ReadString();
-                m_MaxUsesAction = reader.ReadString();
-                break;
+                {
+                    // version 0
+                    m_RequireLOS = reader.ReadBool();
+                    m_MaxRange = reader.ReadInt();
+                    Refractory = reader.ReadTimeSpan();
+                    TimeSpan remaining = reader.ReadTimeSpan();
+                    m_EndTime = DateTime.Now + remaining;
+                    m_MaxUses = reader.ReadInt();
+                    m_NUses = reader.ReadInt();
+                    m_BlockDefaultUse = reader.ReadBool();
+                    m_Condition = reader.ReadString();
+                    m_SuccessAction = reader.ReadString();
+                    m_FailureAction = reader.ReadString();
+                    m_RefractoryAction = reader.ReadString();
+                    m_MaxUsesAction = reader.ReadString();
+                    break;
+                }
         }
     }
 

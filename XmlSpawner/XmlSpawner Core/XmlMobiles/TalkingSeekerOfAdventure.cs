@@ -29,12 +29,30 @@ public class TalkingSeekerOfAdventure : TalkingBaseEscortable
         switch ( Utility.Random( 6 ) )
         {
             default:
-            case 0: return 0;
-            case 1: return Utility.RandomBlueHue();
-            case 2: return Utility.RandomGreenHue();
-            case 3: return Utility.RandomRedHue();
-            case 4: return Utility.RandomYellowHue();
-            case 5: return Utility.RandomNeutralHue();
+            case 0:
+                {
+                    return 0;
+                }
+            case 1:
+                {
+                    return Utility.RandomBlueHue();
+                }
+            case 2:
+                {
+                    return Utility.RandomGreenHue();
+                }
+            case 3:
+                {
+                    return Utility.RandomRedHue();
+                }
+            case 4:
+                {
+                    return Utility.RandomYellowHue();
+                }
+            case 5:
+                {
+                    return Utility.RandomNeutralHue();
+                }
         }
     }
 

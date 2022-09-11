@@ -444,9 +444,14 @@ public class TimedLever : XmlLatch, ILinkable
                     int ltype = reader.ReadInt();
                     switch( ltype )
                     {
-                        case (int)leverType.Two_State:   this.m_LeverType = leverType.Two_State;	break;
-                        case (int)leverType.Three_State: this.m_LeverType = leverType.Three_State;	break;
-                      
+                        case (int)leverType.Two_State:
+                            {
+                                this.m_LeverType = leverType.Two_State;	break;
+                            }
+                        case (int)leverType.Three_State:
+                            {
+                                this.m_LeverType = leverType.Three_State;	break;
+                            }
                     }
                     this.m_TargetItem0 = reader.ReadItem();
                     this.m_TargetProperty0 = reader.ReadString();
@@ -470,22 +475,28 @@ public class TimedLever : XmlLatch, ILinkable
             case Direction.South:
             case Direction.Right:
             case Direction.Up:
-                if(m_LeverType == leverType.Two_State)
-                    this.ItemID = 0x108c+ State*2;
-                else
-                    this.ItemID = 0x108c+ State;
-                break;
+                {
+                    if(m_LeverType == leverType.Two_State)
+                        this.ItemID = 0x108c+ State*2;
+                    else
+                        this.ItemID = 0x108c+ State;
+                    break;
+                }
             case Direction.East:
             case Direction.West:
             case Direction.Left:
             case Direction.Down:
-                if(m_LeverType == leverType.Two_State)
-                    this.ItemID = 0x1093+ State*2;
-                else
-                    this.ItemID = 0x1093+ State;
-                break;
+                {
+                    if(m_LeverType == leverType.Two_State)
+                        this.ItemID = 0x1093+ State*2;
+                    else
+                        this.ItemID = 0x1093+ State;
+                    break;
+                }
             default:
-                break;
+                {
+                    break;
+                }
         }
     }
 
@@ -733,17 +744,23 @@ public class TimedSwitch : XmlLatch, ILinkable
             case Direction.South:
             case Direction.Right:
             case Direction.Up:
-                this.ItemID = 0x108f+ State;
-                break;
+                {
+                    this.ItemID = 0x108f+ State;
+                    break;
+                }
             case Direction.East:
             case Direction.West:
             case Direction.Left:
             case Direction.Down:
-                this.ItemID = 0x1091+ State;
-                break;
+                {
+                    this.ItemID = 0x1091+ State;
+                    break;
+                }
             default:
-                this.ItemID = 0x108f+ State;
-                break;
+                {
+                    this.ItemID = 0x108f+ State;
+                    break;
+                }
         }
     }
 
@@ -1048,11 +1065,15 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         switch(State)
         {
             case 0:
-                this.ItemID = ItemID0;
-                break;
+                {
+                    this.ItemID = ItemID0;
+                    break;
+                }
             case 1:
-                this.ItemID = ItemID1;
-                break;
+                {
+                    this.ItemID = ItemID1;
+                    break;
+                }
         }
     }
 
@@ -1062,11 +1083,15 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         switch (State)
         {
             case 0:
-                Location = new Point3D(X - m_Offset.X, Y - m_Offset.Y, Z - m_Offset.Z);
-                break;
+                {
+                    Location = new Point3D(X - m_Offset.X, Y - m_Offset.Y, Z - m_Offset.Z);
+                    break;
+                }
             case 1:
-                Location = new Point3D(X + m_Offset.X, Y + m_Offset.Y, Z + m_Offset.Z);
-                break;
+                {
+                    Location = new Point3D(X + m_Offset.X, Y + m_Offset.Y, Z + m_Offset.Z);
+                    break;
+                }
         }
     }
 
