@@ -430,7 +430,8 @@ public class BaseXmlSpawner
     public static string TagInfo(KeywordTag tag)
     {
         if (tag != null)
-            return (string.Format("{0} : type={1} cond={2} go={3} del={4} end={5}", tag.Typename, tag.Type, tag.m_Condition, tag.m_Goto, tag.m_Delay, tag.m_End));
+            return (
+                $"{tag.Typename} : type={tag.Type} cond={tag.m_Condition} go={tag.m_Goto} del={tag.m_Delay} end={tag.m_End}");
 
         return null;
     }
@@ -494,11 +495,11 @@ public class BaseXmlSpawner
         else if (IsChar(type))
             toString = string.Format("'{0}' ({1} [0x{1:X}])", value, (int)value);
         else if (IsString(type))
-            toString = string.Format("\"{0}\"", value);
+            toString = $"\"{value}\"";
         else
             toString = value.ToString();
 
-        return string.Format("{0} = {1}", p.Name, toString);
+        return $"{p.Name} = {toString}";
     }
 
     public static bool IsItem(Type type)
@@ -908,14 +909,14 @@ public class BaseXmlSpawner
                 {
                     ptype = ((Mobile)o).Serial.GetType();
 
-                    return string.Format("Serial = {0}", ((Mobile)o).Serial);
+                    return $"Serial = {((Mobile)o).Serial}";
                 }
 
                 if (o is Item)
                 {
                     ptype = ((Item)o).Serial.GetType();
 
-                    return string.Format("Serial = {0}", ((Item)o).Serial);
+                    return $"Serial = {((Item)o).Serial}";
                 }
 
                 return "Object is not item/mobile";
@@ -928,7 +929,7 @@ public class BaseXmlSpawner
         {
             ptype = typeof(Type);
 
-            return string.Format("Type = {0}", o.GetType().Name);
+            return $"Type = {o.GetType().Name}";
 
         }
 
@@ -1190,7 +1191,7 @@ public class BaseXmlSpawner
                                     int min, max;
                                     if (int.TryParse(value_keywordargs[1], out min) && int.TryParse(value_keywordargs[2], out max))
                                     {
-                                        incvalue = string.Format("{0}", Utility.RandomMinMax(min, max));
+                                        incvalue = $"{Utility.RandomMinMax(min, max)}";
                                     }
                                     else { status_str = "Invalid INC args : " + arglist[1]; no_error = false; }
                                 }
@@ -1206,7 +1207,7 @@ public class BaseXmlSpawner
                                 // see if it was successful
                                 if (ptype == null)
                                 {
-                                    status_str = string.Format("Cant find {0}", arglist[0]);
+                                    status_str = $"Cant find {arglist[0]}";
                                     no_error = false;
                                 }
                                 else
@@ -2153,7 +2154,7 @@ public class BaseXmlSpawner
 
             for (int i = 0; i < packlist.Count; ++i)
             {
-                Item item = (Item)packlist[i];
+                Item item = packlist[i];
 
                 // dont search bank boxes
                 if (item is BankBox && !searchbank && !equippedonly) continue;
@@ -2220,7 +2221,7 @@ public class BaseXmlSpawner
 
             for (int i = 0; i < packlist.Count; ++i)
             {
-                Item item = (Item)packlist[i];
+                Item item = packlist[i];
 
                 if (item != null && !item.Deleted)
                 {
@@ -3577,13 +3578,13 @@ public class BaseXmlSpawner
                                 Mobile dummy = FindMobileByName(spawner, CommandMobileName, "Mobile");
                                 if (dummy != null)
                                 {
-                                    CommandSystem.Handle(dummy, string.Format("{0}{1}", CommandSystem.Prefix, arglist[1]));
+                                    CommandSystem.Handle(dummy, $"{CommandSystem.Prefix}{arglist[1]}");
                                 }
                             }
                             else
                             if (triggermob != null && !triggermob.Deleted)
                             {
-                                CommandSystem.Handle(triggermob, string.Format("{0}{1}", CommandSystem.Prefix, arglist[1]));
+                                CommandSystem.Handle(triggermob, $"{CommandSystem.Prefix}{arglist[1]}");
                             }
                         }
                         else

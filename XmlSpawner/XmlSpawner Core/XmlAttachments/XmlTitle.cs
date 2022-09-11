@@ -87,9 +87,9 @@ public class XmlTitle : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
-        writer.Write((string)this.m_Title);
+        writer.Write(this.m_Title);
     }
 
     public override void Deserialize(IGenericReader reader)

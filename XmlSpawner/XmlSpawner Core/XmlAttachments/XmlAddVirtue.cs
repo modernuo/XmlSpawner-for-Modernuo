@@ -33,7 +33,7 @@ public class XmlAddVirtue : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(m_DataValue);
         writer.Write(m_Virtue);
@@ -59,7 +59,7 @@ public class XmlAddVirtue : XmlAttachment
         {
             // for players just add it immediately
             // lookup the virtue type
-            VirtueName g = (VirtueName)0;
+            VirtueName g = 0;
             bool valid = true;
             bool gainedPath = false;
             try{
@@ -101,7 +101,7 @@ public class XmlAddVirtue : XmlAttachment
 
         if(killer == null) return;
 
-        VirtueName g = (VirtueName)0;
+        VirtueName g = 0;
         bool valid = true;
         bool gainedPath = false;
         try{
@@ -127,7 +127,7 @@ public class XmlAddVirtue : XmlAttachment
     public override string OnIdentify(Mobile from)
     {
 
-        return String.Format("{0} {1} Virtue points", Value, Virtue);
+        return $"{Value} {Virtue} Virtue points";
 
     }
 }

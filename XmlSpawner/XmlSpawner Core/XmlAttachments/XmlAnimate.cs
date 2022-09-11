@@ -260,7 +260,7 @@ public class XmlAnimate : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
         writer.Write(this.m_CurrentCount);
         writer.Write(this.m_LoopCount);
@@ -317,7 +317,8 @@ public class XmlAnimate : XmlAttachment
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
             return null;
 
-        string msg = String.Format("Animation #{0},{1} : {2} secs between uses", this.AnimationValue, this.FrameCount, this.Refractory.TotalSeconds);
+        string msg =
+            $"Animation #{this.AnimationValue},{this.FrameCount} : {this.Refractory.TotalSeconds} secs between uses";
 
         if (this.ActivationWord == null)
         {
@@ -325,7 +326,7 @@ public class XmlAnimate : XmlAttachment
         }
         else
         {
-            return String.Format("{0} : trigger on '{1}'", msg, this.ActivationWord);
+            return $"{msg} : trigger on '{this.ActivationWord}'";
         }
     }
 

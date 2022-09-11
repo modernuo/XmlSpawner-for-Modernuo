@@ -110,7 +110,7 @@ public class XmlRestrictEquip : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)1);
+        writer.Write(1);
         // version 1
         writer.Write(this.m_PropertyListString);
         writer.Write(this.m_FailMsg);
@@ -151,11 +151,11 @@ public class XmlRestrictEquip : XmlAttachment
 
         if (this.Expiration > TimeSpan.Zero)
         {
-            return String.Format("{0}: RestrictEquip '{1}' expires in {2} mins", this.Name, this.Test, this.Expiration.TotalMinutes);
+            return $"{this.Name}: RestrictEquip '{this.Test}' expires in {this.Expiration.TotalMinutes} mins";
         }
         else
         {
-            return String.Format("{0}: RestrictEquip '{1}'", this.Name, this.Test);
+            return $"{this.Name}: RestrictEquip '{this.Test}'";
         }
     }
 }

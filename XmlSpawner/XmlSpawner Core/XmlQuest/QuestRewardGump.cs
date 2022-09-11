@@ -49,7 +49,7 @@ public class QuestRewardGump : Gump
 
         AddHtml( 40, 20, 350, 50, "Rewards Available for Purchase with QuestPoints Credits", false, false );
 			
-        AddLabel( 400, 20, 0, String.Format("Available Credits: {0}", XmlQuestPoints.GetCredits(from) ));
+        AddLabel( 400, 20, 0, $"Available Credits: {XmlQuestPoints.GetCredits(from)}");
 
         //AddButton( 30, height - 35, 0xFB7, 0xFB9, 0, GumpButtonType.Reply, 0 );
         //AddLabel( 70, height - 35, 0, "Close" );
@@ -57,7 +57,7 @@ public class QuestRewardGump : Gump
         // put the page buttons in the lower right corner
         if(Rewards != null && Rewards.Count > 0)
         {
-            AddLabel( width - 165, height - 35, 0, String.Format("Page: {0}/{1}", viewpage+1, (int)(Rewards.Count/maxItemsPerPage)+1));
+            AddLabel( width - 165, height - 35, 0, $"Page: {viewpage + 1}/{Rewards.Count / maxItemsPerPage + 1}");
 
             // page up and down buttons
             AddButton( width - 55, height - 35, 0x15E0, 0x15E4, 13, GumpButtonType.Reply, 0 );
@@ -74,7 +74,7 @@ public class QuestRewardGump : Gump
             int y = 50;
             for(int i = 0; i < Rewards.Count; i++)
             {
-                if((int)(i/maxItemsPerPage) != viewpage) continue;
+                if(i/maxItemsPerPage != viewpage) continue;
 
                 XmlQuestPointsRewards r = Rewards[i] as XmlQuestPointsRewards;
                 if(r == null) continue;
@@ -127,9 +127,9 @@ public class QuestRewardGump : Gump
                         nitems = Rewards.Count;
 
                     int page = viewpage+1;
-                    if(page > (int)(nitems/maxItemsPerPage))
+                    if(page > nitems/maxItemsPerPage)
                     {
-                        page = (int)(nitems/maxItemsPerPage);
+                        page = nitems/maxItemsPerPage;
                     }
                     state.Mobile.SendGump( new QuestRewardGump( state.Mobile, page));
                     break;

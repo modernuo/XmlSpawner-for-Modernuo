@@ -265,7 +265,7 @@ public class XmlPlayerQuestGump : Gump
                 if(m_QuestItem.ReturnContainer.RootParent != null)
                 {
 
-                    returnloc = ((IEntity)m_QuestItem.ReturnContainer.RootParent).Location;
+                    returnloc = m_QuestItem.ReturnContainer.RootParent.Location;
                 } else
                 {
                     from.SendMessage("Invalid container location");

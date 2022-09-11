@@ -321,7 +321,7 @@ public class QuestLogGump : Gump
                 }
 
 
-                AddLabel( 100 - xoffset, y, color, (string)e.Name );
+                AddLabel( 100 - xoffset, y, color, e.Name );
 
                 //AddHtmlLocalized( 315, y, 200, 32, e.IsCompleted ? 1049071 : 1049072, htmlcolor, false, false ); // Completed/Incomplete
                 AddLabel( 315 - xoffset, y, color, e.IsCompleted ? "Completed" : "In Progress" );
@@ -336,7 +336,7 @@ public class QuestLogGump : Gump
                     {
                         substring = e.ExpirationString.Substring(11);
                     }
-                    AddLabel( 400 - xoffset, y, color, (string)substring );
+                    AddLabel( 400 - xoffset, y, color, substring );
                 } 
                 else
                 {
@@ -366,7 +366,7 @@ public class QuestLogGump : Gump
                 int y = 96 + (tableIndex++ * 32);
                 int color = 67;
 
-                AddLabel( 100 - xoffset, y, color, (string)e.Name );
+                AddLabel( 100 - xoffset, y, color, e.Name );
 
                 AddLabel( 315 - xoffset, y, color, "Completed" );
 

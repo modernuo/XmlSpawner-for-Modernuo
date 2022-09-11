@@ -11,7 +11,7 @@ public abstract class BaseRewardScroll : Item
 
     public BaseRewardScroll( Serial serial ) : base( serial ) { }
 
-    public override void Serialize( IGenericWriter writer ) { base.Serialize( writer ); writer.Write( (int) 0 );}
+    public override void Serialize( IGenericWriter writer ) { base.Serialize( writer ); writer.Write( 0 );}
 
     public override void Deserialize( IGenericReader reader ) { base.Deserialize( reader ); int version = reader.ReadInt();}
 }
@@ -47,7 +47,7 @@ public class RewardScrollDeed : Item
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 0 ); // version
+        writer.Write( 0 ); // version
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -72,7 +72,7 @@ public class RewardScroll : BaseRewardScroll
 
     public RewardScroll( Serial serial ) : base( serial ) { }
 
-    public override void Serialize( IGenericWriter writer ) { base.Serialize( writer ); writer.Write( (int) 0 );}
+    public override void Serialize( IGenericWriter writer ) { base.Serialize( writer ); writer.Write( 0 );}
 
     public override void Deserialize( IGenericReader reader ) { base.Deserialize( reader ); int version = reader.ReadInt();}
 }

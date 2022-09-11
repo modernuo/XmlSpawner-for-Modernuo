@@ -124,7 +124,7 @@ public class XmlQuestTokenPack : Container
                         cid = 0x9D7;
 
                     m_Stream.Write((int)child.Serial);
-                    m_Stream.Write((ushort)cid);
+                    m_Stream.Write(cid);
                     m_Stream.Write((byte)0); // signed, itemID offset
                     m_Stream.Write((ushort)child.Amount);
                     m_Stream.Write((short)loc.X);
@@ -152,7 +152,7 @@ public class XmlQuestTokenPack : Container
         List<Item> items = this.Items;
 
         for (int i = 0; i < items.Count; ++i)
-            to.Send(((Item)items[i]).OPLPacket);
+            to.Send(items[i].OPLPacket);
 
     }
 
@@ -171,7 +171,7 @@ public class XmlQuestTokenPack : Container
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -254,15 +254,15 @@ public abstract class XmlQuestToken : Item, IXmlQuest
     public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
-        writer.Write((int)14); // version
+        writer.Write(14); // version
         // version 14
         if (m_Journal == null || m_Journal.Count == 0)
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
         else
         {
-            writer.Write((int)m_Journal.Count);
+            writer.Write(m_Journal.Count);
             foreach (XmlQuest.JournalEntry e in m_Journal)
             {
                 writer.Write(e.EntryID);
@@ -281,7 +281,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         if (m_RewardAttachment != null)
             writer.Write(m_RewardAttachment.Serial.Value);
         else
-            writer.Write((int)0);
+            writer.Write(0);
         // version 8
         writer.Write(m_ReturnContainer);
         // version 7
@@ -1450,16 +1450,16 @@ public abstract class XmlQuestToken : Item, IXmlQuest
 
                 if (days > 0)
                 {
-                    return String.Format("Expires in {0} days {1} hrs", days, hours);
+                    return $"Expires in {days} days {hours} hrs";
                 }
                 else
                 if (hours > 0)
                 {
-                    return String.Format("Expires in {0} hrs {1} mins", hours, minutes);
+                    return $"Expires in {hours} hrs {minutes} mins";
                 }
                 else
                 {
-                    return String.Format("Expires in {0} mins {1} secs", minutes, seconds);
+                    return $"Expires in {minutes} mins {seconds} secs";
                 }
             }
         }
@@ -1545,7 +1545,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         //LootType = LootType.Regular;
         if (Owner != null)
         {
-            Owner.SendMessage(String.Format("Quest invalidated - '{0}' removed", Name));
+            Owner.SendMessage($"Quest invalidated - '{Name}' removed");
         }
         this.Delete();
     }
@@ -1600,7 +1600,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
                 m_RewardAttachment = null;
             }
 
-            Owner.SendMessage(String.Format("{0} completed. You receive the quest reward!", Name));
+            Owner.SendMessage($"{Name} completed. You receive the quest reward!");
             this.Delete();
         }
     }
@@ -1631,7 +1631,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
 
             if (fs == null)
             {
-                Status = String.Format("Unable to open {0} for loading", filename);
+                Status = $"Unable to open {filename} for loading";
                 return;
             }
             // Create the data set

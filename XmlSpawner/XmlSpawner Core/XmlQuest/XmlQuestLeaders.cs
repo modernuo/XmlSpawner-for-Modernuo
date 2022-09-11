@@ -150,8 +150,8 @@ public class XmlQuestLeaders
     public static void Initialize()
     {
 
-        CommandSystem.Register( "QuestLeaderboardSave", AccessLevel.Administrator, new CommandEventHandler( QuestLeaderboardSave_OnCommand ) );
-        CommandSystem.Register( "QuestRanking", AccessLevel.Player, new CommandEventHandler( QuestRanking_OnCommand ) );
+        CommandSystem.Register( "QuestLeaderboardSave", AccessLevel.Administrator, QuestLeaderboardSave_OnCommand );
+        CommandSystem.Register( "QuestRanking", AccessLevel.Player, QuestRanking_OnCommand );
     }
 
 
@@ -423,15 +423,15 @@ public class XmlQuestLeaders
     public static void QuestLBSSerialize( IGenericWriter writer )
     {
         // version
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
 
         // version 0
         if(m_QuestLeaderboardTimer != null && m_QuestLeaderboardTimer.Running)
         {
-            writer.Write((bool)true);
+            writer.Write(true);
         }
         else
-            writer.Write((bool)false);
+            writer.Write(false);
         writer.Write(m_QuestLeaderboardSaveInterval);
         writer.Write(m_QuestLeaderboardSaveRanks);
         writer.Write(m_QuestLeaderboardFile);
@@ -663,11 +663,11 @@ public class XmlQuestLeaders
                     string label=null;
 
                     if(days > 0)
-                        label += String.Format("{0} days ",days);
+                        label += $"{days} days ";
                     if(hours > 0)
-                        label += String.Format("{0} hours ",hours);
+                        label += $"{hours} hours ";
                     if(mins > 0)
-                        label += String.Format("{0} mins",mins);
+                        label += $"{mins} mins";
 
                     if(label == null)
                     {
@@ -678,7 +678,7 @@ public class XmlQuestLeaders
                     int deltahue = 0;
                     if(a.DeltaRank > 0)
                     {
-                        deltalabel = String.Format("+{0}",a.DeltaRank);
+                        deltalabel = $"+{a.DeltaRank}";
                         deltahue = 68;
                     }
                     else

@@ -34,7 +34,7 @@ public class PlayerQuestBoard : XmlQuestBook
     public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
-        writer.Write( (int) 0 ); // version
+        writer.Write( 0 ); // version
 
     }
 
@@ -151,7 +151,7 @@ public class XmlQuestBook : Container
 
         if(Owner != null)
         {
-            Owner.SendMessage(String.Format("{0} Quests invalidated - '{1}' removed", TotalItems,Name));
+            Owner.SendMessage($"{TotalItems} Quests invalidated - '{Name}' removed");
         }
         this.Delete();
     }
@@ -249,7 +249,7 @@ public class XmlQuestBook : Container
     public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
-        writer.Write( (int) 0 ); // version
+        writer.Write( 0 ); // version
 
         writer.Write( m_Owner);
         writer.Write( m_Locked);

@@ -3168,9 +3168,9 @@ namespace Server.Mobiles
             TargetCommands.Register(new XmlSaveSingle());
 
 #if (TRACE)
-            CommandSystem.Register("XmlMake", AccessLevel.Administrator, new CommandEventHandler(XmlMake_OnCommand));
-            CommandSystem.Register("XmlTrace", AccessLevel.Administrator, new CommandEventHandler(XmlTrace_OnCommand));
-            CommandSystem.Register("XmlResetTrace", AccessLevel.Administrator, new CommandEventHandler(XmlResetTrace_OnCommand));
+            CommandSystem.Register("XmlMake", AccessLevel.Administrator, XmlMake_OnCommand);
+            CommandSystem.Register("XmlTrace", AccessLevel.Administrator, XmlTrace_OnCommand);
+            CommandSystem.Register("XmlResetTrace", AccessLevel.Administrator, XmlResetTrace_OnCommand);
 #endif
 
         }

@@ -360,7 +360,7 @@ public abstract class XmlQuest
 
         for (int i = 0; i < packlist.Count; ++i)
         {
-            Item item = (Item)packlist[i];
+            Item item = packlist[i];
 
             if (item != null && !item.Deleted && item is IXmlQuest)
             {
@@ -633,7 +633,7 @@ public abstract class XmlQuest
 
             int collected = current + added;
 
-            newstatestr = String.Format("{0}", collected);
+            newstatestr = $"{collected}";
 
             if (collected >= targetcount)
             {
@@ -915,7 +915,7 @@ public abstract class XmlQuest
 
             int collected = current + added;
 
-            newstatestr = String.Format("{0}", collected);
+            newstatestr = $"{collected}";
 
             if (collected >= targetcount)
             {
@@ -989,7 +989,7 @@ public abstract class XmlQuest
             catch { }
 
             int killed = current + 1;
-            newstatestr = String.Format("{0}", killed);
+            newstatestr = $"{killed}";
 
             if (killed >= targetcount)
             {
@@ -1180,7 +1180,7 @@ public abstract class XmlQuest
 
             int escorted = current + 1;
 
-            newstatestr = String.Format("{0}", escorted);
+            newstatestr = $"{escorted}";
 
             if (escorted >= targetcount)
             {
@@ -1409,7 +1409,7 @@ public abstract class XmlQuest
 
             int visited = current + 1;
 
-            newstatestr = String.Format("{0}", visited);
+            newstatestr = $"{visited}";
 
             if (visited >= targetcount)
             {

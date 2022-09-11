@@ -96,7 +96,7 @@ public class XmlFire : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 1 );
+        writer.Write( 1 );
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -136,16 +136,16 @@ public class XmlFire : XmlAttachment
 
         if(Expiration > TimeSpan.Zero)
         {
-            msg = String.Format("Fire Damage {0} expires in {1} mins", m_Damage, Expiration.TotalMinutes);
+            msg = $"Fire Damage {m_Damage} expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            msg = String.Format("Fire Damage {0}",m_Damage);
+            msg = $"Fire Damage {m_Damage}";
         }
 
         if(Refractory > TimeSpan.Zero)
         {
-            return String.Format("{0} : {1} secs between uses",msg, Refractory.TotalSeconds);
+            return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
         else
             return msg;

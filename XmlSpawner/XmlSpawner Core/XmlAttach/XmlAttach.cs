@@ -176,8 +176,8 @@ public class XmlAttach
 
     public static void Configure()
     {
-        EventSink.WorldLoad += new WorldLoadEventHandler(Load);
-        EventSink.WorldSave += new WorldSaveEventHandler(Save);
+        EventSink.WorldLoad += Load;
+        EventSink.WorldSave += Save;
     }
 
     public static void Initialize()
@@ -196,20 +196,20 @@ public class XmlAttach
         }
 
         // Register our speech handler
-        EventSink.Speech += new SpeechEventHandler(EventSink_Speech);
+        EventSink.Speech += EventSink_Speech;
 
         // Register our movement handler
-        EventSink.Movement += new MovementEventHandler(EventSink_Movement);
+        EventSink.Movement += EventSink_Movement;
 
         //CommandSystem.Register( "ItemAtt", AccessLevel.GameMaster, new CommandEventHandler( ListItemAttachments_OnCommand ) );
         //CommandSystem.Register( "MobAtt", AccessLevel.GameMaster, new CommandEventHandler( ListMobileAttachments_OnCommand ) );
-        CommandSystem.Register("GetAtt", AccessLevel.GameMaster, new CommandEventHandler(GetAttachments_OnCommand));
+        CommandSystem.Register("GetAtt", AccessLevel.GameMaster, GetAttachments_OnCommand);
         //CommandSystem.Register( "DelAtt", AccessLevel.GameMaster, new CommandEventHandler( DeleteAttachments_OnCommand ) );
         //CommandSystem.Register( "TrigAtt", AccessLevel.GameMaster, new CommandEventHandler( ActivateAttachments_OnCommand ) );
         //CommandSystem.Register( "AddAtt", AccessLevel.GameMaster, new CommandEventHandler( AddAttachment_OnCommand ) );
         TargetCommands.Register(new AddAttCommand());
         TargetCommands.Register(new DelAttCommand());
-        CommandSystem.Register("AvailAtt", AccessLevel.GameMaster, new CommandEventHandler(ListAvailableAttachments_OnCommand));
+        CommandSystem.Register("AvailAtt", AccessLevel.GameMaster, ListAvailableAttachments_OnCommand);
     }
 
     public class AddAttCommand : BaseCommand
@@ -236,7 +236,7 @@ public class XmlAttach
             return false;
         }
 
-        public override void ExecuteList(CommandEventArgs e, ArrayList list)
+        public override void ExecuteList(CommandEventArgs e, List<object> list)
         {
             if (e != null && list != null && e.Length >= 1)
             {
@@ -248,10 +248,10 @@ public class XmlAttach
 
                 for (int j = 0; j < nargs; j++)
                 {
-                    args[j] = (string)e.Arguments[j + 1];
+                    args[j] = e.Arguments[j + 1];
                 }
 
-                Type attachtype = SpawnerType.GetType(e.Arguments[0]);
+                Type attachtype = AssemblyHandler.FindTypeByName()(e.Arguments[0]);
 
                 if (attachtype != null && attachtype.IsSubclassOf(typeof(XmlAttachment)))
                 {
@@ -266,7 +266,7 @@ public class XmlAttach
 
                         if (o == null)
                         {
-                            AddResponse(String.Format("Unable to construct {0} with specified args", attachtype.Name));
+                            AddResponse($"Unable to construct {attachtype.Name} with specified args");
                             break;
                         }
 
@@ -274,27 +274,27 @@ public class XmlAttach
                         {
                             if (list.Count < 10)
                             {
-                                AddResponse(String.Format("Added {0} to {1}", attachtype.Name, list[i]));
+                                AddResponse($"Added {attachtype.Name} to {list[i]}");
                             }
                             count++;
                         }
                         else
                         {
-                            LogFailure(String.Format("Attachment {0} not added to {1}", attachtype.Name, list[i]));
+                            LogFailure($"Attachment {attachtype.Name} not added to {list[i]}");
                         }
                     }
                     if (count > 0)
                     {
-                        AddResponse(String.Format("Attachment {0} has been added [{1}]", attachtype.Name, count));
+                        AddResponse($"Attachment {attachtype.Name} has been added [{count}]");
                     }
                     else
                     {
-                        AddResponse(String.Format("Attachment {0} not added", attachtype.Name));
+                        AddResponse($"Attachment {attachtype.Name} not added");
                     }
                 }
                 else
                 {
-                    AddResponse(String.Format("Invalid attachment type {0}", e.Arguments[0]));
+                    AddResponse($"Invalid attachment type {e.Arguments[0]}");
                 }
             }
         }
@@ -324,12 +324,12 @@ public class XmlAttach
             return false;
         }
 
-        public override void ExecuteList(CommandEventArgs e, ArrayList list)
+        public override void ExecuteList(CommandEventArgs e, List<object> list)
         {
             if (e != null && list != null && e.Length >= 1)
             {
 
-                Type attachtype = SpawnerType.GetType(e.Arguments[0]);
+                Type attachtype = AssemblyHandler.FindTypeByName(e.Arguments[0]);
 
                 if (attachtype != null && attachtype.IsSubclassOf(typeof(XmlAttachment)))
                 {
@@ -349,7 +349,7 @@ public class XmlAttach
                                 a.Delete();
                                 if (list.Count < 10)
                                 {
-                                    AddResponse(String.Format("Deleted {0} from {1}", attachtype.Name, list[i]));
+                                    AddResponse($"Deleted {attachtype.Name} from {list[i]}");
                                 }
                                 count++;
                             }
@@ -358,16 +358,16 @@ public class XmlAttach
 
                     if (count > 0)
                     {
-                        AddResponse(String.Format("Attachment {0} has been deleted [{1}]", attachtype.Name, count));
+                        AddResponse($"Attachment {attachtype.Name} has been deleted [{count}]");
                     }
                     else
                     {
-                        AddResponse(String.Format("Attachment {0} not deleted", attachtype.Name));
+                        AddResponse($"Attachment {attachtype.Name} not deleted");
                     }
                 }
                 else
                 {
-                    AddResponse(String.Format("Invalid attachment type {0}", e.Arguments[0]));
+                    AddResponse($"Invalid attachment type {e.Arguments[0]}");
                 }
             }
         }
@@ -385,7 +385,7 @@ public class XmlAttach
         }
     }
 
-    public static void Save(WorldSaveEventArgs e)
+    public static void Save()
     {
         if (XmlAttach.MobileAttachments == null && XmlAttach.ItemAttachments == null)
         {
@@ -447,18 +447,18 @@ public class XmlAttach
                     XmlAttachment a = valuearray[i] as XmlAttachment;
 
                     // write the value type
-                    writer.Write((string)a.GetType().ToString());
+                    writer.Write(a.GetType().ToString());
 
                     // serialize the attachment itself
                     a.Serialize(writer);
 
                     // save the fileposition index
-                    fpiwriter.Write((long)writer.Position);
+                    fpiwriter.Write(writer.Position);
                 }
             }
             else
             {
-                writer.Write((int)0);
+                writer.Write(0);
             }
 
             writer.Close();
@@ -483,24 +483,24 @@ public class XmlAttach
                     // write out the attachments
                     ArrayList alist = (ArrayList)valuearray[i];
 
-                    imawriter.Write((int)alist.Count);
+                    imawriter.Write(alist.Count);
                     foreach (XmlAttachment a in alist)
                     {
                         // write the attachment serial
-                        imawriter.Write((int)a.Serial.Value);
+                        imawriter.Write(a.Serial.Value);
 
                         // write the value type
-                        imawriter.Write((string)a.GetType().ToString());
+                        imawriter.Write(a.GetType().ToString());
 
                         // save the fileposition index
-                        fpiwriter.Write((long)imawriter.Position);
+                        fpiwriter.Write(imawriter.Position);
                     }
                 }
             }
             else
             {
                 // no mobile attachments
-                imawriter.Write((int)0);
+                imawriter.Write(0);
             }
 
             // item attachments
@@ -522,24 +522,24 @@ public class XmlAttach
                     // write out the attachments
                     ArrayList alist = (ArrayList)valuearray[i];
 
-                    imawriter.Write((int)alist.Count);
+                    imawriter.Write(alist.Count);
                     foreach (XmlAttachment a in alist)
                     {
                         // write the attachment serial
-                        imawriter.Write((int)a.Serial.Value);
+                        imawriter.Write(a.Serial.Value);
 
                         // write the value type
-                        imawriter.Write((string)a.GetType().ToString());
+                        imawriter.Write(a.GetType().ToString());
 
                         // save the fileposition index
-                        fpiwriter.Write((long)imawriter.Position);
+                        fpiwriter.Write(imawriter.Position);
                     }
                 }
             }
             else
             {
                 // no item attachments
-                imawriter.Write((int)0);
+                imawriter.Write(0);
             }
 
             imawriter.Close();
@@ -716,8 +716,9 @@ public class XmlAttach
                 }
                 catch
                 {
-                    ErrorReporter.GenerateErrorReport(String.Format("\nError deserializing {0} serialno {1}. Attachments save file corrupted. Attachment load aborted.\n",
-                        valuetype, serialno.Value));
+                    ErrorReporter.GenerateErrorReport(
+                        $"\nError deserializing {valuetype} serialno {serialno.Value}. Attachments save file corrupted. Attachment load aborted.\n"
+                    );
                     return;
                 }
             }
@@ -1449,7 +1450,7 @@ public class XmlAttach
 
                         for (int j = 0; j < nargs; j++)
                         {
-                            args[j] = (string)m_e.Arguments[j + 1];
+                            args[j] = m_e.Arguments[j + 1];
                         }
 
 
@@ -1839,7 +1840,7 @@ public class XmlAttach
                 string pmsg = p.OnIdentify(from);
                 if (pmsg != null)
                 {
-                    msg += String.Format("\n{0}\n", pmsg);
+                    msg += $"\n{pmsg}\n";
                 }
             }
         }
@@ -2686,7 +2687,7 @@ public class XmlAttach
             try
             {
                 string timeStamp = GetTimeStamp();
-                string fileName = String.Format("Attachment Error {0}.log", timeStamp);
+                string fileName = $"Attachment Error {timeStamp}.log";
 
                 string root = GetRoot();
                 string filePath = Combine(root, fileName);
@@ -2734,14 +2735,7 @@ public class XmlAttach
         {
             DateTime now = DateTime.Now;
 
-            return String.Format("{0}-{1}-{2}-{3}-{4}-{5}",
-                now.Day,
-                now.Month,
-                now.Year,
-                now.Hour,
-                now.Minute,
-                now.Second
-            );
+            return $"{now.Day}-{now.Month}-{now.Year}-{now.Hour}-{now.Minute}-{now.Second}";
         }
     }
 }

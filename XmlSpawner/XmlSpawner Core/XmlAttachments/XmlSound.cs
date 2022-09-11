@@ -82,7 +82,7 @@ public class XmlSound : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 1 );
+        writer.Write( 1 );
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -128,11 +128,11 @@ public class XmlSound : XmlAttachment
 
         if(Charges > 0)
         {
-            msg = String.Format("Sound #{0} : {1} secs between uses - {2} charges left",SoundValue,Refractory.TotalSeconds, Charges);
+            msg = $"Sound #{SoundValue} : {Refractory.TotalSeconds} secs between uses - {Charges} charges left";
         }
         else
         {
-            msg = String.Format("Sound #{0} : {1} secs between uses",SoundValue,Refractory.TotalSeconds);
+            msg = $"Sound #{SoundValue} : {Refractory.TotalSeconds} secs between uses";
         }
 
         if(ActivationWord == null)
@@ -141,7 +141,7 @@ public class XmlSound : XmlAttachment
         }
         else
         {
-            return String.Format("{0} : trigger on '{1}'",msg, ActivationWord);
+            return $"{msg} : trigger on '{ActivationWord}'";
         }
 
     }
@@ -211,7 +211,7 @@ public class XmlSound : XmlAttachment
             {
                 try
                 {
-                    Effects.PlaySound(((IEntity)i.RootParent).Location, ((IEntity)i.RootParent).Map,  SoundValue);
+                    Effects.PlaySound(i.RootParent.Location, i.RootParent.Map,  SoundValue);
                 }
                 catch{}
             }

@@ -45,7 +45,7 @@ public class XmlAddFactionCredits : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
         writer.Write(this.m_DataValue);
     }
@@ -104,6 +104,6 @@ public class XmlAddFactionCredits : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        return String.Format("{0} Mob Faction Credits", this.Value);
+        return $"{this.Value} Mob Faction Credits";
     }
 }

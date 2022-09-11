@@ -46,7 +46,7 @@ public class QuestLeadersStone: Item
 
         XmlQuestLeaders.QuestLBSSerialize( writer );
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
     }
 
     public override void Deserialize(IGenericReader reader)

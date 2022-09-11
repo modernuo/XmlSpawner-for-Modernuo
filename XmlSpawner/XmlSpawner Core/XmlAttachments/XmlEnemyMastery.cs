@@ -76,7 +76,7 @@ public class XmlEnemyMastery : XmlAttachment
         {
             Mobile m = AttachedTo as Mobile;
             Effects.PlaySound( m, m.Map, 516 );
-            m.SendMessage(String.Format("You gain the power of Enemy Mastery over {0}",Enemy));
+            m.SendMessage($"You gain the power of Enemy Mastery over {Enemy}");
         }
     }
 
@@ -95,7 +95,7 @@ public class XmlEnemyMastery : XmlAttachment
             // is the defender the correct type?
             if(defender.GetType() == m_EnemyType || defender.GetType().IsSubclassOf(m_EnemyType))
             {
-                defender.Damage( (int) (damageGiven*PercentIncrease/100), attacker );
+                defender.Damage( damageGiven*PercentIncrease/100, attacker );
             }
         }
     }
@@ -110,7 +110,7 @@ public class XmlEnemyMastery : XmlAttachment
             if(!m.Deleted)
             {
                 Effects.PlaySound( m, m.Map, 958 );
-                m.SendMessage(String.Format("Your power of Enemy Mastery over {0} fades..",Enemy));
+                m.SendMessage($"Your power of Enemy Mastery over {Enemy} fades..");
             }
         }
     }
@@ -119,7 +119,7 @@ public class XmlEnemyMastery : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(m_PercentIncrease);
         writer.Write(m_Chance);

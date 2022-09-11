@@ -39,7 +39,7 @@ public class QuestNote : XmlQuestToken
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 2 ); // version
+        writer.Write( 2 ); // version
         // Version 2 has no serialized variables
 
         // Version 0
@@ -153,7 +153,7 @@ public class OriginalQuestNote : XmlQuestToken
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 1 ); // version
+        writer.Write( 1 ); // version
 
         // Version 1
         writer.Write( this.m_TextColor );
@@ -204,7 +204,7 @@ public class QuestNoteGump : Gump
 
     public static string HtmlFormat( string text, int color )
     {
-        return String.Format( "<BASEFONT COLOR=#{0}>{1}</BASEFONT>", color, text);
+        return $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
     }
 
     public QuestNoteGump( OriginalQuestNote note ) : base( 0, 0 )

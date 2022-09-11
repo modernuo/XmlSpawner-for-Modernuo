@@ -32,7 +32,7 @@ public class XmlConfirmDeleteGump : Gump
         if(item is XmlQuestBook)
         {
             AddLabel( 20, 185, 33, String.Format("Delete this questbook?") );
-            AddLabel( 20, 205, 33, String.Format("{0} quest(s) will be lost.", item.TotalItems) );
+            AddLabel( 20, 205, 33, $"{item.TotalItems} quest(s) will be lost.");
             AddLabel( 20, 225, 53, item.Name );
         } 
         else
@@ -97,7 +97,7 @@ public class XmlSimpleGump : Gump
 {
     public static string Color( string text, string color )
     {
-        return String.Format( "<BASEFONT COLOR=#{0}>{1}</BASEFONT>", color, text );
+        return $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
     }
     private int m_gumptype;
     private object m_invoker;
@@ -136,7 +136,7 @@ public class XmlSimpleGump : Gump
         {
             try
             {
-                string colorstring = String.Format("{0:X}",color);
+                string colorstring = $"{color:X}";
                 AddHtml(x, y, width, height, XmlSimpleGump.Color(text, colorstring), background, scrollbar);
             }
             catch { }

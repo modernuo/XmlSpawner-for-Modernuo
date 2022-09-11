@@ -29,7 +29,7 @@ public class XmlFreeze : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
     }
 
     public override void Deserialize(IGenericReader reader)

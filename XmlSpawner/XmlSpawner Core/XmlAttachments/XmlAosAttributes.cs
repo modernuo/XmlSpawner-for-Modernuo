@@ -323,7 +323,7 @@ public class XmlAosAttributes : XmlBaseAttributes
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
     }
 
@@ -674,7 +674,7 @@ public class XmlAosWeaponAttributes : XmlBaseAttributes
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
     }
 
@@ -773,7 +773,7 @@ public class XmlAosArmorAttributes : XmlBaseAttributes
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
     }
 
@@ -884,7 +884,7 @@ public class XmlAosElementAttributes : XmlBaseAttributes
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
     }
 
@@ -933,13 +933,13 @@ public class XmlBaseAttributes : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
-        writer.Write((uint)this.m_Names);
-        writer.WriteEncodedInt((int)this.m_Values.Length);
+        writer.Write(this.m_Names);
+        writer.WriteEncodedInt(this.m_Values.Length);
 
         for (int i = 0; i < this.m_Values.Length; ++i)
-            writer.WriteEncodedInt((int)this.m_Values[i]);
+            writer.WriteEncodedInt(this.m_Values[i]);
     }
 
     public override void Deserialize(IGenericReader reader)

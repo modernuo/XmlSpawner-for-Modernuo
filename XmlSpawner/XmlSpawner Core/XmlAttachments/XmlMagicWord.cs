@@ -74,7 +74,7 @@ public class XmlMagicWord : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(Word);
         writer.Write(Charges);
@@ -115,16 +115,16 @@ public class XmlMagicWord : XmlAttachment
 
         if(Refractory > TimeSpan.Zero)
         {
-            msg = String.Format("{0} lasting {1} secs : {2} secs between uses",Word,Duration.TotalSeconds, Refractory.TotalSeconds);
+            msg = $"{Word} lasting {Duration.TotalSeconds} secs : {Refractory.TotalSeconds} secs between uses";
         }
         else
         {
-            msg = String.Format("{0} lasting {1} secs",Word,Duration.TotalSeconds);
+            msg = $"{Word} lasting {Duration.TotalSeconds} secs";
         }
 
         if(Charges > 0)
         {
-            return String.Format("{0} : {1} charge(s) remaining",msg, Charges);
+            return $"{msg} : {Charges} charge(s) remaining";
         }
         else
         {

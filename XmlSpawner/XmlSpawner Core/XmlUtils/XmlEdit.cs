@@ -37,7 +37,7 @@ public class XmlEditDialogGump : Gump
 
     public static void Initialize()
     {
-        CommandSystem.Register( "XmlEdit", AccessLevel.GameMaster, new CommandEventHandler( XmlEditDialog_OnCommand ) );
+        CommandSystem.Register( "XmlEdit", AccessLevel.GameMaster, XmlEditDialog_OnCommand );
     }
 
     [Usage( "XmlEdit" )]
@@ -115,7 +115,7 @@ public class XmlEditDialogGump : Gump
             {
                 name = targeted.GetType().Name;
             }
-            AddLabel( 20, 230, 0, String.Format("{0}", name) );
+            AddLabel( 20, 230, 0, $"{name}");
 
             AddRadio( 35, 255, 9721, 9724, false, 1 );                             // accept/yes radio
             AddRadio( 135, 255, 9721, 9724, true, 2 );                             // decline/no radio
@@ -295,7 +295,7 @@ public class XmlEditDialogGump : Gump
         {
             int index = i + DisplayFrom;
             if(m_SearchList == null || index >= m_SearchList.Count) break;
-            int page = (int)(i/MaxEntriesPerPage);
+            int page = i/MaxEntriesPerPage;
             if(i%MaxEntriesPerPage == 0)
             {
                 AddPage(page+1);
@@ -531,10 +531,10 @@ public class XmlEditDialogGump : Gump
         // display the item list
         if(m_SearchList != null)
         {
-            AddLabel( 495, y, 68, String.Format("{0} Entries",m_SearchList.Count) );
+            AddLabel( 495, y, 68, $"{m_SearchList.Count} Entries");
             int last = DisplayFrom + MaxEntries < m_SearchList.Count ? DisplayFrom + MaxEntries : m_SearchList.Count;
             if(last > 0) 
-                AddLabel( 595, y, 68, String.Format("Displaying {0}-{1}",DisplayFrom, last -1) );
+                AddLabel( 595, y, 68, $"Displaying {DisplayFrom}-{last - 1}");
         }
 
         y = height - 25;
@@ -564,13 +564,13 @@ public class XmlEditDialogGump : Gump
         AddLabel( 283, y, 0x384, "Delete" );
 
         // add the page buttons
-        for(int i = 0;i<(int)(MaxEntries/MaxEntriesPerPage);i++)
+        for(int i = 0;i<MaxEntries/MaxEntriesPerPage;i++)
         {
             AddButton( 513+i*25, y, 0x8B1+i, 0x8B1+i, 0, GumpButtonType.Page, 1+i );
         }
 
         // add the advance pageblock buttons
-        AddButton( 510+25*(int)(MaxEntries/MaxEntriesPerPage), y, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0 ); // block forward
+        AddButton( 510+25*(MaxEntries/MaxEntriesPerPage), y, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0 ); // block forward
         AddButton( 490, y, 0x15E3, 0x15E7, 202, GumpButtonType.Reply, 0 ); // block backward
 
         // add the displayfrom entry
@@ -632,7 +632,7 @@ public class XmlEditDialogGump : Gump
         if( System.IO.Directory.Exists( XmlDialog.DefsDir ) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
         {
             // put it in the defaults directory if it exists
-            dirname = String.Format("{0}/{1}",XmlDialog.DefsDir,filename);
+            dirname = $"{XmlDialog.DefsDir}/{filename}";
         } 
         else 
         {
@@ -1258,7 +1258,7 @@ public class XmlEditDialogGump : Gump
                 }
             }
 
-            AddLabel( 20, 225, 33, String.Format("Delete {0} entries?",count) );
+            AddLabel( 20, 225, 33, $"Delete {count} entries?");
             AddRadio( 35, 255, 9721, 9724, false, 1 );                             // accept/yes radio
             AddRadio( 135, 255, 9721, 9724, true, 2 );                             // decline/no radio
             AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff , false , false );  // Yes

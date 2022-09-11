@@ -27,7 +27,7 @@ public class WriteMulti
     public static void Initialize()
     {
 
-        CommandSystem.Register("WriteMulti", XmlSpawner.DiskAccessLevel, new CommandEventHandler(WriteMulti_OnCommand));
+        CommandSystem.Register("WriteMulti", XmlSpawner.DiskAccessLevel, WriteMulti_OnCommand);
     }
 
     [Usage("WriteMulti <MultiFile> [zmin zmax][-noitems][-nostatics][-nomultis][-noaddons][-invisible]")]
@@ -108,7 +108,7 @@ public class WriteMulti
         if (System.IO.Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
         {
             // put it in the defaults directory if it exists
-            dirname = String.Format("{0}/{1}", XmlSpawner.XmlSpawnDir, filename);
+            dirname = $"{XmlSpawner.XmlSpawnDir}/{filename}";
         }
         else
         {

@@ -30,7 +30,7 @@ public class XmlAddKarma : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(m_DataValue);
 
@@ -87,7 +87,7 @@ public class XmlAddKarma : XmlAttachment
     public override string OnIdentify(Mobile from)
     {
 
-        return String.Format("{0} Karma", Value);
+        return $"{Value} Karma";
 
     }
 }

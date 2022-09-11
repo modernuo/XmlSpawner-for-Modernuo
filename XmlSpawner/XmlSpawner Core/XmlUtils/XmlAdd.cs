@@ -331,7 +331,7 @@ public class XmlAddGump : Gump
         // Write out the file
         bool file_error = false;
 
-        var dirname = Directory.Exists(DefsDir) ? string.Format("{0}/{1}.defs", DefsDir, filename) : string.Format("{0}.defs", filename);
+        var dirname = Directory.Exists(DefsDir) ? $"{DefsDir}/{filename}.defs" : $"{filename}.defs";
 
         try
         {
@@ -358,18 +358,18 @@ public class XmlAddGump : Gump
         if (Directory.Exists(DefsDir))
         {
             // look for it in the defaults directory
-            dirname = string.Format("{0}/{1}.defs", DefsDir, filename);
+            dirname = $"{DefsDir}/{filename}.defs";
             // Check if the file exists
             if (File.Exists(dirname) == false)
             {
                 // didnt find it so just look in the main install dir
-                dirname = string.Format("{0}.defs", filename);
+                dirname = $"{filename}.defs";
             }
         }
         else
         {
             // look in the main installation dir
-            dirname = string.Format("{0}.defs", filename);
+            dirname = $"{filename}.defs";
         }
         // Check if the file exists
         if (File.Exists(dirname))
@@ -1023,7 +1023,7 @@ public class XmlAddGump : Gump
             string sname = defs.SpawnerName;
             if (defs.AutoNumber)
             {
-                sname = string.Format("{0}#{1}", defs.SpawnerName, defs.AutoNumberValue);
+                sname = $"{defs.SpawnerName}#{defs.AutoNumberValue}";
             }
 
             XmlSpawner spawner = new XmlSpawner(SpawnId, from.Location.X, from.Location.Y, 0, 0, sname, maxcount,
@@ -1307,11 +1307,11 @@ public class XmlAddGump : Gump
                     string filename;
                     if (!string.IsNullOrEmpty(defaults.DefsExt))
                     {
-                        filename = string.Format("{0}-{1}-{2}", defaults.AccountName, defaults.PlayerName, defaults.DefsExt);
+                        filename = $"{defaults.AccountName}-{defaults.PlayerName}-{defaults.DefsExt}";
                     }
                     else
                     {
-                        filename = string.Format("{0}-{1}", defaults.AccountName, defaults.PlayerName);
+                        filename = $"{defaults.AccountName}-{defaults.PlayerName}";
                     }
                     DoSaveDefs(state.Mobile, filename);
                     break;
@@ -1321,11 +1321,11 @@ public class XmlAddGump : Gump
                     string filename;
                     if (!string.IsNullOrEmpty(defaults.DefsExt))
                     {
-                        filename = string.Format("{0}-{1}-{2}", defaults.AccountName, defaults.PlayerName, defaults.DefsExt);
+                        filename = $"{defaults.AccountName}-{defaults.PlayerName}-{defaults.DefsExt}";
                     }
                     else
                     {
-                        filename = string.Format("{0}-{1}", defaults.AccountName, defaults.PlayerName);
+                        filename = $"{defaults.AccountName}-{defaults.PlayerName}";
                     }
                     DoLoadDefs(state.Mobile, filename);
                     break;

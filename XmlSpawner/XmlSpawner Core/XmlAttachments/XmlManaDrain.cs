@@ -95,7 +95,7 @@ public class XmlManaDrain : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 1 );
+        writer.Write( 1 );
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -136,16 +136,16 @@ public class XmlManaDrain : XmlAttachment
 
         if(Expiration > TimeSpan.Zero)
         {
-            msg = String.Format("Mana drain {0} expires in {1} mins", m_Drain, Expiration.TotalMinutes);
+            msg = $"Mana drain {m_Drain} expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            msg = String.Format("Mana drain {0}",m_Drain);
+            msg = $"Mana drain {m_Drain}";
         }
 
         if(Refractory > TimeSpan.Zero)
         {
-            return String.Format("{0} : {1} secs between uses",msg, Refractory.TotalSeconds);
+            return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
         else
             return msg;

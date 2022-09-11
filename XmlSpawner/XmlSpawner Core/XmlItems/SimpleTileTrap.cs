@@ -88,7 +88,7 @@ public class SimpleTileTrap : Item
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 0 ); // version
+        writer.Write( 0 ); // version
 
         writer.Write( this.m_SwitchSound );
         writer.Write( this.m_TargetItem0 );

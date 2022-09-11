@@ -71,7 +71,7 @@ public class XmlMessage : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 1 );
+        writer.Write( 1 );
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -116,11 +116,11 @@ public class XmlMessage : XmlAttachment
 
         if(Charges > 0)
         {
-            msg = String.Format("{0} : {1} secs between uses, {2} charges left",Message,Refractory.TotalSeconds, Charges);
+            msg = $"{Message} : {Refractory.TotalSeconds} secs between uses, {Charges} charges left";
         }
         else
         {
-            msg = String.Format("{0} : {1} secs between uses",Message,Refractory.TotalSeconds);
+            msg = $"{Message} : {Refractory.TotalSeconds} secs between uses";
         }
 
         if(ActivationWord == null)
@@ -129,7 +129,7 @@ public class XmlMessage : XmlAttachment
         }
         else
         {
-            return String.Format("{0} : trigger on '{1}'",msg,ActivationWord);
+            return $"{msg} : trigger on '{ActivationWord}'";
         }
 
     }

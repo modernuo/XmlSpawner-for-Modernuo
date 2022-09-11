@@ -72,7 +72,7 @@ public class SimpleNote : Item
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 0 ); // version
+        writer.Write( 0 ); // version
 
         writer.Write( this.m_NoteString );
         writer.Write( this.m_TitleString );
@@ -113,7 +113,7 @@ public class SimpleNoteGump : Gump
 
     public static string HtmlFormat( string text, int color )
     {
-        return String.Format( "<BASEFONT COLOR=#{0}>{1}</BASEFONT>", color, text);
+        return $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
     }
 
     public SimpleNoteGump( SimpleNote note ) : base( 0, 0 )

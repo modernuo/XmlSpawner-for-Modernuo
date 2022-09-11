@@ -107,7 +107,7 @@ public class XmlLifeDrain : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 1 );
+        writer.Write( 1 );
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -148,16 +148,16 @@ public class XmlLifeDrain : XmlAttachment
 
         if(Expiration > TimeSpan.Zero)
         {
-            msg = String.Format("Life drain {0} expires in {1} mins", m_Drain, Expiration.TotalMinutes);
+            msg = $"Life drain {m_Drain} expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            msg = String.Format("Life drain {0}",m_Drain);
+            msg = $"Life drain {m_Drain}";
         }
 
         if(Refractory > TimeSpan.Zero)
         {
-            return String.Format("{0} : {1} secs between uses",msg, Refractory.TotalSeconds);
+            return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
         else
             return msg;

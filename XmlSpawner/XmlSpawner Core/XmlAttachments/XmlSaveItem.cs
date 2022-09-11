@@ -21,7 +21,7 @@ public class XmlSaveItem : XmlAttachment
         {
             base.Serialize( writer );
 
-            writer.Write( (int) 0 );
+            writer.Write( 0 );
         }
 
         public override void Deserialize(IGenericReader reader)
@@ -197,7 +197,7 @@ public class XmlSaveItem : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         if(SavedItem != null)
         {

@@ -55,7 +55,7 @@ public class SpawnerExporter
                 }
             }
 
-            AddResponse(string.Format("{0} spawners exported to Saves/Spawners/{1}.", spawners.Count.ToString(), filename));
+            AddResponse($"{spawners.Count.ToString()} spawners exported to Saves/Spawners/{filename}.");
 
             ExportSpawners(spawners, filename);
         }

@@ -61,7 +61,7 @@ public class XmlMorph : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 1 );
+        writer.Write( 1 );
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -99,7 +99,7 @@ public class XmlMorph : XmlAttachment
                     m_MorphID = reader.ReadInt();
                     m_Duration = reader.ReadTimeSpan();
                     ActivationWord = reader.ReadString();
-                    TimeSpan remaining = (TimeSpan)reader.ReadTimeSpan();
+                    TimeSpan remaining = reader.ReadTimeSpan();
 
                     if(remaining > TimeSpan.Zero)
                         DoTimer(remaining);
@@ -118,16 +118,16 @@ public class XmlMorph : XmlAttachment
 
         if(Expiration > TimeSpan.Zero)
         {
-            msg = String.Format("Morph to {0} expires in {1} mins",m_MorphID,Expiration.TotalMinutes);
+            msg = $"Morph to {m_MorphID} expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            msg = String.Format("Morph to {0} duration {1} mins",m_MorphID, m_Duration.TotalMinutes);
+            msg = $"Morph to {m_MorphID} duration {m_Duration.TotalMinutes} mins";
         }
 
         if(ActivationWord != null)
         {
-            return String.Format("{0} activated by '{1}'",msg, ActivationWord);
+            return $"{msg} activated by '{ActivationWord}'";
         }
         else
         {

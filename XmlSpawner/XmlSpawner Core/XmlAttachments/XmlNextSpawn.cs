@@ -116,7 +116,7 @@ public class XmlSpawnTime : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
         writer.Write(this.m_MinDelay);
         writer.Write(this.m_MaxDelay);

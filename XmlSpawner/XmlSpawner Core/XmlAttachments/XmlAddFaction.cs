@@ -57,7 +57,7 @@ public class XmlAddFaction : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
         writer.Write(this.m_DataValue);
         writer.Write(this.m_GroupName);
@@ -154,6 +154,6 @@ public class XmlAddFaction : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        return String.Format("{0} {1} Faction", this.Value, this.FactionType);
+        return $"{this.Value} {this.FactionType} Faction";
     }
 }

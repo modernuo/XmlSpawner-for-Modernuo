@@ -159,7 +159,7 @@ public class XmlLatch : Item
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 0 ); // version
+        writer.Write( 0 ); // version
 
         // version 0
         writer.Write( this.m_State );
@@ -404,7 +404,7 @@ public class TimedLever : XmlLatch, ILinkable
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 2 ); // version
+        writer.Write( 2 ); // version
 
         // version 2
         writer.Write(this.m_Disabled);
@@ -690,7 +690,7 @@ public class TimedSwitch : XmlLatch, ILinkable
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 2 ); // version
+        writer.Write( 2 ); // version
         // version 2
         writer.Write(this.m_Disabled);
         // version 1
@@ -996,7 +996,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 4 ); // version
+        writer.Write( 4 ); // version
         // version 4
         writer.Write(this.m_NoDoubleClick);
         // version 3

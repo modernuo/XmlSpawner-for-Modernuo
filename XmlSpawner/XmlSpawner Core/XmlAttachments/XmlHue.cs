@@ -38,7 +38,7 @@ public class XmlHue : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(m_Originalhue);
         writer.Write(m_Hue);
@@ -63,11 +63,11 @@ public class XmlHue : XmlAttachment
 
         if(Expiration > TimeSpan.Zero)
         {
-            return String.Format("Hue {0} expires in {1} mins",m_Hue,Expiration.TotalMinutes);
+            return $"Hue {m_Hue} expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            return String.Format("Hue {0}",m_Hue);
+            return $"Hue {m_Hue}";
         }
     }
 

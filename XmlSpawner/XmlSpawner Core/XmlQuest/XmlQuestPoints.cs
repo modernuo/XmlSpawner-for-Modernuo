@@ -70,7 +70,7 @@ public class XmlQuestPoints : XmlAttachment
         public virtual void Serialize( IGenericWriter writer )
         {
 
-            writer.Write( (int) 0 ); // version
+            writer.Write( 0 ); // version
 
             writer.Write(Quester);
             writer.Write(Name);
@@ -155,9 +155,9 @@ public class XmlQuestPoints : XmlAttachment
 
     public static new void Initialize()
     {
-        CommandSystem.Register( "QuestPoints", AccessLevel.Player, new CommandEventHandler( CheckQuestPoints_OnCommand ) );
+        CommandSystem.Register( "QuestPoints", AccessLevel.Player, CheckQuestPoints_OnCommand );
 
-        CommandSystem.Register( "QuestLog", AccessLevel.Player, new CommandEventHandler( QuestLog_OnCommand ) );
+        CommandSystem.Register( "QuestLog", AccessLevel.Player, QuestLog_OnCommand );
 
     }
 
@@ -293,7 +293,7 @@ public class XmlQuestPoints : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(m_Points);
         writer.Write(m_Credits);
@@ -305,7 +305,7 @@ public class XmlQuestPoints : XmlAttachment
         // save the quest history
         if(QuestList != null)
         {
-            writer.Write((int)QuestList.Count);
+            writer.Write(QuestList.Count);
 
             foreach(QuestEntry e in QuestList)
             {
@@ -314,7 +314,7 @@ public class XmlQuestPoints : XmlAttachment
         }
         else
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
 
         // need this in order to rebuild the rankings on deser
@@ -374,6 +374,7 @@ public class XmlQuestPoints : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        return String.Format("Quest Points Status:\nTotal Quest Points = {0}\nTotal Quests Completed = {1}\nQuest Credits Available = {2}",Points, QuestsCompleted, Credits);
+        return
+            $"Quest Points Status:\nTotal Quest Points = {Points}\nTotal Quests Completed = {QuestsCompleted}\nQuest Credits Available = {Credits}";
     }
 }

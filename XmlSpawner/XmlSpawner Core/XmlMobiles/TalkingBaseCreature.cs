@@ -782,7 +782,7 @@ public class TalkingBaseCreature : BaseCreature
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 7 ); // version
+        writer.Write( 7 ); // version
 
         // version 7
         writer.Write( m_EItemID);

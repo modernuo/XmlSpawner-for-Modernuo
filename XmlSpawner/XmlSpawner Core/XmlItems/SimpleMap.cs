@@ -47,7 +47,7 @@ public class SimpleMap : MapItem
             if(Pins != null && CurrentPin > 0 && CurrentPin <=Pins.Count)
             {
                 int mapx, mapy;
-                ConvertToWorld(((Point2D)Pins[CurrentPin -1]).X, ((Point2D)Pins[CurrentPin -1]).Y, out mapx, out mapy);
+                ConvertToWorld(Pins[CurrentPin -1].X, Pins[CurrentPin -1].Y, out mapx, out mapy);
                 return new Point2D(mapx, mapy);
             }
             else
@@ -72,7 +72,7 @@ public class SimpleMap : MapItem
             if(Pins != null && NPins > 0)
             {
                 int mapx, mapy;
-                ConvertToWorld(((Point2D)Pins[NPins -1]).X, ((Point2D)Pins[NPins -1]).Y, out mapx, out mapy);
+                ConvertToWorld(Pins[NPins -1].X, Pins[NPins -1].Y, out mapx, out mapy);
                 return new Point2D(mapx, mapy);
             }
             else
@@ -128,7 +128,7 @@ public class SimpleMap : MapItem
     {
         base.Serialize( writer );
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
     }
 
     public override void Deserialize( IGenericReader reader )

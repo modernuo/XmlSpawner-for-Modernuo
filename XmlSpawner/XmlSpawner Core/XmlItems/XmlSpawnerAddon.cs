@@ -165,7 +165,7 @@ public class XmlSpawnerAddon : BaseAddon
 
                         if (itemid < 0 || badformat)
                         {
-                            status_str = String.Format("Error line {0}", linenumber);
+                            status_str = $"Error line {linenumber}";
                             break;
                         }
 

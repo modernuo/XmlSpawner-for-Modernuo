@@ -103,7 +103,7 @@ public class XmlUse : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)3);
+        writer.Write(3);
         // version 3
         writer.Write(m_MaxTargetRange);
         // version 2
@@ -282,7 +282,7 @@ public class XmlUse : XmlAttachment
     {
         if (status_str != null && mob != null && !mob.Deleted && mob is PlayerMobile && mob.AccessLevel > AccessLevel.Player)
         {
-            mob.SendMessage(33, String.Format("{0}:{1}", Name, status_str));
+            mob.SendMessage(33, $"{Name}:{status_str}");
         }
     }
 

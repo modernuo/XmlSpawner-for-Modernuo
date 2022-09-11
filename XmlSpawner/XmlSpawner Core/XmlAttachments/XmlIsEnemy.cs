@@ -73,7 +73,7 @@ public class XmlIsEnemy : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)0);
+        writer.Write(0);
         // version 0
         writer.Write(this.m_TestString);
     }
@@ -100,11 +100,11 @@ public class XmlIsEnemy : XmlAttachment
 
         if (this.Expiration > TimeSpan.Zero)
         {
-            return String.Format("{0}: IsEnemy '{1}' expires in {2} mins", this.Name, this.Test, this.Expiration.TotalMinutes);
+            return $"{this.Name}: IsEnemy '{this.Test}' expires in {this.Expiration.TotalMinutes} mins";
         }
         else
         {
-            return String.Format("{0}: IsEnemy '{1}'", this.Name, this.Test);
+            return $"{this.Name}: IsEnemy '{this.Test}'";
         }
     }
 }

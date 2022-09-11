@@ -156,7 +156,7 @@ public class XmlMinionStrike : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(m_Chance);
         writer.Write(m_Minion);
@@ -193,16 +193,16 @@ public class XmlMinionStrike : XmlAttachment
 
         if(Expiration > TimeSpan.Zero)
         {
-            msg = String.Format("Minion : {0} {1}% chance expires in {2} mins", m_Minion, Chance, Expiration.TotalMinutes);
+            msg = $"Minion : {m_Minion} {Chance}% chance expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            msg = String.Format("Minion : {0}",m_Minion);
+            msg = $"Minion : {m_Minion}";
         }
 
         if(Refractory > TimeSpan.Zero)
         {
-            return String.Format("{0} : {1} secs between uses",msg, Refractory.TotalSeconds);
+            return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
         else
             return msg;

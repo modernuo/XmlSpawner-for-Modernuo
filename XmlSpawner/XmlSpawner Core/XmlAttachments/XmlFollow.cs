@@ -50,7 +50,7 @@ namespace Server.Engines.XmlSpawner2
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);
+            writer.Write(0);
             // version 0
             writer.Write(this.m_DataValue);
         }
@@ -106,11 +106,12 @@ namespace Server.Engines.XmlSpawner2
 
             if (this.Expiration > TimeSpan.Zero)
             {
-                return String.Format("Following {0} at Distance {1} expires in {2} mins", b.SummonMaster, this.Distance, this.Expiration.TotalMinutes);
+                return
+                    $"Following {b.SummonMaster} at Distance {this.Distance} expires in {this.Expiration.TotalMinutes} mins";
             }
             else
             {
-                return String.Format("Following {0} at Distance {1}", b.SummonMaster, this.Distance);
+                return $"Following {b.SummonMaster} at Distance {this.Distance}";
             }
         }
     }

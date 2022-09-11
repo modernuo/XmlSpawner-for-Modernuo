@@ -95,7 +95,7 @@ public class XmlSkill : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
         // version 0
         writer.Write(m_Word);
         writer.Write((int)m_Skill);
@@ -128,11 +128,11 @@ public class XmlSkill : XmlAttachment
             {
                 m_Identified = true;
             }
-            return String.Format("activated by {0} : skill {1} mod of {2} when equipped",m_Word, m_Skill, m_Value);
+            return $"activated by {m_Word} : skill {m_Skill} mod of {m_Value} when equipped";
         }
         else
         {
-            return String.Format("activated by {0} : skill {1} mod of {2} lasting {3} mins",m_Word, m_Skill, m_Value, m_Duration.TotalMinutes);
+            return $"activated by {m_Word} : skill {m_Skill} mod of {m_Value} lasting {m_Duration.TotalMinutes} mins";
         }
     }
 

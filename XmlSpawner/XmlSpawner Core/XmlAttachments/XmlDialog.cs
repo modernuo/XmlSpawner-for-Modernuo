@@ -839,7 +839,7 @@ public class XmlDialog : XmlAttachment
                             }
                             else
                             {
-                                ReportError(from, String.Format("Bad regular expression: {0} ", status_str));
+                                ReportError(from, $"Bad regular expression: {status_str} ");
                             }
                         }
                     }
@@ -993,7 +993,7 @@ public class XmlDialog : XmlAttachment
     {
         if (status_str != null && mob != null && !mob.Deleted && mob is PlayerMobile && mob.AccessLevel > AccessLevel.Player)
         {
-            mob.SendMessage(33, String.Format("{0}:{1}", AttachedTo.GetType().Name, status_str));
+            mob.SendMessage(33, $"{AttachedTo.GetType().Name}:{status_str}");
         }
     }
 
@@ -1171,7 +1171,7 @@ public class XmlDialog : XmlAttachment
                 // dont know why emote doesnt work, but we'll just do it manually
                 if (CurrentEntry.SpeechStyle == MessageType.Emote)
                 {
-                    text = String.Format("*{0}*", text);
+                    text = $"*{text}*";
                 }
 
                 // items cannot produce actual speech
@@ -1353,19 +1353,19 @@ public class XmlDialog : XmlAttachment
         if (System.IO.Directory.Exists(DefsDir) == true)
         {
             // look for it in the defaults directory
-            dirname = String.Format("{0}/{1}.npc", DefsDir, filename);
+            dirname = $"{DefsDir}/{filename}.npc";
 
             // Check if the file exists
             if (System.IO.File.Exists(dirname) == false)
             {
                 // didnt find it so just look in the main install dir
-                dirname = String.Format("{0}.npc", filename);
+                dirname = $"{filename}.npc";
             }
         }
         else
         {
             // look in the main installation dir
-            dirname = String.Format("{0}.npc", filename);
+            dirname = $"{filename}.npc";
         }
 
         // Check if the file exists
@@ -1560,29 +1560,29 @@ public class XmlDialog : XmlAttachment
         // Populate the npc data
         if (AttachedTo is Item)
         {
-            dr["Name"] = (string)((Item)AttachedTo).Name;
+            dr["Name"] = ((Item)AttachedTo).Name;
         }
         else
         if (AttachedTo is Mobile)
         {
-            dr["Name"] = (string)((Mobile)AttachedTo).Name;
+            dr["Name"] = ((Mobile)AttachedTo).Name;
         }
 
-        dr["Running"] = (bool)this.Running;
-        dr["ProximityRange"] = (int)this.m_ProximityRange;
-        dr["ResetRange"] = (int)this.m_ResetRange;
-        dr["TriggerOnCarried"] = (string)this.TriggerOnCarried;
-        dr["NoTriggerOnCarried"] = (string)this.NoTriggerOnCarried;
-        dr["AllowGhost"] = (bool)this.m_AllowGhostTriggering;
-        dr["SpeechPace"] = (int)this.SpeechPace;
-        dr["ResetTime"] = (double)this.ResetTime.TotalMinutes;
-        dr["ConfigFile"] = (string)this.ConfigFile;
+        dr["Running"] = this.Running;
+        dr["ProximityRange"] = this.m_ProximityRange;
+        dr["ResetRange"] = this.m_ResetRange;
+        dr["TriggerOnCarried"] = this.TriggerOnCarried;
+        dr["NoTriggerOnCarried"] = this.NoTriggerOnCarried;
+        dr["AllowGhost"] = this.m_AllowGhostTriggering;
+        dr["SpeechPace"] = this.SpeechPace;
+        dr["ResetTime"] = this.ResetTime.TotalMinutes;
+        dr["ConfigFile"] = this.ConfigFile;
         int entrycount = 0;
         if (SpeechEntries != null)
         {
             entrycount = SpeechEntries.Count;
         }
-        dr["SpeechEntries"] = (int)entrycount;
+        dr["SpeechEntries"] = entrycount;
 
         // Add the row the the table
         ds.Tables[NPCPointName].Rows.Add(dr);
@@ -1595,21 +1595,21 @@ public class XmlDialog : XmlAttachment
             dr = ds.Tables[SpeechPointName].NewRow();
 
             // Populate the speech entry data
-            dr["EntryNumber"] = (int)s.EntryNumber;
-            dr["ID"] = (int)s.ID;
-            dr["Text"] = (string)s.Text;
-            dr["Keywords"] = (string)s.Keywords;
-            dr["Action"] = (string)s.Action;
-            dr["Condition"] = (string)s.Condition;
-            dr["DependsOn"] = (string)s.DependsOn;
-            dr["Pause"] = (int)s.Pause;
-            dr["PrePause"] = (int)s.PrePause;
-            dr["LockConversation"] = (bool)s.LockConversation;
-            dr["IgnoreCarried"] = (bool)s.IgnoreCarried;
-            dr["AllowNPCTrigger"] = (bool)s.AllowNPCTrigger;
-            dr["SpeechStyle"] = (MessageType)s.SpeechStyle;
-            dr["SpeechHue"] = (int)s.SpeechHue;
-            dr["Gump"] = (string)s.Gump;
+            dr["EntryNumber"] = s.EntryNumber;
+            dr["ID"] = s.ID;
+            dr["Text"] = s.Text;
+            dr["Keywords"] = s.Keywords;
+            dr["Action"] = s.Action;
+            dr["Condition"] = s.Condition;
+            dr["DependsOn"] = s.DependsOn;
+            dr["Pause"] = s.Pause;
+            dr["PrePause"] = s.PrePause;
+            dr["LockConversation"] = s.LockConversation;
+            dr["IgnoreCarried"] = s.IgnoreCarried;
+            dr["AllowNPCTrigger"] = s.AllowNPCTrigger;
+            dr["SpeechStyle"] = s.SpeechStyle;
+            dr["SpeechHue"] = s.SpeechHue;
+            dr["Gump"] = s.Gump;
 
             // Add the row the the table
             ds.Tables[SpeechPointName].Rows.Add(dr);
@@ -1622,12 +1622,12 @@ public class XmlDialog : XmlAttachment
         if (System.IO.Directory.Exists(DefsDir) == true)
         {
             // put it in the defaults directory if it exists
-            dirname = String.Format("{0}/{1}.npc", DefsDir, filename);
+            dirname = $"{DefsDir}/{filename}.npc";
         }
         else
         {
             // otherwise just put it in the main installation dir
-            dirname = String.Format("{0}.npc", filename);
+            dirname = $"{filename}.npc";
         }
 
         // check to see if the file already exists
@@ -1704,7 +1704,7 @@ public class XmlDialog : XmlAttachment
             AddPage(0);
             AddBackground(10, 200, 200, 130, 5054);
 
-            AddLabel(20, 210, 33, String.Format("{0} exists.", filename));
+            AddLabel(20, 210, 33, $"{filename} exists.");
             AddLabel(20, 230, 33, String.Format("Overwrite?", filename));
             AddRadio(35, 255, 9721, 9724, false, 1);                            // accept/yes radio
             AddRadio(135, 255, 9721, 9724, true, 2);                            // decline/no radio
@@ -1866,10 +1866,10 @@ public class XmlDialog : XmlAttachment
 
     public new static void Initialize()
     {
-        XmlSpawner.LoadSettings(new XmlSpawner.AssignSettingsHandler(AssignSettings), "XmlDialog");
+        XmlSpawner.LoadSettings(AssignSettings, "XmlDialog");
 
-        CommandSystem.Register("SaveNPC", AccessLevel.Administrator, new CommandEventHandler(SaveNPC_OnCommand));
-        CommandSystem.Register("LoadNPC", AccessLevel.Administrator, new CommandEventHandler(LoadNPC_OnCommand));
+        CommandSystem.Register("SaveNPC", AccessLevel.Administrator, SaveNPC_OnCommand);
+        CommandSystem.Register("LoadNPC", AccessLevel.Administrator, LoadNPC_OnCommand);
     }
 
 
@@ -1877,13 +1877,13 @@ public class XmlDialog : XmlAttachment
     {
         base.Serialize(writer);
 
-        writer.Write((int)9); // version
+        writer.Write(9); // version
         // Version 9 added the ResetRange property
         writer.Write(m_ResetRange);
         // Version 8 added the IgnoreCarried property
         if (m_SpeechEntries != null)
         {
-            writer.Write((int)m_SpeechEntries.Count);
+            writer.Write(m_SpeechEntries.Count);
             foreach (SpeechEntry s in m_SpeechEntries)
             {
                 writer.Write(s.IgnoreCarried);
@@ -1891,7 +1891,7 @@ public class XmlDialog : XmlAttachment
         }
         else
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
 
         // Version 7
@@ -1900,7 +1900,7 @@ public class XmlDialog : XmlAttachment
         // write out the additional speech entry fields
         if (m_SpeechEntries != null)
         {
-            writer.Write((int)m_SpeechEntries.Count);
+            writer.Write(m_SpeechEntries.Count);
             foreach (SpeechEntry s in m_SpeechEntries)
             {
                 writer.Write(s.SpeechHue);
@@ -1908,13 +1908,13 @@ public class XmlDialog : XmlAttachment
         }
         else
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
         // Version 5
         // write out the additional speech entry fields
         if (m_SpeechEntries != null)
         {
-            writer.Write((int)m_SpeechEntries.Count);
+            writer.Write(m_SpeechEntries.Count);
             foreach (SpeechEntry s in m_SpeechEntries)
             {
                 writer.Write(s.Gump);
@@ -1922,13 +1922,13 @@ public class XmlDialog : XmlAttachment
         }
         else
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
         // Version 4
         // write out the additional speech entry fields
         if (m_SpeechEntries != null)
         {
-            writer.Write((int)m_SpeechEntries.Count);
+            writer.Write(m_SpeechEntries.Count);
             foreach (SpeechEntry s in m_SpeechEntries)
             {
                 writer.Write(s.Condition);
@@ -1936,7 +1936,7 @@ public class XmlDialog : XmlAttachment
         }
         else
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
         // Version 3
         writer.Write(TriggerOnCarried);
@@ -1946,7 +1946,7 @@ public class XmlDialog : XmlAttachment
         // write out the additional speech entry fields
         if (m_SpeechEntries != null)
         {
-            writer.Write((int)m_SpeechEntries.Count);
+            writer.Write(m_SpeechEntries.Count);
             foreach (SpeechEntry s in m_SpeechEntries)
             {
                 writer.Write(s.PrePause);
@@ -1957,7 +1957,7 @@ public class XmlDialog : XmlAttachment
         }
         else
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
 
         // Version 1
@@ -1974,7 +1974,7 @@ public class XmlDialog : XmlAttachment
         // write out the speech entries
         if (m_SpeechEntries != null)
         {
-            writer.Write((int)m_SpeechEntries.Count);
+            writer.Write(m_SpeechEntries.Count);
             foreach (SpeechEntry s in m_SpeechEntries)
             {
                 writer.Write(s.EntryNumber);
@@ -1988,7 +1988,7 @@ public class XmlDialog : XmlAttachment
         }
         else
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
         writer.Write(m_CurrentEntryNumber);
         // check to see if the timer is running

@@ -94,15 +94,15 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
-        writer.Write((int)6); // version
+        writer.Write(6); // version
         // version 6
         if (m_Journal == null || m_Journal.Count == 0)
         {
-            writer.Write((int)0);
+            writer.Write(0);
         }
         else
         {
-            writer.Write((int)m_Journal.Count);
+            writer.Write(m_Journal.Count);
             foreach (XmlQuest.JournalEntry e in m_Journal)
             {
                 writer.Write(e.EntryID);
@@ -121,7 +121,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         if (m_RewardAttachment != null)
             writer.Write(m_RewardAttachment.Serial.Value);
         else
-            writer.Write((int)0);
+            writer.Write(0);
         // version 0
         writer.Write(m_ReturnContainer);
         writer.Write(m_RewardItem);
@@ -356,7 +356,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         List<Item> items = this.Items;
 
         for (int i = 0; i < items.Count; ++i)
-            to.Send(((Item)items[i]).OPLPacket);
+            to.Send(items[i].OPLPacket);
 
         // move the reward item out of container to protect it from use
         HideRewards();
@@ -1378,16 +1378,16 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
                 if (days > 0)
                 {
-                    return String.Format("Expires in {0} days {1} hrs", days, hours);
+                    return $"Expires in {days} days {hours} hrs";
                 }
                 else
                 if (hours > 0)
                 {
-                    return String.Format("Expires in {0} hrs {1} mins", hours, minutes);
+                    return $"Expires in {hours} hrs {minutes} mins";
                 }
                 else
                 {
-                    return String.Format("Expires in {0} mins {1} secs", minutes, seconds);
+                    return $"Expires in {minutes} mins {seconds} secs";
                 }
             }
         }
@@ -1504,7 +1504,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         //LootType = LootType.Regular;
         if (Owner != null)
         {
-            Owner.SendMessage(String.Format("Quest invalidated - '{0}' removed", Name));
+            Owner.SendMessage($"Quest invalidated - '{Name}' removed");
         }
         this.Delete();
     }
@@ -1553,7 +1553,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 m_RewardAttachment = null;
             }
 
-            Owner.SendMessage(String.Format("{0} completed. You receive the quest reward!", Name));
+            Owner.SendMessage($"{Name} completed. You receive the quest reward!");
             this.Delete();
         }
     }
@@ -1586,7 +1586,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
             if (fs == null)
             {
-                Status = String.Format("Unable to open {0} for loading", filename);
+                Status = $"Unable to open {filename} for loading";
                 return;
             }
 

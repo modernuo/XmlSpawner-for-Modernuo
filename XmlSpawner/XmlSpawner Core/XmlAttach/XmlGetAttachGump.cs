@@ -20,7 +20,7 @@ public class XmlGetAttGump : Gump
 {
     private const int MaxEntries = 18;
     private const int MaxEntriesPerPage = 18;
-        
+
     private object m_TargetObject;
 
     private bool Dosearchtype;
@@ -145,7 +145,7 @@ public class XmlGetAttGump : Gump
 
         return newarray;
     }
-        
+
     private class GetAttachTarget : Target
     {
         private CommandEventArgs m_e;
@@ -240,7 +240,7 @@ public class XmlGetAttGump : Gump
         {
             tnamestr = ((Mobile)targeted).Name;
         }
-        AddLabel( 2, 0, 0x33, String.Format( "Attachments on {0} : {1}", targeted.GetType().Name, tnamestr ) );
+        AddLabel( 2, 0, 0x33, $"Attachments on {targeted.GetType().Name} : {tnamestr}");
 
         // add the Sort button
         AddButton( 5, 450, 0xFAB, 0xFAD, 700, GumpButtonType.Reply, 0 );
@@ -276,13 +276,13 @@ public class XmlGetAttGump : Gump
 
 
         // add the page buttons
-        for(int i = 0;i<(int)(MaxEntries/MaxEntriesPerPage);i++){
+        for(int i = 0;i<MaxEntries/MaxEntriesPerPage;i++){
             //AddButton( 38+i*30, 365, 2206, 2206, 0, GumpButtonType.Page, 1+i );
             AddButton( 418+i*25, 450, 0x8B1+i, 0x8B1+i, 0, GumpButtonType.Page, 1+i );
         }
 
         // add the advance pageblock buttons
-        AddButton( 415+25*(int)(MaxEntries/MaxEntriesPerPage), 450, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0 ); // block forward
+        AddButton( 415+25*(MaxEntries/MaxEntriesPerPage), 450, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0 ); // block forward
         AddButton( 395, 450, 0x15E3, 0x15E7, 202, GumpButtonType.Reply, 0 ); // block backward
 
         // add the displayfrom entry
@@ -293,9 +293,10 @@ public class XmlGetAttGump : Gump
 
         // display the item list
         if(m_SearchList != null){
-            AddLabel( 320, 425, 68, String.Format("Found {0} attachments",m_SearchList.Count) );
-            AddLabel( 500, 425, 68, String.Format("Displaying {0}-{1}",DisplayFrom,
-                (DisplayFrom + MaxEntries < m_SearchList.Count ? DisplayFrom + MaxEntries : m_SearchList.Count)) );
+            AddLabel( 320, 425, 68, $"Found {m_SearchList.Count} attachments");
+            AddLabel( 500, 425, 68,
+                $"Displaying {DisplayFrom}-{(DisplayFrom + MaxEntries < m_SearchList.Count ? DisplayFrom + MaxEntries : m_SearchList.Count)}"
+            );
         }
 
         // display the select-all-displayed toggle
@@ -312,7 +313,7 @@ public class XmlGetAttGump : Gump
                 break;
             }
 
-            int page = (int)(i/MaxEntriesPerPage);
+            int page = i/MaxEntriesPerPage;
             if(i%MaxEntriesPerPage == 0){
                 AddPage(page+1);
             }
@@ -333,7 +334,7 @@ public class XmlGetAttGump : Gump
 
             int texthue = 0;
 
-            object o = (object)m_SearchList[index];
+            object o = m_SearchList[index];
 
             if(o is XmlAttachment){
                 XmlAttachment a = (XmlAttachment)m_SearchList[index];
@@ -379,7 +380,7 @@ public class XmlGetAttGump : Gump
             // display the attachedby
             AddImageTiled( 495, 22 * (i%MaxEntriesPerPage)  + 31, 125, 21, 0xBBC );
             AddLabelCropped( 495, 22 * (i%MaxEntriesPerPage) + 31,105, 21, texthue, attachedby );
-                
+
             // display the descriptio button
             AddButton( 600, 22 * (i%MaxEntriesPerPage)  + 32, 0x5689, 0x568A, 5000+i, GumpButtonType.Reply, 0 );
 
@@ -737,7 +738,7 @@ public class XmlGetAttGump : Gump
                 }
             }
 
-            AddLabel( 20, 225, 33, String.Format("Delete {0} attachments?",count) );
+            AddLabel( 20, 225, 33, $"Delete {count} attachments?");
             AddRadio( 35, 255, 9721, 9724, false, 1 );                             // accept/yes radio
             AddRadio( 135, 255, 9721, 9724, true, 2 );                             // decline/no radio
             AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff , false , false );  // Yes

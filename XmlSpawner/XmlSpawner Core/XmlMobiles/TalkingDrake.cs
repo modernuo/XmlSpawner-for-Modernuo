@@ -63,7 +63,7 @@ public class TalkingDrake : TalkingBaseCreature
     public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
-        writer.Write( (int) 0 );
+        writer.Write( 0 );
     }
 
     public override void Deserialize( IGenericReader reader )

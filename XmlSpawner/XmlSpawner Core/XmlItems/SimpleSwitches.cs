@@ -194,7 +194,7 @@ public class SimpleLever : Item, ILinkable
     {
         base.Serialize(writer);
 
-        writer.Write((int)2); // version
+        writer.Write(2); // version
         // version 2
         writer.Write(m_Disabled);
         // version 1
@@ -525,7 +525,7 @@ public class SimpleSwitch : Item, ILinkable
     {
         base.Serialize(writer);
 
-        writer.Write((int)2); // version
+        writer.Write(2); // version
         // version 2
         writer.Write(this.m_Disabled);
         // version 1
@@ -957,7 +957,7 @@ public class CombinationLock : Item
     {
         base.Serialize(writer);
 
-        writer.Write((int)0); // version
+        writer.Write(0); // version
 
         writer.Write(this.m_Combination);
         writer.Write(this.m_CombinationSound);
