@@ -28,7 +28,7 @@ public class XmlQuestNPC : TalkingBaseCreature
         Title = string.Empty;
         Hue = Race.RandomSkinHue();
 
-        switch(gender)
+        switch (gender)
         {
             case -1:
                 {

@@ -12,27 +12,37 @@ public class XmlSound : XmlAttachment
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Range { get => proximityrange;
+    public int Range
+    {
+        get => proximityrange;
         set => proximityrange  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int SoundValue { get => m_SoundValue;
+    public int SoundValue
+    {
+        get => m_SoundValue;
         set => m_SoundValue  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string ActivationWord { get => m_Word;
+    public string ActivationWord
+    {
+        get => m_Word;
         set => m_Word  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Charges { get => m_Charges;
+    public int Charges
+    {
+        get => m_Charges;
         set => m_Charges  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Refractory { get => m_Refractory;
+    public TimeSpan Refractory
+    {
+        get => m_Refractory;
         set => m_Refractory  = value;
     }
 
@@ -105,7 +115,7 @@ public class XmlSound : XmlAttachment
         base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch(version)
+        switch (version)
         {
             case 1:
                 {
@@ -186,10 +196,6 @@ public class XmlSound : XmlAttachment
         {
             OnTrigger(null, e.Mobile);
         }
-        else
-        {
-            return;
-        }
     }
 
 
@@ -228,8 +234,7 @@ public class XmlSound : XmlAttachment
                 }
                 catch{}
             }
-            else
-            if (i.RootParent is IEntity)
+            else if (i.RootParent is IEntity)
             {
                 try
                 {

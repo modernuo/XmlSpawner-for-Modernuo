@@ -11,7 +11,7 @@ public class XmlQuestPoints : XmlAttachment
     private int m_Completed;
     private int m_Credits;
 
-    private ArrayList m_QuestList = new ArrayList();
+    private ArrayList m_QuestList = new();
 
     private DateTime m_WhenRanked;
     private int m_Rank;
@@ -102,7 +102,7 @@ public class XmlQuestPoints : XmlAttachment
 
             int version = reader.ReadInt();
 
-            switch(version)
+            switch (version)
             {
                 case 0:
                     {
@@ -374,7 +374,7 @@ public class XmlQuestPoints : XmlAttachment
 
         int version = reader.ReadInt();
 
-        switch(version)
+        switch (version)
         {
             case 0:
                 {

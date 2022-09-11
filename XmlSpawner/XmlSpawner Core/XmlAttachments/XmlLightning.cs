@@ -12,17 +12,23 @@ public class XmlLightning : XmlAttachment
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Damage { get => m_Damage;
+    public int Damage
+    {
+        get => m_Damage;
         set => m_Damage = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Refractory { get => m_Refractory;
+    public TimeSpan Refractory
+    {
+        get => m_Refractory;
         set => m_Refractory  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Range { get => proximityrange;
+    public int Range
+    {
+        get => proximityrange;
         set => proximityrange  = value;
     }
 
@@ -115,10 +121,6 @@ public class XmlLightning : XmlAttachment
         {
             OnTrigger(null, e.Mobile);
         }
-        else
-        {
-            return;
-        }
     }
 
     public override void Serialize(IGenericWriter writer)
@@ -140,7 +142,7 @@ public class XmlLightning : XmlAttachment
         base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch(version)
+        switch (version)
         {
             case 1:
                 {

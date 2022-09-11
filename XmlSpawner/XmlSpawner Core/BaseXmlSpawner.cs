@@ -23,7 +23,7 @@ public class BaseXmlSpawner
 
     public class TypeInfo
     {
-        public List<PropertyInfo> plist = new List<PropertyInfo>(); // hold propertyinfo list
+        public List<PropertyInfo> plist = new(); // hold propertyinfo list
         public Type t;
     }
 
@@ -104,10 +104,10 @@ public class BaseXmlSpawner
     // if this is null, then COMMANDS can only be issued when triggered by players of the appropriate accesslevel
     private static readonly string CommandMobileName = null;
 
-    private static readonly Dictionary<string, typeKeyword> typeKeywordHash = new Dictionary<string, typeKeyword>();
-    private static readonly Dictionary<string, typemodKeyword> typemodKeywordHash = new Dictionary<string, typemodKeyword>();
-    private static readonly Dictionary<string, valueKeyword> valueKeywordHash = new Dictionary<string, valueKeyword>();
-    private static readonly Dictionary<string, valuemodKeyword> valuemodKeywordHash = new Dictionary<string, valuemodKeyword>();
+    private static readonly Dictionary<string, typeKeyword> typeKeywordHash = new();
+    private static readonly Dictionary<string, typemodKeyword> typemodKeywordHash = new();
+    private static readonly Dictionary<string, valueKeyword> valueKeywordHash = new();
+    private static readonly Dictionary<string, valuemodKeyword> valuemodKeywordHash = new();
 
     private static readonly char[] slashdelim = { '/' };
     private static readonly char[] commadelim = { ',' };

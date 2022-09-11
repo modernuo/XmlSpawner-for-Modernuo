@@ -230,7 +230,7 @@ public class XmlMagicWord : XmlAttachment
                 }
             case "Velas":
                 {
-                    Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(Hide_Callback), new object[]{ m });
+                    Timer.DelayCall(TimeSpan.Zero, Hide_Callback, m);
                     m.SendMessage("You disappear!");
                     break;
                 }
@@ -267,7 +267,7 @@ public class XmlMagicWord : XmlAttachment
                 }
             case "Santor":
                 {
-                    b = new Horse();
+                    BaseCreature b = new Horse();
                     b.MoveToWorld(m.Location, m.Map);
                     b.Owners.Add(m);
                     b.SetControlMaster(m);
@@ -287,7 +287,7 @@ public class XmlMagicWord : XmlAttachment
 
         // display activation effects
         Effects.SendLocationParticles(EffectItem.Create(m.Location, m.Map, EffectItem.DefaultDuration), 0x3728, 8, 20, 5042);
-        Effects.PlaySound(m, m.Map, 0x201);
+        Effects.PlaySound(m.Location, m.Map, 0x201);
 
         // display a message over the item it was attached to
         if (AttachedTo is Item item)

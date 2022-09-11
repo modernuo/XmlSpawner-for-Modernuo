@@ -8,7 +8,9 @@ public class XmlHue : XmlAttachment
     private int m_Hue;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Hue { get => m_Hue;
+    public int Hue
+    {
+        get => m_Hue;
         set => m_Hue = value;
     }
 
@@ -81,12 +83,11 @@ public class XmlHue : XmlAttachment
         // remove the mod
         if (AttachedTo is Mobile mobile)
         {
-            ((Mobile)AttachedTo).Hue = m_Originalhue;
+            mobile.Hue = m_Originalhue;
         }
-        else
-        if (AttachedTo is Item item)
+        else if (AttachedTo is Item item)
         {
-            ((Item)AttachedTo).Hue = m_Originalhue;
+            item.Hue = m_Originalhue;
         }
     }
 

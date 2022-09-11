@@ -145,7 +145,7 @@ public class XmlEditDialogGump : Gump
             {
                 radiostate = info.Switches[0];
             }
-            switch(info.ButtonID)
+            switch (info.ButtonID)
             {
 
                 default:
@@ -703,7 +703,7 @@ public class XmlEditDialogGump : Gump
         string savefile = (string)args[5];
 
         // place the book text into the entry by type
-        switch(textid)
+        switch (textid)
         {
             case 0: // text
                 {
@@ -1211,7 +1211,7 @@ public class XmlEditDialogGump : Gump
 
                         string text = String.Empty;
                         string title = String.Empty;
-                        switch(textid)
+                        switch (textid)
                         {
                             case 0: // text
                                 {
@@ -1381,7 +1381,7 @@ public class XmlEditDialogGump : Gump
             {
                 radiostate = info.Switches[0];
             }
-            switch(info.ButtonID)
+            switch (info.ButtonID)
             {
 
                 default:

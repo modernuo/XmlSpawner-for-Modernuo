@@ -23,7 +23,7 @@ public class XmlQuestPointsRewards
     public object [] RewardArgs; // arguments passed to the reward constructor
     public int MinPoints;        // the minimum points requirement for the reward
 
-    private static ArrayList    PointsRewardList = new ArrayList();
+    private static ArrayList    PointsRewardList = new();
 
     public static ArrayList RewardsList => PointsRewardList;
 

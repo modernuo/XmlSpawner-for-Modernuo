@@ -4,7 +4,6 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlFreeze : XmlAttachment
 {
-
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
@@ -71,8 +70,8 @@ public class XmlFreeze : XmlAttachment
         // apply the mod
         if (AttachedTo is Mobile mobile)
         {
-            ((Mobile)AttachedTo).Frozen = true;
-            ((Mobile)AttachedTo).ProcessDelta();
+            mobile.Frozen = true;
+            mobile.ProcessDelta();
         }
         else
         {

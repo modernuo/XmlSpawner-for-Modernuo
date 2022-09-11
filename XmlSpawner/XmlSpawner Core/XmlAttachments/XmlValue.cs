@@ -7,7 +7,9 @@ public class XmlValue : XmlAttachment
     private int m_DataValue;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Value { get => m_DataValue;
+    public int Value
+    {
+        get => m_DataValue;
         set => m_DataValue = value;
     }
 

@@ -7,7 +7,9 @@ public class XmlLocalVariable : XmlAttachment
     private string m_DataValue; // default data
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Data { get => m_DataValue;
+    public string Data
+    {
+        get => m_DataValue;
         set => m_DataValue = value;
     }
 

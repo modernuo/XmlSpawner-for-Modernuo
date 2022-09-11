@@ -16,12 +16,16 @@ public class XmlManaDrain : XmlAttachment
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Range { get => proximityrange;
+    public int Range
+    {
+        get => proximityrange;
         set => proximityrange  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Refractory { get => m_Refractory;
+    public TimeSpan Refractory
+    {
+        get => m_Refractory;
         set => m_Refractory  = value;
     }
 
@@ -105,10 +109,6 @@ public class XmlManaDrain : XmlAttachment
         {
             OnTrigger(null, e.Mobile);
         }
-        else
-        {
-            return;
-        }
     }
 
     public override void Serialize(IGenericWriter writer)
@@ -130,7 +130,7 @@ public class XmlManaDrain : XmlAttachment
         base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch(version)
+        switch (version)
         {
             case 1:
                 {

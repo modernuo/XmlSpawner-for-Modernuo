@@ -134,7 +134,7 @@ namespace Server.Mobiles
         private TimeSpan m_MaxDelay;
         // added a duration parameter for time-limited spawns
         private TimeSpan m_Duration;
-        public List<SpawnObject> m_SpawnObjects = new List<SpawnObject>(); // List of objects to spawn
+        public List<SpawnObject> m_SpawnObjects = new(); // List of objects to spawn
         private DateTime m_End;
         private DateTime m_RefractEnd;
         private DateTime m_DurEnd;
@@ -204,7 +204,7 @@ namespace Server.Mobiles
 
         private List<MovementInfo> m_MovementList;
         private MovementTimer m_MovementTimer;
-        internal List<BaseXmlSpawner.KeywordTag> m_KeywordTagList = new List<BaseXmlSpawner.KeywordTag>();
+        internal List<BaseXmlSpawner.KeywordTag> m_KeywordTagList = new();
 
         public List<XmlSpawner> RecentSpawnerSearchList = null;
         public List<Item> RecentItemSearchList = null;
@@ -221,7 +221,7 @@ namespace Server.Mobiles
         private bool m_SmartSpawning;
         private SectorTimer m_SectorTimer;
 
-        private List<Static> m_ShowBoundsItems = new List<Static>();
+        private List<Static> m_ShowBoundsItems = new();
 
         public List<BaseXmlSpawner.TypeInfo> PropertyInfoList = null;   // used to optimize property info lookup used by set and get property methods.
 
@@ -979,7 +979,7 @@ namespace Server.Mobiles
         [CommandProperty(AccessLevel.GameMaster)]
         public Point3D X1_Y1
         {
-            get => new Point3D(m_X, m_Y, Z);
+            get => new(m_X, m_Y, Z);
             set
             {
                 // X1 and Y1 will initiate region specification
@@ -1004,7 +1004,7 @@ namespace Server.Mobiles
         [CommandProperty(AccessLevel.GameMaster)]
         public Point3D X2_Y2
         {
-            get => new Point3D(m_X + m_Width, m_Y + m_Height, Z);
+            get => new(m_X + m_Width, m_Y + m_Height, Z);
             set
             {
                 int X2;
@@ -10148,7 +10148,7 @@ namespace Server.Mobiles
             return false;
         }
 
-        public Rectangle2D SpawnerBounds => new Rectangle2D(m_X, m_Y, m_Width + 1, m_Height + 1);
+        public Rectangle2D SpawnerBounds => new(m_X, m_Y, m_Width + 1, m_Height + 1);
 
         private void FindTileLocations(ref List<Point3D> locations, Map map, int startx, int starty, int width, int height, List<int> includetilelist, List<int> excludetilelist, TileFlag tileflag, bool checkitems, int spawnerZ)
         {

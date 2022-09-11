@@ -11,12 +11,16 @@ public class XmlEnemyMastery : XmlAttachment
     private Type m_EnemyType;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Chance { get => m_Chance;
+    public int Chance
+    {
+        get => m_Chance;
         set => m_Chance = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int PercentIncrease { get => m_PercentIncrease;
+    public int PercentIncrease
+    {
+        get => m_PercentIncrease;
         set => m_PercentIncrease = value;
     }
 
@@ -142,17 +146,8 @@ public class XmlEnemyMastery : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        string msg = null;
-
-        if (Expiration > TimeSpan.Zero)
-        {
-            msg = String.Format("Enemy Mastery : +{3}% damage vs {0}, {1}%, hitchance expires in {2} mins", m_Enemy, Chance, Expiration.TotalMinutes, PercentIncrease);
-        }
-        else
-        {
-            msg = String.Format("Enemy Mastery : +{2}% damage vs {0}, {1}% hitchance",m_Enemy, Chance, PercentIncrease);
-        }
-
-        return msg;
+        return Expiration > TimeSpan.Zero
+            ? $"Enemy Mastery : +{PercentIncrease}% damage vs {m_Enemy}, {Chance}%, hitchance expires in {Expiration.TotalMinutes} mins"
+            : $"Enemy Mastery : +{PercentIncrease}% damage vs {m_Enemy}, {Chance}% hitchance";;
     }
 }

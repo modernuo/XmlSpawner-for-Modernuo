@@ -18,27 +18,37 @@ public class XmlSkill : XmlAttachment
 
     [CommandProperty(AccessLevel.GameMaster)]
     // this property can be set allowing individual items to determine whether they must be identified for the mod to be activatable
-    public bool RequireIdentification { get => m_RequireIdentification;
+    public bool RequireIdentification
+    {
+        get => m_RequireIdentification;
         set => m_RequireIdentification = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Value { get => m_Value;
+    public int Value
+    {
+        get => m_Value;
         set => m_Value  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public SkillName Skill { get => m_Skill;
+    public SkillName Skill
+    {
+        get => m_Skill;
         set => m_Skill  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Duration { get => m_Duration;
+    public TimeSpan Duration
+    {
+        get => m_Duration;
         set => m_Duration  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string ActivationWord { get => m_Word;
+    public string ActivationWord
+    {
+        get => m_Word;
         set => m_Word  = value;
     }
 
@@ -139,6 +149,7 @@ public class XmlSkill : XmlAttachment
             {
                 m_Identified = true;
             }
+
             return $"activated by {m_Word} : skill {m_Skill} mod of {m_Value} when equipped";
         }
 
@@ -181,8 +192,7 @@ public class XmlSkill : XmlAttachment
             Timer.DelayCall(TimeSpan.Zero, Delete);
             //Delete();
         }
-        else
-        if (AttachedTo is Item && m_Word == null)
+        else if (AttachedTo is Item && m_Word == null)
         {
             // no way to activate if it is on an item and is not speech activated so just delete it
             Delete();
@@ -199,7 +209,7 @@ public class XmlSkill : XmlAttachment
         if ((AttachedTo is BaseArmor || AttachedTo is BaseWeapon) && ((Item)AttachedTo).Layer != Layer.Invalid)
         {
             // when activated via speech will apply mod when equipped by the speaker
-            SkillMod sm = new EquipedSkillMod(m_Skill, true, m_Value, (Item)AttachedTo, m);
+            SkillMod sm = new EquippedSkillMod(m_Skill, true, m_Value, (Item)AttachedTo, m);
             m.AddSkillMod(sm);
             // and then remove the attachment
             Delete();

@@ -11,23 +11,28 @@ public class XmlMinionStrike : XmlAttachment
     private TimeSpan m_Refractory = TimeSpan.FromSeconds(5); // 5 seconds default time between activations
     private DateTime m_EndTime;
     private string m_Minion = "Drake";
-    private ArrayList MinionList = new ArrayList();
+    private ArrayList MinionList = new();
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Chance { get => m_Chance;
+    public int Chance
+    {
+        get => m_Chance;
         set => m_Chance = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Refractory { get => m_Refractory;
+    public TimeSpan Refractory
+    {
+        get => m_Refractory;
         set => m_Refractory  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Minion { get => m_Minion;
+    public string Minion
+    {
+        get => m_Minion;
         set => m_Minion  = value;
     }
-
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -79,7 +84,7 @@ public class XmlMinionStrike : XmlAttachment
         if (AttachedTo is Mobile)
         {
             Mobile m = AttachedTo as Mobile;
-            Effects.PlaySound(m, m.Map, 516);
+            Effects.PlaySound(m.Location, m.Map, 516);
         }
     }
 
@@ -156,7 +161,7 @@ public class XmlMinionStrike : XmlAttachment
             Mobile m = AttachedTo as Mobile;
             if (!m.Deleted)
             {
-                Effects.PlaySound(m, m.Map, 958);
+                Effects.PlaySound(m.Location, m.Map, 958);
             }
         }
 

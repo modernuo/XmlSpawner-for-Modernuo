@@ -781,7 +781,7 @@ public class XmlGetAttGump : Gump
                 radiostate = info.Switches[0];
             }
 
-            switch(info.ButtonID)
+            switch (info.ButtonID)
             {
 
                 default:

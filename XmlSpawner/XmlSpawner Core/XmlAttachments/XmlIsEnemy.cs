@@ -6,8 +6,7 @@ namespace Server.Engines.XmlSpawner2;
 public class XmlIsEnemy : XmlAttachment
 {
     private string m_TestString; // Test condition to see if mobile is an enemy of the object this is attached to
-    public XmlIsEnemy(ASerial serial)
-        : base(serial)
+    public XmlIsEnemy(ASerial serial) : base(serial)
     {
     }
 

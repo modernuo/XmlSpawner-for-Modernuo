@@ -42,6 +42,7 @@ public class XmlSpawnTime : XmlAttachment
         }
         set => m_MinDelay = value;
     }
+
     [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan MaxDelay
     {
@@ -59,6 +60,7 @@ public class XmlSpawnTime : XmlAttachment
         }
         set => m_MaxDelay = value;
     }
+
     public override bool HandlesOnKilled => true;
 
     private XmlSpawner MySpawner

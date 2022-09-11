@@ -4,7 +4,7 @@ namespace Server.Mobiles;
 
 public class TalkingJeweler : TalkingBaseVendor
 {
-    private List<SBInfo> m_SBInfos = new List<SBInfo>();
+    private List<SBInfo> m_SBInfos = new();
     protected override List<SBInfo> SBInfos => m_SBInfos;
 
     [Constructible]

@@ -10,8 +10,7 @@ public class XmlRestrictEquip : XmlAttachment
     private string m_PropertyListString; // string displayed in the properties list
 
     // a serial constructor is REQUIRED
-    public XmlRestrictEquip(ASerial serial)
-        : base(serial)
+    public XmlRestrictEquip(ASerial serial) : base(serial)
     {
     }
 

@@ -270,10 +270,6 @@ public class XmlAnimate : XmlAttachment
         {
             OnTrigger(null, e.Mobile);
         }
-        else
-        {
-            return;
-        }
     }
 
     public override void OnAttach()

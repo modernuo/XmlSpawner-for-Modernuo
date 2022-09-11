@@ -486,7 +486,7 @@ public class TimedLever : XmlLatch, ILinkable
                 {
                     m_LeverSound = reader.ReadInt();
                     int ltype = reader.ReadInt();
-                    switch(ltype)
+                    switch (ltype)
                     {
                         case (int)leverType.Two_State:
                             {
@@ -513,7 +513,7 @@ public class TimedLever : XmlLatch, ILinkable
     public void SetLeverStatic()
     {
 
-        switch(Direction)
+        switch (Direction)
         {
             case Direction.North:
             case Direction.South:
@@ -828,7 +828,7 @@ public class TimedSwitch : XmlLatch, ILinkable
     public void SetSwitchStatic()
     {
 
-        switch(Direction)
+        switch (Direction)
         {
             case Direction.North:
             case Direction.South:
@@ -1184,7 +1184,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     public void SetSwitchStatic()
     {
 
-        switch(State)
+        switch (State)
         {
             case 0:
                 {

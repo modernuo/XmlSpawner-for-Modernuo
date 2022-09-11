@@ -51,7 +51,7 @@ public abstract class TalkingBaseVendor : BaseVendor
     private DateTime lasteffect;
     private int m_EItemID; // 0 = disable, 14202 = sparkle, 6251 = round stone, 7885 = light pyramid
     private int m_Duration = 70;
-    private Point3D m_Offset = new Point3D(0,0,20); // overhead
+    private Point3D m_Offset = new(0,0,20); // overhead
     private int m_EHue = 68;                        // green
 
     [CommandProperty(AccessLevel.GameMaster)]

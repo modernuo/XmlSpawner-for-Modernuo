@@ -64,7 +64,7 @@ public class XmlConfirmDeleteGump : Gump
         {
             radiostate = info.Switches[0];
         }
-        switch(info.ButtonID)
+        switch (info.ButtonID)
         {
             default:
                 {
@@ -103,7 +103,7 @@ public class XmlSimpleGump : Gump
     private object m_invoker;
     private BaseXmlSpawner.KeywordTag m_keywordtag;
     private XmlGumpCallback m_gumpcallback;
-    private ArrayList gumpSelections = new ArrayList();
+    private ArrayList gumpSelections = new();
 
     private class GumpSelection
     {
@@ -627,7 +627,7 @@ public class XmlSimpleGump : Gump
             } else
 
             {
-                switch(m_gumptype)
+                switch (m_gumptype)
                 {
                     case 0: // simple acknowledgement gump
                         {

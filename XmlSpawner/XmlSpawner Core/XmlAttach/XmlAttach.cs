@@ -100,10 +100,10 @@ public class XmlAttach
     }
 
     // each entry in the hashtable is an array of XmlAttachments that is keyed by an object.
-    public static Hashtable ItemAttachments = new Hashtable();   // keyed by item
-    public static Hashtable MobileAttachments = new Hashtable(); // keyed by mobile
-    public static Hashtable AllAttachments = new Hashtable();    // keyed by attachment serial
-    private static ArrayList UnassignedAttachments = new ArrayList();
+    public static Hashtable ItemAttachments = new();   // keyed by item
+    public static Hashtable MobileAttachments = new(); // keyed by mobile
+    public static Hashtable AllAttachments = new();    // keyed by attachment serial
+    private static ArrayList UnassignedAttachments = new();
 
     public static bool HasAttachments(object o)
     {
@@ -2624,7 +2624,7 @@ public class XmlAttach
                     op.WriteLine("XmlSpawner2 Attachment Error Report");
                     op.WriteLine("===================");
                     op.WriteLine();
-                    op.WriteLine("ServUO Version {0}.{1}.{3}, Build {2}", ver.Major, ver.Minor, ver.Revision, ver.Build);
+                    op.WriteLine("ModernUO Version {0}.{1}.{3}, Build {2}", ver.Major, ver.Minor, ver.Revision, ver.Build);
                     op.WriteLine("Operating System: {0}", Environment.OSVersion);
                     op.WriteLine(".NET Framework: {0}", Environment.Version);
                     op.WriteLine("XmlSpawner2: {0}", XmlSpawner.Version);

@@ -4,8 +4,7 @@ public class XmlPoison : XmlAttachment
 {
     private int p_level;
     // a serial constructor is REQUIRED
-    public XmlPoison(ASerial serial)
-        : base(serial)
+    public XmlPoison(ASerial serial) : base(serial)
     {
     }
 
@@ -19,56 +18,28 @@ public class XmlPoison : XmlAttachment
     {
         get
         {
-            if (p_level < 1)
+            return p_level switch
             {
-                return Poison.Lesser;
-            }
-
-            if (p_level == 1)
-            {
-                return Poison.Regular;
-            }
-            if (p_level == 2)
-            {
-                return Poison.Greater;
-            }
-            if (p_level == 3)
-            {
-                return Poison.Deadly;
-            }
-            if (p_level > 3)
-            {
-                return Poison.Lethal;
-            }
-            return Poison.Regular;
+                < 1 => Poison.Lesser,
+                1   => Poison.Regular,
+                2   => Poison.Greater,
+                3   => Poison.Deadly,
+                > 3 => Poison.Lethal
+            };
         }
     }
     public Poison HitPoison
     {
         get
         {
-            if (p_level < 1)
+            return p_level switch
             {
-                return Poison.Lesser;
-            }
-
-            if (p_level == 1)
-            {
-                return Poison.Regular;
-            }
-            if (p_level == 2)
-            {
-                return Poison.Greater;
-            }
-            if (p_level == 3)
-            {
-                return Poison.Deadly;
-            }
-            if (p_level > 3)
-            {
-                return Poison.Lethal;
-            }
-            return Poison.Regular;
+                < 1 => Poison.Lesser,
+                1   => Poison.Regular,
+                2   => Poison.Greater,
+                3   => Poison.Deadly,
+                > 3 => Poison.Lethal
+            };
         }
     }
     public override void Serialize(IGenericWriter writer)
@@ -85,7 +56,7 @@ public class XmlPoison : XmlAttachment
         base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch(version)
+        switch (version)
         {
             case 0:
                 {

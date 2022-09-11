@@ -93,8 +93,8 @@ public class XmlSaveItem : XmlAttachment
                     m_SavedItem.Map = ((Item)AttachedTo).Map;
                     m_SavedItem.Location = ((Item)AttachedTo).Location;
                     m_SavedItem.Parent = ((Item)AttachedTo).Parent;
-                } else
-                if (AttachedTo is Mobile)
+                }
+                else if (AttachedTo is Mobile)
                 {
                     m_SavedItem.Map = ((Mobile)AttachedTo).Map;
                     m_SavedItem.Location = ((Mobile)AttachedTo).Location;
@@ -104,13 +104,14 @@ public class XmlSaveItem : XmlAttachment
 
                 m_SavedItem = null;
                 m_WasOwnedBy = null;
-
             }
         }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public Mobile WasOwnedBy { get => m_WasOwnedBy;
+    public Mobile WasOwnedBy
+    {
+        get => m_WasOwnedBy;
         set => m_WasOwnedBy = value;
     }
 
@@ -155,7 +156,6 @@ public class XmlSaveItem : XmlAttachment
 
     [Attachable]
     public XmlSaveItem(string name) => Name = name;
-
 
     public XmlSaveItem(string name, Item saveditem)
     {

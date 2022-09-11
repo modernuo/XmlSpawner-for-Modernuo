@@ -170,7 +170,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         return false;
     }
 
-    private static Hashtable m_EscortTable = new Hashtable();
+    private static Hashtable m_EscortTable = new();
 
     public static Hashtable EscortTable => m_EscortTable;
 

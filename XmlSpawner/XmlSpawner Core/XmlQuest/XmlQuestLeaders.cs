@@ -18,7 +18,7 @@ public class XmlQuestLeaders
 
     private static QuestLeaderboardTimer m_QuestLeaderboardTimer;
     private static string m_QuestLeaderboardFile;
-    private static ArrayList QuestRankList = new ArrayList();
+    private static ArrayList QuestRankList = new();
     private static bool needsupdate = true;
 
 
@@ -486,7 +486,7 @@ public class XmlQuestLeaders
     {
         int version = reader.ReadInt();
 
-        switch(version)
+        switch (version)
         {
 
             case 0:
@@ -803,7 +803,7 @@ public class XmlQuestLeaders
                 }
             }
 
-            switch(info.ButtonID)
+            switch (info.ButtonID)
             {
                 case 100:
                 case 200:

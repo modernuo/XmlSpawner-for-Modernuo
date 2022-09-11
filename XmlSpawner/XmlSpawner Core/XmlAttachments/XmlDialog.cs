@@ -73,7 +73,7 @@ public class XmlDialog : XmlAttachment
     private const string SpeechPointName = "SpeechEntry";
     public static string DefsDir = "XmlQuestNPC";
 
-    private ArrayList m_SpeechEntries = new ArrayList();  // contains the list of speech entries
+    private ArrayList m_SpeechEntries = new();  // contains the list of speech entries
     private int m_CurrentEntryNumber = -1;         // used to determine which entry will be subject to modification by various entry editing calls
     private SpeechEntry m_CurrentEntry;
     private bool m_Running = true;
@@ -1135,13 +1135,8 @@ public class XmlDialog : XmlAttachment
         }
     }
 
-    private void DelayedSpeech(object state)
+    private void DelayedSpeech(SpeechEntry matchentry, Mobile m)
     {
-        object[] states = (object[])state;
-
-        SpeechEntry matchentry = (SpeechEntry)states[0];
-        Mobile m = (Mobile)states[1];
-
         if (matchentry != null)
         {
             CurrentEntry = matchentry;
@@ -1280,7 +1275,7 @@ public class XmlDialog : XmlAttachment
         // and switch to the one that matches
 
         m_HoldProcessing = true;
-        Timer.DelayCall(TimeSpan.FromSeconds(prepause), new TimerStateCallback(DelayedSpeech), new object[] { matchentry, m });
+        Timer.DelayCall(TimeSpan.FromSeconds(prepause), DelayedSpeech, matchentry, m);
 
         return true;
     }

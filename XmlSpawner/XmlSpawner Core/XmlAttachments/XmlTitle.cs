@@ -7,8 +7,7 @@ public class XmlTitle : XmlAttachment
     private string m_Title; // title string
 
     // a serial constructor is REQUIRED
-    public XmlTitle(ASerial serial)
-        : base(serial)
+    public XmlTitle(ASerial serial) : base(serial)
     {
     }
 
@@ -76,7 +75,7 @@ public class XmlTitle : XmlAttachment
             }
             if (hastitle)
             {
-                list.Add(1070722, "<BASEFONT COLOR=#E6CC80>{0}<BASEFONT COLOR=#FFFFFF>", titlestring);
+                list.Add(1070722, $"<BASEFONT COLOR=#E6CC80>{titlestring}<BASEFONT COLOR=#FFFFFF>");
             }
         }
     }

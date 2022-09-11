@@ -1386,7 +1386,7 @@ public abstract class XmlQuest
         }
     }
 
-    public static Hashtable VisitSectorList = new Hashtable();
+    public static Hashtable VisitSectorList = new();
 
     public static void RegisterMove(PlayerMobile m_player)
     {

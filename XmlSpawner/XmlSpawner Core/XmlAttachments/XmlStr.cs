@@ -9,7 +9,9 @@ public class XmlStr : XmlAttachment
     private int m_Value = 10;                                 // default value of 10
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Value { get => m_Value;
+    public int Value
+    {
+        get => m_Value;
         set => m_Value = value;
     }
 

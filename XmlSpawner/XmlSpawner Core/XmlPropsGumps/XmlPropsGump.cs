@@ -633,7 +633,7 @@ public class XmlPropertiesGump : Gump
 
     private class PropertySorter : IComparer
     {
-        public static readonly PropertySorter Instance = new PropertySorter();
+        public static readonly PropertySorter Instance = new();
 
         private PropertySorter()
         {

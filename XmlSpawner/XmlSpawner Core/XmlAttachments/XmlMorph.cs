@@ -13,12 +13,16 @@ public class XmlMorph : XmlAttachment
     private DateTime m_MorphEnd;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int MorphID { get => m_MorphID;
+    public int MorphID
+    {
+        get => m_MorphID;
         set => m_MorphID  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Duration { get => m_Duration;
+    public TimeSpan Duration
+    {
+        get => m_Duration;
         set => m_Duration  = value;
     }
 
@@ -26,12 +30,16 @@ public class XmlMorph : XmlAttachment
     public DateTime MorphEnd => m_MorphEnd;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string ActivationWord { get => m_Word;
+    public string ActivationWord
+    {
+        get => m_Word;
         set => m_Word  = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Range { get => proximityrange;
+    public int Range
+    {
+        get => proximityrange;
         set => proximityrange  = value;
     }
 
@@ -89,7 +97,7 @@ public class XmlMorph : XmlAttachment
         base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch(version)
+        switch (version)
         {
             case 1:
                 {
@@ -197,10 +205,6 @@ public class XmlMorph : XmlAttachment
         if (AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange(e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange))
         {
             OnTrigger(null, e.Mobile);
-        }
-        else
-        {
-            return;
         }
     }
 

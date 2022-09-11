@@ -27,92 +27,125 @@ public class XmlUse : XmlAttachment
 
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool TargetingEnabled { get => m_TargetingEnabled;
+    public bool TargetingEnabled
+    {
+        get => m_TargetingEnabled;
         set => m_TargetingEnabled = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool AllowCarried { get => m_AllowCarried;
+    public bool AllowCarried
+    {
+        get => m_AllowCarried;
         set => m_AllowCarried = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool RequireLOS { get => m_RequireLOS;
+    public bool RequireLOS
+    {
+        get => m_RequireLOS;
         set => m_RequireLOS = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int MaxRange { get => m_MaxRange;
+    public int MaxRange
+    {
+        get => m_MaxRange;
         set => m_MaxRange = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int MaxTargetRange { get => m_MaxTargetRange;
+    public int MaxTargetRange
+    {
+        get => m_MaxTargetRange;
         set => m_MaxTargetRange = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int NUses { get => m_NUses;
+    public int NUses
+    {
+        get => m_NUses;
         set => m_NUses = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int MaxUses { get => m_MaxUses;
+    public int MaxUses
+    {
+        get => m_MaxUses;
         set => m_MaxUses = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Refractory { get => m_Refractory;
+    public TimeSpan Refractory
+    {
+        get => m_Refractory;
         set => m_Refractory = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool BlockDefaultUse { get => m_BlockDefaultUse;
+    public bool BlockDefaultUse
+    {
+        get => m_BlockDefaultUse;
         set => m_BlockDefaultUse = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Condition { get => m_Condition;
+    public string Condition
+    {
+        get => m_Condition;
         set => m_Condition = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string TargetCondition { get => m_TargetCondition;
+    public string TargetCondition
+    {
+        get => m_TargetCondition;
         set => m_TargetCondition = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string TargetingAction { get => m_TargetingAction;
+    public string TargetingAction
+    {
+        get => m_TargetingAction;
         set => m_TargetingAction = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string TargetFailureAction { get => m_TargetFailureAction;
+    public string TargetFailureAction
+    {
+        get => m_TargetFailureAction;
         set => m_TargetFailureAction = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string SuccessAction { get => m_SuccessAction;
+    public string SuccessAction
+    {
+        get => m_SuccessAction;
         set => m_SuccessAction = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string FailureAction { get => m_FailureAction;
+    public string FailureAction
+    {
+        get => m_FailureAction;
         set => m_FailureAction = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string RefractoryAction { get => m_RefractoryAction;
+    public string RefractoryAction
+    {
+        get => m_RefractoryAction;
         set => m_RefractoryAction = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string MaxUsesAction { get => m_MaxUsesAction;
+    public string MaxUsesAction
+    {
+        get => m_MaxUsesAction;
         set => m_MaxUsesAction = value;
     }
 
-    public XmlUse(ASerial serial)
-        : base(serial)
+    public XmlUse(ASerial serial) : base(serial)
     {
     }
     [Attachable]
