@@ -32,7 +32,7 @@ public class XmlAddCAGObject : XmlAddCAGNode
         {
             if (gump is XmlAddGump xmladdgump)
             {
-                //Commands.Handle( from, String.Format( "{0}Add {1}", Commands.CommandPrefix, m_Type.Name ) );
+                //Commands.Handle(from, String.Format("{0}Add {1}", Commands.CommandPrefix, m_Type.Name));
                 if (xmladdgump.defs?.NameList != null && index >= 0 && index < xmladdgump.defs.NameList.Length)
                 {
                     xmladdgump.defs.NameList[index] = m_Type.Name;

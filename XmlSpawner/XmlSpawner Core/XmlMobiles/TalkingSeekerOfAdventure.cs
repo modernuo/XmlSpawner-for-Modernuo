@@ -20,7 +20,7 @@ public class TalkingSeekerOfAdventure : TalkingBaseEscortable
 
     private static int GetRandomHue()
     {
-        switch ( Utility.Random( 6 ) )
+        switch (Utility.Random(6))
         {
             default:
             case 0:
@@ -52,56 +52,56 @@ public class TalkingSeekerOfAdventure : TalkingBaseEscortable
 
     public override void InitOutfit()
     {
-        if ( Female )
+        if (Female)
         {
-            AddItem( new FancyDress( GetRandomHue() ) );
+            AddItem(new FancyDress(GetRandomHue()));
         }
         else
         {
-            AddItem( new FancyShirt( GetRandomHue() ) );
+            AddItem(new FancyShirt(GetRandomHue()));
         }
 
         int lowHue = GetRandomHue();
 
-        AddItem( new ShortPants( lowHue ) );
+        AddItem(new ShortPants(lowHue));
 
-        if ( Female )
+        if (Female)
         {
-            AddItem( new ThighBoots( lowHue ) );
+            AddItem(new ThighBoots(lowHue));
         }
         else
         {
-            AddItem( new Boots( lowHue ) );
+            AddItem(new Boots(lowHue));
         }
 
-        if ( !Female )
+        if (!Female)
         {
-            AddItem( new BodySash( lowHue ) );
+            AddItem(new BodySash(lowHue));
         }
 
-        AddItem( new Cloak( GetRandomHue() ) );
+        AddItem(new Cloak(GetRandomHue()));
 
-        AddItem( new Longsword() );
+        AddItem(new Longsword());
 
         HairHue = Race.RandomHairHue();
 
-        PackGold( 100, 150 );
+        PackGold(100, 150);
     }
 
-    public TalkingSeekerOfAdventure( Serial serial ) : base( serial )
+    public TalkingSeekerOfAdventure(Serial serial) : base(serial)
     {
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 0 ); // version
+        writer.Write(0); // version
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
     }

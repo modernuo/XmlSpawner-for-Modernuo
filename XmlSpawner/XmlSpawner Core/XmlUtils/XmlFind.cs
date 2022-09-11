@@ -120,7 +120,7 @@ public class XmlFindGump : Gump
         public SearchCriteria(bool dotype, bool doname, bool dorange, bool doregion, bool doentry, bool doentrytype, bool docondition, bool dofel, bool dotram,
             bool domal, bool doilsh, bool dotok, bool doter, bool doint, bool donull, bool doerr, bool doage, bool dohidevalid,
             bool agedirection, double age, int range, string region, string condition, string type, string name, string entry
-        )
+       )
         {
             Dosearchtype = dotype;
             Dosearchname = doname;
@@ -928,7 +928,7 @@ public class XmlFindGump : Gump
                 type,    // type
                 null,    // name
                 null     // entry
-            ),
+           ),
 
             null, -1, 0, null, null,
             false, false, false, false, false, false, x, y)
@@ -1081,7 +1081,7 @@ public class XmlFindGump : Gump
         y += 20;
         // add the search age entry
         AddLabel(28, y, 0x384, "age");
-        //AddImageTiled( 80, 220, 50, 23, 0x52 );
+        //AddImageTiled(80, 220, 50, 23, 0x52);
         AddImageTiled(70, y, 45, 19, 0xBBC);
         AddTextEntry(70, y, 45, 19, 0, 105, m_SearchCriteria.Searchage.ToString());
         AddLabel(117, y, 0x384, "Hrs");
@@ -1103,7 +1103,7 @@ public class XmlFindGump : Gump
         AddLabel(28, y, 0x384, "type");
         // add the toggle to enable search by type
         AddCheck(5, y, 0xD2, 0xD3, m_SearchCriteria.Dosearchtype, 305);
-        //AddImageTiled( 5, 285, 135, 23, 0x52 );
+        //AddImageTiled(5, 285, 135, 23, 0x52);
         AddImageTiled(6, y + 20, 132, 19, 0xBBC);
         AddTextEntry(6, y + 20, 250, 19, 0, 101, m_SearchCriteria.Searchtype);
 
@@ -1112,7 +1112,7 @@ public class XmlFindGump : Gump
         AddLabel(28, y, 0x384, "property test");
         // add the toggle to enable search by condition
         AddCheck(5, y, 0xD2, 0xD3, m_SearchCriteria.Dosearchcondition, 315);
-        //AddImageTiled( 5, 285, 135, 23, 0x52 );
+        //AddImageTiled(5, 285, 135, 23, 0x52);
         AddImageTiled(6, y + 20, 132, 19, 0xBBC);
         AddTextEntry(6, y + 20, 500, 19, 0, 104, m_SearchCriteria.Searchcondition);
 
@@ -1121,7 +1121,7 @@ public class XmlFindGump : Gump
         AddLabel(28, y, 0x384, "name");
         // add the toggle to enable search by name
         AddCheck(5, y, 0xD2, 0xD3, m_SearchCriteria.Dosearchname, 306);
-        //AddImageTiled( 5, 350, 135, 23, 0x52 );
+        //AddImageTiled(5, 350, 135, 23, 0x52);
         AddImageTiled(6, y + 20, 132, 19, 0xBBC);
         AddTextEntry(6, y + 20, 250, 19, 0, 102, m_SearchCriteria.Searchname);
 
@@ -1136,7 +1136,7 @@ public class XmlFindGump : Gump
         // add the toggle to enable search spawner entry types
         AddCheck(65, y, 0xD2, 0xD3, m_SearchCriteria.Dosearchspawntype, 326);
 
-        //AddImageTiled( 5, 415, 135, 23, 0x52 );
+        //AddImageTiled(5, 415, 135, 23, 0x52);
         AddImageTiled(6, y + 20, 132, 19, 0xBBC);
         AddTextEntry(6, y + 20, 250, 19, 0, 103, m_SearchCriteria.Searchspawnentry);
 
@@ -1146,8 +1146,8 @@ public class XmlFindGump : Gump
         AddCheck(117, y, 0xD2, 0xD3, m_SearchCriteria.Dosearcherr, 313);
 
         // add the Show Map button
-        //AddButton( 5, 450, 0xFAB, 0xFAD, 150, GumpButtonType.Reply, 0 );
-        //AddLabel( 38, 450, 0x384, "Map" );
+        //AddButton(5, 450, 0xFAB, 0xFAD, 150, GumpButtonType.Reply, 0);
+        //AddLabel(38, 450, 0x384, "Map");
 
         // ----------------
         // CONTROL section
@@ -1215,7 +1215,7 @@ public class XmlFindGump : Gump
             // add the page buttons
             for (int i = 0; i < MaxEntries / MaxEntriesPerPage; i++)
             {
-                //AddButton( 38+i*30, 365, 2206, 2206, 0, GumpButtonType.Page, 1+i );
+                //AddButton(38+i*30, 365, 2206, 2206, 0, GumpButtonType.Page, 1+i);
                 AddButton(418 + i * 25, height - 25, 0x8B1 + i, 0x8B1 + i, 0, GumpButtonType.Page, 1 + i);
             }
 
@@ -1235,7 +1235,7 @@ public class XmlFindGump : Gump
                 AddLabel(180, y - 50, 68, $"Found {m_SearchList.Count} items/mobiles");
                 AddLabel(400, y - 50, 68,
                     $"Displaying {DisplayFrom}-{(DisplayFrom + MaxEntries < m_SearchList.Count ? DisplayFrom + MaxEntries : m_SearchList.Count)}"
-                );
+               );
                 // count the number of selected objects
                 int count = 0;
                 foreach (SearchEntry e in m_SearchList)
@@ -1271,8 +1271,8 @@ public class XmlFindGump : Gump
                 {
                     AddPage(page + 1);
                     // add highlighted page button
-                    //AddImageTiled( 235+page*25, 448, 25, 25, 0xBBC );
-                    //AddImage( 238+page*25, 450, 0x8B1+page );
+                    //AddImageTiled(235+page*25, 448, 25, 25, 0xBBC);
+                    //AddImage(238+page*25, 450, 0x8B1+page);
                 }
 
                 // background for search results area

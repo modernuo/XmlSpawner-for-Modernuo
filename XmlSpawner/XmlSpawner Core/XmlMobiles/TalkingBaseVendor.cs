@@ -16,7 +16,7 @@ namespace Server.Mobiles;
 public abstract class TalkingBaseVendor : BaseVendor
 {
 
-    public TalkingBaseVendor( string title ) : base( title )
+    public TalkingBaseVendor(string title) : base(title)
     {
         // add the XmlDialog attachment
         m_DialogAttachment = new XmlDialog((string)null);
@@ -24,7 +24,7 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     }
 
-    public TalkingBaseVendor( Serial serial ) : base( serial )
+    public TalkingBaseVendor(Serial serial) : base(serial)
     {
     }
 
@@ -33,7 +33,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         // reestablish the DialogAttachment assignment
         foreach(Mobile m in World.Mobiles.Values)
         {
-            if(m is TalkingBaseVendor)
+            if (m is TalkingBaseVendor)
             {
                 XmlDialog xa = XmlAttach.FindAttachment(m, typeof(XmlDialog)) as XmlDialog;
                 ((TalkingBaseVendor)m).DialogAttachment = xa;
@@ -54,28 +54,28 @@ public abstract class TalkingBaseVendor : BaseVendor
     private Point3D m_Offset = new Point3D(0,0,20); // overhead
     private int m_EHue = 68;                        // green
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int EItemID
     {
         get => m_EItemID;
         set => m_EItemID = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Point3D EOffset
     {
         get => m_Offset;
         set => m_Offset = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int EDuration
     {
         get => m_Duration;
         set => m_Duration = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int EHue
     {
         get => m_EHue;
@@ -84,7 +84,7 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     private void DisplayHighlight()
     {
-        if(EItemID > 0)
+        if (EItemID > 0)
         {
             Effects.SendLocationEffect(new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), Map, EItemID, EDuration, EHue, 0);
             lasteffect = DateTime.Now;
@@ -95,15 +95,15 @@ public abstract class TalkingBaseVendor : BaseVendor
     {
         base.OnThink();
 
-        if(lasteffect + TimeSpan.FromSeconds(1) < DateTime.Now)
+        if (lasteffect + TimeSpan.FromSeconds(1) < DateTime.Now)
         {
             DisplayHighlight();
         }
     }
 
-    public override bool Move( Direction d )
+    public override bool Move(Direction d)
     {
-        bool didmove = base.Move( d );
+        bool didmove = base.Move(d);
 
         DisplayHighlight();
 
@@ -112,7 +112,7 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     private string m_TalkText;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string TalkText {get => m_TalkText;
         set => m_TalkText = value;
     }
@@ -124,7 +124,7 @@ public abstract class TalkingBaseVendor : BaseVendor
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.ActivePlayer;
             }
@@ -135,7 +135,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.ActivePlayer = value;
             }
@@ -146,7 +146,7 @@ public abstract class TalkingBaseVendor : BaseVendor
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.SpeechEntries;
             }
@@ -157,14 +157,14 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.SpeechEntries = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan GameTOD
     {
         get
@@ -177,29 +177,29 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan RealTOD => DateTime.Now.TimeOfDay;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int RealDay => DateTime.Now.Day;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int RealMonth => DateTime.Now.Month;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public DayOfWeek RealDayOfWeek => DateTime.Now.DayOfWeek;
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
-    public MoonPhase MoonPhase => Clock.GetMoonPhase( Map, Location.X, Location.Y );
+    [CommandProperty(AccessLevel.GameMaster)]
+    public MoonPhase MoonPhase => Clock.GetMoonPhase(Map, Location.X, Location.Y);
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public AccessLevel TriggerAccessLevel
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.TriggerAccessLevel;
             }
@@ -210,19 +210,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.TriggerAccessLevel = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public DateTime LastInteraction
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.LastInteraction;
             }
@@ -233,32 +233,32 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.LastInteraction = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool DoReset
     {
         get => false;
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.DoReset = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool IsActive
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.IsActive;
             }
@@ -269,19 +269,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.IsActive = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool AllowGhostTrig
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.AllowGhostTrig;
             }
@@ -292,19 +292,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.AllowGhostTrig = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool Running
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.Running;
             }
@@ -315,19 +315,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.Running = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan ResetTime
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.ResetTime;
             }
@@ -338,19 +338,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.ResetTime = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int SpeechPace
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.SpeechPace;
             }
@@ -361,7 +361,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.SpeechPace = value;
             }
@@ -369,12 +369,12 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Keywords
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.Keywords;
             }
@@ -385,19 +385,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.Keywords = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Action
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.Action;
             }
@@ -408,19 +408,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.Action = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Condition
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.Condition;
             }
@@ -431,7 +431,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.Condition = value;
             }
@@ -439,12 +439,12 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Text
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.Text;
             }
@@ -455,7 +455,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.Text = value;
             }
@@ -464,12 +464,12 @@ public abstract class TalkingBaseVendor : BaseVendor
 
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string DependsOn
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.DependsOn;
             }
@@ -480,7 +480,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.DependsOn = value;
             }
@@ -488,12 +488,12 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool LockConversation
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.LockConversation;
             }
@@ -504,7 +504,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.LockConversation = value;
             }
@@ -512,13 +512,13 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public MessageType SpeechStyle
     {
 
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.SpeechStyle;
             }
@@ -529,7 +529,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.SpeechStyle = value;
             }
@@ -537,12 +537,12 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool AllowNPCTrigger
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.AllowNPCTrigger;
             }
@@ -553,7 +553,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.AllowNPCTrigger = value;
             }
@@ -562,13 +562,13 @@ public abstract class TalkingBaseVendor : BaseVendor
     }
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Pause
     {
 
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.Pause;
             }
@@ -579,19 +579,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.Pause = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int PrePause
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.PrePause;
             }
@@ -602,19 +602,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.PrePause = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int ID
     {
         get
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 return DialogAttachment.CurrentEntry.ID;
             }
@@ -625,19 +625,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            if (DialogAttachment != null && DialogAttachment.CurrentEntry != null)
             {
                 DialogAttachment.CurrentEntry.ID = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int EntryNumber
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.EntryNumber;
             }
@@ -648,19 +648,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.EntryNumber = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int ProximityRange
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.ProximityRange;
             }
@@ -671,19 +671,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.ProximityRange = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public  string ConfigFile
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.ConfigFile;
             }
@@ -694,43 +694,43 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.ConfigFile = value;
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public  bool LoadConfig
     {
         get => false;
-        set{ if(value == true && DialogAttachment != null)
+        set{ if (value == true && DialogAttachment != null)
             {
                 DialogAttachment.DoLoadNPC(null,ConfigFile);
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public  bool SaveConfig
     {
         get => false;
         set
         {
-            if(value == true && DialogAttachment != null)
+            if (value == true && DialogAttachment != null)
             {
                 DialogAttachment.DoSaveNPC(null,ConfigFile, false);
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string TriggerOnCarried
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.TriggerOnCarried;
             }
@@ -741,19 +741,19 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.TriggerOnCarried = value;
             }
         }
 
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string NoTriggerOnCarried
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.NoTriggerOnCarried;
             }
@@ -764,7 +764,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.NoTriggerOnCarried = value;
             }
@@ -776,7 +776,7 @@ public abstract class TalkingBaseVendor : BaseVendor
     {
         get
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 return DialogAttachment.CurrentEntry;
             }
@@ -787,7 +787,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         }
         set
         {
-            if(DialogAttachment != null)
+            if (DialogAttachment != null)
             {
                 DialogAttachment.CurrentEntry = value;
             }
@@ -795,20 +795,20 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     }
 
-    public override bool OnDragDrop( Mobile from, Item item) => XmlQuest.RegisterGive(from, this, item);
+    public override bool OnDragDrop(Mobile from, Item item) => XmlQuest.RegisterGive(from, this, item);
 
     //return base.OnDragDrop(from, item);
     private class TalkEntry : ContextMenuEntry
     {
         private TalkingBaseVendor m_NPC;
 
-        public TalkEntry( TalkingBaseVendor npc ) : base( 6146 ) => m_NPC = npc;
+        public TalkEntry(TalkingBaseVendor npc) : base(6146) => m_NPC = npc;
 
         public override void OnClick()
         {
             Mobile from = Owner.From;
 
-            if ( m_NPC == null || m_NPC.Deleted || !from.CheckAlive() || m_NPC.DialogAttachment == null )
+            if (m_NPC == null || m_NPC.Deleted || !from.CheckAlive() || m_NPC.DialogAttachment == null)
             {
                 return;
             }
@@ -821,53 +821,53 @@ public abstract class TalkingBaseVendor : BaseVendor
 
     public override void GetContextMenuEntries(Mobile from, List<ContextMenuEntry> list)
     {
-        if ( from.Alive )
+        if (from.Alive)
         {
-            if ( TalkText != null && TalkText.Length > 0 && DialogAttachment != null)
+            if (TalkText != null && TalkText.Length > 0 && DialogAttachment != null)
             {
-                list.Add( new TalkEntry( this ) );
+                list.Add(new TalkEntry(this));
             }
         }
 
-        base.GetContextMenuEntries( from, list );
+        base.GetContextMenuEntries(from, list);
     }
 
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 7 ); // version
+        writer.Write(7); // version
 
         // version 7
-        writer.Write( m_EItemID);
-        writer.Write( m_Duration);
-        writer.Write( m_Offset);
-        writer.Write( m_EHue);
+        writer.Write(m_EItemID);
+        writer.Write(m_Duration);
+        writer.Write(m_Offset);
+        writer.Write(m_EHue);
 
         // version 6
-        writer.Write( m_TalkText);
+        writer.Write(m_TalkText);
 
         // Version 5
         // all serialized data now handled by the XmlDialog attachment
 
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
 
-        if(version < 5)
+        if (version < 5)
         {
             // have to add the XmlDialog attachment
             m_DialogAttachment = new XmlDialog((string)null);
             XmlAttach.AttachTo(this, m_DialogAttachment);
         }
 
-        switch ( version )
+        switch (version)
         {
             case 7:
                 {
@@ -913,13 +913,13 @@ public abstract class TalkingBaseVendor : BaseVendor
                     SpeechPace = reader.ReadInt();
 
                     int count = reader.ReadInt();
-                    if(version < 4)
+                    if (version < 4)
                     {
                         SpeechEntries = new ArrayList();
                     }
                     for(int i = 0; i<count;i++)
                     {
-                        if(version < 4)
+                        if (version < 4)
                         {
                             XmlDialog.SpeechEntry newentry = new XmlDialog.SpeechEntry();
 
@@ -957,14 +957,14 @@ public abstract class TalkingBaseVendor : BaseVendor
                     Running = reader.ReadBool();
                     ConfigFile = reader.ReadString();
                     int count = reader.ReadInt();
-                    if(version < 2)
+                    if (version < 2)
                     {
                         SpeechEntries = new ArrayList();
                     }
                     for(int i = 0; i<count;i++)
                     {
 
-                        if(version < 2)
+                        if (version < 2)
                         {
                             XmlDialog.SpeechEntry newentry = new XmlDialog.SpeechEntry();
 
@@ -995,11 +995,11 @@ public abstract class TalkingBaseVendor : BaseVendor
                     EntryNumber = reader.ReadInt();
                     // restart the timer if it was active
                     bool isrunning = reader.ReadBool();
-                    if(isrunning)
+                    if (isrunning)
                     {
                         Mobile trigmob = reader.ReadEntity<Mobile>();
                         TimeSpan delay = reader.ReadTimeSpan();
-                        if(DialogAttachment != null)
+                        if (DialogAttachment != null)
                         {
                             DialogAttachment.DoTimer(delay,trigmob);
                         }

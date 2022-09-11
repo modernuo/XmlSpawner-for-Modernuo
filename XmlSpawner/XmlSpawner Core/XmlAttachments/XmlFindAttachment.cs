@@ -25,7 +25,7 @@ public class XmlFindAttachment : XmlAttachment
     public XmlFindGump GetResult(int val)
     {
         val-=1;
-        if(val<m_FindGumps.Length)
+        if (val<m_FindGumps.Length)
         {
             return m_FindGumps[val];
         }
@@ -35,14 +35,14 @@ public class XmlFindAttachment : XmlAttachment
 
     public override void OnAttach()
     {
-        if(!(AttachedTo is PlayerMobile))
+        if (!(AttachedTo is PlayerMobile))
         {
             Delete();
         }
     }
 
     //Non si può salvare il risultato, che sarebbe inattendibile dopo un riavvio, comunque
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
     }
     public override void Deserialize(IGenericReader reader)

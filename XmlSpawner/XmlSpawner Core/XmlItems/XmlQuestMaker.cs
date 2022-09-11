@@ -13,7 +13,7 @@ namespace Server.Items;
 public class XmlQuestMaker : Item
 {
 
-    public XmlQuestMaker( Serial serial ) : base( serial )
+    public XmlQuestMaker(Serial serial) : base(serial)
     {
     }
 
@@ -27,26 +27,26 @@ public class XmlQuestMaker : Item
     }
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
-        writer.Write( 0 ); // version
+        base.Serialize(writer);
+        writer.Write(0); // version
 
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
 
     }
 
-    public override void OnDoubleClick( Mobile from )
+    public override void OnDoubleClick(Mobile from)
     {
         base.OnDoubleClick(from);
 
-        if(!(from is PlayerMobile))
+        if (!(from is PlayerMobile))
         {
             return;
         }

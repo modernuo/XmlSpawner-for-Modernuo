@@ -265,8 +265,8 @@ public class XmlAddGump : Gump
         ds.Tables.Add(DefsTablePointName);
 
         // Create spawn point schema
-        //ds.Tables[DefsTablePointName].Columns.Add( "AccountName" );
-        //ds.Tables[DefsTablePointName].Columns.Add( "PlayerName" );
+        //ds.Tables[DefsTablePointName].Columns.Add("AccountName");
+        //ds.Tables[DefsTablePointName].Columns.Add("PlayerName");
         ds.Tables[DefsTablePointName].Columns.Add("MinDelay");
         ds.Tables[DefsTablePointName].Columns.Add("MaxDelay");
         ds.Tables[DefsTablePointName].Columns.Add("SpawnRange");
@@ -299,7 +299,7 @@ public class XmlAddGump : Gump
         ds.Tables[DefsTablePointName].Columns.Add("TrigProb");
         ds.Tables[DefsTablePointName].Columns.Add("PlayerTrigProp");
         ds.Tables[DefsTablePointName].Columns.Add("TrigObjectProp");
-        //ds.Tables[DefsTablePointName].Columns.Add( "DefsExt" );
+        //ds.Tables[DefsTablePointName].Columns.Add("DefsExt");
         ds.Tables[DefsTablePointName].Columns.Add("NameList");
         ds.Tables[DefsTablePointName].Columns.Add("SelectionList");
         ds.Tables[DefsTablePointName].Columns.Add("AddGumpX");
@@ -434,7 +434,7 @@ public class XmlAddGump : Gump
             DataSet ds = new DataSet(DefsDataSetName);
 
             // Read in the file
-            //ds.ReadXml( e.Arguments[0].ToString() );
+            //ds.ReadXml(e.Arguments[0].ToString());
             bool fileerror = false;
             try
             {
@@ -459,7 +459,7 @@ public class XmlAddGump : Gump
                 // Add each spawn point to the current map
                 if (ds.Tables[DefsTablePointName] != null && ds.Tables[DefsTablePointName].Rows.Count > 0)
                 {
-                    //foreach( DataRow dr in ds.Tables[DefsTablePointName].Rows ){
+                    //foreach(DataRow dr in ds.Tables[DefsTablePointName].Rows){
                     DataRow dr = ds.Tables[DefsTablePointName].Rows[0];
 
                     try { defs.SpawnerName = (string)dr["SpawnerName"]; }
@@ -1605,7 +1605,7 @@ public class XmlAddGump : Gump
                             // use the XmlPartialCategorizedAddGump
                             state.Mobile.CloseGump<XmlPartialCategorizedAddGump>();
 
-                            //Type [] types = (Type[])XmlPartialCategorizedAddGump.Match( defs.NameList[i] ).ToArray( typeof( Type ) );
+                            //Type [] types = (Type[])XmlPartialCategorizedAddGump.Match(defs.NameList[i]).ToArray(typeof(Type));
                             ArrayList types = XmlPartialCategorizedAddGump.Match(defaults.NameList[i]);
                             state.Mobile.SendGump(new XmlPartialCategorizedAddGump(state.Mobile, defaults.NameList[i], 0, types, true, i, newg));
                         }

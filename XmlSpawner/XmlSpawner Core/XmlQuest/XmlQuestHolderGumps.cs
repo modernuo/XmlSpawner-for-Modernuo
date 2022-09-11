@@ -364,7 +364,7 @@ public class XmlQuestStatusGump : Gump
 
         AddImageTiled(416, 39, 44, 389, 203);
 
-        //			AddButton( 338, 392, 2130, 2129, 3, GumpButtonType.Reply, 0 ); // Okay button
+        //			AddButton(338, 392, 2130, 2129, 3, GumpButtonType.Reply, 0); // Okay button
 
         AddHtmlLocalized(139, 59, 200, 30, 1046026, 0x7fff, false, false); // Quest Log
         AddImage(97, 49, 9005);                                            // quest ribbon
@@ -439,7 +439,7 @@ public class XmlQuestStatusGump : Gump
             DisplayQuestStatus(130, 288, questitem.Objective4, questitem.State4, questitem.Completed4, questitem.Description4);
             DisplayQuestStatus(130, 320, questitem.Objective5, questitem.State5, questitem.Completed5, questitem.Description5);
 
-            //if(questitem.HasCollect){
+            //if (questitem.HasCollect){
             AddButton(100, 350, 0x2A4E, 0x2A3A, 700, GumpButtonType.Reply, 0);
             AddLabel(135, 356, 0x384, "Collect");
             //}
@@ -458,7 +458,7 @@ public class XmlQuestStatusGump : Gump
                 {
                     AddLabel(230, 356, 55,
                         $"Reward: {questitem.RewardItem.GetType().Name} ({questitem.RewardItem.TotalItems} items)"
-                    );
+                   );
                     AddLabel(230, 373, 55, $"Weight: {questitem.RewardItem.TotalWeight + questitem.RewardItem.Weight}");
                 }
                 else
@@ -493,7 +493,7 @@ public class XmlQuestStatusGump : Gump
                 // indicate the expiration time
             if (questitem.IsValid)
             {
-                //AddHtmlLocalized(150, 400, 50, 37, 1046033, 0xf0000 , false , false ); // Expires
+                //AddHtmlLocalized(150, 400, 50, 37, 1046033, 0xf0000 , false , false); // Expires
                 AddHtml(130, 392, 200, 37, XmlSimpleGump.Color(questitem.ExpirationString, "00FF42"), false, false);
             }
             else
@@ -518,7 +518,7 @@ public class XmlQuestStatusGump : Gump
             }
             else
             {
-                //AddHtml( 150, 384, 200, 37, XmlSimpleGump.Color( "No longer valid", "00FF42" ), false, false );
+                //AddHtml(150, 384, 200, 37, XmlSimpleGump.Color("No longer valid", "00FF42"), false, false);
                 AddLabel(150, 392, 33, "No longer valid");
             }
             if (XmlQuest.QuestPointsEnabled)

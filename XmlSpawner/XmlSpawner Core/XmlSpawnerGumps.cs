@@ -255,7 +255,7 @@ public class XmlSpawnerGump : Gump
         AddButton(5, 450, 0xFAE, 0xFAF, 4, GumpButtonType.Reply, 0);
         AddLabel(38, 450, 0x384, "Goto");
 
-        //AddButton( 5, 428, 0xFB7, 0xFB9, 1, GumpButtonType.Reply, 0 );
+        //AddButton(5, 428, 0xFB7, 0xFB9, 1, GumpButtonType.Reply, 0);
         AddButton(5, 428, 0xFAE, 0xFAF, 1, GumpButtonType.Reply, 0);
         AddLabel(38, 428, 0x384, "Help");
 
@@ -343,7 +343,7 @@ public class XmlSpawnerGump : Gump
         // add the page buttons
         for (int i = 0; i < MaxSpawnEntries / MaxEntriesPerPage; i++)
         {
-            //AddButton( 38+i*30, 365, 2206, 2206, 0, GumpButtonType.Page, 1+i );
+            //AddButton(38+i*30, 365, 2206, 2206, 0, GumpButtonType.Page, 1+i);
             AddButton(38 + i * 25, 365, 0x8B1 + i, 0x8B1 + i, 4000 + i, GumpButtonType.Reply, 0);
         }
 
@@ -627,7 +627,7 @@ public class XmlSpawnerGump : Gump
                         {
                             m_Spawner.status_str = $"{str} is not a valid type name.";
                         }
-                        //from.SendMessage( "{0} is not a valid type name.", str );
+                        //from.SendMessage("{0} is not a valid type name.", str);
                     }
 
                 }
@@ -1165,7 +1165,7 @@ public class XmlSpawnerGump : Gump
                         book.OnDoubleClick(state.Mobile);
 
 #else
-							state.Mobile.SendGump( new TextEntryGump(m_Spawner,this, index, this.X, this.Y));
+							state.Mobile.SendGump(new TextEntryGump(m_Spawner,this, index, this.X, this.Y));
 #endif
                         return;
                     }
@@ -1263,7 +1263,7 @@ public class XmlSpawnerGump : Gump
                             // use the XmlPartialCategorizedAddGump
                             state.Mobile.CloseGump<XmlPartialCategorizedAddGump>();
 
-                            //Type [] types = (Type[])XmlPartialCategorizedAddGump.Match( categorystring ).ToArray( typeof( Type ) );
+                            //Type [] types = (Type[])XmlPartialCategorizedAddGump.Match(categorystring).ToArray(typeof(Type));
                             ArrayList types = XmlPartialCategorizedAddGump.Match(categorystring);
 
 

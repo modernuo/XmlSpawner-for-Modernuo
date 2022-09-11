@@ -11,17 +11,17 @@ public class XmlLightning : XmlAttachment
     private DateTime m_EndTime;
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Damage { get => m_Damage;
         set => m_Damage = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan Refractory { get => m_Refractory;
         set => m_Refractory  = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Range { get => proximityrange;
         set => proximityrange  = value;
     }
@@ -61,23 +61,23 @@ public class XmlLightning : XmlAttachment
     public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
     {
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
 
         int damage = 0;
 
-        if(m_Damage > 0)
+        if (m_Damage > 0)
         {
             damage = Utility.Random(m_Damage);
         }
 
-        if(defender != null && attacker != null && damage > 0)
+        if (defender != null && attacker != null && damage > 0)
         {
-            defender.BoltEffect( 0 );
+            defender.BoltEffect(0);
 
-            SpellHelper.Damage( TimeSpan.Zero, defender, attacker, damage, 0, 0, 0, 0, 100 );
+            SpellHelper.Damage(TimeSpan.Zero, defender, attacker, damage, 0, 0, 0, 0, 100);
 
             m_EndTime = DateTime.Now + Refractory;
         }
@@ -91,7 +91,7 @@ public class XmlLightning : XmlAttachment
     {
         get
         {
-            if(AttachedTo is Item && !((Item)AttachedTo).Movable)
+            if (AttachedTo is Item && !((Item)AttachedTo).Movable)
             {
                 return true;
             }
@@ -104,16 +104,16 @@ public class XmlLightning : XmlAttachment
 
 
 
-    public override void OnMovement(MovementEventArgs e )
+    public override void OnMovement(MovementEventArgs e)
     {
         base.OnMovement(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
         {
             return;
         }
 
-        if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
+        if (AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange(e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange))
         {
             OnTrigger(null, e.Mobile);
         }
@@ -123,11 +123,11 @@ public class XmlLightning : XmlAttachment
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 1 );
+        writer.Write(1);
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -165,7 +165,7 @@ public class XmlLightning : XmlAttachment
     {
         string msg = null;
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             msg = $"Lightning Damage {m_Damage} expires in {Expiration.TotalMinutes} mins";
         }
@@ -174,7 +174,7 @@ public class XmlLightning : XmlAttachment
             msg = $"Lightning Damage {m_Damage}";
         }
 
-        if(Refractory > TimeSpan.Zero)
+        if (Refractory > TimeSpan.Zero)
         {
             return $"{msg} - {Refractory.TotalSeconds} secs between uses";
         }
@@ -186,29 +186,29 @@ public class XmlLightning : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null )
+        if (m == null)
         {
             return;
         }
 
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
 
         int damage = 0;
 
-        if(m_Damage > 0)
+        if (m_Damage > 0)
         {
             damage = Utility.Random(m_Damage);
         }
 
-        if(damage > 0)
+        if (damage > 0)
         {
-            m.BoltEffect( 0 );
+            m.BoltEffect(0);
 
-            SpellHelper.Damage( TimeSpan.Zero, m, damage, 0, 0, 0, 0, 100 );
+            SpellHelper.Damage(TimeSpan.Zero, m, damage, 0, 0, 0, 0, 100);
         }
 
         m_EndTime = DateTime.Now + Refractory;

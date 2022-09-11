@@ -602,7 +602,7 @@ public abstract class XmlQuest
             // collect task objective
             if (arglist[0] == "COLLECT")
             {
-                //Type targettype = AssemblyHandler.FindTypeByName( arglist[1] );
+                //Type targettype = AssemblyHandler.FindTypeByName(arglist[1]);
                 // test the collect requirements against the the collected item
                 if (item != null && !item.Deleted && BaseXmlSpawner.CheckType(item, arglist[1])/*(item.GetType() == targettype)*/ && checkprop)
                 {
@@ -614,7 +614,7 @@ public abstract class XmlQuest
             {
                 if (item != null && !item.Deleted && arglist[1] == item.Name && checkprop &&
                     (typestr == null || BaseXmlSpawner.CheckType(item, typestr))
-                   )
+                  )
                 {
                     // found a match
                     found = true;
@@ -644,7 +644,7 @@ public abstract class XmlQuest
 
                         Item newitem = Mobile.LiftItemDupe(item, item.Amount - added);
                         //Item newitem = item.Dupe(added);
-                        //if(newitem != null)
+                        //if (newitem != null)
                         //newitem.Amount = added;
                         ReturnCollected(quest, newitem);
                     }
@@ -735,7 +735,7 @@ public abstract class XmlQuest
         }
 
         /*
-        if(found)
+        if (found)
         {
             mob.Say("Thank you.");
         } else
@@ -905,7 +905,7 @@ public abstract class XmlQuest
             // collect task objective
             if (arglist[0] == "GIVE")
             {
-                //Type targettype = AssemblyHandler.FindTypeByName( arglist[2] );
+                //Type targettype = AssemblyHandler.FindTypeByName(arglist[2]);
 
                 // test the requirements against the the given item
                 if (item != null && !item.Deleted && BaseXmlSpawner.CheckType(item, arglist[2]) /*(item.GetType() == targettype)*/ && checkprop)
@@ -918,7 +918,7 @@ public abstract class XmlQuest
             {
                 if (item != null && !item.Deleted && arglist[2] == item.Name && checkprop &&
                     (typestr == null || BaseXmlSpawner.CheckType(item, typestr))
-                   )
+                  )
                 {
                     // found a match
                     found = true;
@@ -948,7 +948,7 @@ public abstract class XmlQuest
                     {
                         //Item newitem = item.Dupe(added);
                         Item newitem = Mobile.LiftItemDupe(item, added);
-                        //if(newitem != null)
+                        //if (newitem != null)
                         //newitem.Amount = added;
                         TakeGiven(mob, quest, newitem);
                     }
@@ -1024,7 +1024,7 @@ public abstract class XmlQuest
             // kill task objective
             if (arglist[0] == "KILL")
             {
-                //Type targettype = AssemblyHandler.FindTypeByName( arglist[1] );
+                //Type targettype = AssemblyHandler.FindTypeByName(arglist[1]);
 
                 // test the kill requirements against the the killed mobile
                 if (m_killed != null && !m_killed.Deleted && BaseXmlSpawner.CheckType(m_killed, arglist[1])/*(m_killed.GetType() == targettype)*/ && checkprop)
@@ -1037,7 +1037,7 @@ public abstract class XmlQuest
             {
                 if (m_killed != null && !m_killed.Deleted && arglist[1] == m_killed.Name && checkprop &&
                     (typestr == null || BaseXmlSpawner.CheckType(m_killed, typestr))
-                   )
+                  )
                 {
                     // found a match
                     found = true;

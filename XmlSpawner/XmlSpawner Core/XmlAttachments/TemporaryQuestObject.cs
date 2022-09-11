@@ -11,7 +11,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
 
     private Mobile m_QuestOwner;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Mobile QuestOwner
     {
         get => m_QuestOwner;
@@ -52,17 +52,17 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
         base.OnDelete();
 
         // delete the object that it is attached to
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             // dont allow deletion of players
-            if(!((Mobile)AttachedTo).Player)
+            if (!((Mobile)AttachedTo).Player)
             {
                 SafeMobileDelete((Mobile)AttachedTo);
                 //((Mobile)AttachedTo).Delete();
             }
         }
         else
-        if(AttachedTo is Item)
+        if (AttachedTo is Item)
         {
             SafeItemDelete((Item)AttachedTo);
             //((Item)AttachedTo).Delete();
@@ -71,11 +71,11 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
 
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
 
         // version 0
         writer.Write(m_QuestOwner);
@@ -95,12 +95,12 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player)
+        if (from == null || from.AccessLevel == AccessLevel.Player)
         {
             return null;
         }
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             return String.Format("{1} expires in {0} mins",Expiration.TotalMinutes, Name);
         } else

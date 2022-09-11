@@ -7,12 +7,12 @@ public class XmlDex : XmlAttachment
     private TimeSpan m_Duration = TimeSpan.FromSeconds(30.0); // default 30 sec duration
     private int m_Value = 10;                                 // default value of 10
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Value { get => m_Value;
         set => m_Value  = value;
     }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
 
@@ -20,7 +20,7 @@ public class XmlDex : XmlAttachment
     public XmlDex(ASerial serial) : base(serial)
     {
     }
-        
+
 
     [Attachable]
     public XmlDex()
@@ -42,9 +42,9 @@ public class XmlDex : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
-            ((Mobile)AttachedTo).AddStatMod( new StatMod( StatType.Dex, "XmlDex"+Name, m_Value, m_Duration ) );
+            ((Mobile)AttachedTo).AddStatMod(new StatMod(StatType.Dex, "XmlDex"+Name, m_Value, m_Duration));
         }
         // and then remove the attachment
         Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));

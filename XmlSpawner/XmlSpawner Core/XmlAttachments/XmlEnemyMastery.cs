@@ -10,17 +10,17 @@ public class XmlEnemyMastery : XmlAttachment
     private string m_Enemy;
     private Type m_EnemyType;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Chance { get => m_Chance;
         set => m_Chance = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int PercentIncrease { get => m_PercentIncrease;
         set => m_PercentIncrease = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Enemy
     {
         get => m_Enemy;
@@ -46,14 +46,14 @@ public class XmlEnemyMastery : XmlAttachment
     public XmlEnemyMastery(string enemy) => Enemy = enemy;
 
     [Attachable]
-    public XmlEnemyMastery(string enemy,int increase )
+    public XmlEnemyMastery(string enemy,int increase)
     {
         m_PercentIncrease = increase;
         Enemy = enemy;
     }
 
     [Attachable]
-    public XmlEnemyMastery(string enemy,int chance, int increase )
+    public XmlEnemyMastery(string enemy,int chance, int increase)
     {
         m_Chance = chance;
         m_PercentIncrease = increase;
@@ -73,10 +73,10 @@ public class XmlEnemyMastery : XmlAttachment
     {
         base.OnAttach();
 
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             Mobile m = AttachedTo as Mobile;
-            Effects.PlaySound( m, m.Map, 516 );
+            Effects.PlaySound(m, m.Map, 516);
             m.SendMessage($"You gain the power of Enemy Mastery over {Enemy}");
         }
     }
@@ -87,18 +87,18 @@ public class XmlEnemyMastery : XmlAttachment
     // when attached to a mobile, any weapon the mobile wields will do additional damage
     public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
     {
-        if(m_Chance <= 0 || Utility.Random(100) > m_Chance)
+        if (m_Chance <= 0 || Utility.Random(100) > m_Chance)
         {
             return;
         }
 
-        if(defender != null && attacker != null && m_EnemyType != null)
+        if (defender != null && attacker != null && m_EnemyType != null)
         {
 
             // is the defender the correct type?
-            if(defender.GetType() == m_EnemyType || defender.GetType().IsSubclassOf(m_EnemyType))
+            if (defender.GetType() == m_EnemyType || defender.GetType().IsSubclassOf(m_EnemyType))
             {
-                defender.Damage( damageGiven*PercentIncrease/100, attacker );
+                defender.Damage(damageGiven*PercentIncrease/100, attacker);
             }
         }
     }
@@ -107,22 +107,22 @@ public class XmlEnemyMastery : XmlAttachment
     {
         base.OnDelete();
 
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             Mobile m = AttachedTo as Mobile;
-            if(!m.Deleted)
+            if (!m.Deleted)
             {
-                Effects.PlaySound( m, m.Map, 958 );
+                Effects.PlaySound(m, m.Map, 958);
                 m.SendMessage($"Your power of Enemy Mastery over {Enemy} fades..");
             }
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_PercentIncrease);
         writer.Write(m_Chance);
@@ -144,7 +144,7 @@ public class XmlEnemyMastery : XmlAttachment
     {
         string msg = null;
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             msg = String.Format("Enemy Mastery : +{3}% damage vs {0}, {1}%, hitchance expires in {2} mins", m_Enemy, Chance, Expiration.TotalMinutes, PercentIncrease);
         }

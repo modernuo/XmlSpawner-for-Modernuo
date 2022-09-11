@@ -23,18 +23,18 @@ public class XmlLatch : Item
 
 
     [Constructible]
-    public XmlLatch() : base( 0x1BBF ) => Movable = false;
+    public XmlLatch() : base(0x1BBF) => Movable = false;
 
-    public XmlLatch(int itemID) : base( itemID )
+    public XmlLatch(int itemID) : base(itemID)
     {
     }
 
-    public XmlLatch( Serial serial ) : base( serial )
+    public XmlLatch(Serial serial) : base(serial)
     {
     }
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan MinDelay
     {
         get => m_MinDelay;
@@ -44,7 +44,7 @@ public class XmlLatch : Item
             InvalidateProperties(); }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan MaxDelay
     {
         get => m_MaxDelay;
@@ -54,35 +54,35 @@ public class XmlLatch : Item
             InvalidateProperties(); }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan TimeUntilReset
     {
         get
         {
-            if ( m_Timer != null && m_Timer.Running )
+            if (m_Timer != null && m_Timer.Running)
             {
                 return m_End - DateTime.Now;
             }
             else
             {
-                return TimeSpan.FromSeconds( 0 );
+                return TimeSpan.FromSeconds(0);
             }
         }
         set
         {
-            DoTimer( value );
+            DoTimer(value);
             InvalidateProperties();
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public virtual int ResetState
     {
         get => m_ResetState;
         set
         {
             m_ResetState = value;
-            if ( m_Timer != null && m_Timer.Running )
+            if (m_Timer != null && m_Timer.Running)
             {
                 m_Timer.Stop();
             }
@@ -90,7 +90,7 @@ public class XmlLatch : Item
             InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public virtual int State
     {
         get => m_State;
@@ -103,12 +103,12 @@ public class XmlLatch : Item
 
     public void StartTimer()
     {
-        if(m_State != m_ResetState && (m_MinDelay > TimeSpan.Zero || m_MaxDelay > TimeSpan.Zero))
+        if (m_State != m_ResetState && (m_MinDelay > TimeSpan.Zero || m_MaxDelay > TimeSpan.Zero))
         {
             DoTimer();
         }
         else
-        if ( m_Timer != null && m_Timer.Running )
+        if (m_Timer != null && m_Timer.Running)
         {
             m_Timer.Stop();
         }
@@ -126,22 +126,22 @@ public class XmlLatch : Item
         int minSeconds = (int)m_MinDelay.TotalSeconds;
         int maxSeconds = (int)m_MaxDelay.TotalSeconds;
 
-        TimeSpan delay = TimeSpan.FromSeconds( Utility.RandomMinMax( minSeconds, maxSeconds ) );
-        DoTimer( delay );
+        TimeSpan delay = TimeSpan.FromSeconds(Utility.RandomMinMax(minSeconds, maxSeconds));
+        DoTimer(delay);
     }
 
-    public void DoTimer( TimeSpan delay )
+    public void DoTimer(TimeSpan delay)
     {
 
 
         m_End = DateTime.Now + delay;
 
-        if ( m_Timer != null )
+        if (m_Timer != null)
         {
             m_Timer.Stop();
         }
 
-        m_Timer = new InternalTimer( this, delay );
+        m_Timer = new InternalTimer(this, delay);
         m_Timer.Start();
     }
 
@@ -149,11 +149,11 @@ public class XmlLatch : Item
     {
         private XmlLatch m_latch;
 
-        public InternalTimer( XmlLatch xmllatch, TimeSpan delay ) : base( delay ) => m_latch = xmllatch;
+        public InternalTimer(XmlLatch xmllatch, TimeSpan delay) : base(delay) => m_latch = xmllatch;
 
         protected override void OnTick()
         {
-            if(m_latch != null && !m_latch.Deleted)
+            if (m_latch != null && !m_latch.Deleted)
             {
                 Stop();
                 m_latch.OnReset();
@@ -161,31 +161,31 @@ public class XmlLatch : Item
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 0 ); // version
+        writer.Write(0); // version
 
         // version 0
-        writer.Write( m_State );
-        writer.Write( m_ResetState );
-        writer.Write( m_MinDelay );
-        writer.Write( m_MaxDelay );
+        writer.Write(m_State);
+        writer.Write(m_ResetState);
+        writer.Write(m_MinDelay);
+        writer.Write(m_MaxDelay);
         bool running = m_Timer != null && m_Timer.Running;
-        writer.Write( running );
-        if ( m_Timer != null && m_Timer.Running )
+        writer.Write(running);
+        if (m_Timer != null && m_Timer.Running)
         {
-            writer.Write( m_End - DateTime.Now );
+            writer.Write(m_End - DateTime.Now);
         }
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch ( version )
+        switch (version)
         {
             case 0:
                 {
@@ -196,10 +196,10 @@ public class XmlLatch : Item
                     m_MinDelay = reader.ReadTimeSpan();
                     m_MaxDelay = reader.ReadTimeSpan();
                     bool running = reader.ReadBool();
-                    if(running)
+                    if (running)
                     {
                         TimeSpan delay = reader.ReadTimeSpan();
-                        DoTimer( delay );
+                        DoTimer(delay);
                     }
                 }
                 break;
@@ -240,13 +240,13 @@ public class TimedLever : XmlLatch, ILinkable
     }
 
     [Constructible]
-    public TimedLever() : base( 0x108C )
+    public TimedLever() : base(0x108C)
     {
         Name = "A lever";
         Movable = false;
     }
 
-    public TimedLever( Serial serial ) : base( serial )
+    public TimedLever(Serial serial) : base(serial)
     {
     }
 
@@ -347,7 +347,7 @@ public class TimedLever : XmlLatch, ILinkable
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int LeverSound
     {
         get => m_LeverSound;
@@ -357,7 +357,7 @@ public class TimedLever : XmlLatch, ILinkable
             InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public leverType LeverType
     {
         get => m_LeverType;
@@ -367,28 +367,28 @@ public class TimedLever : XmlLatch, ILinkable
             InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     new public virtual Direction Direction
     {
         get => base.Direction;
         set { base.Direction = value; SetLeverStatic();InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item Target0Item
     {
         get => m_TargetItem0;
         set { m_TargetItem0 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target0Property
     {
         get => m_TargetProperty0;
         set { m_TargetProperty0 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted)
+    {      	get{  if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
         {
             return m_TargetItem0.Name;
         }
@@ -398,21 +398,21 @@ public class TimedLever : XmlLatch, ILinkable
         }
     }      }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
     {
         get => m_TargetItem1;
         set { m_TargetItem1 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target1Property
     {
         get => m_TargetProperty1;
         set { m_TargetProperty1 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted)
+    {      	get{  if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
         {
             return m_TargetItem1.Name;
         }
@@ -422,21 +422,21 @@ public class TimedLever : XmlLatch, ILinkable
         }
     }      }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item Target2Item
     {
         get => m_TargetItem2;
         set { m_TargetItem2 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target2Property
     {
         get => m_TargetProperty2;
         set { m_TargetProperty2 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target2ItemName
-    {      	get{  if(m_TargetItem2 != null && !m_TargetItem2.Deleted)
+    {      	get{  if (m_TargetItem2 != null && !m_TargetItem2.Deleted)
         {
             return m_TargetItem2.Name;
         }
@@ -446,33 +446,33 @@ public class TimedLever : XmlLatch, ILinkable
         }
     }      }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 2 ); // version
+        writer.Write(2); // version
 
         // version 2
         writer.Write(m_Disabled);
         // version 1
         writer.Write(m_LinkedItem);
         // version 0
-        writer.Write( m_LeverSound );
-        writer.Write( (int)m_LeverType );
-        writer.Write( m_TargetItem0 );
-        writer.Write( m_TargetProperty0 );
-        writer.Write( m_TargetItem1 );
-        writer.Write( m_TargetProperty1 );
-        writer.Write( m_TargetItem2 );
-        writer.Write( m_TargetProperty2 );
+        writer.Write(m_LeverSound);
+        writer.Write((int)m_LeverType);
+        writer.Write(m_TargetItem0);
+        writer.Write(m_TargetProperty0);
+        writer.Write(m_TargetItem1);
+        writer.Write(m_TargetProperty1);
+        writer.Write(m_TargetItem2);
+        writer.Write(m_TargetProperty2);
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch ( version )
+        switch (version)
         {
             case 2:
                 {
@@ -488,7 +488,7 @@ public class TimedLever : XmlLatch, ILinkable
                 {
                     m_LeverSound = reader.ReadInt();
                     int ltype = reader.ReadInt();
-                    switch( ltype )
+                    switch(ltype)
                     {
                         case (int)leverType.Two_State:
                             {
@@ -522,7 +522,7 @@ public class TimedLever : XmlLatch, ILinkable
             case Direction.Right:
             case Direction.Up:
                 {
-                    if(m_LeverType == leverType.Two_State)
+                    if (m_LeverType == leverType.Two_State)
                     {
                         ItemID = 0x108c+ State*2;
                     }
@@ -538,7 +538,7 @@ public class TimedLever : XmlLatch, ILinkable
             case Direction.Left:
             case Direction.Down:
                 {
-                    if(m_LeverType == leverType.Two_State)
+                    if (m_LeverType == leverType.Two_State)
                     {
                         ItemID = 0x1093+ State*2;
                     }
@@ -557,26 +557,26 @@ public class TimedLever : XmlLatch, ILinkable
     }
 
 
-    public override void OnDoubleClick( Mobile from )
+    public override void OnDoubleClick(Mobile from)
     {
-        if(from == null || Disabled)
+        if (from == null || Disabled)
         {
             return;
         }
 
-        if ( !from.InRange( GetWorldLocation(), 2 ) || !from.InLOS(this))
+        if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
         {
-            from.SendLocalizedMessage( 500446 ); // That is too far away.
+            from.SendLocalizedMessage(500446); // That is too far away.
             return;
         }
         // animate and change state
         int newstate = State+1;
-        if(newstate > 1 && m_LeverType == leverType.Two_State)
+        if (newstate > 1 && m_LeverType == leverType.Two_State)
         {
             newstate = 0;
         }
 
-        if(newstate > 2)
+        if (newstate > 2)
         {
             newstate = 0;
         }
@@ -614,17 +614,17 @@ public class TimedSwitch : XmlLatch, ILinkable
     }
 
     [Constructible]
-    public TimedSwitch() : base( 0x108F )
+    public TimedSwitch() : base(0x108F)
     {
         Name = "A switch";
         Movable = false;
     }
 
-    public TimedSwitch( Serial serial ) : base( serial )
+    public TimedSwitch(Serial serial) : base(serial)
     {
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public override int State
     {
         get => base.State;
@@ -712,7 +712,7 @@ public class TimedSwitch : XmlLatch, ILinkable
     }
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int SwitchSound
     {
         get => m_SwitchSound;
@@ -722,28 +722,28 @@ public class TimedSwitch : XmlLatch, ILinkable
             InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     new public virtual Direction Direction
     {
         get => base.Direction;
         set { base.Direction = value; SetSwitchStatic();InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item Target0Item
     {
         get => m_TargetItem0;
         set { m_TargetItem0 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target0Property
     {
         get => m_TargetProperty0;
         set { m_TargetProperty0 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted)
+    {      	get{  if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
         {
             return m_TargetItem0.Name;
         }
@@ -753,21 +753,21 @@ public class TimedSwitch : XmlLatch, ILinkable
         }
     }      }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
     {
         get => m_TargetItem1;
         set { m_TargetItem1 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target1Property
     {
         get => m_TargetProperty1;
         set { m_TargetProperty1 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted)
+    {      	get{  if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
         {
             return m_TargetItem1.Name;
         }
@@ -778,29 +778,29 @@ public class TimedSwitch : XmlLatch, ILinkable
     }      }
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 2 ); // version
+        writer.Write(2); // version
         // version 2
         writer.Write(m_Disabled);
         // version 1
         writer.Write(m_LinkedItem);
         // version 0
-        writer.Write( m_SwitchSound );
-        writer.Write( m_TargetItem0 );
-        writer.Write( m_TargetProperty0 );
-        writer.Write( m_TargetItem1 );
-        writer.Write( m_TargetProperty1 );
+        writer.Write(m_SwitchSound);
+        writer.Write(m_TargetItem0);
+        writer.Write(m_TargetProperty0);
+        writer.Write(m_TargetItem1);
+        writer.Write(m_TargetProperty1);
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch ( version )
+        switch (version)
         {
             case 2:
                 {
@@ -857,21 +857,21 @@ public class TimedSwitch : XmlLatch, ILinkable
     }
 
 
-    public override void OnDoubleClick( Mobile from )
+    public override void OnDoubleClick(Mobile from)
     {
-        if(from == null || Disabled)
+        if (from == null || Disabled)
         {
             return;
         }
 
-        if ( !from.InRange( GetWorldLocation(), 2 ) || !from.InLOS(this))
+        if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
         {
-            from.SendLocalizedMessage( 500446 ); // That is too far away.
+            from.SendLocalizedMessage(500446); // That is too far away.
             return;
         }
         // animate and change state
         int newstate = State+1;
-        if(newstate > 1)
+        if (newstate > 1)
         {
             newstate = 0;
         }
@@ -929,13 +929,13 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     }
 
     [Constructible]
-    public TimedSwitchableItem() : base( 0x108F )
+    public TimedSwitchableItem() : base(0x108F)
     {
         Name = "A switchable item";
         Movable = false;
     }
 
-    public TimedSwitchableItem( Serial serial ) : base( serial )
+    public TimedSwitchableItem(Serial serial) : base(serial)
     {
     }
 
@@ -1032,7 +1032,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int ItemID0
     {
         get => m_ItemID0;
@@ -1045,7 +1045,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int ItemID1
     {
         get => m_ItemID1;
@@ -1057,7 +1057,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
             InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int SwitchSound
     {
         get => m_SwitchSound;
@@ -1067,21 +1067,21 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
             InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item Target0Item
     {
         get => m_TargetItem0;
         set { m_TargetItem0 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target0Property
     {
         get => m_TargetProperty0;
         set { m_TargetProperty0 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted)
+    {      	get{  if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
         {
             return m_TargetItem0.Name;
         }
@@ -1091,21 +1091,21 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         }
     }      }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
     {
         get => m_TargetItem1;
         set { m_TargetItem1 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target1Property
     {
         get => m_TargetProperty1;
         set { m_TargetProperty1 = value;InvalidateProperties();}
     }
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted)
+    {      	get{  if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
         {
             return m_TargetItem1.Name;
         }
@@ -1116,11 +1116,11 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     }      }
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 4 ); // version
+        writer.Write(4); // version
         // version 4
         writer.Write(m_NoDoubleClick);
         // version 3
@@ -1129,22 +1129,22 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         // version 2
         writer.Write(m_LinkedItem);
         // version 1
-        writer.Write( m_ItemID0 );
-        writer.Write( m_ItemID1 );
+        writer.Write(m_ItemID0);
+        writer.Write(m_ItemID1);
         // version 0
-        writer.Write( m_SwitchSound );
-        writer.Write( m_TargetItem0 );
-        writer.Write( m_TargetProperty0 );
-        writer.Write( m_TargetItem1 );
-        writer.Write( m_TargetProperty1 );
+        writer.Write(m_SwitchSound);
+        writer.Write(m_TargetItem0);
+        writer.Write(m_TargetProperty0);
+        writer.Write(m_TargetItem1);
+        writer.Write(m_TargetProperty1);
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch ( version )
+        switch (version)
         {
             case 4:
                 {
@@ -1220,21 +1220,21 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     }
 
 
-    public override void OnDoubleClick( Mobile from )
+    public override void OnDoubleClick(Mobile from)
     {
-        if(from == null || Disabled || NoDoubleClick)
+        if (from == null || Disabled || NoDoubleClick)
         {
             return;
         }
 
-        if ( !from.InRange( GetWorldLocation(), 2 ) || !from.InLOS(this))
+        if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
         {
-            from.SendLocalizedMessage( 500446 ); // That is too far away.
+            from.SendLocalizedMessage(500446); // That is too far away.
             return;
         }
         // animate and change state
         int newstate = State+1;
-        if(newstate > 1)
+        if (newstate > 1)
         {
             newstate = 0;
         }

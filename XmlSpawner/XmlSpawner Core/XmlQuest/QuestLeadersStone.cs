@@ -6,7 +6,7 @@ public class QuestLeadersStone: Item
 {
 
     [Constructible]
-    public QuestLeadersStone() : base( 0xED4)
+    public QuestLeadersStone() : base(0xED4)
     {
         Movable = false;
         Visible = false;
@@ -14,9 +14,9 @@ public class QuestLeadersStone: Item
 
         // is there already another?
         ArrayList dlist = new ArrayList();
-        foreach( Item i in World.Items.Values)
+        foreach(Item i in World.Items.Values)
         {
-            if(i is QuestLeadersStone && i != this)
+            if (i is QuestLeadersStone && i != this)
             {
                 dlist.Add(i);
             }
@@ -27,33 +27,33 @@ public class QuestLeadersStone: Item
         }
     }
 
-    public QuestLeadersStone( Serial serial ) : base( serial )
+    public QuestLeadersStone(Serial serial) : base(serial)
     {
     }
 
-    public override void OnDoubleClick( Mobile m )
+    public override void OnDoubleClick(Mobile m)
     {
-        if( m != null && m.AccessLevel >= AccessLevel.Administrator)
+        if (m != null && m.AccessLevel >= AccessLevel.Administrator)
         {
             CommandEventArgs e = new CommandEventArgs(m, "", "", new string[0]);
             XmlQuestLeaders.QuestLeaderboardSave_OnCommand(e);
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        XmlQuestLeaders.QuestLBSSerialize( writer );
+        XmlQuestLeaders.QuestLBSSerialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
     }
 
     public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
-        XmlQuestLeaders.QuestLBSDeserialize( reader );
+        XmlQuestLeaders.QuestLBSDeserialize(reader);
 
         int version = reader.ReadInt();
 

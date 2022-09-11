@@ -132,14 +132,14 @@ public class XmlPartialCategorizedAddGump : Gump
 
                 for (int j = 0; j < ctors.Length; ++j)
                 {
-                    if ( /*ctors[j].GetParameters().Length == 0 && */ ctors[j].IsDefined(typeof(ConstructibleAttribute), false))
+                    if (/*ctors[j].GetParameters().Length == 0 && */ ctors[j].IsDefined(typeof(ConstructibleAttribute), false))
                     {
                         SearchEntry s = new SearchEntry
                         {
                             EntryType = t,
                             Parameters = ctors[j].GetParameters()
                         };
-                        //results.Add( t );
+                        //results.Add(t);
                         results.Add(s);
                         //break;
                     }
@@ -254,7 +254,7 @@ public class XmlPartialCategorizedAddGump : Gump
 
                                 Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(XmlSpawnerGump.Refresh_Callback), new object[] { from });
                                 //from.CloseGump<XmlSpawnerGump>();
-                                //from.SendGump( new XmlSpawnerGump(xg.m_Spawner, xg.X, xg.Y, xg.m_ShowGump, xg.xoffset, xg.page, xg.Rentry) );
+                                //from.SendGump(new XmlSpawnerGump(xg.m_Spawner, xg.X, xg.Y, xg.m_ShowGump, xg.xoffset, xg.page, xg.Rentry));
                             }
                         }
                     }

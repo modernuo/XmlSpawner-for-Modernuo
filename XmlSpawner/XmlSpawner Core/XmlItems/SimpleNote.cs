@@ -18,38 +18,38 @@ public class SimpleNote : Item
     private int m_TitleColor = 0xef0000; // cyan 0xf70000, black 0x3e8, brown 0xef0000 darkblue 0x7fff
 
     [Constructible]
-    public SimpleNote() : base( 0x14EE )
+    public SimpleNote() : base(0x14EE)
     {
         Name = "A note";
         TitleString = "A note";
     }
 
-    public SimpleNote( Serial serial ) : base( serial )
+    public SimpleNote(Serial serial) : base(serial)
     {
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string NoteString
     {
         get => m_NoteString;
         set { m_NoteString = value; InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string TitleString
     {
         get => m_TitleString;
         set { m_TitleString = value; InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Size
     {
         get => m_size;
         set
         {
             m_size = value;
-            if(m_size < 1)
+            if (m_size < 1)
             {
                 m_size = 1;
             }
@@ -57,39 +57,39 @@ public class SimpleNote : Item
             InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int TextColor
     {
         get => m_TextColor;
         set { m_TextColor = value; InvalidateProperties();}
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int TitleColor
     {
         get => m_TitleColor;
         set { m_TitleColor = value; InvalidateProperties();}
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 0 ); // version
+        writer.Write(0); // version
 
-        writer.Write( m_NoteString );
-        writer.Write( m_TitleString );
-        writer.Write( m_TextColor );
-        writer.Write( m_TitleColor );
-        writer.Write( m_size );
+        writer.Write(m_NoteString);
+        writer.Write(m_TitleString);
+        writer.Write(m_TextColor);
+        writer.Write(m_TitleColor);
+        writer.Write(m_size);
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch ( version )
+        switch (version)
         {
             case 0:
                 {
@@ -103,10 +103,10 @@ public class SimpleNote : Item
         }
     }
 
-    public override void OnDoubleClick( Mobile from )
+    public override void OnDoubleClick(Mobile from)
     {
-        SimpleNoteGump g = new SimpleNoteGump( this );
-        from.SendGump( g );
+        SimpleNoteGump g = new SimpleNoteGump(this);
+        from.SendGump(g);
     }
 }
 
@@ -114,28 +114,28 @@ public class SimpleNoteGump : Gump
 {
     private SimpleNote m_Note;
 
-    public static string HtmlFormat( string text, int color ) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
+    public static string HtmlFormat(string text, int color) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
 
-    public SimpleNoteGump( SimpleNote note ) : base( 0, 0 )
+    public SimpleNoteGump(SimpleNote note) : base(0, 0)
     {
         m_Note = note;
 
-        AddPage( 0 );
-        AddAlphaRegion( 40, 41, 225, /*371*/70*note.Size );
+        AddPage(0);
+        AddAlphaRegion(40, 41, 225, /*371*/70*note.Size);
         // scroll top
-        AddImageTiled( 3, 5, 300, 37, 0x820 );
+        AddImageTiled(3, 5, 300, 37, 0x820);
         // scroll middle, upper portion
-        AddImageTiled( 19, 41, 263, 70, 0x821 );
+        AddImageTiled(19, 41, 263, 70, 0x821);
         for(int i=1;i<note.Size;i++)
         {
             // scroll middle , lower portion
-            AddImageTiled( 19, 41+70*i, 263, 70, 0x822 );
+            AddImageTiled(19, 41+70*i, 263, 70, 0x822);
         }
         // scroll bottom
-        AddImageTiled( 20, 111+70*(note.Size-1), 273, 34, 0x823 );
+        AddImageTiled(20, 111+70*(note.Size-1), 273, 34, 0x823);
         // title string
-        AddHtml( 55, 10, 200, 37, HtmlFormat( note.TitleString, note.TitleColor), false , false );
+        AddHtml(55, 10, 200, 37, HtmlFormat(note.TitleString, note.TitleColor), false , false);
         // text string
-        AddHtml( 40, 41, 225, 70*note.Size, HtmlFormat( note.NoteString, note.TextColor ), false , false );
+        AddHtml(40, 41, 225, 70*note.Size, HtmlFormat(note.NoteString, note.TextColor), false , false);
     }
 }

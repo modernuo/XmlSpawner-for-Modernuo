@@ -1,5 +1,5 @@
 #define ServUO
-#if(ServUO)
+#if (ServUO)
 using System;
 using Server.Mobiles;
 

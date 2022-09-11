@@ -15,28 +15,28 @@ public class XmlSkill : XmlAttachment
 
     private bool m_RequireIdentification = false; // by default no identification is required for the mod to be activatable
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     // this property can be set allowing individual items to determine whether they must be identified for the mod to be activatable
     public bool RequireIdentification { get => m_RequireIdentification;
         set => m_RequireIdentification = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Value { get => m_Value;
         set => m_Value  = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public SkillName Skill { get => m_Skill;
         set => m_Skill  = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan Duration { get => m_Duration;
         set => m_Duration  = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string ActivationWord { get => m_Word;
         set => m_Word  = value;
     }
@@ -56,7 +56,7 @@ public class XmlSkill : XmlAttachment
         Name = name;
         try
         {
-            m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
+            m_Skill = (SkillName)Enum.Parse(typeof(SkillName), skill, true);
         }
         catch {}
     }
@@ -67,7 +67,7 @@ public class XmlSkill : XmlAttachment
         Name = name;
         try
         {
-            m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
+            m_Skill = (SkillName)Enum.Parse(typeof(SkillName), skill, true);
         }
         catch {}
         m_Value = value;
@@ -79,7 +79,7 @@ public class XmlSkill : XmlAttachment
         Name = name;
         try
         {
-            m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
+            m_Skill = (SkillName)Enum.Parse(typeof(SkillName), skill, true);
         }
         catch {}
         m_Value = value;
@@ -93,7 +93,7 @@ public class XmlSkill : XmlAttachment
         Name = name;
         try
         {
-            m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
+            m_Skill = (SkillName)Enum.Parse(typeof(SkillName), skill, true);
         }
         catch {}
         m_Value = value;
@@ -101,11 +101,11 @@ public class XmlSkill : XmlAttachment
         m_Word = word;
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_Word);
         writer.Write((int)m_Skill);
@@ -131,10 +131,10 @@ public class XmlSkill : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(AttachedTo is BaseArmor || AttachedTo is BaseWeapon)
+        if (AttachedTo is BaseArmor || AttachedTo is BaseWeapon)
         {
             // can force identification before the skill mods can be applied
-            if(from != null && from.AccessLevel == AccessLevel.Player)
+            if (from != null && from.AccessLevel == AccessLevel.Player)
             {
                 m_Identified = true;
             }
@@ -149,22 +149,22 @@ public class XmlSkill : XmlAttachment
 
     public override bool HandlesOnSpeech => true;
 
-    public override void OnSpeech(SpeechEventArgs e )
+    public override void OnSpeech(SpeechEventArgs e)
     {
         base.OnSpeech(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
         {
             return;
         }
 
         // dont respond to other players speech if this is attached to a mob
-        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile)
+        if (AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile)
         {
             return;
         }
 
-        if(e.Speech == m_Word)
+        if (e.Speech == m_Word)
         {
             OnTrigger(null, e.Mobile);
         }
@@ -175,7 +175,7 @@ public class XmlSkill : XmlAttachment
         base.OnAttach();
 
         // apply the mod immediately
-        if(AttachedTo is Mobile && m_Word == null)
+        if (AttachedTo is Mobile && m_Word == null)
         {
             OnTrigger(null, (Mobile)AttachedTo);
             // and then remove the attachment
@@ -183,7 +183,7 @@ public class XmlSkill : XmlAttachment
             //Delete();
         }
         else
-        if(AttachedTo is Item && m_Word == null)
+        if (AttachedTo is Item && m_Word == null)
         {
             // no way to activate if it is on an item and is not speech activated so just delete it
             Delete();
@@ -192,24 +192,24 @@ public class XmlSkill : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null || RequireIdentification && !m_Identified)
+        if (m == null || RequireIdentification && !m_Identified)
         {
             return;
         }
 
-        if((AttachedTo is BaseArmor || AttachedTo is BaseWeapon) && ((Item)AttachedTo).Layer != Layer.Invalid)
+        if ((AttachedTo is BaseArmor || AttachedTo is BaseWeapon) && ((Item)AttachedTo).Layer != Layer.Invalid)
         {
             // when activated via speech will apply mod when equipped by the speaker
-            SkillMod sm = new EquipedSkillMod( m_Skill, true, m_Value, (Item)AttachedTo, m );
-            m.AddSkillMod( sm );
+            SkillMod sm = new EquipedSkillMod(m_Skill, true, m_Value, (Item)AttachedTo, m);
+            m.AddSkillMod(sm);
             // and then remove the attachment
             Delete();
         }
         else
         {
             // when activated it will apply the skill mod that will last for the specified duration
-            SkillMod sm = new TimedSkillMod( m_Skill, true, m_Value, m_Duration );
-            m.AddSkillMod( sm );
+            SkillMod sm = new TimedSkillMod(m_Skill, true, m_Value, m_Duration);
+            m.AddSkillMod(sm);
             // and then remove the attachment
             Delete();
         }

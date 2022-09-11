@@ -4,7 +4,7 @@ public class SimpleMap : MapItem
 {
     private int m_PinIndex;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int CurrentPin
     {
         // get/set the index (one-based) of the pin that will be referred to by PinLocation
@@ -12,12 +12,12 @@ public class SimpleMap : MapItem
         set => m_PinIndex = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int NPins
     {
         get
         {
-            if(Pins != null)
+            if (Pins != null)
             {
                 return Pins.Count;
             }
@@ -28,13 +28,13 @@ public class SimpleMap : MapItem
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Point2D PinLocation
     {
         set
         {
             // change the coordinates of the current pin
-            if(Pins != null && CurrentPin > 0 && CurrentPin <=Pins.Count)
+            if (Pins != null && CurrentPin > 0 && CurrentPin <=Pins.Count)
             {
                 int mapx, mapy;
                 ConvertToMap(value.X, value.Y, out mapx, out mapy);
@@ -44,7 +44,7 @@ public class SimpleMap : MapItem
         get
         {
             // get the coordinates of the current pin
-            if(Pins != null && CurrentPin > 0 && CurrentPin <=Pins.Count)
+            if (Pins != null && CurrentPin > 0 && CurrentPin <=Pins.Count)
             {
                 int mapx, mapy;
                 ConvertToWorld(Pins[CurrentPin -1].X, Pins[CurrentPin -1].Y, out mapx, out mapy);
@@ -57,7 +57,7 @@ public class SimpleMap : MapItem
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Point2D NewPin
     {
         set
@@ -69,7 +69,7 @@ public class SimpleMap : MapItem
         get
         {
             // return the last pin added to the Pins arraylist
-            if(Pins != null && NPins > 0)
+            if (Pins != null && NPins > 0)
             {
                 int mapx, mapy;
                 ConvertToWorld(Pins[NPins -1].X, Pins[NPins -1].Y, out mapx, out mapy);
@@ -83,30 +83,30 @@ public class SimpleMap : MapItem
     }
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool ClearAllPins
     {
         get => false;
-        set { if(value == true)
+        set { if (value == true)
             {
                 ClearPins();
             }
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int PinRemove
     {
         set => RemovePin(value);
         get => 0;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Mobile ShowTo
     {
         set
         {
-            if(value != null)
+            if (value != null)
             {
                 //DisplayTo(value);
                 OnDoubleClick(value);
@@ -119,25 +119,25 @@ public class SimpleMap : MapItem
     [Constructible]
     public SimpleMap()
     {
-        SetDisplay( 0, 0, 5119, 4095, 400, 400 );
+        SetDisplay(0, 0, 5119, 4095, 400, 400);
     }
 
     public override int LabelNumber => 1025355; // map
 
-    public SimpleMap( Serial serial ) : base( serial )
+    public SimpleMap(Serial serial) : base(serial)
     {
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
     }

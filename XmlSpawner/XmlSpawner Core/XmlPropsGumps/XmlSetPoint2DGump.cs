@@ -54,7 +54,7 @@ public class XmlSetPoint2DGump : Gump
 #if (NEWTIMERS)
         public XmlSetPoint2DGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #else
-    public XmlSetPoint2DGump( PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list ) : base( GumpOffsetX, GumpOffsetY )
+    public XmlSetPoint2DGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #endif
     {
         m_Property = prop;
@@ -148,7 +148,7 @@ public class XmlSetPoint2DGump : Gump
 #if (NEWTIMERS)
             public InternalTarget(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(-1, true, TargetFlags.None)
 #else
-        public InternalTarget( PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list ) : base( -1, true, TargetFlags.None )
+        public InternalTarget(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(-1, true, TargetFlags.None)
 #endif
         {
             m_Property = prop;

@@ -7,7 +7,7 @@ public class XmlAddKarma : XmlAttachment
 {
     private int m_DataValue; // default data
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Value { get => m_DataValue;
         set => m_DataValue = value;
     }
@@ -22,14 +22,14 @@ public class XmlAddKarma : XmlAttachment
     }
 
     [Attachable]
-    public XmlAddKarma( int value) => Value = value;
+    public XmlAddKarma(int value) => Value = value;
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_DataValue);
 
@@ -49,7 +49,7 @@ public class XmlAddKarma : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if(AttachedTo is PlayerMobile)
+        if (AttachedTo is PlayerMobile)
         {
             // for players just add it immediately
             ((Mobile)AttachedTo).Karma += Value;
@@ -61,7 +61,7 @@ public class XmlAddKarma : XmlAttachment
             //Delete();
         }
         else
-        if(AttachedTo is Item)
+        if (AttachedTo is Item)
         {
             // dont allow item attachments
             Delete();
@@ -71,11 +71,11 @@ public class XmlAddKarma : XmlAttachment
 
     public override bool HandlesOnKilled => true;
 
-    public override void OnKilled(Mobile killed, Mobile killer )
+    public override void OnKilled(Mobile killed, Mobile killer)
     {
         base.OnKilled(killed, killer);
 
-        if(killer == null)
+        if (killer == null)
         {
             return;
         }

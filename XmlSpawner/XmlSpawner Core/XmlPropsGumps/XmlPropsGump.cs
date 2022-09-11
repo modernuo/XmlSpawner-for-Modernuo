@@ -67,7 +67,7 @@ public class XmlPropertiesGump : Gump
 #if (NEWTIMERS)
         public XmlPropertiesGump(Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, PropertiesGump.StackEntry parent) : base(GumpOffsetX, GumpOffsetY)
 #else
-    public XmlPropertiesGump( Mobile mobile, object o, Stack stack, object parent ) : base( GumpOffsetX, GumpOffsetY )
+    public XmlPropertiesGump(Mobile mobile, object o, Stack stack, object parent) : base(GumpOffsetX, GumpOffsetY)
 #endif
     {
         m_Mobile = mobile;
@@ -95,7 +95,7 @@ public class XmlPropertiesGump : Gump
 #if (NEWTIMERS)
         public XmlPropertiesGump(Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, ArrayList list, int page) : base(GumpOffsetX, GumpOffsetY)
 #else
-    public XmlPropertiesGump( Mobile mobile, object o, Stack stack, ArrayList list, int page ) : base( GumpOffsetX, GumpOffsetY )
+    public XmlPropertiesGump(Mobile mobile, object o, Stack stack, ArrayList list, int page) : base(GumpOffsetX, GumpOffsetY)
 #endif
     {
         m_Mobile = mobile;
@@ -236,7 +236,7 @@ public class XmlPropertiesGump : Gump
 #else
                         object obj = m_Stack.Pop();
 
-                        from.SendGump( new XmlPropertiesGump( from, obj, m_Stack, null ) );
+                        from.SendGump(new XmlPropertiesGump(from, obj, m_Stack, null));
 #endif
                     }
 
@@ -341,7 +341,7 @@ public class XmlPropertiesGump : Gump
                                         new PropertiesGump.StackEntry(m_Object, prop))
                                     : new XmlPropertiesGump(from, m_Object, m_Stack, m_List, m_Page));
 #else
-                            from.SendGump( new XmlPropertiesGump( from, prop.GetValue( m_Object, null ), m_Stack, m_Object ) );
+                            from.SendGump(new XmlPropertiesGump(from, prop.GetValue(m_Object, null), m_Stack, m_Object));
 #endif
                         }
                     }
@@ -424,20 +424,20 @@ public class XmlPropertiesGump : Gump
 
     private static readonly Type[] typeofReal =
     {
-        typeof( float ),
-        typeof( double )
+        typeof(float),
+        typeof(double)
     };
 
     private static readonly Type[] typeofNumeric =
     {
-        typeof( byte ),
-        typeof( short ),
-        typeof( int ),
-        typeof( long ),
-        typeof( sbyte ),
-        typeof( ushort ),
-        typeof( uint ),
-        typeof( ulong )
+        typeof(byte),
+        typeof(short),
+        typeof(int),
+        typeof(long),
+        typeof(sbyte),
+        typeof(ushort),
+        typeof(uint),
+        typeof(ulong)
     };
 
     private string ValueToString(PropertyInfo prop) => ValueToString(m_Object, prop);

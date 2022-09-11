@@ -13,17 +13,17 @@ public class XmlMinionStrike : XmlAttachment
     private string m_Minion = "Drake";
     private ArrayList MinionList = new ArrayList();
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Chance { get => m_Chance;
         set => m_Chance = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan Refractory { get => m_Refractory;
         set => m_Refractory  = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Minion { get => m_Minion;
         set => m_Minion  = value;
     }
@@ -46,7 +46,7 @@ public class XmlMinionStrike : XmlAttachment
     }
 
     [Attachable]
-    public XmlMinionStrike(string minion,int chance )
+    public XmlMinionStrike(string minion,int chance)
     {
         m_Chance = chance;
         m_Minion = minion;
@@ -76,10 +76,10 @@ public class XmlMinionStrike : XmlAttachment
     {
         base.OnAttach();
 
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             Mobile m = AttachedTo as Mobile;
-            Effects.PlaySound( m, m.Map, 516 );
+            Effects.PlaySound(m, m.Map, 516);
         }
     }
 
@@ -91,33 +91,33 @@ public class XmlMinionStrike : XmlAttachment
     {
 
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
 
-        if(m_Chance <= 0 || Utility.Random(100) > m_Chance)
+        if (m_Chance <= 0 || Utility.Random(100) > m_Chance)
         {
             return;
         }
 
-        if(defender != null && attacker != null)
+        if (defender != null && attacker != null)
         {
 
             // spawn a minion
             object o = null;
             try
             {
-                o = Activator.CreateInstance( AssemblyHandler.FindTypeByName(m_Minion) );
+                o = Activator.CreateInstance(AssemblyHandler.FindTypeByName(m_Minion));
             }
             catch{}
 
-            if(o is BaseCreature)
+            if (o is BaseCreature)
             {
                 BaseCreature b = o as BaseCreature;
                 b.MoveToWorld(attacker.Location, attacker.Map);
 
-                if(attacker is PlayerMobile)
+                if (attacker is PlayerMobile)
                 {
                     b.Controlled = true;
                     b.ControlMaster = attacker;
@@ -130,12 +130,12 @@ public class XmlMinionStrike : XmlAttachment
             }
             else
             {
-                if(o is Item)
+                if (o is Item)
                 {
                     ((Item)o).Delete();
                 }
 
-                if(o is Mobile)
+                if (o is Mobile)
                 {
                     ((Mobile)o).Delete();
                 }
@@ -152,30 +152,30 @@ public class XmlMinionStrike : XmlAttachment
     {
         base.OnDelete();
 
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             Mobile m = AttachedTo as Mobile;
-            if(!m.Deleted)
+            if (!m.Deleted)
             {
-                Effects.PlaySound( m, m.Map, 958 );
+                Effects.PlaySound(m, m.Map, 958);
             }
         }
 
         // delete the minions
         foreach(BaseCreature b in MinionList)
         {
-            if(b != null && !b.Deleted)
+            if (b != null && !b.Deleted)
             {
                 b.Delete();
             }
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_Chance);
         writer.Write(m_Minion);
@@ -211,7 +211,7 @@ public class XmlMinionStrike : XmlAttachment
     {
         string msg = null;
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             msg = $"Minion : {m_Minion} {Chance}% chance expires in {Expiration.TotalMinutes} mins";
         }
@@ -220,7 +220,7 @@ public class XmlMinionStrike : XmlAttachment
             msg = $"Minion : {m_Minion}";
         }
 
-        if(Refractory > TimeSpan.Zero)
+        if (Refractory > TimeSpan.Zero)
         {
             return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }

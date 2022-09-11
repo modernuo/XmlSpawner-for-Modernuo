@@ -1075,7 +1075,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
             /*
             // is this currently carried by a mobile?
-            if(m_RewardItem.RootParent != null && m_RewardItem.RootParent is Mobile)
+            if (m_RewardItem.RootParent != null && m_RewardItem.RootParent is Mobile)
             {
                 // if so then remove it
                 ((Mobile)(m_RewardItem.RootParent)).RemoveItem(m_RewardItem);
@@ -1321,7 +1321,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             {
                 // if this is a player created quest, then refresh the expiration time until it is in someone elses possession
                 /*
-                 if(PlayerMade && ((Owner == Creator) || (Owner == null)))
+                 if (PlayerMade && ((Owner == Creator) || (Owner == null)))
                  {
                      m_TimeCreated = DateTime.Now;
                  }
@@ -1465,7 +1465,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 (Completed3 || Objective3 == null || Objective3.Length == 0) &&
                 (Completed4 || Objective4 == null || Objective4.Length == 0) &&
                 (Completed5 || Objective5 == null || Objective5.Length == 0)
-               )
+              )
             {
                 return true;
             }
@@ -1489,7 +1489,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
             // do a location test for the skill use
             /*
-            if ( !Utility.InRange( m.Location, this.Location, m_ProximityRange ) )
+            if (!Utility.InRange(m.Location, this.Location, m_ProximityRange))
                 return;
             */
             int testskill = -1;
@@ -1633,7 +1633,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             DataSet ds = new DataSet(XmlDataSetName);
 
             // Read in the file
-            //ds.ReadXml( e.Arguments[0].ToString() );
+            //ds.ReadXml(e.Arguments[0].ToString());
             bool fileerror = false;
             try
             {

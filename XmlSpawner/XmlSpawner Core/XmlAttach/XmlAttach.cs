@@ -194,12 +194,12 @@ public class XmlAttach
         // Register our movement handler
         EventSink.Movement += EventSink_Movement;
 
-        //CommandSystem.Register( "ItemAtt", AccessLevel.GameMaster, new CommandEventHandler( ListItemAttachments_OnCommand ) );
-        //CommandSystem.Register( "MobAtt", AccessLevel.GameMaster, new CommandEventHandler( ListMobileAttachments_OnCommand ) );
+        //CommandSystem.Register("ItemAtt", AccessLevel.GameMaster, new CommandEventHandler(ListItemAttachments_OnCommand));
+        //CommandSystem.Register("MobAtt", AccessLevel.GameMaster, new CommandEventHandler(ListMobileAttachments_OnCommand));
         CommandSystem.Register("GetAtt", AccessLevel.GameMaster, GetAttachments_OnCommand);
-        //CommandSystem.Register( "DelAtt", AccessLevel.GameMaster, new CommandEventHandler( DeleteAttachments_OnCommand ) );
-        //CommandSystem.Register( "TrigAtt", AccessLevel.GameMaster, new CommandEventHandler( ActivateAttachments_OnCommand ) );
-        //CommandSystem.Register( "AddAtt", AccessLevel.GameMaster, new CommandEventHandler( AddAttachment_OnCommand ) );
+        //CommandSystem.Register("DelAtt", AccessLevel.GameMaster, new CommandEventHandler(DeleteAttachments_OnCommand));
+        //CommandSystem.Register("TrigAtt", AccessLevel.GameMaster, new CommandEventHandler(ActivateAttachments_OnCommand));
+        //CommandSystem.Register("AddAtt", AccessLevel.GameMaster, new CommandEventHandler(AddAttachment_OnCommand));
         TargetCommands.Register(new AddAttCommand());
         TargetCommands.Register(new DelAttCommand());
         CommandSystem.Register("AvailAtt", AccessLevel.GameMaster, ListAvailableAttachments_OnCommand);
@@ -667,7 +667,7 @@ public class XmlAttach
                 {
                     ErrorReporter.GenerateErrorReport(
                         "Error deserializing. Attachments save file corrupted. Attachment load aborted."
-                    );
+                   );
                     return;
                 }
 
@@ -701,7 +701,7 @@ public class XmlAttach
                 {
                     ErrorReporter.GenerateErrorReport(
                         "Error deserializing. Attachments save file corrupted. Attachment load aborted."
-                    );
+                   );
                     return;
                 }
 
@@ -717,7 +717,7 @@ public class XmlAttach
             {
                 ErrorReporter.GenerateErrorReport(
                     $"\nError deserializing {valuetype} serialno {serialno.Value}. Attachments save file corrupted. Attachment load aborted.\n"
-                );
+               );
                 return;
             }
         }
@@ -815,7 +815,7 @@ public class XmlAttach
                     {
                         ErrorReporter.GenerateErrorReport(
                             "Error deserializing. Attachments save file corrupted. Attachment load aborted."
-                        );
+                       );
                         return;
                     }
 
@@ -919,7 +919,7 @@ public class XmlAttach
                     {
                         ErrorReporter.GenerateErrorReport(
                             "Error deserializing. Attachments save file corrupted. Attachment load aborted."
-                        );
+                       );
                         return;
                     }
 
@@ -1495,7 +1495,7 @@ public class XmlAttach
                         /*
                         foreach(XmlAttachment p in plist)
                         {
-                            if(p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType())) continue;
+                            if (p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType())) continue;
 
                             from.SendMessage("Found attachment {3} : {0} : {1} : {2}",p.GetType().Name,p.Name,p.OnIdentify(from), p.Serial.Value);
 
@@ -1510,7 +1510,7 @@ public class XmlAttach
                         /*
                         foreach(XmlAttachment p in plist)
                         {
-                            if(p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType())) continue;
+                            if (p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType())) continue;
 
                             from.SendMessage("Deleting attachment {3} : {0} : {1} : {2}",p.GetType().Name,p.Name,p.OnIdentify(from), p.Serial.Value);
                             p.Delete();

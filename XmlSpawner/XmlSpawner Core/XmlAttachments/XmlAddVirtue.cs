@@ -8,7 +8,7 @@ public class XmlAddVirtue : XmlAttachment
     private int m_DataValue; // default data
     private string m_Virtue;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Value { get => m_DataValue;
         set => m_DataValue = value;
     }
@@ -33,11 +33,11 @@ public class XmlAddVirtue : XmlAttachment
     }
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_DataValue);
         writer.Write(m_Virtue);
@@ -59,7 +59,7 @@ public class XmlAddVirtue : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if(AttachedTo is PlayerMobile)
+        if (AttachedTo is PlayerMobile)
         {
             // for players just add it immediately
             // lookup the virtue type
@@ -70,14 +70,14 @@ public class XmlAddVirtue : XmlAttachment
                 g = (VirtueName)Enum.Parse(typeof(VirtueName),Virtue, true);
             } catch{valid = false;}
 
-            if(valid)
+            if (valid)
             {
 
-                VirtueHelper.Award( (Mobile)AttachedTo, g, Value, ref gainedPath );
+                VirtueHelper.Award((Mobile)AttachedTo, g, Value, ref gainedPath);
 
                 ((Mobile)AttachedTo).SendMessage("Receive {0}",OnIdentify((Mobile)AttachedTo));
 
-                if(gainedPath)
+                if (gainedPath)
                 {
                     ((Mobile)AttachedTo).SendMessage("You have gained a path in {0}",Virtue);
                 }
@@ -89,7 +89,7 @@ public class XmlAddVirtue : XmlAttachment
             Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
             //Delete();
         } else
-        if(AttachedTo is Item)
+        if (AttachedTo is Item)
         {
             // dont allow item attachments
             Delete();
@@ -99,11 +99,11 @@ public class XmlAddVirtue : XmlAttachment
 
     public override bool HandlesOnKilled => true;
 
-    public override void OnKilled(Mobile killed, Mobile killer )
+    public override void OnKilled(Mobile killed, Mobile killer)
     {
         base.OnKilled(killed, killer);
 
-        if(killer == null)
+        if (killer == null)
         {
             return;
         }
@@ -115,13 +115,13 @@ public class XmlAddVirtue : XmlAttachment
             g = (VirtueName)Enum.Parse(typeof(VirtueName),Virtue, true);
         } catch{valid = false;}
 
-        if(valid)
+        if (valid)
         {
             // give the killer the Virtue
 
-            VirtueHelper.Award( killer, g, Value, ref gainedPath );
+            VirtueHelper.Award(killer, g, Value, ref gainedPath);
 
-            if(gainedPath)
+            if (gainedPath)
             {
                 killer.SendMessage("You have gained a path in {0}",Virtue);
             }

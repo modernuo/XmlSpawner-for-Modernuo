@@ -24,39 +24,39 @@ public class QuestNote : XmlQuestToken
 {
 
     [Constructible]
-    public QuestNote() : base( 0x14EE )
+    public QuestNote() : base(0x14EE)
     {
         Name = "A quest note";
         TitleString = "A quest note";
     }
 
-    public QuestNote( Serial serial ) : base( serial )
+    public QuestNote(Serial serial) : base(serial)
     {
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 2 ); // version
+        writer.Write(2); // version
         // Version 2 has no serialized variables
 
         // Version 0
-        //writer.Write( this.m_NoteString );    // moved to the XmlQuestToken class in version 1
-        //writer.Write( this.m_TitleString );   // moved to the XmlQuestToken class in version 1
+        //writer.Write(this.m_NoteString);    // moved to the XmlQuestToken class in version 1
+        //writer.Write(this.m_TitleString);   // moved to the XmlQuestToken class in version 1
         // Version 1
-        //writer.Write( this.m_TextColor );   // no longer used
-        //writer.Write( this.m_TitleColor );  // no longer used
-        //writer.Write( this.m_size );        // no longer used
+        //writer.Write(this.m_TextColor);   // no longer used
+        //writer.Write(this.m_TitleColor);  // no longer used
+        //writer.Write(this.m_size);        // no longer used
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
 
-        switch ( version )
+        switch (version)
         {
             case 1:
                 {
@@ -85,12 +85,12 @@ public class QuestNote : XmlQuestToken
         }
     }
 
-    public override void OnDoubleClick( Mobile from )
+    public override void OnDoubleClick(Mobile from)
     {
         base.OnDoubleClick(from);
-        from.CloseGump( typeof( XmlQuestStatusGump ) );
+        from.CloseGump(typeof(XmlQuestStatusGump));
 
-        from.SendGump( new XmlQuestStatusGump(this, TitleString) );
+        from.SendGump(new XmlQuestStatusGump(this, TitleString));
     }
 }
 
@@ -103,25 +103,25 @@ public class OriginalQuestNote : XmlQuestToken
     private int m_TitleColor = 0xef0000; // cyan 0xf70000, black 0x3e8, brown 0xef0000 darkblue 0x7fff
 
     [Constructible]
-    public OriginalQuestNote() : base( 0x14EE )
+    public OriginalQuestNote() : base(0x14EE)
     {
         Name = "A quest note";
         TitleString = "A quest note";
     }
 
-    public OriginalQuestNote( Serial serial ) : base( serial )
+    public OriginalQuestNote(Serial serial) : base(serial)
     {
     }
 
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Size
     {
         get => m_size;
         set
         {
             m_size = value;
-            if(m_size < 1)
+            if (m_size < 1)
             {
                 m_size = 1;
             }
@@ -129,7 +129,7 @@ public class OriginalQuestNote : XmlQuestToken
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int TextColor
     {
         get => m_TextColor;
@@ -137,7 +137,7 @@ public class OriginalQuestNote : XmlQuestToken
         //InvalidateProperties();
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int TitleColor
     {
         get => m_TitleColor;
@@ -145,27 +145,27 @@ public class OriginalQuestNote : XmlQuestToken
         //InvalidateProperties();
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
-        base.Serialize( writer );
+        base.Serialize(writer);
 
-        writer.Write( 1 ); // version
+        writer.Write(1); // version
 
         // Version 1
-        writer.Write( m_TextColor );
-        writer.Write( m_TitleColor );
-        writer.Write( m_size );
+        writer.Write(m_TextColor);
+        writer.Write(m_TitleColor);
+        writer.Write(m_size);
         // Version 0
-        //writer.Write( this.m_NoteString );    // moved to the XmlQuestToken class in version 1
-        //writer.Write( this.m_TitleString );   // moved to the XmlQuestToken class in version 1
+        //writer.Write(this.m_NoteString);    // moved to the XmlQuestToken class in version 1
+        //writer.Write(this.m_TitleString);   // moved to the XmlQuestToken class in version 1
     }
 
-    public override void Deserialize( IGenericReader reader )
+    public override void Deserialize(IGenericReader reader)
     {
-        base.Deserialize( reader );
+        base.Deserialize(reader);
 
         int version = reader.ReadInt();
-        switch ( version )
+        switch (version)
         {
             case 1:
                 {
@@ -186,11 +186,11 @@ public class OriginalQuestNote : XmlQuestToken
         }
     }
 
-    public override void OnDoubleClick( Mobile from )
+    public override void OnDoubleClick(Mobile from)
     {
         base.OnDoubleClick(from);
-        from.CloseGump( typeof( QuestNoteGump ) );
-        from.SendGump( new QuestNoteGump( this ) );
+        from.CloseGump(typeof(QuestNoteGump));
+        from.SendGump(new QuestNoteGump(this));
     }
 }
 
@@ -198,43 +198,43 @@ public class QuestNoteGump : Gump
 {
     private OriginalQuestNote m_Note;
 
-    public static string HtmlFormat( string text, int color ) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
+    public static string HtmlFormat(string text, int color) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
 
-    public QuestNoteGump( OriginalQuestNote note ) : base( 0, 0 )
+    public QuestNoteGump(OriginalQuestNote note) : base(0, 0)
     {
         m_Note = note;
 
-        AddPage( 0 );
-        AddAlphaRegion( 40, 41, 225, /*371*/70*note.Size );
+        AddPage(0);
+        AddAlphaRegion(40, 41, 225, /*371*/70*note.Size);
         // scroll top
-        AddImageTiled( 3, 5, 300, 37, 0x820 );
+        AddImageTiled(3, 5, 300, 37, 0x820);
         // scroll middle, upper portion
-        AddImageTiled( 19, 41, 263, 70, 0x821 );
+        AddImageTiled(19, 41, 263, 70, 0x821);
         for(int i=1;i<note.Size;i++)
         {
             // scroll middle , lower portion
-            AddImageTiled( 19, 41+70*i, 263, 70, 0x822 );
+            AddImageTiled(19, 41+70*i, 263, 70, 0x822);
         }
         // scroll bottom
-        AddImageTiled( 20, 111+70*(note.Size-1), 273, 34, 0x823 );
+        AddImageTiled(20, 111+70*(note.Size-1), 273, 34, 0x823);
 
         // title string
-        AddHtml( 55, 10, 200, 37, HtmlFormat( note.TitleString, note.TitleColor), false , false );
+        AddHtml(55, 10, 200, 37, HtmlFormat(note.TitleString, note.TitleColor), false , false);
         // text string
-        AddHtml( 40, 41, 225, 70*note.Size, HtmlFormat( note.NoteString, note.TextColor ), false , false );
+        AddHtml(40, 41, 225, 70*note.Size, HtmlFormat(note.NoteString, note.TextColor), false , false);
 
         // add the quest status gump button
-        AddButton( 40, 50+ note.Size*70, 0x037, 0x037, 1, GumpButtonType.Reply, 0 );
+        AddButton(40, 50+ note.Size*70, 0x037, 0x037, 1, GumpButtonType.Reply, 0);
 
     }
 
-    public override void OnResponse( Network.NetState state, RelayInfo info )
+    public override void OnResponse(Network.NetState state, RelayInfo info)
     {
         Mobile from = state.Mobile;
-        if ( info.ButtonID == 1 )
+        if (info.ButtonID == 1)
         {
             XmlQuestStatusGump g = new XmlQuestStatusGump(m_Note, m_Note.TitleString);
-            from.SendGump( g );
+            from.SendGump(g);
         }
     }
 }

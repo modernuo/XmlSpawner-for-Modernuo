@@ -10,17 +10,17 @@ public class XmlLifeDrain : XmlAttachment
     private DateTime m_EndTime;
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Drain { get => m_Drain;
         set => m_Drain = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Range { get => proximityrange;
         set => proximityrange  = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan Refractory { get => m_Refractory;
         set => m_Refractory  = value;
     }
@@ -60,28 +60,28 @@ public class XmlLifeDrain : XmlAttachment
     public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
     {
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
 
         int drain = 0;
 
-        if(m_Drain > 0)
+        if (m_Drain > 0)
         {
             drain = Utility.Random(m_Drain);
         }
 
-        if(defender != null && attacker != null && drain > 0)
+        if (defender != null && attacker != null && drain > 0)
         {
             defender.Hits -= drain;
-            if(defender.Hits < 0)
+            if (defender.Hits < 0)
             {
                 defender.Hits = 0;
             }
 
             attacker.Hits += drain;
-            if(attacker.Hits < 0)
+            if (attacker.Hits < 0)
             {
                 attacker.Hits = 0;
             }
@@ -99,24 +99,24 @@ public class XmlLifeDrain : XmlAttachment
             return;
         }
 
-        m.FixedParticles( 0x374A, 10, 15, 5013, 0x496, 0, EffectLayer.Waist );
-        m.PlaySound( 0x231 );
+        m.FixedParticles(0x374A, 10, 15, 5013, 0x496, 0, EffectLayer.Waist);
+        m.PlaySound(0x231);
 
-        m.SendMessage( "You feel the life drain out of you!" );
+        m.SendMessage("You feel the life drain out of you!");
     }
 
     public override bool HandlesOnMovement => true;
 
-    public override void OnMovement(MovementEventArgs e )
+    public override void OnMovement(MovementEventArgs e)
     {
         base.OnMovement(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
         {
             return;
         }
 
-        if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
+        if (AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange(e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange))
         {
             OnTrigger(null, e.Mobile);
         }
@@ -126,11 +126,11 @@ public class XmlLifeDrain : XmlAttachment
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 1 );
+        writer.Write(1);
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -169,7 +169,7 @@ public class XmlLifeDrain : XmlAttachment
     {
         string msg = null;
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             msg = $"Life drain {m_Drain} expires in {Expiration.TotalMinutes} mins";
         }
@@ -178,7 +178,7 @@ public class XmlLifeDrain : XmlAttachment
             msg = $"Life drain {m_Drain}";
         }
 
-        if(Refractory > TimeSpan.Zero)
+        if (Refractory > TimeSpan.Zero)
         {
             return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
@@ -193,9 +193,9 @@ public class XmlLifeDrain : XmlAttachment
         base.OnAttach();
 
         // announce it to the mob
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
-            if(m_Drain > 0)
+            if (m_Drain > 0)
             {
                 ((Mobile)AttachedTo).SendMessage("You have been granted the power of Life Drain!");
             }
@@ -208,28 +208,28 @@ public class XmlLifeDrain : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null )
+        if (m == null)
         {
             return;
         }
 
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
 
         int drain = 0;
 
-        if(m_Drain > 0)
+        if (m_Drain > 0)
         {
             drain = Utility.Random(m_Drain);
         }
 
-        if(drain > 0)
+        if (drain > 0)
         {
             m.Hits -= drain;
-            if(m.Hits < 0)
+            if (m.Hits < 0)
             {
                 m.Hits = 0;
             }

@@ -72,7 +72,7 @@ public class XmlSetListOptionGump : Gump
 #if (NEWTIMERS)
         public XmlSetListOptionGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int propspage, ArrayList list, string[] names, object[] values) : base(GumpOffsetX, GumpOffsetY)
 #else
-    public XmlSetListOptionGump( PropertyInfo prop, Mobile mobile, object o, Stack stack, int propspage, ArrayList list, string[] names, object[] values ) : base( GumpOffsetX, GumpOffsetY )
+    public XmlSetListOptionGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, int propspage, ArrayList list, string[] names, object[] values) : base(GumpOffsetX, GumpOffsetY)
 #endif
     {
         m_Property = prop;

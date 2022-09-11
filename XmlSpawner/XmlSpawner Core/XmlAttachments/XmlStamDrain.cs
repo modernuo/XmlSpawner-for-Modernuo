@@ -10,17 +10,17 @@ public class XmlStamDrain : XmlAttachment
     private DateTime m_EndTime;
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Drain { get => m_Drain;
         set => m_Drain = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Range { get => proximityrange;
         set => proximityrange  = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan Refractory { get => m_Refractory;
         set => m_Refractory  = value;
     }
@@ -60,28 +60,28 @@ public class XmlStamDrain : XmlAttachment
     public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
     {
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
 
         int drain = 0;
 
-        if(m_Drain > 0)
+        if (m_Drain > 0)
         {
             drain = Utility.Random(m_Drain);
         }
 
-        if(defender != null && attacker != null && drain > 0)
+        if (defender != null && attacker != null && drain > 0)
         {
             defender.Stam -= drain;
-            if(defender.Stam < 0)
+            if (defender.Stam < 0)
             {
                 defender.Stam = 0;
             }
 
             attacker.Stam += drain;
-            if(attacker.Stam < 0)
+            if (attacker.Stam < 0)
             {
                 attacker.Stam = 0;
             }
@@ -92,16 +92,16 @@ public class XmlStamDrain : XmlAttachment
 
     public override bool HandlesOnMovement => true;
 
-    public override void OnMovement(MovementEventArgs e )
+    public override void OnMovement(MovementEventArgs e)
     {
         base.OnMovement(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
         {
             return;
         }
 
-        if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
+        if (AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange(e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange))
         {
             OnTrigger(null, e.Mobile);
         }
@@ -111,11 +111,11 @@ public class XmlStamDrain : XmlAttachment
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 1 );
+        writer.Write(1);
         // version 1
         writer.Write(proximityrange);
         // version 0
@@ -154,7 +154,7 @@ public class XmlStamDrain : XmlAttachment
     {
         string msg = null;
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             msg = $"Stamina drain {m_Drain} expires in {Expiration.TotalMinutes} mins";
         }
@@ -163,7 +163,7 @@ public class XmlStamDrain : XmlAttachment
             msg = $"Stamina drain {m_Drain}";
         }
 
-        if(Refractory > TimeSpan.Zero)
+        if (Refractory > TimeSpan.Zero)
         {
             return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
@@ -178,9 +178,9 @@ public class XmlStamDrain : XmlAttachment
         base.OnAttach();
 
         // announce it to the mob
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
-            if(m_Drain > 0)
+            if (m_Drain > 0)
             {
                 ((Mobile)AttachedTo).SendMessage("You have been granted the power of Stamina Drain!");
             }
@@ -193,28 +193,28 @@ public class XmlStamDrain : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null )
+        if (m == null)
         {
             return;
         }
 
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
 
         int drain = 0;
 
-        if(m_Drain > 0)
+        if (m_Drain > 0)
         {
             drain = Utility.Random(m_Drain);
         }
 
-        if(drain > 0)
+        if (drain > 0)
         {
             m.Stam -= drain;
-            if(m.Stam < 0)
+            if (m.Stam < 0)
             {
                 m.Stam = 0;
             }

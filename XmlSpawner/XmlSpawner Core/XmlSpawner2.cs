@@ -4478,7 +4478,7 @@ namespace Server.Mobiles
             DataSet ds = new DataSet(SpawnDataSetName);
 
             // Read in the file
-            //ds.ReadXml( e.Arguments[0].ToString() );
+            //ds.ReadXml(e.Arguments[0].ToString());
             bool fileerror = false;
             try
             {
@@ -4584,7 +4584,7 @@ namespace Server.Mobiles
                                     // Check if the spawners GUID is the same as the one being unloaded
                                     // and that the spawners map is the same as the one being unloaded
                                     if (CheckXmlSpawner.UniqueId == SpawnId.ToString()
-                                        /*&& ( CheckXmlSpawner.Map == SpawnMap )*/ )
+                                        /*&& (CheckXmlSpawner.Map == SpawnMap)*/)
                                     {
                                         OldSpawner = (XmlSpawner)i;
                                         if (OldSpawner != null)
@@ -5485,8 +5485,8 @@ namespace Server.Mobiles
             {
                 /*
 				// I'm not sure what the default location for .msf files is
-				string filename = e.GetString( 0 );
-				string filePath = Path.Combine( "Data/Megaspawner", filename );
+				string filename = e.GetString(0);
+				string filePath = Path.Combine("Data/Megaspawner", filename);
 				*/
                 string filePath = e.GetString(0);
                 if (File.Exists(filePath))
@@ -6025,7 +6025,7 @@ namespace Server.Mobiles
 
                             string XmlMapName = frommap.Name;
 
-                            //if(!loadrelative && !loadnew)
+                            //if (!loadrelative && !loadnew)
                             {
                                 // Try to get the "map" field, but in case it doesn't exist, catch and discard the exception
                                 try { XmlMapName = (string)dr["Map"]; }
@@ -6338,7 +6338,7 @@ namespace Server.Mobiles
                                         // Check if the spawners GUID is the same as the one being loaded
                                         // and that the spawners map is the same as the one being loaded
                                         if (CheckXmlSpawner.UniqueId == SpawnId.ToString()
-                                            /* && ( CheckXmlSpawner.Map == SpawnMap || loadrelative)*/ )
+                                            /* && (CheckXmlSpawner.Map == SpawnMap || loadrelative)*/)
                                         {
                                             OldSpawner = (XmlSpawner)i;
                                             found_spawner = true;
@@ -6433,7 +6433,7 @@ namespace Server.Mobiles
                                 int NewZ = 0;
 
                                 // Check if relative loading is set.  If so then try loading at the z-offset position first with no surface requirement, then try auto
-                                /*if(loadrelative && SpawnMap.CanFit( SpawnCentreX, SpawnCentreY, OrigZ - SpawnRelZ, SpawnFitSize,true, false,false )) */
+                                /*if (loadrelative && SpawnMap.CanFit(SpawnCentreX, SpawnCentreY, OrigZ - SpawnRelZ, SpawnFitSize,true, false,false)) */
 
                                 if (loadrelative && HasTileSurface(SpawnMap, SpawnCentreX, SpawnCentreY, OrigZ - SpawnRelZ))
                                 {
@@ -6548,7 +6548,7 @@ namespace Server.Mobiles
                                 // Check if the spawners GUID is the same as the one being loaded
                                 // and that the spawners map is the same as the one being loaded
                                 if (CheckXmlSpawner.UniqueId == SpawnId.ToString()
-                                    /* && ( CheckXmlSpawner.Map == SpawnMap || loadrelative) */)
+                                    /* && (CheckXmlSpawner.Map == SpawnMap || loadrelative) */)
                                 {
                                     OldSpawner = (XmlSpawner)i;
                                     found_spawner = true;
@@ -8708,11 +8708,11 @@ namespace Server.Mobiles
             }
 
             // check for smart spawning
-            if (SmartSpawning && IsFull && !HasActiveSectors && !HasDamagedOrDistantSpawns /*&& !HasHoldSmartSpawning */ )
+            if (SmartSpawning && IsFull && !HasActiveSectors && !HasDamagedOrDistantSpawns /*&& !HasHoldSmartSpawning */)
             {
                 IsInactivated = true;
                 // for multiple sector spawning ranges use the sector timer, otherwise just rely on OnSectorActivate to detect sector activation
-                //if(!UseSectorActivate)
+                //if (!UseSectorActivate)
                 //DoSectorTimer(TimeSpan.FromSeconds(1));
 
                 SmartRemoveSpawnObjects();
@@ -8795,7 +8795,7 @@ namespace Server.Mobiles
                             ClearGOTOTags();
                         }
 
-                        //if(!triedtospawn) HoldSequence = hadhold;
+                        //if (!triedtospawn) HoldSequence = hadhold;
                     }
                 }
                 else
@@ -9034,7 +9034,7 @@ namespace Server.Mobiles
                 m_SpawnObjects.Count == 0 ||
                 index < 0 ||
                 index >= m_SpawnObjects.Count
-                )
+               )
             {
                 return false;
             }
@@ -11815,7 +11815,7 @@ namespace Server.Mobiles
             writer.Write(m_AllowGhostTriggering);
             // Version 17
             // removed in version 25
-            //writer.Write( m_TextEntryBook);
+            //writer.Write(m_TextEntryBook);
             // Version 16
             writer.Write(m_SequentialSpawning);
             // write out the remaining time until sequential reset

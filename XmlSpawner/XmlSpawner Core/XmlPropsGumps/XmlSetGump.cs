@@ -54,7 +54,7 @@ public class XmlSetGump : Gump
 #if (NEWTIMERS)
         public XmlSetGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #else
-    public XmlSetGump( PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list ) : base( GumpOffsetX, GumpOffsetY )
+    public XmlSetGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #endif
     {
         m_Property = prop;
@@ -177,7 +177,7 @@ public class XmlSetGump : Gump
 #if (NEWTIMERS)
             public InternalPicker(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(((IHued)o).HuedItemID)
 #else
-        public InternalPicker( PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list ) : base( ((IHued)o).HuedItemID )
+        public InternalPicker(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(((IHued)o).HuedItemID)
 #endif
         {
             m_Property = prop;

@@ -72,11 +72,11 @@ public class XmlMagicWord : XmlAttachment
         Charges = charges;
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(Word);
         writer.Write(Charges);
@@ -108,17 +108,17 @@ public class XmlMagicWord : XmlAttachment
         string msg = null;
 
         // can force identification before the skill mods can be applied
-        if(from != null && from.AccessLevel == AccessLevel.Player)
+        if (from != null && from.AccessLevel == AccessLevel.Player)
         {
             m_Identified = true;
         }
 
-        if(RequireIdentification && !m_Identified)
+        if (RequireIdentification && !m_Identified)
         {
             return null;
         }
 
-        if(Refractory > TimeSpan.Zero)
+        if (Refractory > TimeSpan.Zero)
         {
             msg = $"{Word} lasting {Duration.TotalSeconds} secs : {Refractory.TotalSeconds} secs between uses";
         }
@@ -127,7 +127,7 @@ public class XmlMagicWord : XmlAttachment
             msg = $"{Word} lasting {Duration.TotalSeconds} secs";
         }
 
-        if(Charges > 0)
+        if (Charges > 0)
         {
             return $"{msg} : {Charges} charge(s) remaining";
         }
@@ -142,7 +142,7 @@ public class XmlMagicWord : XmlAttachment
     {
         get
         {
-            if(AttachedTo is BaseWeapon || AttachedTo is BaseArmor)
+            if (AttachedTo is BaseWeapon || AttachedTo is BaseArmor)
             {
                 return false;
             }
@@ -157,7 +157,7 @@ public class XmlMagicWord : XmlAttachment
     {
         get
         {
-            if(AttachedTo is BaseWeapon || AttachedTo is BaseArmor)
+            if (AttachedTo is BaseWeapon || AttachedTo is BaseArmor)
             {
                 return false;
             }
@@ -170,22 +170,22 @@ public class XmlMagicWord : XmlAttachment
 
     public override bool HandlesOnSpeech => true;
 
-    public override void OnSpeech(SpeechEventArgs e )
+    public override void OnSpeech(SpeechEventArgs e)
     {
         base.OnSpeech(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
         {
             return;
         }
 
         // dont respond to other players speech if this is attached to a mob
-        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile)
+        if (AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile)
         {
             return;
         }
 
-        if(e.Speech == Word)
+        if (e.Speech == Word)
         {
             OnTrigger(null, e.Mobile);
         }
@@ -201,12 +201,12 @@ public class XmlMagicWord : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null || Word == null || RequireIdentification && !m_Identified)
+        if (m == null || Word == null || RequireIdentification && !m_Identified)
         {
             return;
         }
 
-        if(DateTime.Now < m_EndTime)
+        if (DateTime.Now < m_EndTime)
         {
             return;
         }
@@ -214,47 +214,47 @@ public class XmlMagicWord : XmlAttachment
         string msgstr = "Activating the power of " + Word;
 
         // assign powers to certain words
-        switch ( Word )
+        switch (Word)
         {
             case "Shoda":
                 {
-                    m.AddStatMod( new StatMod( StatType.Int, "Shoda", 20, Duration ) );
+                    m.AddStatMod(new StatMod(StatType.Int, "Shoda", 20, Duration));
                     m.SendMessage("Your mind expands!");
                     break;
                 }
             case "Malik":
                 {
-                    m.AddStatMod( new StatMod( StatType.Str, "Malik", 20, Duration ) );
+                    m.AddStatMod(new StatMod(StatType.Str, "Malik", 20, Duration));
                     m.SendMessage("Your strength surges!");
                     break;
                 }
             case "Lepto":
                 {
-                    m.AddStatMod( new StatMod( StatType.Dex, "Lepto", 20, Duration ) );
+                    m.AddStatMod(new StatMod(StatType.Dex, "Lepto", 20, Duration));
                     m.SendMessage("You are more nimble!");
                     break;
                 }
             case "Velas":
                 {
-                    Timer.DelayCall( TimeSpan.Zero, new TimerStateCallback( Hide_Callback ), new object[]{ m } );
+                    Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(Hide_Callback), new object[]{ m });
                     m.SendMessage("You disappear!");
                     break;
                 }
             case "Tarda":
                 {
-                    m.AddSkillMod( new TimedSkillMod( SkillName.Tactics, true, 20, Duration ) );
+                    m.AddSkillMod(new TimedSkillMod(SkillName.Tactics, true, 20, Duration));
                     m.SendMessage("You are more skillful warrior!");
                     break;
                 }
             case "Marda":
                 {
-                    m.AddSkillMod( new TimedSkillMod( SkillName.Magery, true, 20, Duration ) );
+                    m.AddSkillMod(new TimedSkillMod(SkillName.Magery, true, 20, Duration));
                     m.SendMessage("You are more skillful mage!");
                     break;
                 }
             case "Vas Malik":
                 {
-                    m.AddStatMod( new StatMod( StatType.Str, "Vas Malik", 40, Duration ) );
+                    m.AddStatMod(new StatMod(StatType.Str, "Vas Malik", 40, Duration));
                     m.SendMessage("You are exceptionally strong!");
                     break;
                 }
@@ -262,9 +262,9 @@ public class XmlMagicWord : XmlAttachment
                 {
                     BaseCreature b = new Drake();
                     b.MoveToWorld(m.Location, m.Map);
-                    b.Owners.Add( m );
-                    b.SetControlMaster( m );
-                    if(b.Controlled)
+                    b.Owners.Add(m);
+                    b.SetControlMaster(m);
+                    if (b.Controlled)
                     {
                         m.SendMessage("You master the beast!");
                     }
@@ -275,9 +275,9 @@ public class XmlMagicWord : XmlAttachment
                 {
                     b = new Horse();
                     b.MoveToWorld(m.Location, m.Map);
-                    b.Owners.Add( m );
-                    b.SetControlMaster( m );
-                    if(b.Controlled)
+                    b.Owners.Add(m);
+                    b.SetControlMaster(m);
+                    if (b.Controlled)
                     {
                         m.SendMessage("You master the beast!");
                     }
@@ -292,19 +292,19 @@ public class XmlMagicWord : XmlAttachment
         }
 
         // display activation effects
-        Effects.SendLocationParticles( EffectItem.Create( m.Location, m.Map, EffectItem.DefaultDuration ), 0x3728, 8, 20, 5042 );
-        Effects.PlaySound( m, m.Map, 0x201 );
+        Effects.SendLocationParticles(EffectItem.Create(m.Location, m.Map, EffectItem.DefaultDuration), 0x3728, 8, 20, 5042);
+        Effects.PlaySound(m, m.Map, 0x201);
 
         // display a message over the item it was attached to
-        if(AttachedTo is Item )
+        if (AttachedTo is Item)
         {
-            ((Item)AttachedTo).PublicOverheadMessage( MessageType.Regular, 0x3B2, true, msgstr );
+            ((Item)AttachedTo).PublicOverheadMessage(MessageType.Regular, 0x3B2, true, msgstr);
         }
 
         Charges--;
 
         // remove the attachment after the charges run out
-        if(Charges == 0)
+        if (Charges == 0)
         {
             Delete();
         }

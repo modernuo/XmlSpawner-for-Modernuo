@@ -14,7 +14,7 @@ public class XmlWeaponAbility : XmlAttachment
         set => m_Ability = value;
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Ability
     {
         get
@@ -78,11 +78,11 @@ public class XmlWeaponAbility : XmlAttachment
 
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(Ability);
     }
@@ -98,12 +98,12 @@ public class XmlWeaponAbility : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player)
+        if (from == null || from.AccessLevel == AccessLevel.Player)
         {
             return null;
         }
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             return String.Format("{2}: Weapon ability {0} expires in {1} mins", Ability, Expiration.TotalMinutes, Name);
         }

@@ -48,7 +48,7 @@ public interface IXmlAttachment
     /*
     bool HandlesOnSkillUse { get; }
 
-    void OnSkillUse( Mobile m, Skill skill, bool success);
+    void OnSkillUse(Mobile m, Skill skill, bool success);
     */
 
     object AttachedTo { get; set; }
@@ -198,7 +198,7 @@ public abstract class XmlAttachment : IXmlAttachment
     public virtual bool HandlesOnKilled => false;
 
     /*
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public virtual bool HandlesOnSkillUse { get{return false; } }
     */
 
@@ -245,9 +245,7 @@ public abstract class XmlAttachment : IXmlAttachment
     {
         private XmlAttachment m_Attachment;
 
-        public AttachmentTimer(XmlAttachment attachment, TimeSpan delay)
-            : base(delay) =>
-            m_Attachment = attachment;
+        public AttachmentTimer(XmlAttachment attachment, TimeSpan delay) : base(delay) => m_Attachment = attachment;
 
         protected override void OnTick()
         {
@@ -348,7 +346,7 @@ public abstract class XmlAttachment : IXmlAttachment
     }
 
     /*
-    public virtual void OnSkillUse( Mobile m, Skill skill, bool success)
+    public virtual void OnSkillUse(Mobile m, Skill skill, bool success)
     {
     }
     */
@@ -378,24 +376,17 @@ public abstract class XmlAttachment : IXmlAttachment
 
     public void SafeItemDelete(Item item)
     {
-        Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(DeleteItemCallback), new object[] { item });
+        Timer.DelayCall(TimeSpan.Zero, DeleteItemCallback, item);
 
     }
 
-    public void DeleteItemCallback(object state)
+    public static void DeleteItemCallback(Item item)
     {
-        object[] args = (object[])state;
-
-        Item item = args[0] as Item;
-
-        if (item != null)
-        {
-            // delete the item
-            item.Delete();
-        }
+        // delete the item
+        item?.Delete();
     }
 
-    public void SafeMobileDelete(Mobile mob)
+    public static void SafeMobileDelete(Mobile mob)
     {
         Timer.DelayCall(TimeSpan.Zero, DeleteMobileCallback, mob);
 

@@ -1192,7 +1192,7 @@ public class XmlDialog : XmlAttachment
                     }
 
                     ((Mobile)AttachedTo).DoSpeech(text, new int[] { }, CurrentEntry.SpeechStyle, speechhue);
-                    //((Mobile)AttachedTo).PublicOverheadMessage( MessageType.Regular, 0x3B2, true, text );
+                    //((Mobile)AttachedTo).PublicOverheadMessage(MessageType.Regular, 0x3B2, true, text);
                 }
             }
 

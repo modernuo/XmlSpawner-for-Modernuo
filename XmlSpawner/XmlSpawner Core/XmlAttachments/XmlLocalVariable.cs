@@ -6,7 +6,7 @@ public class XmlLocalVariable : XmlAttachment
 {
     private string m_DataValue = null; // default data
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Data { get => m_DataValue;
         set => m_DataValue = value;
     }
@@ -43,11 +43,11 @@ public class XmlLocalVariable : XmlAttachment
 
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_DataValue);
 
@@ -64,12 +64,12 @@ public class XmlLocalVariable : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player)
+        if (from == null || from.AccessLevel == AccessLevel.Player)
         {
             return null;
         }
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             return String.Format("{2} = {0} : expires in {1} mins",Data,Expiration.TotalMinutes, Name);
         }

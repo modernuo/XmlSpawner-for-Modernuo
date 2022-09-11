@@ -108,7 +108,7 @@ public class XmlQuestTokenPack : Container
             {
                 Item child = items[i];
 
-                if (!child.Deleted )
+                if (!child.Deleted)
                 {
                     Point3D loc = child.Location;
 
@@ -982,7 +982,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         set { }
     }
     /*
-            [CommandProperty( AccessLevel.GameMaster )]
+            [CommandProperty(AccessLevel.GameMaster)]
             public bool CanSeeReward
             {
                 get{ return m_CanSeeReward; }
@@ -1376,7 +1376,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
             {
                 // if this is a player created quest, then refresh the expiration time until it is in someone elses possession
                 /*
-                 if(PlayerMade && ((Owner == Creator) || (Owner == null)))
+                 if (PlayerMade && ((Owner == Creator) || (Owner == null)))
                  {
                      m_TimeCreated = DateTime.Now;
                  }
@@ -1526,7 +1526,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
                 (Completed3 || Objective3 == null || Objective3.Length == 0) &&
                 (Completed4 || Objective4 == null || Objective4.Length == 0) &&
                 (Completed5 || Objective5 == null || Objective5.Length == 0)
-               )
+              )
             {
                 return true;
             }
@@ -1665,7 +1665,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
             DataSet ds = new DataSet(XmlDataSetName);
 
             // Read in the file
-            //ds.ReadXml( e.Arguments[0].ToString() );
+            //ds.ReadXml(e.Arguments[0].ToString());
             bool fileerror = false;
             try
             {

@@ -53,7 +53,7 @@ public class XmlSetTimeSpanGump : Gump
 #if (NEWTIMERS)
         public XmlSetTimeSpanGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #else
-    public XmlSetTimeSpanGump( PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list ) : base( GumpOffsetX, GumpOffsetY )
+    public XmlSetTimeSpanGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #endif
     {
         m_Property = prop;

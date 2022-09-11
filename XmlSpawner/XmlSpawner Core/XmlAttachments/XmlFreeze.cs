@@ -22,11 +22,11 @@ public class XmlFreeze : XmlAttachment
     [Attachable]
     public XmlFreeze(double seconds) => Expiration = TimeSpan.FromSeconds(seconds);
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -40,12 +40,12 @@ public class XmlFreeze : XmlAttachment
     {
         base.OnIdentify(from);
 
-        if(from == null || from.AccessLevel == AccessLevel.Player)
+        if (from == null || from.AccessLevel == AccessLevel.Player)
         {
             return null;
         }
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             return String.Format("Freeze expires in {1} secs",Expiration.TotalSeconds);
         }
@@ -60,7 +60,7 @@ public class XmlFreeze : XmlAttachment
         base.OnDelete();
 
         // remove the mod
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             ((Mobile)AttachedTo).Frozen = false;
         }
@@ -71,7 +71,7 @@ public class XmlFreeze : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             ((Mobile)AttachedTo).Frozen = true;
             ((Mobile)AttachedTo).ProcessDelta();

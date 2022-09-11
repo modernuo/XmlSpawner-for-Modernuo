@@ -47,10 +47,10 @@ public class BaseXmlSpawner
 
     private static readonly Type[] m_NumericTypes =
     {
-        typeof( byte ), typeof( sbyte ),
-        typeof( short ), typeof( ushort ),
-        typeof( int ), typeof( uint ),
-        typeof( long ), typeof( ulong ), typeof( Serial )
+        typeof(byte), typeof(sbyte),
+        typeof(short), typeof(ushort),
+        typeof(int), typeof(uint),
+        typeof(long), typeof(ulong), typeof(Serial)
     };
 
     public static bool IsNumeric(Type t) => Array.IndexOf(m_NumericTypes, t) >= 0;
@@ -1027,7 +1027,7 @@ public class BaseXmlSpawner
             // is a nested property with attributes so first get the property
             foreach (PropertyInfo p in props)
             {
-                //if ( Insensitive.Equals( p.Name, arglist[0] ) )
+                //if (Insensitive.Equals(p.Name, arglist[0]))
                 if (Insensitive.Equals(p.Name, propname))
                 {
                     if (!p.CanRead)
@@ -1078,7 +1078,7 @@ public class BaseXmlSpawner
             // its just a simple single property
             foreach (PropertyInfo p in props)
             {
-                //if ( Insensitive.Equals( p.Name, name ) )
+                //if (Insensitive.Equals(p.Name, name))
                 if (Insensitive.Equals(p.Name, propname))
                 {
                     if (!p.CanRead)

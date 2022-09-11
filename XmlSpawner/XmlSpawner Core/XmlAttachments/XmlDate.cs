@@ -6,7 +6,7 @@ public class XmlDate : XmlAttachment
 {
     private DateTime m_DataValue;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public DateTime Date { get => m_DataValue;
         set => m_DataValue = value;
     }
@@ -46,11 +46,11 @@ public class XmlDate : XmlAttachment
     }
 
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_DataValue);
 
@@ -67,12 +67,12 @@ public class XmlDate : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player)
+        if (from == null || from.AccessLevel == AccessLevel.Player)
         {
             return null;
         }
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             return String.Format("{2}: Date {0} expires in {1} mins",Date,Expiration.TotalMinutes, Name);
         }

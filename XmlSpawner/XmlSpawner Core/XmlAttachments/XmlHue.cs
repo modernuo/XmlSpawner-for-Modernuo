@@ -7,7 +7,7 @@ public class XmlHue : XmlAttachment
     private int m_Originalhue;
     private int m_Hue;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public int Hue { get => m_Hue;
         set => m_Hue = value;
     }
@@ -36,11 +36,11 @@ public class XmlHue : XmlAttachment
         Expiration = TimeSpan.FromMinutes(duration);
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
         writer.Write(m_Originalhue);
         writer.Write(m_Hue);
@@ -61,12 +61,12 @@ public class XmlHue : XmlAttachment
     {
         base.OnIdentify(from);
 
-        if(from == null || from.AccessLevel == AccessLevel.Player)
+        if (from == null || from.AccessLevel == AccessLevel.Player)
         {
             return null;
         }
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             return $"Hue {m_Hue} expires in {Expiration.TotalMinutes} mins";
         }
@@ -81,12 +81,12 @@ public class XmlHue : XmlAttachment
         base.OnDelete();
 
         // remove the mod
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             ((Mobile)AttachedTo).Hue = m_Originalhue;
         }
         else
-        if(AttachedTo is Item)
+        if (AttachedTo is Item)
         {
             ((Item)AttachedTo).Hue = m_Originalhue;
         }
@@ -97,14 +97,14 @@ public class XmlHue : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if(AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
             Mobile m = AttachedTo as Mobile;
             m_Originalhue = m.Hue;
             m.Hue = m_Hue;
         }
         else
-        if(AttachedTo is Item)
+        if (AttachedTo is Item)
         {
             Item i = AttachedTo as Item;
             m_Originalhue = i.Hue;

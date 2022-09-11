@@ -9,24 +9,24 @@ public class XmlSaveItem : XmlAttachment
     {
         public override int MaxWeight => 0;
 
-        public SaveItemPack() : base( 0x9B2 )
+        public SaveItemPack() : base(0x9B2)
         {
         }
 
-        public SaveItemPack( Serial serial ) : base( serial )
+        public SaveItemPack(Serial serial) : base(serial)
         {
         }
 
-        public override void Serialize( IGenericWriter writer )
+        public override void Serialize(IGenericWriter writer)
         {
-            base.Serialize( writer );
+            base.Serialize(writer);
 
-            writer.Write( 0 );
+            writer.Write(0);
         }
 
         public override void Deserialize(IGenericReader reader)
         {
-            base.Deserialize( reader );
+            base.Deserialize(reader);
 
             int version = reader.ReadInt();
         }
@@ -36,16 +36,16 @@ public class XmlSaveItem : XmlAttachment
     private Container m_Container;
     private Mobile m_WasOwnedBy;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Container Container => m_Container;
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Item SavedItem
     {
         get
         {
             // if the item has been moved off of the internal map, then forget about it
-            if(m_SavedItem != null && (m_SavedItem.Parent != m_Container || m_SavedItem.Deleted))
+            if (m_SavedItem != null && (m_SavedItem.Parent != m_Container || m_SavedItem.Deleted))
             {
                 m_WasOwnedBy = null;
                 m_SavedItem = null;
@@ -56,7 +56,7 @@ public class XmlSaveItem : XmlAttachment
         set
         {
             // delete any existing item before assigning a new value
-            if(SavedItem != null)
+            if (SavedItem != null)
             {
                 SafeItemDelete(m_SavedItem);
                 //m_SavedItem.Delete();
@@ -64,13 +64,13 @@ public class XmlSaveItem : XmlAttachment
             }
 
             // dont allow saving the item if it is attached to it
-            if(value != AttachedTo)
+            if (value != AttachedTo)
             {
                 m_SavedItem = value;
             }
 
             // automatically internalize any saved item
-            if(m_SavedItem != null)
+            if (m_SavedItem != null)
             {
                 AddToContainer(m_SavedItem);
 
@@ -78,23 +78,23 @@ public class XmlSaveItem : XmlAttachment
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public bool RestoreItem
     {
         get => false;
         set
         {
-            if(value == true && SavedItem != null && AttachedTo is IEntity && ((IEntity)AttachedTo).Map != Map.Internal && ((IEntity)AttachedTo).Map != null)
+            if (value == true && SavedItem != null && AttachedTo is IEntity && ((IEntity)AttachedTo).Map != Map.Internal && ((IEntity)AttachedTo).Map != null)
             {
 
                 // move the item to the location of the object the attachment is attached to
-                if(AttachedTo is Item)
+                if (AttachedTo is Item)
                 {
                     m_SavedItem.Map = ((Item)AttachedTo).Map;
                     m_SavedItem.Location = ((Item)AttachedTo).Location;
                     m_SavedItem.Parent = ((Item)AttachedTo).Parent;
                 } else
-                if(AttachedTo is Mobile)
+                if (AttachedTo is Mobile)
                 {
                     m_SavedItem.Map = ((Mobile)AttachedTo).Map;
                     m_SavedItem.Location = ((Mobile)AttachedTo).Location;
@@ -109,19 +109,19 @@ public class XmlSaveItem : XmlAttachment
         }
     }
 
-    [CommandProperty( AccessLevel.GameMaster )]
+    [CommandProperty(AccessLevel.GameMaster)]
     public Mobile WasOwnedBy { get => m_WasOwnedBy;
         set => m_WasOwnedBy = value;
     }
 
     private void AddToContainer(Item item)
     {
-        if(item == null)
+        if (item == null)
         {
             return;
         }
 
-        if(m_Container == null)
+        if (m_Container == null)
         {
             m_Container = new SaveItemPack();
         }
@@ -176,26 +176,26 @@ public class XmlSaveItem : XmlAttachment
         base.OnDelete();
 
         // delete the item
-        if(SavedItem != null)
+        if (SavedItem != null)
         {
             //SavedItem.Delete();
             SafeItemDelete(SavedItem);
         }
 
-        if(m_Container != null)
+        if (m_Container != null)
         {
             SafeItemDelete(m_Container);
             //m_Container.Delete();
         }
     }
 
-    public override void Serialize( IGenericWriter writer )
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
-        writer.Write( 0 );
+        writer.Write(0);
         // version 0
-        if(SavedItem != null)
+        if (SavedItem != null)
         {
             writer.Write(m_SavedItem);
         }
@@ -224,12 +224,12 @@ public class XmlSaveItem : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player)
+        if (from == null || from.AccessLevel == AccessLevel.Player)
         {
             return null;
         }
 
-        if(Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
             return String.Format("{2}: Item {0} expires in {1} mins",SavedItem, Expiration.TotalMinutes, Name);
         }

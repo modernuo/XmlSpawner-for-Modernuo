@@ -56,7 +56,7 @@ public class XmlSetObjectGump : Gump
 #if (NEWTIMERS)
         public XmlSetObjectGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, Type type, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #else
-    public XmlSetObjectGump( PropertyInfo prop, Mobile mobile, object o, Stack stack, Type type, int page, ArrayList list ) : base( GumpOffsetX, GumpOffsetY )
+    public XmlSetObjectGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, Type type, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
 #endif
     {
         m_Property = prop;
@@ -160,7 +160,7 @@ public class XmlSetObjectGump : Gump
 #if (NEWTIMERS)
             public InternalPrompt(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, Type type, int page, ArrayList list)
 #else
-        public InternalPrompt( PropertyInfo prop, Mobile mobile, object o, Stack stack, Type type, int page, ArrayList list )
+        public InternalPrompt(PropertyInfo prop, Mobile mobile, object o, Stack stack, Type type, int page, ArrayList list)
 #endif
         {
             m_Property = prop;
