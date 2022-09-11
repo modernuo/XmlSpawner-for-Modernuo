@@ -23,7 +23,7 @@ public class XmlSpawnTime : XmlAttachment
     [Attachable]
     public XmlSpawnTime()
     {
-        // min/maxdelay values will be taken from the spawner 
+        // min/maxdelay values will be taken from the spawner
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -89,7 +89,7 @@ public class XmlSpawnTime : XmlAttachment
             return null;
         }
     }
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
     public static void ResetXmlSpawnTime(Mobile killed)
@@ -112,7 +112,7 @@ public class XmlSpawnTime : XmlAttachment
         }
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -122,7 +122,7 @@ public class XmlSpawnTime : XmlAttachment
         writer.Write(this.m_MaxDelay);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

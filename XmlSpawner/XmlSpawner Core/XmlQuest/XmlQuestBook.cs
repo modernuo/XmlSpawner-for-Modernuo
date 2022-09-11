@@ -30,15 +30,15 @@ public class PlayerQuestBoard : XmlQuestBook
         Name = "Player Quest Board";
         LiftOverride = true; // allow players to store books in it
     }
-        
-    public override void Serialize( GenericWriter writer )
+
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
         writer.Write( (int) 0 ); // version
 
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
@@ -46,7 +46,7 @@ public class PlayerQuestBoard : XmlQuestBook
 
     }
 }
-    
+
 
 public class XmlQuestBook : Container
 {
@@ -59,13 +59,13 @@ public class XmlQuestBook : Container
     {   get{ return m_Owner; }
         set { m_Owner = value; }
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public bool Locked
     {   get{ return m_Locked; }
         set { m_Locked = value; }
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public bool IsCompleted
     {   get{
@@ -117,7 +117,7 @@ public class XmlQuestBook : Container
 
         from.SendGump( new XmlQuestBookGump( (PlayerMobile)from, this ) );
     }
-        
+
     public override bool OnDragDrop( Mobile from, Item dropped )
     {
         if(dropped is IXmlQuest  && !Locked)
@@ -155,7 +155,7 @@ public class XmlQuestBook : Container
         }
         this.Delete();
     }
-        
+
     public override void OnItemLifted(Mobile from, Item item)
     {
         base.OnItemLifted(from,item);
@@ -174,7 +174,7 @@ public class XmlQuestBook : Container
     public override void OnAdded(IEntity parent)
     {
         base.OnAdded(parent);
-    
+
         if(parent != null && parent is Container)
         {
             // find the parent of the container
@@ -188,7 +188,7 @@ public class XmlQuestBook : Container
                 if(Owner == null)
                 {
                     Owner = from as PlayerMobile;
-                        
+
                     LootType = LootType.Blessed;
                     // could also bless all of the quests inside as well but not actually necessary since blessed containers retain their
                     // contents whether blessed or not, and when dropped the questtokens will be blessed
@@ -210,7 +210,7 @@ public class XmlQuestBook : Container
                     Owner.AddToBackpack(this);
                 }
                 // allow placement into npcs or drop on their corpses when owner is null
-                else 
+                else
                 if(!(from is Mobile) && !(parent is Corpse))
                 {
                     // in principle this should never be reached
@@ -218,7 +218,7 @@ public class XmlQuestBook : Container
                     // invalidate the token
 
                     CheckOwnerFlag();
-    
+
                     Invalidate();
                 }
             }
@@ -240,22 +240,22 @@ public class XmlQuestBook : Container
         from.SendGump( new XmlConfirmDeleteGump(from,this));
 
         //CheckOwnerFlag();
-    
+
         //Invalidate();
         return false;
         //return returnvalue;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
         writer.Write( (int) 0 ); // version
-            
+
         writer.Write( m_Owner);
         writer.Write( m_Locked);
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 

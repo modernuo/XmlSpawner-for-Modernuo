@@ -17,7 +17,7 @@ public class XmlMorph : XmlAttachment
 
     [CommandProperty( AccessLevel.GameMaster )]
     public TimeSpan Duration { get { return m_Duration; } set { m_Duration  = value; } }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public DateTime MorphEnd { get { return m_MorphEnd; }  }
 
@@ -41,7 +41,7 @@ public class XmlMorph : XmlAttachment
     {
         m_MorphID = morphID;
     }
-        
+
     [Attachable]
     public XmlMorph(int morphID, double duration)
     {
@@ -57,7 +57,7 @@ public class XmlMorph : XmlAttachment
         ActivationWord = word;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -72,14 +72,14 @@ public class XmlMorph : XmlAttachment
         if(m_MorphTimer != null)
         {
             writer.Write(m_MorphEnd - DateTime.Now);
-        } 
+        }
         else
         {
             writer.Write(TimeSpan.Zero);
         }
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -94,13 +94,13 @@ public class XmlMorph : XmlAttachment
             case 0:
                 {
                     // version 0
-    
+
                     m_OriginalID = reader.ReadInt();
                     m_MorphID = reader.ReadInt();
                     m_Duration = reader.ReadTimeSpan();
                     ActivationWord = reader.ReadString();
                     TimeSpan remaining = (TimeSpan)reader.ReadTimeSpan();
-    
+
                     if(remaining > TimeSpan.Zero)
                         DoTimer(remaining);
                     break;
@@ -119,7 +119,7 @@ public class XmlMorph : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             msg = String.Format("Morph to {0} expires in {1} mins",m_MorphID,Expiration.TotalMinutes);
-        } 
+        }
         else
         {
             msg = String.Format("Morph to {0} duration {1} mins",m_MorphID, m_Duration.TotalMinutes);
@@ -128,7 +128,7 @@ public class XmlMorph : XmlAttachment
         if(ActivationWord != null)
         {
             return String.Format("{0} activated by '{1}'",msg, ActivationWord);
-        } 
+        }
         else
         {
             return msg;
@@ -143,22 +143,22 @@ public class XmlMorph : XmlAttachment
         if(AttachedTo is Mobile)
         {
             ((Mobile)AttachedTo).BodyMod = m_OriginalID;
-        } 
+        }
         else
         if(AttachedTo is Item)
         {
             ((Item)AttachedTo).ItemID = m_OriginalID;
         }
     }
-        
+
     public override bool HandlesOnSpeech { get { return (ActivationWord != null); } }
 
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
-		    
+
         // dont respond to other players speech if this is attached to a mob
         if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile) return;
 
@@ -173,13 +173,13 @@ public class XmlMorph : XmlAttachment
     public override void OnMovement(MovementEventArgs e )
     {
         base.OnMovement(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
         if(AttachedTo is Item && (((Item)AttachedTo).Parent == null) && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
-        } 
+        }
         else
             return;
     }
@@ -222,7 +222,7 @@ public class XmlMorph : XmlAttachment
         m_MorphTimer = new MorphTimer( this, delay);
         m_MorphTimer.Start();
     }
-            
+
     // a timer that can be implement limited lifetime morph
     private class MorphTimer : Timer
     {
@@ -249,7 +249,7 @@ public class XmlMorph : XmlAttachment
     public override void OnTrigger(object activator, Mobile m)
     {
         if(m == null ) return;
-            
+
         // if attached to an item then morph and then reset after duration
         // note that OriginalID will be -1 if the target is not already morphed
         if(AttachedTo is Item && m_OriginalID == -1)

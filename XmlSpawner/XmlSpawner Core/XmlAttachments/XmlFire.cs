@@ -42,7 +42,7 @@ public class XmlFire : XmlAttachment
         Refractory = TimeSpan.FromSeconds(refractory);
 
     }
-        
+
     [Attachable]
     public XmlFire(int damage, double refractory, double expiresin)
     {
@@ -71,28 +71,28 @@ public class XmlFire : XmlAttachment
             attacker.PlaySound( 0x15E );
 
             SpellHelper.Damage( TimeSpan.Zero, defender, attacker, damage, 0, 100, 0, 0, 0 );
-			    
+
             m_EndTime = DateTime.Now + Refractory;
         }
     }
-        
+
     public override bool HandlesOnMovement { get { return true; } }
 
     public override void OnMovement(MovementEventArgs e )
     {
         base.OnMovement(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
         if(AttachedTo is Item && (((Item)AttachedTo).Parent == null) && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
-        } 
+        }
         else
             return;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -106,7 +106,7 @@ public class XmlFire : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -137,20 +137,20 @@ public class XmlFire : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             msg = String.Format("Fire Damage {0} expires in {1} mins", m_Damage, Expiration.TotalMinutes);
-        } 
+        }
         else
         {
             msg = String.Format("Fire Damage {0}",m_Damage);
         }
-            
+
         if(Refractory > TimeSpan.Zero)
         {
             return String.Format("{0} : {1} secs between uses",msg, Refractory.TotalSeconds);
-        } 
+        }
         else
             return msg;
     }
-		
+
     public override void OnTrigger(object activator, Mobile m)
     {
         if(m == null ) return;
@@ -172,5 +172,5 @@ public class XmlFire : XmlAttachment
 
         m_EndTime = DateTime.Now + Refractory;
 
-    }    
+    }
 }

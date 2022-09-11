@@ -18,10 +18,10 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
         set {m_QuestOwner = value;}
     }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public TemporaryQuestObject(ASerial serial) : base(serial)
     {
@@ -32,7 +32,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
     {
         Name = questname;
     }
-        
+
     [Attachable]
     public TemporaryQuestObject(string questname, double expiresin)
     {
@@ -63,7 +63,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
                 SafeMobileDelete((Mobile)AttachedTo);
                 //((Mobile)AttachedTo).Delete();
             }
-        } 
+        }
         else
         if(AttachedTo is Item)
         {
@@ -74,7 +74,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
 
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -85,7 +85,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

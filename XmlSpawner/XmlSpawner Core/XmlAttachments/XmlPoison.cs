@@ -78,7 +78,7 @@ public class XmlPoison : XmlAttachment
             }
         }
     }
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -87,7 +87,7 @@ public class XmlPoison : XmlAttachment
         writer.Write(this.p_level);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

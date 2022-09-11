@@ -70,7 +70,7 @@ public class SimpleLever : Item, ILinkable
         get { return m_LeverState; }
         set
         {
-            // prevent infinite recursion 
+            // prevent infinite recursion
             if (!already_being_activated)
             {
                 already_being_activated = true;
@@ -108,10 +108,10 @@ public class SimpleLever : Item, ILinkable
     new public virtual Direction Direction
     {
         get { return base.Direction; }
-        set { 
-            base.Direction = value; 
-            SetLeverStatic(); 
-            InvalidateProperties(); 
+        set {
+            base.Direction = value;
+            SetLeverStatic();
+            InvalidateProperties();
         }
     }
 
@@ -129,14 +129,14 @@ public class SimpleLever : Item, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    { 
-        get 
-        { 
-            if (m_TargetItem0 != null && !m_TargetItem0.Deleted) 
-                return m_TargetItem0.Name; 
-            else 
-                return null; 
-        } 
+    {
+        get
+        {
+            if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+                return m_TargetItem0.Name;
+            else
+                return null;
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -153,15 +153,15 @@ public class SimpleLever : Item, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    { 
-        get 
-        { 
-            if (m_TargetItem1 != null && !m_TargetItem1.Deleted) 
-                return 
-                    m_TargetItem1.Name; 
-            else 
-                return null; 
-        } 
+    {
+        get
+        {
+            if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+                return
+                    m_TargetItem1.Name;
+            else
+                return null;
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -180,17 +180,17 @@ public class SimpleLever : Item, ILinkable
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target2ItemName
-    { 
-        get 
-        { 
-            if (m_TargetItem2 != null && !m_TargetItem2.Deleted) 
-                return m_TargetItem2.Name; 
-            else 
-                return null; 
-        } 
+    {
+        get
+        {
+            if (m_TargetItem2 != null && !m_TargetItem2.Deleted)
+                return m_TargetItem2.Name;
+            else
+                return null;
+        }
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -212,7 +212,7 @@ public class SimpleLever : Item, ILinkable
         writer.Write(this.m_TargetProperty2);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -409,7 +409,7 @@ public class SimpleSwitch : Item, ILinkable
     {
         set
         {
-            // prevent infinite recursion 
+            // prevent infinite recursion
             if (!already_being_activated)
             {
                 already_being_activated = true;
@@ -521,7 +521,7 @@ public class SimpleSwitch : Item, ILinkable
     }
 
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -539,7 +539,7 @@ public class SimpleSwitch : Item, ILinkable
         writer.Write(this.m_TargetProperty1);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -953,7 +953,7 @@ public class CombinationLock : Item
     }
 
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -982,7 +982,7 @@ public class CombinationLock : Item
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

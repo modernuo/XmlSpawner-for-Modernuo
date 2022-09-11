@@ -60,7 +60,7 @@ public class XmlSound : XmlAttachment
         SoundValue = sound;
         Refractory = TimeSpan.FromSeconds(refractory);
     }
-        
+
     [Attachable]
     public XmlSound(int sound, double refractory, string word, int charges )
     {
@@ -69,7 +69,7 @@ public class XmlSound : XmlAttachment
         Refractory = TimeSpan.FromSeconds(refractory);
         Charges = charges;
     }
-        
+
     [Attachable]
     public XmlSound(int sound, double refractory, int charges )
     {
@@ -78,7 +78,7 @@ public class XmlSound : XmlAttachment
         Charges = charges;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -93,7 +93,7 @@ public class XmlSound : XmlAttachment
         writer.Write(m_EndTime - DateTime.Now);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -129,7 +129,7 @@ public class XmlSound : XmlAttachment
         if(Charges > 0)
         {
             msg = String.Format("Sound #{0} : {1} secs between uses - {2} charges left",SoundValue,Refractory.TotalSeconds, Charges);
-        } 
+        }
         else
         {
             msg = String.Format("Sound #{0} : {1} secs between uses",SoundValue,Refractory.TotalSeconds);
@@ -138,7 +138,7 @@ public class XmlSound : XmlAttachment
         if(ActivationWord == null)
         {
             return msg;
-        } 
+        }
         else
         {
             return String.Format("{0} : trigger on '{1}'",msg, ActivationWord);
@@ -151,7 +151,7 @@ public class XmlSound : XmlAttachment
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
         if(e.Speech == ActivationWord)
@@ -171,7 +171,7 @@ public class XmlSound : XmlAttachment
         if(AttachedTo is Item && (((Item)AttachedTo).Parent == null) && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
-        } 
+        }
         else
             return;
     }
@@ -190,9 +190,9 @@ public class XmlSound : XmlAttachment
             try
             {
                 Effects.PlaySound(((Mobile)AttachedTo).Location, ((IEntity)AttachedTo).Map,  SoundValue);
-            } 
+            }
             catch{}
-        } 
+        }
         else
         if(AttachedTo is Item )
         {
@@ -203,16 +203,16 @@ public class XmlSound : XmlAttachment
                 try
                 {
                     Effects.PlaySound(i.Location, i.Map,  SoundValue);
-                } 
+                }
                 catch{}
-            } 
+            }
             else
             if(i.RootParent is IEntity)
             {
                 try
                 {
                     Effects.PlaySound(((IEntity)i.RootParent).Location, ((IEntity)i.RootParent).Map,  SoundValue);
-                } 
+                }
                 catch{}
             }
         }
@@ -223,7 +223,7 @@ public class XmlSound : XmlAttachment
         if(Refractory == TimeSpan.Zero || Charges == 0)
         {
             Delete();
-        } 
+        }
         else
         {
             m_EndTime = DateTime.Now + Refractory;

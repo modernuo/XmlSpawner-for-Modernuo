@@ -95,9 +95,9 @@ public interface IXmlAttachment
 
     int OnArmorHit(Mobile attacker, Mobile defender, Item armor, BaseWeapon weapon, int damageGiven);
 
-    void Serialize(GenericWriter writer);
+    void Serialize(IGenericWriter writer);
 
-    void Deserialize(GenericReader reader);
+    void Deserialize(IGenericReader reader);
 
 }
 
@@ -462,7 +462,7 @@ public abstract class XmlAttachment : IXmlAttachment
     {
     }
 
-    public virtual void Serialize(GenericWriter writer)
+    public virtual void Serialize(IGenericWriter writer)
     {
         writer.Write((int)2);
         // version 2
@@ -499,7 +499,7 @@ public abstract class XmlAttachment : IXmlAttachment
         writer.Write(m_CreationTime);
     }
 
-    public virtual void Deserialize(GenericReader reader)
+    public virtual void Deserialize(IGenericReader reader)
     {
         int version = reader.ReadInt();
 

@@ -44,10 +44,10 @@ public class XmlQuestLeaders
             // break points ties with quests completed (more quests means higher rank)
             if(p.QuestPointsAttachment.Points - QuestPointsAttachment.Points == 0)
             {
-                // if kills are the same then compare previous rank 
+                // if kills are the same then compare previous rank
                 if(p.QuestPointsAttachment.QuestsCompleted - QuestPointsAttachment.QuestsCompleted == 0)
-                {						
-                    return p.QuestPointsAttachment.Rank - QuestPointsAttachment.Rank;					
+                {
+                    return p.QuestPointsAttachment.Rank - QuestPointsAttachment.Rank;
                 }
 
                 return p.QuestPointsAttachment.QuestsCompleted - QuestPointsAttachment.QuestsCompleted;
@@ -62,13 +62,13 @@ public class XmlQuestLeaders
         if(needsupdate && QuestRankList != null)
         {
             QuestRankList.Sort();
-                
+
             int rank = 0;
             //int prevpoints = 0;
             for(int i= 0; i<QuestRankList.Count;i++)
             {
                 QuestRankEntry p = QuestRankList[i] as QuestRankEntry;
-    
+
                 // bump the rank for every change in point level
                 // this means that people with the same points score will have the same rank
                 /*
@@ -79,13 +79,13 @@ public class XmlQuestLeaders
 
                 prevpoints = p.QuestPointsAttachment.Points;
                 */
-    
+
                 // bump the rank for every successive player in the list.  Players with the same points total will be
                 // ordered by quests completed
                 rank++;
 
                 p.Rank = rank;
-    
+
             }
             needsupdate = false;
         }
@@ -126,7 +126,7 @@ public class XmlQuestLeaders
         for(int i= 0; i<QuestRankList.Count;i++)
         {
             QuestRankEntry p = QuestRankList[i] as QuestRankEntry;
-                
+
             // found a match
             if(p != null && p.Quester == m)
             {
@@ -153,8 +153,8 @@ public class XmlQuestLeaders
         CommandSystem.Register( "QuestLeaderboardSave", AccessLevel.Administrator, new CommandEventHandler( QuestLeaderboardSave_OnCommand ) );
         CommandSystem.Register( "QuestRanking", AccessLevel.Player, new CommandEventHandler( QuestRanking_OnCommand ) );
     }
-        
-		
+
+
     [Usage( "QuestRanking" )]
     [Description( "Displays the top players in quest points" )]
     public static void QuestRanking_OnCommand( CommandEventArgs e )
@@ -187,7 +187,7 @@ public class XmlQuestLeaders
         xf.WriteStartDocument( true );
 
         xf.WriteStartElement( "QuestLeaderboard" );
-				
+
         if(nranks > 0)
             xf.WriteAttributeString( "nentries", nranks.ToString() );
         else
@@ -207,7 +207,7 @@ public class XmlQuestLeaders
             {
                 string guildname = null;
 
-                if(r.Quester.Guild != null) 
+                if(r.Quester.Guild != null)
                     guildname = r.Quester.Guild.Abbreviation;
                 // check for any ranking change and update rank date
                 if(r.Rank != a.Rank)
@@ -222,7 +222,7 @@ public class XmlQuestLeaders
                 TimeSpan timeranked = DateTime.Now - a.WhenRanked;
 
                 // write out the entry information
-                    
+
                 xf.WriteStartElement( "Entry" );
                 xf.WriteAttributeString( "number", i.ToString() );
 
@@ -241,7 +241,7 @@ public class XmlQuestLeaders
                 try
                 {
                     quests = a.QuestsCompleted.ToString();
-                } 
+                }
                 catch{}
                 xf.WriteStartElement( "Quests" );
                 xf.WriteString( quests );
@@ -269,7 +269,7 @@ public class XmlQuestLeaders
 
         xf.Close();
     }
-        
+
     public static void WriteQuestLeaderboardHtml(string filename, int nranks)
     {
         string dirname = Path.Combine( m_QuestLeaderboardSaveDirectory, filename );
@@ -314,12 +314,12 @@ public class XmlQuestLeaders
                 }
 
                 TimeSpan timeranked = DateTime.Now - a.WhenRanked;
-                    
+
                 string quests = "???";
                 try
                 {
                     quests = a.QuestsCompleted.ToString();
-                } 
+                }
                 catch{}
 
 #if(FACTIONS)
@@ -389,16 +389,16 @@ public class XmlQuestLeaders
                     try
                     {
                         m_QuestLeaderboardSaveInterval = TimeSpan.FromMinutes(double.Parse(e.Arguments[1]));
-                    } 
+                    }
                     catch{}
                 }
-                    
+
                 if(e.Arguments.Length > 2)
                 {
                     try
                     {
                         m_QuestLeaderboardSaveRanks = int.Parse(e.Arguments[2]);
-                    } 
+                    }
                     catch{}
                 }
 
@@ -413,14 +413,14 @@ public class XmlQuestLeaders
         {
             e.Mobile.SendMessage("Quest Leaderboard is saving to {0} every {1} minutes. Nranks = {2}",
                 m_QuestLeaderboardFile, m_QuestLeaderboardSaveInterval.TotalMinutes, m_QuestLeaderboardSaveRanks);
-        } 
+        }
         else
         {
             e.Mobile.SendMessage("Quest Leaderboard saving is off.");
         }
     }
 
-    public static void QuestLBSSerialize( GenericWriter writer )
+    public static void QuestLBSSerialize( IGenericWriter writer )
     {
         // version
         writer.Write( (int) 0 );
@@ -429,15 +429,15 @@ public class XmlQuestLeaders
         if(m_QuestLeaderboardTimer != null && m_QuestLeaderboardTimer.Running)
         {
             writer.Write((bool)true);
-        } 
+        }
         else
             writer.Write((bool)false);
         writer.Write(m_QuestLeaderboardSaveInterval);
         writer.Write(m_QuestLeaderboardSaveRanks);
         writer.Write(m_QuestLeaderboardFile);
     }
-		
-    public static void QuestLBSDeserialize(GenericReader reader)
+
+    public static void QuestLBSDeserialize(IGenericReader reader)
     {
         int version = reader.ReadInt();
 
@@ -511,10 +511,10 @@ public class XmlQuestLeaders
             AddBackground( 0, 0, width, height, 5054 );
             AddAlphaRegion( 0, 0, width, height );
             AddImageTiled( 20, 20, width - 40, height - 45, 0xBBC );
-            AddLabel( 20, 2, 55, "Top Quest Player Rankings" ); 
+            AddLabel( 20, 2, 55, "Top Quest Player Rankings" );
 
             // guild filter
-            AddLabel( 40, height - 20, 55, "Filter by Guild" );  
+            AddLabel( 40, height - 20, 55, "Filter by Guild" );
             string filter = null;
             if(m_attachment != null)
                 filter = m_attachment.guildFilter;
@@ -525,7 +525,7 @@ public class XmlQuestLeaders
             AddButton( 20, height - 20, 0x15E1, 0x15E5, 200, GumpButtonType.Reply, 0 );
 
             // name filter
-            AddLabel( 340, height - 20, 55, "Filter by Name" ); // 
+            AddLabel( 340, height - 20, 55, "Filter by Name" ); //
             string nfilter = null;
             if(m_attachment != null)
                 nfilter = m_attachment.nameFilter;
@@ -538,26 +538,26 @@ public class XmlQuestLeaders
             RefreshQuestRankList();
 
             int xloc = 23;
-            AddLabel( xloc, 20, 0, "Name" );  
+            AddLabel( xloc, 20, 0, "Name" );
             xloc += 177;
-            AddLabel( xloc, 20, 0, "Guild" );  
+            AddLabel( xloc, 20, 0, "Guild" );
 #if(FACTIONS)
             xloc += 35;
-            AddLabel( xloc, 20, 0, "Faction" );  
+            AddLabel( xloc, 20, 0, "Faction" );
             xloc += 15;
 #endif
             xloc += 50;
-            AddLabel( xloc, 20, 0, "Points" );   
+            AddLabel( xloc, 20, 0, "Points" );
             xloc += 50;
             AddLabel( xloc, 20, 0, "Quests" );
             xloc += 50;
             //AddLabel( xloc, 20, 0, "" );
             xloc += 70;
-            AddLabel( xloc, 20, 0, "Rank" );     
+            AddLabel( xloc, 20, 0, "Rank" );
             xloc += 45;
-            AddLabel( xloc, 20, 0, "Change" );  
+            AddLabel( xloc, 20, 0, "Change" );
             xloc += 45;
-            AddLabel( xloc, 20, 0, "Time at Rank" );  
+            AddLabel( xloc, 20, 0, "Time at Rank" );
 
             // go through the sorted list and display the top ranked players
 
@@ -644,7 +644,7 @@ public class XmlQuestLeaders
                     try
                     {
                         quests = a.QuestsCompleted.ToString();
-                    } 
+                    }
                     catch{}
 
                     xloc = 23;
@@ -663,15 +663,15 @@ public class XmlQuestLeaders
                     string label=null;
 
                     if(days > 0)
-                        label += String.Format("{0} days ",days); 
+                        label += String.Format("{0} days ",days);
                     if(hours > 0)
-                        label += String.Format("{0} hours ",hours);  
+                        label += String.Format("{0} hours ",hours);
                     if(mins > 0)
-                        label += String.Format("{0} mins",mins);   
+                        label += String.Format("{0} mins",mins);
 
                     if(label == null)
                     {
-                        label = "just changed";  
+                        label = "just changed";
                     }
 
                     string deltalabel = a.DeltaRank.ToString();
@@ -680,7 +680,7 @@ public class XmlQuestLeaders
                     {
                         deltalabel = String.Format("+{0}",a.DeltaRank);
                         deltahue = 68;
-                    } 
+                    }
                     else
                     if(a.DeltaRank < 0)
                     {
@@ -705,12 +705,12 @@ public class XmlQuestLeaders
                 TextRelay entry = info.GetTextEntry( 200 );
                 if(entry != null)
                     m_attachment.guildFilter = entry.Text;
-                        
+
                 entry = info.GetTextEntry( 100 );
                 if(entry != null)
                     m_attachment.nameFilter = entry.Text;
             }
-                
+
             switch(info.ButtonID)
             {
                 case 100:
@@ -723,5 +723,5 @@ public class XmlQuestLeaders
             }
         }
     }
-		
+
 }

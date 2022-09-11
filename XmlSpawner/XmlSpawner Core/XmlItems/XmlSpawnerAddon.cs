@@ -11,9 +11,9 @@ public class XmlSpawnerAddon : BaseAddon
     public override bool ShareHue { get { return false; } }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual int PartialVisibility 
+    public virtual int PartialVisibility
     {
-        get 
+        get
         {
             int nvisible = 0;
             // figure out what percentage of components is visible and return that value
@@ -24,14 +24,14 @@ public class XmlSpawnerAddon : BaseAddon
             }
 
             return (int)(100.0 * nvisible / Components.Count + 0.5);
-        } 
-        set 
+        }
+        set
         {
             if (Components == null || Components.Count < 1) return;
 
             // assign visibility to the components based upon the percentage value
             int nvisible = value * (Components.Count - 1) / 100;
-				
+
             // go through the components and assign visibility to the specified percentage
             // starting at the beginning of the component list
             for (int i = 0; i < Components.Count; i++)
@@ -252,7 +252,7 @@ public class XmlSpawnerAddon : BaseAddon
     {
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
         writer.Write(1); // Version
@@ -260,7 +260,7 @@ public class XmlSpawnerAddon : BaseAddon
         writer.Write(PartialVisibility);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
         int version = reader.ReadInt();

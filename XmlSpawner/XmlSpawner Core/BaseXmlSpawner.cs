@@ -292,7 +292,7 @@ public class BaseXmlSpawner
             m_Timer.Start();
         }
 
-        public void Serialize(GenericWriter writer)
+        public void Serialize(IGenericWriter writer)
         {
             writer.Write(1); // version
             // Version 1
@@ -313,7 +313,7 @@ public class BaseXmlSpawner
                 writer.Write(m_TrigMob);
             }
         }
-        public void Deserialize(GenericReader reader)
+        public void Deserialize(IGenericReader reader)
         {
 
             int version = reader.ReadInt();

@@ -17,14 +17,14 @@ public class XmlSaveItem : XmlAttachment
         {
         }
 
-        public override void Serialize( GenericWriter writer )
+        public override void Serialize( IGenericWriter writer )
         {
             base.Serialize( writer );
 
             writer.Write( (int) 0 );
         }
 
-        public override void Deserialize(GenericReader reader)
+        public override void Deserialize(IGenericReader reader)
         {
             base.Deserialize( reader );
 
@@ -39,14 +39,14 @@ public class XmlSaveItem : XmlAttachment
     [CommandProperty( AccessLevel.GameMaster )]
     public Container Container
     {
-        get { return m_Container; } 
+        get { return m_Container; }
     }
-		
+
     [CommandProperty( AccessLevel.GameMaster )]
-    public Item SavedItem 
-    { 
+    public Item SavedItem
+    {
         get
-        { 
+        {
             // if the item has been moved off of the internal map, then forget about it
             if(m_SavedItem != null && (m_SavedItem.Parent != m_Container || m_SavedItem.Deleted))
             {
@@ -54,10 +54,10 @@ public class XmlSaveItem : XmlAttachment
                 m_SavedItem = null;
             }
 
-            return m_SavedItem; 
-        } 
-        set 
-        { 
+            return m_SavedItem;
+        }
+        set
+        {
             // delete any existing item before assigning a new value
             if(SavedItem != null)
             {
@@ -69,24 +69,24 @@ public class XmlSaveItem : XmlAttachment
             // dont allow saving the item if it is attached to it
             if(value != AttachedTo)
             {
-                m_SavedItem = value; 
+                m_SavedItem = value;
             }
 
             // automatically internalize any saved item
             if(m_SavedItem != null)
             {
                 AddToContainer(m_SavedItem);
-					
+
             }
-        } 
+        }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public bool RestoreItem
-    { 
-        get{ return false; } 
-        set 
-        { 
+    {
+        get{ return false; }
+        set
+        {
             if(value == true && SavedItem != null && AttachedTo is IEntity && ((IEntity)AttachedTo).Map != Map.Internal && ((IEntity)AttachedTo).Map != null)
             {
 
@@ -102,14 +102,14 @@ public class XmlSaveItem : XmlAttachment
                     m_SavedItem.Map = ((Mobile)AttachedTo).Map;
                     m_SavedItem.Location = ((Mobile)AttachedTo).Location;
                     m_SavedItem.Parent = null;
-                } 
+                }
 
 
                 m_SavedItem = null;
                 m_WasOwnedBy = null;
 
             }
-        } 
+        }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
@@ -139,10 +139,10 @@ public class XmlSaveItem : XmlAttachment
         return returneditem;
     }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public XmlSaveItem(ASerial serial) : base(serial)
     {
@@ -193,7 +193,7 @@ public class XmlSaveItem : XmlAttachment
         }
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -202,7 +202,7 @@ public class XmlSaveItem : XmlAttachment
         if(SavedItem != null)
         {
             writer.Write(m_SavedItem);
-        } 
+        }
         else
         {
             writer.Write((Item)null);
@@ -213,7 +213,7 @@ public class XmlSaveItem : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -233,7 +233,7 @@ public class XmlSaveItem : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             return String.Format("{2}: Item {0} expires in {1} mins",SavedItem, Expiration.TotalMinutes, Name);
-        } 
+        }
         else
         {
             return String.Format("{1}: Item {0}",SavedItem, Name);

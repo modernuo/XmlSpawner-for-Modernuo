@@ -3,7 +3,7 @@ namespace Server.Items
 {
     public class XmlTextEntryBook : BaseEntryBook
     {
-	    
+
 		public XmlTextEntryBook(int itemID, string title, string author, int pageCount, bool writable) : base(itemID, title, author, pageCount, writable)
         {
         }
@@ -68,13 +68,13 @@ namespace Server.Items
             }
         }
 
-        public override void Serialize(GenericWriter writer)
+        public override void Serialize(IGenericWriter writer)
         {
             base.Serialize(writer);
             writer.Write(0); // version
         }
 
-        public override void Deserialize(GenericReader reader)
+        public override void Deserialize(IGenericReader reader)
         {
             base.Deserialize(reader);
             reader.ReadInt();
@@ -126,13 +126,13 @@ namespace Server.Items
         {
         }
 
-        public override void Serialize(GenericWriter writer)
+        public override void Serialize(IGenericWriter writer)
         {
             base.Serialize(writer);
             writer.Write(0); // version
         }
 
-        public override void Deserialize(GenericReader reader)
+        public override void Deserialize(IGenericReader reader)
         {
             base.Deserialize(reader);
             reader.ReadInt();

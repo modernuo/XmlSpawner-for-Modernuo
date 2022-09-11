@@ -10,10 +10,10 @@ public class XmlAddKarma : XmlAttachment
     [CommandProperty( AccessLevel.GameMaster )]
     public int Value { get{ return m_DataValue; } set { m_DataValue = value; } }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public XmlAddKarma(ASerial serial) : base(serial)
     {
@@ -26,7 +26,7 @@ public class XmlAddKarma : XmlAttachment
     }
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -36,7 +36,7 @@ public class XmlAddKarma : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -44,11 +44,11 @@ public class XmlAddKarma : XmlAttachment
         // version 0
         m_DataValue = reader.ReadInt();
     }
-		
+
     public override void OnAttach()
     {
         base.OnAttach();
-		    
+
         // apply the mod
         if(AttachedTo is PlayerMobile)
         {
@@ -60,7 +60,7 @@ public class XmlAddKarma : XmlAttachment
             // and then remove the attachment
             Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
             //Delete();
-        } 
+        }
         else
         if(AttachedTo is Item)
         {
@@ -69,15 +69,15 @@ public class XmlAddKarma : XmlAttachment
         }
 
     }
-		
+
     public override bool HandlesOnKilled { get { return true; } }
-		
+
     public override void OnKilled(Mobile killed, Mobile killer )
     {
         base.OnKilled(killed, killer);
 
         if(killer == null) return;
-		    
+
         killer.Karma += Value;
 
         killer.SendMessage("Receive {0}",OnIdentify(killer));

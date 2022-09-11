@@ -99,7 +99,7 @@ public class XmlUse : XmlAttachment
         Refractory = TimeSpan.FromSeconds(refractory);
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -128,7 +128,7 @@ public class XmlUse : XmlAttachment
         writer.Write(m_MaxUsesAction);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

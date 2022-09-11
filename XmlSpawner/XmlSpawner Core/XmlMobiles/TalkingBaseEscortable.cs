@@ -28,17 +28,17 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             else
                 return m_Destination.Name;
         }
-        set{ 
+        set{
             m_DestinationString = value;
             m_Destination = EDI.Find( value );
-    
+
             // if the destination cant be found in the current EDI list then try to add it
             if(value == null || value.Length <= 0) return;
             if(m_Destination == null)
             {
                 if (Region.Regions.Count == 0) // after world load, before region load
                     return;
-    
+
                 foreach (Region region in Region.Regions)
                 {
                     if (string.Compare(region.Name, value, true) == 0)
@@ -425,7 +425,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     {
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -444,7 +444,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             writer.WriteDeltaTime( m_DeleteTime );
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 

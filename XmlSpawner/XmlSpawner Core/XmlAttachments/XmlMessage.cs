@@ -20,14 +20,14 @@ public class XmlMessage : XmlAttachment
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string ActivationWord { get { return m_Word; } set { m_Word  = value; } }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int Charges { get { return m_Charges; } set { m_Charges  = value; } }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public TimeSpan Refractory { get { return m_Refractory; } set { m_Refractory  = value; } }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
 
@@ -48,7 +48,7 @@ public class XmlMessage : XmlAttachment
         Message = msg;
         Refractory = TimeSpan.FromSeconds(refractory);
     }
-        
+
     [Attachable]
     public XmlMessage(string msg, double refractory, string word )
     {
@@ -56,7 +56,7 @@ public class XmlMessage : XmlAttachment
         Message = msg;
         Refractory = TimeSpan.FromSeconds(refractory);
     }
-        
+
     [Attachable]
     public XmlMessage(string msg, double refractory, string word, int charges )
     {
@@ -67,7 +67,7 @@ public class XmlMessage : XmlAttachment
 
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -82,7 +82,7 @@ public class XmlMessage : XmlAttachment
         writer.Write(m_EndTime - DateTime.Now);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -117,29 +117,29 @@ public class XmlMessage : XmlAttachment
         if(Charges > 0)
         {
             msg = String.Format("{0} : {1} secs between uses, {2} charges left",Message,Refractory.TotalSeconds, Charges);
-        } 
+        }
         else
         {
             msg = String.Format("{0} : {1} secs between uses",Message,Refractory.TotalSeconds);
         }
-            
+
         if(ActivationWord == null)
         {
             return msg;
-        } 
+        }
         else
         {
             return String.Format("{0} : trigger on '{1}'",msg,ActivationWord);
         }
 
     }
-		
+
     public override bool HandlesOnSpeech { get { return (ActivationWord != null); } }
 
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
         if(e.Speech == ActivationWord)
@@ -147,9 +147,9 @@ public class XmlMessage : XmlAttachment
             OnTrigger(null, e.Mobile);
         }
     }
-		
+
     public override bool HandlesOnMovement { get { return (ActivationWord == null); } }
-		
+
     public override void OnMovement(MovementEventArgs e )
     {
         base.OnMovement(e);
@@ -159,12 +159,12 @@ public class XmlMessage : XmlAttachment
         if(AttachedTo is Item && (((Item)AttachedTo).Parent == null) && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
-        } 
+        }
         else
         if(AttachedTo is Mobile && Utility.InRange( e.Mobile.Location, ((Mobile)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
-        } 
+        }
         else
             return;
     }
@@ -181,20 +181,20 @@ public class XmlMessage : XmlAttachment
         if(AttachedTo is Item )
         {
             ((Item)AttachedTo).PublicOverheadMessage( MessageType.Regular, 0x3B2, true, Message );
-        } 
+        }
         else
         if(AttachedTo is Mobile )
         {
             ((Mobile)AttachedTo).PublicOverheadMessage( MessageType.Regular, 0x3B2, true, Message );
         }
-            
+
         Charges--;
 
         // remove the attachment either after the charges run out or if refractory is zero, then it is one use only
         if(Refractory == TimeSpan.Zero || Charges == 0)
         {
             Delete();
-        } 
+        }
         else
         {
             m_EndTime = DateTime.Now + Refractory;

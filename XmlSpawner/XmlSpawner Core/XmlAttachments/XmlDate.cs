@@ -9,10 +9,10 @@ public class XmlDate : XmlAttachment
     [CommandProperty( AccessLevel.GameMaster )]
     public DateTime Date { get{ return m_DataValue; } set { m_DataValue = value; } }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public XmlDate(ASerial serial) : base(serial)
     {
@@ -24,7 +24,7 @@ public class XmlDate : XmlAttachment
         Name = name;
         Date = DateTime.Now;
     }
-        
+
     [Attachable]
     public XmlDate(string name, double expiresin)
     {
@@ -44,7 +44,7 @@ public class XmlDate : XmlAttachment
     }
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -54,7 +54,7 @@ public class XmlDate : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -70,7 +70,7 @@ public class XmlDate : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             return String.Format("{2}: Date {0} expires in {1} mins",Date,Expiration.TotalMinutes, Name);
-        } 
+        }
         else
         {
             return String.Format("{1}: Date {0}",Date, Name);

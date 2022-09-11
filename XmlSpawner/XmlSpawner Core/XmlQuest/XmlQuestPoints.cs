@@ -16,10 +16,10 @@ public class XmlQuestPoints : XmlAttachment
     private DateTime m_WhenRanked;
     private int m_Rank;
     private int m_DeltaRank;
-		
+
     public string guildFilter;
     public string nameFilter;
-        
+
 
     public ArrayList QuestList { get{ return m_QuestList; } set { m_QuestList = value; }}
 
@@ -28,7 +28,7 @@ public class XmlQuestPoints : XmlAttachment
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int DeltaRank { get{ return m_DeltaRank; } set { m_DeltaRank = value; } }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public DateTime WhenRanked { get{ return m_WhenRanked; } set { m_WhenRanked = value; } }
 
@@ -67,7 +67,7 @@ public class XmlQuestPoints : XmlAttachment
             }
         }
 
-        public virtual void Serialize( GenericWriter writer )
+        public virtual void Serialize( IGenericWriter writer )
         {
 
             writer.Write( (int) 0 ); // version
@@ -83,7 +83,7 @@ public class XmlQuestPoints : XmlAttachment
 
         }
 
-        public virtual void Deserialize( GenericReader reader )
+        public virtual void Deserialize( IGenericReader reader )
         {
 
             int version = reader.ReadInt();
@@ -180,7 +180,7 @@ public class XmlQuestPoints : XmlAttachment
     }
 
 
-		
+
     [Usage( "QuestLog" )]
     [Description( "Displays players quest history" )]
     public static void QuestLog_OnCommand( CommandEventArgs e )
@@ -237,7 +237,7 @@ public class XmlQuestPoints : XmlAttachment
         {
             val = p.Credits;
         }
-            
+
         return val;
     }
 
@@ -250,7 +250,7 @@ public class XmlQuestPoints : XmlAttachment
         {
             val = p.Points;
         }
-            
+
         return val;
     }
 
@@ -289,7 +289,7 @@ public class XmlQuestPoints : XmlAttachment
         return false;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -311,7 +311,7 @@ public class XmlQuestPoints : XmlAttachment
             {
                 e.Serialize(writer);
             }
-        } 
+        }
         else
         {
             writer.Write((int)0);
@@ -325,7 +325,7 @@ public class XmlQuestPoints : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -373,7 +373,7 @@ public class XmlQuestPoints : XmlAttachment
     }
 
     public override string OnIdentify(Mobile from)
-    {			
+    {
         return String.Format("Quest Points Status:\nTotal Quest Points = {0}\nTotal Quests Completed = {1}\nQuest Credits Available = {2}",Points, QuestsCompleted, Credits);
     }
 }

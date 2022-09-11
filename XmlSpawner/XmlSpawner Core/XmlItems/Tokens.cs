@@ -1,22 +1,22 @@
 namespace Server.Items;
 
-public abstract class BaseRewardScroll : Item	
+public abstract class BaseRewardScroll : Item
 {
     public override double DefaultWeight
     {
         get { return 0.0; }
     }
-		
+
     public BaseRewardScroll() : base( 0x2D51 ){}
-		
+
     public BaseRewardScroll( Serial serial ) : base( serial ) { }
-		
-    public override void Serialize( GenericWriter writer ) { base.Serialize( writer ); writer.Write( (int) 0 );}
-		
-    public override void Deserialize( GenericReader reader ) { base.Deserialize( reader ); int version = reader.ReadInt();}
+
+    public override void Serialize( IGenericWriter writer ) { base.Serialize( writer ); writer.Write( (int) 0 );}
+
+    public override void Deserialize( IGenericReader reader ) { base.Deserialize( reader ); int version = reader.ReadInt();}
 }
 
-public class RewardScrollDeed : Item 
+public class RewardScrollDeed : Item
 {
     [Constructable]
     public RewardScrollDeed() : this( 1 )
@@ -25,39 +25,39 @@ public class RewardScrollDeed : Item
         Movable = true;
         Hue = 1165;
         Name = "Reward Scroll Deed";
-					
+
     }
-		
+
     public override void OnDoubleClick( Mobile from )
     {
-        from.AddToBackpack( new RewardScroll() ); 
+        from.AddToBackpack( new RewardScroll() );
         this.Delete();
     }
 
     [Constructable]
-    public RewardScrollDeed( int amount ) 
+    public RewardScrollDeed( int amount )
     {
-    }		
-
-    public RewardScrollDeed( Serial serial ) : base( serial ) 
-    { 
-    } 
-
-    public override void Serialize( GenericWriter writer ) 
-    { 
-        base.Serialize( writer ); 
-
-        writer.Write( (int) 0 ); // version 
-    } 
-
-    public override void Deserialize( GenericReader reader ) 
-    { 
-        base.Deserialize( reader ); 
-
-        int version = reader.ReadInt(); 
     }
-} 
-	
+
+    public RewardScrollDeed( Serial serial ) : base( serial )
+    {
+    }
+
+    public override void Serialize( IGenericWriter writer )
+    {
+        base.Serialize( writer );
+
+        writer.Write( (int) 0 ); // version
+    }
+
+    public override void Deserialize( IGenericReader reader )
+    {
+        base.Deserialize( reader );
+
+        int version = reader.ReadInt();
+    }
+}
+
 public class RewardScroll : BaseRewardScroll
 {
     [Constructable]
@@ -72,7 +72,7 @@ public class RewardScroll : BaseRewardScroll
 
     public RewardScroll( Serial serial ) : base( serial ) { }
 
-    public override void Serialize( GenericWriter writer ) { base.Serialize( writer ); writer.Write( (int) 0 );}
+    public override void Serialize( IGenericWriter writer ) { base.Serialize( writer ); writer.Write( (int) 0 );}
 
-    public override void Deserialize( GenericReader reader ) { base.Deserialize( reader ); int version = reader.ReadInt();}
+    public override void Deserialize( IGenericReader reader ) { base.Deserialize( reader ); int version = reader.ReadInt();}
 }

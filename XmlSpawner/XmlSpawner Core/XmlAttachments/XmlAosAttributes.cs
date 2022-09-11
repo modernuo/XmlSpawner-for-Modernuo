@@ -2,10 +2,10 @@ using System;
 
 /*
 * This script adds four attachments that will allow dynamic enhancment of Aos attributes
-* XmlAosAttributes 
-* XmlAosWeaponAttributes 
-* XmlAosArmorAttributes 
-* XmlAosElementAttributes 
+* XmlAosAttributes
+* XmlAosWeaponAttributes
+* XmlAosArmorAttributes
+* XmlAosElementAttributes
 */
 namespace Server.Engines.XmlSpawner2;
 
@@ -319,7 +319,7 @@ public class XmlAosAttributes : XmlBaseAttributes
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword
     // Other overloads could be defined to handle other types of arguments
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -327,7 +327,7 @@ public class XmlAosAttributes : XmlBaseAttributes
         // version 0
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -670,7 +670,7 @@ public class XmlAosWeaponAttributes : XmlBaseAttributes
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword
     // Other overloads could be defined to handle other types of arguments
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -678,7 +678,7 @@ public class XmlAosWeaponAttributes : XmlBaseAttributes
         // version 0
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -769,7 +769,7 @@ public class XmlAosArmorAttributes : XmlBaseAttributes
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword
     // Other overloads could be defined to handle other types of arguments
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -777,7 +777,7 @@ public class XmlAosArmorAttributes : XmlBaseAttributes
         // version 0
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -880,7 +880,7 @@ public class XmlAosElementAttributes : XmlBaseAttributes
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword
     // Other overloads could be defined to handle other types of arguments
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -888,7 +888,7 @@ public class XmlAosElementAttributes : XmlBaseAttributes
         // version 0
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -929,7 +929,7 @@ public class XmlBaseAttributes : XmlAttachment
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword
     // Other overloads could be defined to handle other types of arguments
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -942,7 +942,7 @@ public class XmlBaseAttributes : XmlAttachment
             writer.WriteEncodedInt((int)this.m_Values[i]);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

@@ -47,7 +47,7 @@ public class XmlSkill : XmlAttachment
         try
         {
             m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
-        } 
+        }
         catch {}
     }
 
@@ -58,7 +58,7 @@ public class XmlSkill : XmlAttachment
         try
         {
             m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
-        } 
+        }
         catch {}
         m_Value = value;
     }
@@ -70,7 +70,7 @@ public class XmlSkill : XmlAttachment
         try
         {
             m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
-        } 
+        }
         catch {}
         m_Value = value;
         m_Duration = TimeSpan.FromMinutes(duration);
@@ -84,14 +84,14 @@ public class XmlSkill : XmlAttachment
         try
         {
             m_Skill = (SkillName)Enum.Parse( typeof( SkillName ), skill, true );
-        } 
+        }
         catch {}
         m_Value = value;
         m_Duration = TimeSpan.FromMinutes(duration);
         m_Word = word;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -105,7 +105,7 @@ public class XmlSkill : XmlAttachment
         writer.Write(m_Identified);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -129,7 +129,7 @@ public class XmlSkill : XmlAttachment
                 m_Identified = true;
             }
             return String.Format("activated by {0} : skill {1} mod of {2} when equipped",m_Word, m_Skill, m_Value);
-        } 
+        }
         else
         {
             return String.Format("activated by {0} : skill {1} mod of {2} lasting {3} mins",m_Word, m_Skill, m_Value, m_Duration.TotalMinutes);
@@ -142,7 +142,7 @@ public class XmlSkill : XmlAttachment
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
         // dont respond to other players speech if this is attached to a mob
@@ -165,7 +165,7 @@ public class XmlSkill : XmlAttachment
             // and then remove the attachment
             Timer.DelayCall(TimeSpan.Zero, new TimerCallback(Delete));
             //Delete();
-        } 
+        }
         else
         if(AttachedTo is Item && m_Word == null)
         {
@@ -185,7 +185,7 @@ public class XmlSkill : XmlAttachment
             m.AddSkillMod( sm );
             // and then remove the attachment
             Delete();
-        } 
+        }
         else
         {
             // when activated it will apply the skill mod that will last for the specified duration

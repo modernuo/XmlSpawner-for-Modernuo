@@ -21,7 +21,7 @@ public class XmlLatch : Item
     private int m_ResetState = 0;
 
 
-    
+
     [Constructable]
     public XmlLatch() : base( 0x1BBF )
     {
@@ -41,7 +41,7 @@ public class XmlLatch : Item
     public TimeSpan MinDelay
     {
         get { return m_MinDelay; }
-        set 
+        set
         {
             m_MinDelay = value;
             InvalidateProperties(); }
@@ -51,7 +51,7 @@ public class XmlLatch : Item
     public TimeSpan MaxDelay
     {
         get { return m_MaxDelay; }
-        set 
+        set
         {
             m_MaxDelay = value;
             InvalidateProperties(); }
@@ -78,7 +78,7 @@ public class XmlLatch : Item
     public virtual int ResetState
     {
         get{ return m_ResetState; }
-        set 
+        set
         {
             m_ResetState = value;
             if ( m_Timer != null && m_Timer.Running )
@@ -90,13 +90,13 @@ public class XmlLatch : Item
     public virtual int State
     {
         get{ return m_State; }
-        set 
+        set
         {
             m_State = value;
             StartTimer();
             InvalidateProperties();}
     }
-      
+
     public void StartTimer()
     {
         if(m_State != m_ResetState && (m_MinDelay > TimeSpan.Zero || m_MaxDelay > TimeSpan.Zero))
@@ -111,7 +111,7 @@ public class XmlLatch : Item
         State = ResetState;
     }
 
-    
+
     public void DoTimer()
     {
 
@@ -134,7 +134,7 @@ public class XmlLatch : Item
         m_Timer = new InternalTimer( this, delay );
         m_Timer.Start();
     }
-        
+
     private class InternalTimer : Timer
     {
         private XmlLatch m_latch;
@@ -155,7 +155,7 @@ public class XmlLatch : Item
         }
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -172,7 +172,7 @@ public class XmlLatch : Item
             writer.Write( this.m_End - DateTime.Now );
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
@@ -249,7 +249,7 @@ public class TimedLever : XmlLatch, ILinkable
         get { return base.State; }
         set
         {
-            // prevent infinite recursion 
+            // prevent infinite recursion
             if (!already_being_activated)
             {
                 already_being_activated = true;
@@ -329,7 +329,7 @@ public class TimedLever : XmlLatch, ILinkable
     public int LeverSound
     {
         get{ return m_LeverSound; }
-        set 
+        set
         {
             m_LeverSound = value;
             InvalidateProperties();}
@@ -339,7 +339,7 @@ public class TimedLever : XmlLatch, ILinkable
     public leverType LeverType
     {
         get{ return m_LeverType; }
-        set 
+        set
         {
             m_LeverType = value; State = 0;
             InvalidateProperties();}
@@ -400,7 +400,7 @@ public class TimedLever : XmlLatch, ILinkable
     public string Target2ItemName
     {      	get{  if(m_TargetItem2 != null && !m_TargetItem2.Deleted) return m_TargetItem2.Name; else return null;}      }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -421,7 +421,7 @@ public class TimedLever : XmlLatch, ILinkable
         writer.Write( this.m_TargetProperty2 );
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
@@ -564,7 +564,7 @@ public class TimedSwitch : XmlLatch, ILinkable
         get { return base.State; }
         set
         {
-            // prevent infinite recursion 
+            // prevent infinite recursion
             if (!already_being_activated)
             {
                 already_being_activated = true;
@@ -640,19 +640,19 @@ public class TimedSwitch : XmlLatch, ILinkable
     public int SwitchSound
     {
         get{ return m_SwitchSound; }
-        set 
+        set
         {
             m_SwitchSound = value;
             InvalidateProperties();}
     }
-      
+
     [CommandProperty( AccessLevel.GameMaster )]
     new public virtual Direction Direction
     {
         get{ return base.Direction; }
         set { base.Direction = value; SetSwitchStatic();InvalidateProperties();}
     }
-      
+
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target0Item
     {
@@ -686,7 +686,7 @@ public class TimedSwitch : XmlLatch, ILinkable
     {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted) return m_TargetItem1.Name; else return null;}      }
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -703,7 +703,7 @@ public class TimedSwitch : XmlLatch, ILinkable
         writer.Write( this.m_TargetProperty1 );
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
@@ -783,7 +783,7 @@ public class TimedSwitch : XmlLatch, ILinkable
 
     }
 }
-   
+
 public class TimedSwitchableItem : XmlLatch, ILinkable
 {
     private int m_SwitchSound = 939;
@@ -847,7 +847,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         get { return base.State; }
         set
         {
-            // prevent infinite recursion 
+            // prevent infinite recursion
             if (!already_being_activated)
             {
                 already_being_activated = true;
@@ -928,7 +928,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     public int ItemID0
     {
         get{ return m_ItemID0; }
-        set 
+        set
         {
             m_ItemID0 = value;
             // refresh the lever static to reflect the state
@@ -936,12 +936,12 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
             InvalidateProperties();
         }
     }
-      
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int ItemID1
     {
         get{ return m_ItemID1; }
-        set 
+        set
         {
             m_ItemID1 = value;
             // refresh the lever static to reflect the state
@@ -953,7 +953,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     public int SwitchSound
     {
         get{ return m_SwitchSound; }
-        set 
+        set
         {
             m_SwitchSound = value;
             InvalidateProperties();}
@@ -992,7 +992,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted) return m_TargetItem1.Name; else return null;}      }
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -1015,7 +1015,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         writer.Write( this.m_TargetProperty1 );
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 

@@ -12,17 +12,17 @@ public class XmlEnemyMastery : XmlAttachment
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int Chance { get{ return m_Chance; } set { m_Chance = value; } }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int PercentIncrease { get{ return m_PercentIncrease; } set { m_PercentIncrease = value; } }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string Enemy 
-    { 
+    public string Enemy
+    {
         get { return m_Enemy; }
-        set 
-        { 
-            m_Enemy  = value; 
+        set
+        {
+            m_Enemy  = value;
             // look up the type
             m_EnemyType = SpawnerType.GetType(m_Enemy);
         }
@@ -43,7 +43,7 @@ public class XmlEnemyMastery : XmlAttachment
     {
         Enemy = enemy;
     }
-        
+
     [Attachable]
     public XmlEnemyMastery(string enemy,int increase )
     {
@@ -67,7 +67,7 @@ public class XmlEnemyMastery : XmlAttachment
         Expiration = TimeSpan.FromMinutes(expiresin);
         Enemy = enemy;
     }
-        
+
     public override void OnAttach()
     {
         base.OnAttach();
@@ -99,7 +99,7 @@ public class XmlEnemyMastery : XmlAttachment
             }
         }
     }
-        
+
     public override void OnDelete()
     {
         base.OnDelete();
@@ -111,11 +111,11 @@ public class XmlEnemyMastery : XmlAttachment
             {
                 Effects.PlaySound( m, m.Map, 958 );
                 m.SendMessage(String.Format("Your power of Enemy Mastery over {0} fades..",Enemy));
-            } 
+            }
         }
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -126,7 +126,7 @@ public class XmlEnemyMastery : XmlAttachment
         writer.Write(m_Enemy);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -144,7 +144,7 @@ public class XmlEnemyMastery : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             msg = String.Format("Enemy Mastery : +{3}% damage vs {0}, {1}%, hitchance expires in {2} mins", m_Enemy, Chance, Expiration.TotalMinutes, PercentIncrease);
-        } 
+        }
         else
         {
             msg = String.Format("Enemy Mastery : +{2}% damage vs {0}, {1}% hitchance",m_Enemy, Chance, PercentIncrease);

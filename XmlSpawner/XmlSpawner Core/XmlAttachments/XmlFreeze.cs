@@ -5,10 +5,10 @@ namespace Server.Engines.XmlSpawner2;
 public class XmlFreeze : XmlAttachment
 {
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public XmlFreeze(ASerial serial) : base(serial)
     {
@@ -18,27 +18,27 @@ public class XmlFreeze : XmlAttachment
     public XmlFreeze()
     {
     }
-        
+
     [Attachable]
     public XmlFreeze(double seconds)
     {
         Expiration = TimeSpan.FromSeconds(seconds);
     }
-        
-    public override void Serialize( GenericWriter writer )
+
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
         writer.Write( (int) 0 );
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
         int version = reader.ReadInt();
     }
-		
+
     public override string OnIdentify(Mobile from)
     {
         base.OnIdentify(from);
@@ -48,7 +48,7 @@ public class XmlFreeze : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             return String.Format("Freeze expires in {1} secs",Expiration.TotalSeconds);
-        } 
+        }
         else
         {
             return String.Format("Frozen");
@@ -63,7 +63,7 @@ public class XmlFreeze : XmlAttachment
         if(AttachedTo is Mobile)
         {
             ((Mobile)AttachedTo).Frozen = false;
-        } 
+        }
     }
 
     public override void OnAttach()
@@ -75,7 +75,7 @@ public class XmlFreeze : XmlAttachment
         {
             ((Mobile)AttachedTo).Frozen = true;
             ((Mobile)AttachedTo).ProcessDelta();
-        } 
+        }
         else
             Delete();
     }

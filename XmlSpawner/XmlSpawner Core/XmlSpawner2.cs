@@ -452,7 +452,7 @@ namespace Server.Mobiles
                             loc = ((Item)(RootParent)).Location;
                     }
 
-                    // find the max detection range by examining both spawnrange 
+                    // find the max detection range by examining both spawnrange
                     // note, sectors will activate when within +-2 sectors
                     int bufferzone = 2 * Map.SectorSize;
                     int x1 = m_X - bufferzone;
@@ -1631,7 +1631,7 @@ namespace Server.Mobiles
                     }
                 }
 
-                //IsInactivated = false; 
+                //IsInactivated = false;
             }
         }
 
@@ -1728,7 +1728,7 @@ namespace Server.Mobiles
 
             int x = 0;
             int y = 0;
-            
+
             Account acct = from.Account as Account; // read the text entries for default values
 
             if (acct != null)
@@ -9949,7 +9949,7 @@ namespace Server.Mobiles
                     x = packcoord.X - packrange + Utility.Random(packrange * 2 + 1);
                     y = packcoord.Y - packrange + Utility.Random(packrange * 2 + 1);
                 }
-                else if (m_Region != null && HasRegionPoints(m_Region))  
+                else if (m_Region != null && HasRegionPoints(m_Region))
                 {
                     // if region spawning is selected then use that to find an x,y loc instead of the spawn box
 
@@ -10859,7 +10859,7 @@ namespace Server.Mobiles
 
         #region Serialization
 
-        public override void Serialize(GenericWriter writer)
+        public override void Serialize(IGenericWriter writer)
         {
             base.Serialize(writer);
 
@@ -11126,7 +11126,7 @@ namespace Server.Mobiles
             }
         }
 
-        public override void Deserialize(GenericReader reader)
+        public override void Deserialize(IGenericReader reader)
         {
             base.Deserialize(reader);
 

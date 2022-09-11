@@ -1134,7 +1134,7 @@ public class XmlDialog : XmlAttachment
     private void CheckForReset()
     {
         // check to see if the interaction time has elapsed or player has gone out of range.  If so then reset to entry zero
-        if (!m_HoldProcessing && 
+        if (!m_HoldProcessing &&
             ((DateTime.Now - ResetTime > m_LastInteraction) ||
              (AttachedTo is IEntity && m_ActivePlayer != null && !IsInRange(m_ActivePlayer, (IEntity)AttachedTo, ResetRange))))
         {
@@ -1873,7 +1873,7 @@ public class XmlDialog : XmlAttachment
     }
 
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -2004,7 +2004,7 @@ public class XmlDialog : XmlAttachment
         }
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

@@ -27,7 +27,7 @@ public class XmlQuestNPC : TalkingBaseCreature
         SpeechHue = Utility.RandomDyedHue();
         Title = string.Empty;
         Hue = Race.RandomSkinHue();
-            
+
         switch(gender)
         {
             case -1:
@@ -238,7 +238,7 @@ public class XmlQuestNPC : TalkingBaseCreature
     {
     }
 
-		
+
 
     private static int GetRandomHue()
     {
@@ -273,7 +273,7 @@ public class XmlQuestNPC : TalkingBaseCreature
     }
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -281,7 +281,7 @@ public class XmlQuestNPC : TalkingBaseCreature
 
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 

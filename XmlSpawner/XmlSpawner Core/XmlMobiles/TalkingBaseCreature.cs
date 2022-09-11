@@ -17,55 +17,55 @@ using Server.Engines.XmlSpawner2;
 namespace Server.Mobiles;
 
 public class TalkingBaseCreature : BaseCreature
-{ 
+{
 
     private XmlDialog m_DialogAttachment;
 
-        
+
     public XmlDialog DialogAttachment {get { return m_DialogAttachment; } set {m_DialogAttachment = value; }}
 
-    private DateTime lasteffect;		
+    private DateTime lasteffect;
     private int m_EItemID = 0; // 0 = disable, 14202 = sparkle, 6251 = round stone, 7885 = light pyramid
     private int m_Duration = 70;
     private Point3D m_Offset = new Point3D(0,0,20); // overhead
     private int m_EHue = 68;                        // green
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int EItemID { 
-        get{ return m_EItemID; } 
-        set { 
-            m_EItemID = value; 
-        } 
+    public int EItemID {
+        get{ return m_EItemID; }
+        set {
+            m_EItemID = value;
+        }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public Point3D EOffset 
-    { 
-        get{ return m_Offset; } 
-        set 
-        { 
-            m_Offset = value; 
-        } 
+    public Point3D EOffset
+    {
+        get{ return m_Offset; }
+        set
+        {
+            m_Offset = value;
+        }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int EDuration 
-    { 
-        get{ return m_Duration; } 
-        set 
-        { 
-            m_Duration = value; 
-        } 
+    public int EDuration
+    {
+        get{ return m_Duration; }
+        set
+        {
+            m_Duration = value;
+        }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int EHue 
-    { 
-        get{ return m_EHue; } 
-        set 
-        { 
-            m_EHue = value; 
-        } 
+    public int EHue
+    {
+        get{ return m_EHue; }
+        set
+        {
+            m_EHue = value;
+        }
     }
     public void DisplayHighlight()
     {
@@ -104,7 +104,7 @@ public class TalkingBaseCreature : BaseCreature
             DisplayHighlight();
         }
     }
-        
+
     public override bool Move( Direction d )
     {
         bool didmove = base.Move( d );
@@ -124,30 +124,30 @@ public class TalkingBaseCreature : BaseCreature
 
     public Mobile ActivePlayer
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.ActivePlayer;
             else
                 return null;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
                 DialogAttachment.ActivePlayer = value;
         }
     }
 
-    public ArrayList SpeechEntries 
+    public ArrayList SpeechEntries
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.SpeechEntries;
             else
                 return null;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
                 DialogAttachment.SpeechEntries = value;
@@ -215,16 +215,16 @@ public class TalkingBaseCreature : BaseCreature
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public AccessLevel TriggerAccessLevel 
+    public AccessLevel TriggerAccessLevel
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.TriggerAccessLevel;
             else
                 return AccessLevel.Player;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
                 DialogAttachment.TriggerAccessLevel = value;
@@ -232,16 +232,16 @@ public class TalkingBaseCreature : BaseCreature
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public DateTime LastInteraction 
+    public DateTime LastInteraction
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.LastInteraction;
             else
                 return DateTime.MinValue;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
                 DialogAttachment.LastInteraction = value;
@@ -249,13 +249,13 @@ public class TalkingBaseCreature : BaseCreature
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public bool DoReset 
+    public bool DoReset
     {
-        get 
+        get
         {
             return false;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
                 DialogAttachment.DoReset = value;
@@ -263,16 +263,16 @@ public class TalkingBaseCreature : BaseCreature
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public bool IsActive 
+    public bool IsActive
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.IsActive;
             else
                 return false;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
                 DialogAttachment.IsActive = value;
@@ -280,16 +280,16 @@ public class TalkingBaseCreature : BaseCreature
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public bool AllowGhostTrig 
+    public bool AllowGhostTrig
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.AllowGhostTrig;
             else
                 return false;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
                 DialogAttachment.AllowGhostTrig = value;
@@ -300,7 +300,7 @@ public class TalkingBaseCreature : BaseCreature
     public bool Running
     {
         get
-        { 
+        {
             if(DialogAttachment != null)
                 return DialogAttachment.Running;
             else
@@ -313,7 +313,7 @@ public class TalkingBaseCreature : BaseCreature
                 DialogAttachment.Running = value;
         }
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public TimeSpan ResetTime
     {
@@ -325,12 +325,12 @@ public class TalkingBaseCreature : BaseCreature
                 return TimeSpan.Zero;
         }
         set
-        { 
+        {
             if(DialogAttachment != null)
                 DialogAttachment.ResetTime = value;
         }
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int SpeechPace
     {
@@ -342,7 +342,7 @@ public class TalkingBaseCreature : BaseCreature
                 return 0;
         }
         set
-        { 
+        {
             if(DialogAttachment != null)
                 DialogAttachment.SpeechPace = value;
         }
@@ -362,7 +362,7 @@ public class TalkingBaseCreature : BaseCreature
                 return null;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.Keywords = value;
         }
@@ -381,7 +381,7 @@ public class TalkingBaseCreature : BaseCreature
                 return null;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.Action = value;
         }
@@ -400,7 +400,7 @@ public class TalkingBaseCreature : BaseCreature
                 return null;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.Condition = value;
         }
@@ -420,7 +420,7 @@ public class TalkingBaseCreature : BaseCreature
                 return null;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.Text = value;
         }
@@ -441,13 +441,13 @@ public class TalkingBaseCreature : BaseCreature
                 return "-1";
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.DependsOn = value;
         }
 
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public bool LockConversation
     {
@@ -461,13 +461,13 @@ public class TalkingBaseCreature : BaseCreature
                 return false;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.LockConversation = value;
         }
 
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public MessageType SpeechStyle
     {
@@ -482,7 +482,7 @@ public class TalkingBaseCreature : BaseCreature
                 return MessageType.Regular;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.SpeechStyle = value;
         }
@@ -502,7 +502,7 @@ public class TalkingBaseCreature : BaseCreature
                 return false;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.AllowNPCTrigger = value;
         }
@@ -513,7 +513,7 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty( AccessLevel.GameMaster )]
     public int Pause
     {
-        
+
         get
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
@@ -524,7 +524,7 @@ public class TalkingBaseCreature : BaseCreature
                 return -1;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.Pause = value;
         }
@@ -543,7 +543,7 @@ public class TalkingBaseCreature : BaseCreature
                 return -1;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.PrePause = value;
         }
@@ -562,7 +562,7 @@ public class TalkingBaseCreature : BaseCreature
                 return -1;
         }
         set
-        { 
+        {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
                 DialogAttachment.CurrentEntry.ID = value;
         }
@@ -571,14 +571,14 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty( AccessLevel.GameMaster )]
     public int EntryNumber
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.EntryNumber;
             else
                 return -1;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
             {
@@ -586,18 +586,18 @@ public class TalkingBaseCreature : BaseCreature
             }
         }
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int ProximityRange
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.ProximityRange;
             else
                 return -1;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
             {
@@ -609,14 +609,14 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty( AccessLevel.GameMaster )]
     public  string ConfigFile
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.ConfigFile;
             else
                 return null;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
             {
@@ -637,23 +637,23 @@ public class TalkingBaseCreature : BaseCreature
     {
         get{return false;}
         set
-        { 
-            if(value == true && DialogAttachment != null) 
+        {
+            if(value == true && DialogAttachment != null)
                 DialogAttachment.DoSaveNPC(null,ConfigFile, false);
         }
     }
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public string TriggerOnCarried
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.TriggerOnCarried;
             else
                 return null;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
             {
@@ -665,14 +665,14 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty( AccessLevel.GameMaster )]
     public string NoTriggerOnCarried
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.NoTriggerOnCarried;
             else
                 return null;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
             {
@@ -684,14 +684,14 @@ public class TalkingBaseCreature : BaseCreature
 
     public XmlDialog.SpeechEntry CurrentEntry
     {
-        get 
+        get
         {
             if(DialogAttachment != null)
                 return DialogAttachment.CurrentEntry;
             else
                 return null;
         }
-        set 
+        set
         {
             if(DialogAttachment != null)
             {
@@ -700,7 +700,7 @@ public class TalkingBaseCreature : BaseCreature
         }
 
     }
-        
+
     public override bool OnDragDrop( Mobile from, Item item)
     {
 
@@ -750,7 +750,7 @@ public class TalkingBaseCreature : BaseCreature
         FightMode mode,
         int iRangePerception,
         int iRangeFight,
-        double dActiveSpeed, 
+        double dActiveSpeed,
         double dPassiveSpeed): base( ai, mode, iRangePerception, iRangeFight, dActiveSpeed, dPassiveSpeed )
     {
         // add the XmlDialog attachment
@@ -762,7 +762,7 @@ public class TalkingBaseCreature : BaseCreature
     public TalkingBaseCreature( Serial serial ) : base( serial )
     {
     }
-        
+
     public static void Initialize()
     {
         // reestablish the DialogAttachment assignment
@@ -778,7 +778,7 @@ public class TalkingBaseCreature : BaseCreature
 
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -798,7 +798,7 @@ public class TalkingBaseCreature : BaseCreature
 
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
@@ -866,15 +866,15 @@ public class TalkingBaseCreature : BaseCreature
                         if(version < 4)
                         {
                             XmlDialog.SpeechEntry newentry = new XmlDialog.SpeechEntry();
-    
+
                             newentry.PrePause = reader.ReadInt();
                             newentry.LockConversation = reader.ReadBool();
                             newentry.AllowNPCTrigger = reader.ReadBool();
                             newentry.SpeechStyle = (MessageType)reader.ReadInt();
-    
+
                             SpeechEntries.Add(newentry);
-                        } 
-                        else 
+                        }
+                        else
                         {
                             XmlDialog.SpeechEntry newentry = (XmlDialog.SpeechEntry)SpeechEntries[i];
 
@@ -921,7 +921,7 @@ public class TalkingBaseCreature : BaseCreature
                             newentry.Pause = reader.ReadInt();
 
                             SpeechEntries.Add(newentry);
-                        } 
+                        }
                         else
                         {
                             XmlDialog.SpeechEntry newentry = (XmlDialog.SpeechEntry)SpeechEntries[i];

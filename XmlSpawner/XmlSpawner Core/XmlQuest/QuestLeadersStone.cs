@@ -11,7 +11,7 @@ public class QuestLeadersStone: Item
         Movable = false;
         Visible = false;
         Name = "Quest LeaderboardSave Stone";
-            
+
         // is there already another?
         ArrayList dlist = new ArrayList();
         foreach( Item i in World.Items.Values)
@@ -30,7 +30,7 @@ public class QuestLeadersStone: Item
     public QuestLeadersStone( Serial serial ) : base( serial )
     {
     }
-		
+
     public override void OnDoubleClick( Mobile m )
     {
         if( m != null && m.AccessLevel >= AccessLevel.Administrator)
@@ -40,23 +40,23 @@ public class QuestLeadersStone: Item
         }
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
-			
+
         XmlQuestLeaders.QuestLBSSerialize( writer );
 
         writer.Write( (int) 0 );
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize( reader );
-			
+
         XmlQuestLeaders.QuestLBSDeserialize( reader );
 
         int version = reader.ReadInt();
-			
+
         // version 0
     }
 }

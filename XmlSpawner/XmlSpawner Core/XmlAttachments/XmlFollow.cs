@@ -46,7 +46,7 @@ namespace Server.Engines.XmlSpawner2
         // These are the various ways in which the message attachment can be constructed. ?
         // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
         // Other overloads could be defined to handle other types of arguments
-        public override void Serialize(GenericWriter writer)
+        public override void Serialize(IGenericWriter writer)
         {
             base.Serialize(writer);
 
@@ -55,7 +55,7 @@ namespace Server.Engines.XmlSpawner2
             writer.Write(this.m_DataValue);
         }
 
-        public override void Deserialize(GenericReader reader)
+        public override void Deserialize(IGenericReader reader)
         {
             base.Deserialize(reader);
 

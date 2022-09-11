@@ -6,15 +6,15 @@ public class XmlHue : XmlAttachment
 {
     private int m_Originalhue;
     private int m_Hue;
-        
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int Hue { get{ return m_Hue; } set { m_Hue = value; } }
 
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public XmlHue(ASerial serial) : base(serial)
     {
@@ -26,15 +26,15 @@ public class XmlHue : XmlAttachment
         m_Hue = value;
         Expiration = TimeSpan.FromSeconds(30.0); // default 30 second duration
     }
-        
+
     [Attachable]
     public XmlHue(int value, double duration)
     {
         m_Hue = value;
         Expiration = TimeSpan.FromMinutes(duration);
     }
-        
-    public override void Serialize( GenericWriter writer )
+
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -44,7 +44,7 @@ public class XmlHue : XmlAttachment
         writer.Write(m_Hue);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -54,7 +54,7 @@ public class XmlHue : XmlAttachment
         m_Originalhue = reader.ReadInt();
         m_Hue = reader.ReadInt();
     }
-		
+
     public override string OnIdentify(Mobile from)
     {
         base.OnIdentify(from);
@@ -64,7 +64,7 @@ public class XmlHue : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             return String.Format("Hue {0} expires in {1} mins",m_Hue,Expiration.TotalMinutes);
-        } 
+        }
         else
         {
             return String.Format("Hue {0}",m_Hue);
@@ -79,7 +79,7 @@ public class XmlHue : XmlAttachment
         if(AttachedTo is Mobile)
         {
             ((Mobile)AttachedTo).Hue = m_Originalhue;
-        } 
+        }
         else
         if(AttachedTo is Item)
         {
@@ -97,14 +97,14 @@ public class XmlHue : XmlAttachment
             Mobile m = AttachedTo as Mobile;
             m_Originalhue = m.Hue;
             m.Hue = m_Hue;
-        } 
+        }
         else
         if(AttachedTo is Item)
         {
             Item i = AttachedTo as Item;
             m_Originalhue = i.Hue;
             i.Hue = m_Hue;
-        } 
+        }
         else
             Delete();
     }

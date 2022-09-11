@@ -15,11 +15,11 @@ public class SimpleMap : MapItem
     [CommandProperty( AccessLevel.GameMaster )]
     public int NPins
     {
-        get 
-        { 
+        get
+        {
             if(Pins != null)
             {
-                return Pins.Count; 
+                return Pins.Count;
             }
             else
             {
@@ -31,15 +31,15 @@ public class SimpleMap : MapItem
     [CommandProperty( AccessLevel.GameMaster )]
     public Point2D PinLocation
     {
-        set 
-        { 
+        set
+        {
             // change the coordinates of the current pin
             if(Pins != null && CurrentPin > 0 && CurrentPin <=Pins.Count)
             {
                 int mapx, mapy;
                 ConvertToMap(value.X, value.Y, out mapx, out mapy);
                 Pins[CurrentPin -1] = new Point2D(mapx, mapy);
-            } 
+            }
         }
         get
         {
@@ -49,7 +49,7 @@ public class SimpleMap : MapItem
                 int mapx, mapy;
                 ConvertToWorld(((Point2D)Pins[CurrentPin -1]).X, ((Point2D)Pins[CurrentPin -1]).Y, out mapx, out mapy);
                 return new Point2D(mapx, mapy);
-            } 
+            }
             else
             {
                 return Point2D.Zero;
@@ -60,8 +60,8 @@ public class SimpleMap : MapItem
     [CommandProperty( AccessLevel.GameMaster )]
     public Point2D NewPin
     {
-        set 
-        { 
+        set
+        {
             // add a new pin at the specified world coordinate
             AddWorldPin(value.X, value.Y);
             CurrentPin = NPins;
@@ -74,7 +74,7 @@ public class SimpleMap : MapItem
                 int mapx, mapy;
                 ConvertToWorld(((Point2D)Pins[NPins -1]).X, ((Point2D)Pins[NPins -1]).Y, out mapx, out mapy);
                 return new Point2D(mapx, mapy);
-            } 
+            }
             else
             {
                 return Point2D.Zero;
@@ -100,8 +100,8 @@ public class SimpleMap : MapItem
     [CommandProperty( AccessLevel.GameMaster )]
     public Mobile ShowTo
     {
-        set 
-        { 
+        set
+        {
             if(value != null)
             {
                 //DisplayTo(value);
@@ -124,14 +124,14 @@ public class SimpleMap : MapItem
     {
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
         writer.Write( (int) 0 );
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 

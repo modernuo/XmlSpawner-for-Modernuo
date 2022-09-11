@@ -91,7 +91,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         TimeCreated = DateTime.Now;
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
         writer.Write((int)6); // version
@@ -160,7 +160,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         writer.Write(m_Completed5);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -352,12 +352,12 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
         to.Send(new ContainerContent(to, this, true));
 
-            
+
         List<Item> items = this.Items;
 
         for (int i = 0; i < items.Count; ++i)
             to.Send(((Item)items[i]).OPLPacket);
-            
+
         // move the reward item out of container to protect it from use
         HideRewards();
     }
@@ -483,7 +483,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         if ((target != null) && target is Container)
         {
             // find the parent of the container
-            // note, the only valid additions are to the player pack or a questbook.  Anything else is invalid.  
+            // note, the only valid additions are to the player pack or a questbook.  Anything else is invalid.
             // This is to avoid exploits involving storage or transfer of questtokens
             // make an exception for playermade quests that can be put on playervendors
             object parentOfTarget = ((Container)target).Parent;
@@ -654,12 +654,12 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 {
                     if (notify)
                     {
-                        // notify the player holding the questholder                       
+                        // notify the player holding the questholder
                         holder.SendMessage(JournalNotifyColor, "Journal entry '{0}' of quest '{1}' has been modified.", entryID, Name);
                     }
                     if (echo)
                     {
-                        // echo the journal text to the player holding the questholder                       
+                        // echo the journal text to the player holding the questholder
                         holder.SendMessage(JournalEchoColor, "{0}", entryText);
                     }
                 }
@@ -679,12 +679,12 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 {
                     if (notify)
                     {
-                        // notify the player holding the questholder                       
+                        // notify the player holding the questholder
                         holder.SendMessage(JournalNotifyColor, "Journal entry '{0}' has been added to quest '{1}'.", entryID, Name);
                     }
                     if (echo)
                     {
-                        // echo the journal text to the player holding the questholder                       
+                        // echo the journal text to the player holding the questholder
                         holder.SendMessage(JournalEchoColor, "{0}", entryText);
                     }
                 }

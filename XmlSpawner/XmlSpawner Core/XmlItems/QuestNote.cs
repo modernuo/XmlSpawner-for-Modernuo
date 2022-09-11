@@ -35,7 +35,7 @@ public class QuestNote : XmlQuestToken
     {
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -51,12 +51,12 @@ public class QuestNote : XmlQuestToken
         //writer.Write( this.m_size );        // no longer used
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
         int version = reader.ReadInt();
-         
+
         switch ( version )
         {
             case 1:
@@ -119,7 +119,7 @@ public class OriginalQuestNote : XmlQuestToken
     public int Size
     {
         get{ return m_size; }
-        set 
+        set
         {
             m_size = value;
             if(m_size < 1) m_size = 1;
@@ -131,9 +131,9 @@ public class OriginalQuestNote : XmlQuestToken
     public int TextColor
     {
         get{ return m_TextColor; }
-        set 
+        set
         {
-            m_TextColor = value; 
+            m_TextColor = value;
             //InvalidateProperties();
         }
     }
@@ -142,14 +142,14 @@ public class OriginalQuestNote : XmlQuestToken
     public int TitleColor
     {
         get{ return m_TitleColor; }
-        set 
-        { 
-            m_TitleColor = value; 
+        set
+        {
+            m_TitleColor = value;
             //InvalidateProperties();
         }
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize( writer );
 
@@ -164,7 +164,7 @@ public class OriginalQuestNote : XmlQuestToken
         //writer.Write( this.m_TitleString );   // moved to the XmlQuestToken class in version 1
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
@@ -229,12 +229,12 @@ public class QuestNoteGump : Gump
         AddHtml( 55, 10, 200, 37, QuestNoteGump.HtmlFormat( note.TitleString, note.TitleColor), false , false );
         // text string
         AddHtml( 40, 41, 225, 70*note.Size, QuestNoteGump.HtmlFormat( note.NoteString, note.TextColor ), false , false );
-            
+
         // add the quest status gump button
         AddButton( 40, 50+ note.Size*70, 0x037, 0x037, 1, GumpButtonType.Reply, 0 );
 
     }
-        
+
     public override void OnResponse( Server.Network.NetState state, RelayInfo info )
     {
         Mobile from = state.Mobile;

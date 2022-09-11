@@ -72,12 +72,12 @@ public class ASerial
         return new ASerial(m_GlobalSerialValue);
     }
 
-    internal static void GlobalSerialize(GenericWriter writer)
+    internal static void GlobalSerialize(IGenericWriter writer)
     {
         writer.Write(m_GlobalSerialValue);
     }
 
-    internal static void GlobalDeserialize(GenericReader reader)
+    internal static void GlobalDeserialize(IGenericReader reader)
     {
         m_GlobalSerialValue = reader.ReadInt();
     }

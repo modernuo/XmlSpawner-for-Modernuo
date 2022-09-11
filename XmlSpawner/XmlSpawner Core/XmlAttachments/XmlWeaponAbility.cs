@@ -15,9 +15,9 @@ public class XmlWeaponAbility : XmlAttachment
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string Ability 
-    { 
-        get 
+    public string Ability
+    {
+        get
         {
             if (m_Ability != null)
             {
@@ -27,8 +27,8 @@ public class XmlWeaponAbility : XmlAttachment
             {
                 return null;
             }
-        } 
-        set 
+        }
+        set
         {
             if (value != null)
             {
@@ -46,14 +46,14 @@ public class XmlWeaponAbility : XmlAttachment
             {
                 m_Ability = null;
             }
-        } 
+        }
     }
 
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public XmlWeaponAbility(ASerial serial) : base(serial)
     {
@@ -81,7 +81,7 @@ public class XmlWeaponAbility : XmlAttachment
 
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -90,7 +90,7 @@ public class XmlWeaponAbility : XmlAttachment
         writer.Write(Ability);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -106,7 +106,7 @@ public class XmlWeaponAbility : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             return String.Format("{2}: Weapon ability {0} expires in {1} mins", Ability, Expiration.TotalMinutes, Name);
-        } 
+        }
         else
         {
             return String.Format("{1}: Weapon ability {0}", Ability, Name);

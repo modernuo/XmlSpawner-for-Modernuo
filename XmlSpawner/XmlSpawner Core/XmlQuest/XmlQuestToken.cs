@@ -148,12 +148,12 @@ public class XmlQuestTokenPack : Container
         to.Send(new ContainerDisplay(this, null));
         to.Send(new ForcedContainerContent(to, this));
 
-            
+
         List<Item> items = this.Items;
 
         for (int i = 0; i < items.Count; ++i)
             to.Send(((Item)items[i]).OPLPacket);
-            
+
     }
 
     public XmlQuestTokenPack()
@@ -167,14 +167,14 @@ public class XmlQuestTokenPack : Container
     {
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
         writer.Write((int)0);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -251,7 +251,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         TimeCreated = DateTime.Now;
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
         writer.Write((int)14); // version
@@ -332,7 +332,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         writer.Write(m_Completed5);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -953,7 +953,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         get { return m_AutoReward; }
         set { m_AutoReward = value; }
     }
-        
+
     [CommandProperty(AccessLevel.GameMaster)]
     public bool CanSeeReward
     {

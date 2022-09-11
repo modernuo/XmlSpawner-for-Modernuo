@@ -38,7 +38,7 @@ public class XmlMinionStrike : XmlAttachment
         m_Minion = minion;
         Expiration = TimeSpan.FromMinutes(30);
     }
-        
+
     [Attachable]
     public XmlMinionStrike(string minion,int chance )
     {
@@ -56,7 +56,7 @@ public class XmlMinionStrike : XmlAttachment
         m_Minion = minion;
 
     }
-        
+
     [Attachable]
     public XmlMinionStrike(string minion, int chance, double refractory, double expiresin)
     {
@@ -65,7 +65,7 @@ public class XmlMinionStrike : XmlAttachment
         Refractory = TimeSpan.FromSeconds(refractory);
         m_Minion = minion;
     }
-        
+
     public override void OnAttach()
     {
         base.OnAttach();
@@ -98,7 +98,7 @@ public class XmlMinionStrike : XmlAttachment
             try
             {
                 o = Activator.CreateInstance( SpawnerType.GetType(m_Minion) );
-            } 
+            }
             catch{}
 
             if(o is BaseCreature)
@@ -116,7 +116,7 @@ public class XmlMinionStrike : XmlAttachment
 
                 // add it to the list of controlled mobs
                 MinionList.Add(b);
-            } 
+            }
             else
             {
                 if(o is Item)
@@ -130,7 +130,7 @@ public class XmlMinionStrike : XmlAttachment
             m_EndTime = DateTime.Now + Refractory;
         }
     }
-        
+
     public override void OnDelete()
     {
         base.OnDelete();
@@ -141,7 +141,7 @@ public class XmlMinionStrike : XmlAttachment
             if(!m.Deleted)
             {
                 Effects.PlaySound( m, m.Map, 958 );
-            } 
+            }
         }
 
         // delete the minions
@@ -152,7 +152,7 @@ public class XmlMinionStrike : XmlAttachment
         }
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -168,7 +168,7 @@ public class XmlMinionStrike : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -194,7 +194,7 @@ public class XmlMinionStrike : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             msg = String.Format("Minion : {0} {1}% chance expires in {2} mins", m_Minion, Chance, Expiration.TotalMinutes);
-        } 
+        }
         else
         {
             msg = String.Format("Minion : {0}",m_Minion);
@@ -203,7 +203,7 @@ public class XmlMinionStrike : XmlAttachment
         if(Refractory > TimeSpan.Zero)
         {
             return String.Format("{0} : {1} secs between uses",msg, Refractory.TotalSeconds);
-        } 
+        }
         else
             return msg;
     }

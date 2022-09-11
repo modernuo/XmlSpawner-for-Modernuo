@@ -37,10 +37,10 @@ public class XmlFindAttachment : XmlAttachment
     }
 
     //Non si può salvare il risultato, che sarebbe inattendibile dopo un riavvio, comunque
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
     }
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
     }
 }

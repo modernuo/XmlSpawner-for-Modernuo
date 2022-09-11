@@ -20,15 +20,15 @@ public class SimpleNote : Item
 
     [Constructable]
     public SimpleNote() : base( 0x14EE )
-    { 
+    {
         Name = "A note";
         TitleString = "A note";
     }
 
     public SimpleNote( Serial serial ) : base( serial )
-    { 
-    } 
-      
+    {
+    }
+
     [CommandProperty( AccessLevel.GameMaster )]
     public string NoteString
     {
@@ -47,20 +47,20 @@ public class SimpleNote : Item
     public int Size
     {
         get{ return m_size; }
-        set 
+        set
         {
             m_size = value;
             if(m_size < 1) m_size = 1;
             InvalidateProperties();}
     }
-      
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int TextColor
     {
         get{ return m_TextColor; }
         set { m_TextColor = value; InvalidateProperties();}
     }
-      
+
     [CommandProperty( AccessLevel.GameMaster )]
     public int TitleColor
     {
@@ -68,12 +68,12 @@ public class SimpleNote : Item
         set { m_TitleColor = value; InvalidateProperties();}
     }
 
-    public override void Serialize( GenericWriter writer )
-    { 
-        base.Serialize( writer ); 
+    public override void Serialize( IGenericWriter writer )
+    {
+        base.Serialize( writer );
 
-        writer.Write( (int) 0 ); // version 
-         
+        writer.Write( (int) 0 ); // version
+
         writer.Write( this.m_NoteString );
         writer.Write( this.m_TitleString );
         writer.Write( this.m_TextColor );
@@ -81,7 +81,7 @@ public class SimpleNote : Item
         writer.Write( this.m_size );
     }
 
-    public override void Deserialize( GenericReader reader )
+    public override void Deserialize( IGenericReader reader )
     {
         base.Deserialize( reader );
 
@@ -110,7 +110,7 @@ public class SimpleNote : Item
 public class SimpleNoteGump : Gump
 {
     private SimpleNote m_Note;
-        
+
     public static string HtmlFormat( string text, int color )
     {
         return String.Format( "<BASEFONT COLOR=#{0}>{1}</BASEFONT>", color, text);

@@ -12,10 +12,10 @@ public class XmlAddVirtue : XmlAttachment
     public int Value { get{ return m_DataValue; } set { m_DataValue = value; } }
     public string Virtue { get{ return m_Virtue; } set { m_Virtue = value; } }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-       
+
     // a serial constructor is REQUIRED
     public XmlAddVirtue(ASerial serial) : base(serial)
     {
@@ -29,7 +29,7 @@ public class XmlAddVirtue : XmlAttachment
     }
 
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -40,7 +40,7 @@ public class XmlAddVirtue : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -49,11 +49,11 @@ public class XmlAddVirtue : XmlAttachment
         m_DataValue = reader.ReadInt();
         m_Virtue = reader.ReadString();
     }
-		
+
     public override void OnAttach()
     {
         base.OnAttach();
-		    
+
         // apply the mod
         if(AttachedTo is PlayerMobile)
         {
@@ -65,7 +65,7 @@ public class XmlAddVirtue : XmlAttachment
             try{
                 g = (VirtueName)Enum.Parse(typeof(VirtueName),Virtue, true);
             } catch{valid = false;}
-                
+
             if(valid)
             {
 
@@ -77,7 +77,7 @@ public class XmlAddVirtue : XmlAttachment
                 {
                     ((Mobile)AttachedTo).SendMessage("You have gained a path in {0}",Virtue);
                 }
-            } else 
+            } else
             {
                 ((Mobile)AttachedTo).SendMessage("{0}: no such Virtue", Virtue);
             }
@@ -92,22 +92,22 @@ public class XmlAddVirtue : XmlAttachment
         }
 
     }
-		
+
     public override bool HandlesOnKilled { get { return true; } }
-		
+
     public override void OnKilled(Mobile killed, Mobile killer )
     {
         base.OnKilled(killed, killer);
 
         if(killer == null) return;
-		    
+
         VirtueName g = (VirtueName)0;
         bool valid = true;
         bool gainedPath = false;
         try{
             g = (VirtueName)Enum.Parse(typeof(VirtueName),Virtue, true);
         } catch{valid = false;}
-            
+
         if(valid)
         {
             // give the killer the Virtue

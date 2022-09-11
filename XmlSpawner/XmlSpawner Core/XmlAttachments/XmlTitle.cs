@@ -42,7 +42,7 @@ public class XmlTitle : XmlAttachment
             return this.m_Title;
         }
         set
-        { 
+        {
             this.m_Title = value;
             // change the title
             if (this.AttachedTo is Mobile)
@@ -80,10 +80,10 @@ public class XmlTitle : XmlAttachment
         }
     }
 
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -92,7 +92,7 @@ public class XmlTitle : XmlAttachment
         writer.Write((string)this.m_Title);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

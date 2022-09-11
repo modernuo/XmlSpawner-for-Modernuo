@@ -256,7 +256,7 @@ public class XmlAnimate : XmlAttachment
             return (this.ProximityRange >= 0 && this.ActivationWord == null);
         }
     }
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -277,7 +277,7 @@ public class XmlAnimate : XmlAttachment
         writer.Write(this.m_EndTime - DateTime.UtcNow);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 

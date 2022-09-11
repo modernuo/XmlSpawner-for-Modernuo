@@ -27,7 +27,7 @@ public class XmlManaDrain : XmlAttachment
     public XmlManaDrain(ASerial serial) :  base(serial)
     {
     }
-        
+
     [Attachable]
     public XmlManaDrain(int drain)
     {
@@ -41,7 +41,7 @@ public class XmlManaDrain : XmlAttachment
         Refractory = TimeSpan.FromSeconds(refractory);
 
     }
-        
+
     [Attachable]
     public XmlManaDrain(int drain, double refractory, double expiresin)
     {
@@ -74,24 +74,24 @@ public class XmlManaDrain : XmlAttachment
             m_EndTime = DateTime.Now + Refractory;
         }
     }
-        
+
     public override bool HandlesOnMovement { get { return true; } }
-		
+
     public override void OnMovement(MovementEventArgs e )
     {
         base.OnMovement(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
         if(AttachedTo is Item && (((Item)AttachedTo).Parent == null) && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
-        } 
+        }
         else
             return;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -105,7 +105,7 @@ public class XmlManaDrain : XmlAttachment
 
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -137,20 +137,20 @@ public class XmlManaDrain : XmlAttachment
         if(Expiration > TimeSpan.Zero)
         {
             msg = String.Format("Mana drain {0} expires in {1} mins", m_Drain, Expiration.TotalMinutes);
-        } 
+        }
         else
         {
             msg = String.Format("Mana drain {0}",m_Drain);
         }
-            
+
         if(Refractory > TimeSpan.Zero)
         {
             return String.Format("{0} : {1} secs between uses",msg, Refractory.TotalSeconds);
-        } 
+        }
         else
             return msg;
     }
-		
+
     public override void OnAttach()
     {
         base.OnAttach();
@@ -164,7 +164,7 @@ public class XmlManaDrain : XmlAttachment
                 ((Mobile)AttachedTo).SendMessage("You have been cursed with Mana Drain!");
         }
     }
-		
+
     public override void OnTrigger(object activator, Mobile m)
     {
         if(m == null ) return;
@@ -186,5 +186,5 @@ public class XmlManaDrain : XmlAttachment
 
         m_EndTime = DateTime.Now + Refractory;
 
-    }    
+    }
 }

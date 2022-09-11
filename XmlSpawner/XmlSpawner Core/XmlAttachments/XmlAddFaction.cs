@@ -43,7 +43,7 @@ public class XmlAddFaction : XmlAttachment
             this.m_GroupName = value;
         }
     }
-    // These are the various ways in which the message attachment can be constructed.  
+    // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
     public override bool HandlesOnKilled
@@ -53,7 +53,7 @@ public class XmlAddFaction : XmlAttachment
             return true;
         }
     }
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -63,7 +63,7 @@ public class XmlAddFaction : XmlAttachment
         writer.Write(this.m_GroupName);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -76,7 +76,7 @@ public class XmlAddFaction : XmlAttachment
     public override void OnAttach()
     {
         base.OnAttach();
-		    
+
         // apply the mod
         if (this.AttachedTo is PlayerMobile)
         {
@@ -90,7 +90,7 @@ public class XmlAddFaction : XmlAttachment
             catch
             {
             }
-                
+
             if (g != XmlMobFactions.GroupTypes.End_Unused)
             {
                 // get XmlMobFaction type attachments and add the faction
@@ -105,7 +105,7 @@ public class XmlAddFaction : XmlAttachment
 
                 ((Mobile)this.AttachedTo).SendMessage("Receive {0}", this.OnIdentify((Mobile)this.AttachedTo));
             }
-            else 
+            else
             {
                 ((Mobile)this.AttachedTo).SendMessage("{0}: no such faction", this.FactionType);
             }
@@ -125,7 +125,7 @@ public class XmlAddFaction : XmlAttachment
 
         if (killer == null)
             return;
-		    
+
         XmlMobFactions.GroupTypes g = XmlMobFactions.GroupTypes.End_Unused;
         try
         {
@@ -134,7 +134,7 @@ public class XmlAddFaction : XmlAttachment
         catch
         {
         }
-            
+
         if (g != XmlMobFactions.GroupTypes.End_Unused)
         {
             // give the killer the faction

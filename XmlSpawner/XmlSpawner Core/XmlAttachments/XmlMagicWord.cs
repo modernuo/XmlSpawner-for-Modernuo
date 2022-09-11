@@ -70,7 +70,7 @@ public class XmlMagicWord : XmlAttachment
         Charges = charges;
     }
 
-    public override void Serialize( GenericWriter writer )
+    public override void Serialize( IGenericWriter writer )
     {
         base.Serialize(writer);
 
@@ -85,7 +85,7 @@ public class XmlMagicWord : XmlAttachment
         writer.Write(m_Identified);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
@@ -100,9 +100,9 @@ public class XmlMagicWord : XmlAttachment
         m_RequireIdentification = reader.ReadBool();
         m_Identified = reader.ReadBool();
     }
-		
+
     public override string OnIdentify(Mobile from)
-    {     
+    {
         string msg = null;
 
         // can force identification before the skill mods can be applied
@@ -116,16 +116,16 @@ public class XmlMagicWord : XmlAttachment
         if(Refractory > TimeSpan.Zero)
         {
             msg = String.Format("{0} lasting {1} secs : {2} secs between uses",Word,Duration.TotalSeconds, Refractory.TotalSeconds);
-        } 
+        }
         else
         {
             msg = String.Format("{0} lasting {1} secs",Word,Duration.TotalSeconds);
         }
-		    
+
         if(Charges > 0)
         {
             return String.Format("{0} : {1} charge(s) remaining",msg, Charges);
-        } 
+        }
         else
         {
             return msg;
@@ -133,8 +133,8 @@ public class XmlMagicWord : XmlAttachment
     }
 
     // by overriding these properties armor and weapons can be restricted to trigger on speech only when equipped and not when in the pack or in the world
-    public override bool CanActivateInBackpack 
-    { 
+    public override bool CanActivateInBackpack
+    {
         get
         {
             if(AttachedTo is BaseWeapon || AttachedTo is BaseArmor)
@@ -144,7 +144,7 @@ public class XmlMagicWord : XmlAttachment
         }
     }
 
-    public override bool CanActivateInWorld 
+    public override bool CanActivateInWorld
     {
         get
         {
@@ -156,11 +156,11 @@ public class XmlMagicWord : XmlAttachment
     }
 
     public override bool HandlesOnSpeech { get { return true; } }
-		
+
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
-		    
+
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
         // dont respond to other players speech if this is attached to a mob
@@ -259,7 +259,7 @@ public class XmlMagicWord : XmlAttachment
                     break;
                 }
         }
-            
+
         // display activation effects
         Effects.SendLocationParticles( EffectItem.Create( m.Location, m.Map, EffectItem.DefaultDuration ), 0x3728, 8, 20, 5042 );
         Effects.PlaySound( m, m.Map, 0x201 );
@@ -269,14 +269,14 @@ public class XmlMagicWord : XmlAttachment
         {
             ((Item)AttachedTo).PublicOverheadMessage( MessageType.Regular, 0x3B2, true, msgstr );
         }
-            
+
         Charges--;
 
         // remove the attachment after the charges run out
         if(Charges == 0)
         {
             Delete();
-        } 
+        }
         else
         {
             m_EndTime = DateTime.Now + Refractory;

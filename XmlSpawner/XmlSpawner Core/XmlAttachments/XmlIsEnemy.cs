@@ -69,7 +69,7 @@ public class XmlIsEnemy : XmlAttachment
         return isenemy;
     }
 
-    public override void Serialize(GenericWriter writer)
+    public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
 
@@ -78,7 +78,7 @@ public class XmlIsEnemy : XmlAttachment
         writer.Write(this.m_TestString);
     }
 
-    public override void Deserialize(GenericReader reader)
+    public override void Deserialize(IGenericReader reader)
     {
         base.Deserialize(reader);
 
