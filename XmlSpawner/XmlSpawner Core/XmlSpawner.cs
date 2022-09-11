@@ -1215,6 +1215,8 @@ public class XmlSpawner : Item, ISpawner
         set { m_HomeRange = value; InvalidateProperties(); }
     }
 
+    public Region Region { get; }
+
     [CommandProperty(AccessLevel.GameMaster)]
     public bool HomeRangeIsRelative
     {
@@ -1718,7 +1720,12 @@ public class XmlSpawner : Item, ISpawner
     [CommandProperty(AccessLevel.GameMaster)]
     public bool IsEmpty => isEmpty();
 
+    public Guid Guid { get; }
     public bool UnlinkOnTaming => true;
+
+    [CommandProperty(AccessLevel.Developer)]
+    public bool ReturnOnDeactivate { get; set; }
+
     public Point3D HomeLocation => Location;
     public int Range => HomeRange;
 
@@ -3695,11 +3702,15 @@ public class XmlSpawner : Item, ISpawner
         switch (todmode)
         {
             case (int)TODModeType.Realtime:
-                defTODMode = TODModeType.Realtime;
-                break;
+                {
+                    defTODMode = TODModeType.Realtime;
+                    break;
+                }
             case (int)TODModeType.Gametime:
-                defTODMode = TODModeType.Gametime;
-                break;
+                {
+                    defTODMode = TODModeType.Gametime;
+                    break;
+                }
         }
     }
 
@@ -3860,11 +3871,15 @@ public class XmlSpawner : Item, ISpawner
                         switch (todmode)
                         {
                             case (int)TODModeType.Gametime:
-                                defTODMode = TODModeType.Gametime;
-                                break;
+                                {
+                                    defTODMode = TODModeType.Gametime;
+                                    break;
+                                }
                             case (int)TODModeType.Realtime:
-                                defTODMode = TODModeType.Realtime;
-                                break;
+                                {
+                                    defTODMode = TODModeType.Realtime;
+                                    break;
+                                }
                         }
                         m.SendMessage("TODMode = {0}", defTODMode);
                     }
@@ -4873,24 +4888,36 @@ public class XmlSpawner : Item, ISpawner
                 switch (map)
                 {
                     case 0:
-                        spawnmap = Map.Felucca;
-                        // note it also does trammel
-                        break;
+                        {
+                            spawnmap = Map.Felucca;
+                            // note it also does trammel
+                            break;
+                        }
                     case 1:
-                        spawnmap = Map.Felucca;
-                        break;
+                        {
+                            spawnmap = Map.Felucca;
+                            break;
+                        }
                     case 2:
-                        spawnmap = Map.Trammel;
-                        break;
+                        {
+                            spawnmap = Map.Trammel;
+                            break;
+                        }
                     case 3:
-                        spawnmap = Map.Ilshenar;
-                        break;
+                        {
+                            spawnmap = Map.Ilshenar;
+                            break;
+                        }
                     case 4:
-                        spawnmap = Map.Malas;
-                        break;
+                        {
+                            spawnmap = Map.Malas;
+                            break;
+                        }
                     case 5:
-                        spawnmap = Map.Tokuno;
-                        break;
+                        {
+                            spawnmap = Map.Tokuno;
+                            break;
+                        }
                 }
 
                 if (!IsValidMapLocation(x, y, spawnmap))
@@ -5144,24 +5171,36 @@ public class XmlSpawner : Item, ISpawner
                 switch (map)
                 {
                     case 0:
-                        spawnmap = Map.Felucca;
-                        // note it also does trammel
-                        break;
+                        {
+                            spawnmap = Map.Felucca;
+                            // note it also does trammel
+                            break;
+                        }
                     case 1:
-                        spawnmap = Map.Felucca;
-                        break;
+                        {
+                            spawnmap = Map.Felucca;
+                            break;
+                        }
                     case 2:
-                        spawnmap = Map.Trammel;
-                        break;
+                        {
+                            spawnmap = Map.Trammel;
+                            break;
+                        }
                     case 3:
-                        spawnmap = Map.Ilshenar;
-                        break;
+                        {
+                            spawnmap = Map.Ilshenar;
+                            break;
+                        }
                     case 4:
-                        spawnmap = Map.Malas;
-                        break;
+                        {
+                            spawnmap = Map.Malas;
+                            break;
+                        }
                     case 5:
-                        spawnmap = Map.Tokuno;
-                        break;
+                        {
+                            spawnmap = Map.Tokuno;
+                            break;
+                        }
                 }
 
                 if (!IsValidMapLocation(x, y, spawnmap))
@@ -6083,11 +6122,15 @@ public class XmlSpawner : Item, ISpawner
                         switch (todmode)
                         {
                             case (int)TODModeType.Gametime:
-                                SpawnTODMode = TODModeType.Gametime;
-                                break;
+                                {
+                                    SpawnTODMode = TODModeType.Gametime;
+                                    break;
+                                }
                             case (int)TODModeType.Realtime:
-                                SpawnTODMode = TODModeType.Realtime;
-                                break;
+                                {
+                                    SpawnTODMode = TODModeType.Realtime;
+                                    break;
+                                }
                         }
 
                         int SpawnKillReset = defKillReset;
@@ -8987,65 +9030,95 @@ public class XmlSpawner : Item, ISpawner
                         switch (keyvalueargs[0])
                         {
                             case "#NOITEMID":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.NoItemID, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.NoItemID, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#ITEMID":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.ItemID, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.ItemID, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#NOTILES":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.NoTiles, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.NoTiles, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#TILES":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Tiles, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Tiles, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#WET":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Wet, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Wet, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#XFILL":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.RowFill, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.RowFill, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#YFILL":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.ColFill, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.ColFill, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#EDGE":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Perimeter, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Perimeter, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#PLAYER":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Player, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Player, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#WAYPOINT":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Waypoint, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Waypoint, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#RELXY":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.RelXY, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.RelXY, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#DXY":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.DeltaLocation, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.DeltaLocation, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#XY":
-                                spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Location, m_mob_who_triggered, keyvalueargs));
-                                break;
+                                {
+                                    spawnpositioning.Add(new SpawnPositionInfo(SpawnPositionType.Location, m_mob_who_triggered, keyvalueargs));
+                                    break;
+                                }
                             case "#CONDITION":
-                                // test the specified condition string
-                                // syntax is #CONDITION,proptest
-                                // reparse with only one arg after the comma, this allows property tests that use commas as well
-                                string[] ckeyvalueargs = BaseXmlSpawner.ParseCommaArgs(args[0], 2);
-                                if (ckeyvalueargs.Length > 1)
                                 {
-                                    // dont spawn if it fails the test
-                                    if (!BaseXmlSpawner.CheckPropertyString(this, this, ckeyvalueargs[1], out status_str))
+                                    // test the specified condition string
+                                    // syntax is #CONDITION,proptest
+                                    // reparse with only one arg after the comma, this allows property tests that use commas as well
+                                    string[] ckeyvalueargs = BaseXmlSpawner.ParseCommaArgs(args[0], 2);
+                                    if (ckeyvalueargs.Length > 1)
                                     {
-                                        return false;
+                                        // dont spawn if it fails the test
+                                        if (!BaseXmlSpawner.CheckPropertyString(this, this, ckeyvalueargs[1], out status_str))
+                                        {
+                                            return false;
+                                        }
                                     }
+                                    else
+                                    {
+                                        status_str = "invalid #CONDITION specification: " + args[0];
+                                    }
+                                    break;
                                 }
-                                else
-                                {
-                                    status_str = "invalid #CONDITION specification: " + args[0];
-                                }
-                                break;
                             default:
-                                status_str = "invalid # specification: " + args[0];
-                                break;
+                                {
+                                    status_str = "invalid # specification: " + args[0];
+                                    break;
+                                }
                         }
                     }
                 }
@@ -10294,6 +10367,8 @@ public class XmlSpawner : Item, ISpawner
         return new Point2D(x, y);
     }
 
+    public Point3D GetSpawnPosition(ISpawnable spawned, Map map) => GetSpawnPosition(true, spawned as Mobile);
+
     // used for getting non-mobile spawn positions
     public Point3D GetSpawnPosition(bool requiresurface) =>
         // no pack spawning
@@ -10305,7 +10380,12 @@ public class XmlSpawner : Item, ISpawner
         GetSpawnPosition(requiresurface, -1, Point3D.Zero, null, mob);
 
     // used for getting non-mobile spawn positions
-    public Point3D GetSpawnPosition(bool requiresurface, int packrange, Point3D packcoord, List<SpawnPositionInfo> spawnpositioning) => GetSpawnPosition(requiresurface, packrange, packcoord, spawnpositioning, null);
+    public Point3D GetSpawnPosition(
+        bool requiresurface,
+        int packrange,
+        Point3D packcoord,
+        List<SpawnPositionInfo> spawnpositioning
+    ) => GetSpawnPosition(requiresurface, packrange, packcoord, spawnpositioning, null);
 
     public Point3D GetSpawnPosition(bool requiresurface, int packrange, Point3D packcoord, List<SpawnPositionInfo> spawnpositioning, Mobile mob)
     {
@@ -10349,17 +10429,23 @@ public class XmlSpawner : Item, ISpawner
                 switch (s.positionType)
                 {
                     case SpawnPositionType.Wet:
-                        // syntax Wet
-                        // find all of the wet tiles
-                        tileflag |= TileFlag.Wet;
-                        requiresurface = false;
-                        break;
+                        {
+                            // syntax Wet
+                            // find all of the wet tiles
+                            tileflag |= TileFlag.Wet;
+                            requiresurface = false;
+                            break;
+                        }
                     case SpawnPositionType.ItemID:
-                        checkitems = true;
-                        goto case SpawnPositionType.Tiles;
+                        {
+                            checkitems = true;
+                            goto case SpawnPositionType.Tiles;
+                        }
                     case SpawnPositionType.NoItemID:
-                        checkitems = true;
-                        goto case SpawnPositionType.NoTiles;
+                        {
+                            checkitems = true;
+                            goto case SpawnPositionType.NoTiles;
+                        }
                     case SpawnPositionType.Tiles:
                         {
                             // syntax Tiles,start[,end]
@@ -10449,100 +10535,108 @@ public class XmlSpawner : Item, ISpawner
                     case SpawnPositionType.RowFill:
                     case SpawnPositionType.ColFill:
                     case SpawnPositionType.Perimeter:
-                        // syntax XFILL[,inc]
-                        // syntax YFILL[,inc]
-                        // syntax EDGE[,inc]
-                        positioning = s.positionType;
-                        if (positionargs != null && positionargs.Length > 1)
                         {
-                            try
+                            // syntax XFILL[,inc]
+                            // syntax YFILL[,inc]
+                            // syntax EDGE[,inc]
+                            positioning = s.positionType;
+                            if (positionargs != null && positionargs.Length > 1)
                             {
-                                fillinc = int.Parse(positionargs[1]);
+                                try
+                                {
+                                    fillinc = int.Parse(positionargs[1]);
+                                }
+                                catch { }
                             }
-                            catch { }
+                            break;
                         }
-                        break;
                     case SpawnPositionType.RelXY:
                     case SpawnPositionType.DeltaLocation:
                     case SpawnPositionType.Location:
-                        // syntax RELXY,xinc,yinc[,zinc]
-                        // syntax XY,x,y[,z]
-                        // syntax DXY,dx,dy[,dz]
-                        positioning = s.positionType;
-                        if (positionargs != null && positionargs.Length > 2)
                         {
-                            try
+                            // syntax RELXY,xinc,yinc[,zinc]
+                            // syntax XY,x,y[,z]
+                            // syntax DXY,dx,dy[,dz]
+                            positioning = s.positionType;
+                            if (positionargs != null && positionargs.Length > 2)
                             {
-                                xinc = int.Parse(positionargs[1]);
-                                yinc = int.Parse(positionargs[2]);
-                            }
-                            catch { }
-                        }
-                        if (positionargs != null && positionargs.Length > 3)
-                        {
-                            try
-                            {
-                                zinc = int.Parse(positionargs[3]);
-                            }
-                            catch { }
-                        }
-                        break;
-                    case SpawnPositionType.Waypoint:
-                        // syntax WAYPOINT,prefix[,range]
-                        positioning = s.positionType;
-                        if (positionargs != null && positionargs.Length > 1)
-                        {
-                            prefix = positionargs[1];
-                        }
-
-                        if (positionargs != null && positionargs.Length > 2)
-                        {
-                            try
-                            {
-                                positionrange = int.Parse(positionargs[2]);
-                            }
-                            catch { }
-                        }
-
-                        // find a list of items that match the waypoint prefix
-                        if (prefix != null)
-                        {
-                            // see if there is an existing hashtable for the waypoint lists
-                            if (spawnPositionWayTable == null)
-                            {
-                                spawnPositionWayTable = new Dictionary<string, List<Item>>();
-                            }
-
-                            // no existing list so create a new one
-                            if (!spawnPositionWayTable.TryGetValue(prefix, out WayList) || WayList == null)
-                            {
-                                WayList = new List<Item>();
-
-                                foreach (Item i in World.Items.Values)
+                                try
                                 {
-                                    if (i is WayPoint && !string.IsNullOrEmpty(i.Name) && i.Map == Map && i.Name == prefix)
-                                    {
-                                        // add it to the list of items
-                                        WayList.Add(i);
-                                    }
+                                    xinc = int.Parse(positionargs[1]);
+                                    yinc = int.Parse(positionargs[2]);
                                 }
-                                // add the new list to the local table
-                                spawnPositionWayTable[prefix] = WayList;
+                                catch { }
                             }
-                        }
-                        break;
-                    case SpawnPositionType.Player:
-                        // syntax PLAYER[,range]
-                        positioning = s.positionType;
-                        if (positionargs != null && positionargs.Length > 1)
-                        {
-                            try
+                            if (positionargs != null && positionargs.Length > 3)
                             {
-                                positionrange = int.Parse(positionargs[1]);
+                                try
+                                {
+                                    zinc = int.Parse(positionargs[3]);
+                                }
+                                catch { }
                             }
-                            catch { }
+                            break;
                         }
-                        break;
+                    case SpawnPositionType.Waypoint:
+                        {
+                            // syntax WAYPOINT,prefix[,range]
+                            positioning = s.positionType;
+                            if (positionargs != null && positionargs.Length > 1)
+                            {
+                                prefix = positionargs[1];
+                            }
+
+                            if (positionargs != null && positionargs.Length > 2)
+                            {
+                                try
+                                {
+                                    positionrange = int.Parse(positionargs[2]);
+                                }
+                                catch { }
+                            }
+
+                            // find a list of items that match the waypoint prefix
+                            if (prefix != null)
+                            {
+                                // see if there is an existing hashtable for the waypoint lists
+                                if (spawnPositionWayTable == null)
+                                {
+                                    spawnPositionWayTable = new Dictionary<string, List<Item>>();
+                                }
+
+                                // no existing list so create a new one
+                                if (!spawnPositionWayTable.TryGetValue(prefix, out WayList) || WayList == null)
+                                {
+                                    WayList = new List<Item>();
+
+                                    foreach (Item i in World.Items.Values)
+                                    {
+                                        if (i is WayPoint && !string.IsNullOrEmpty(i.Name) && i.Map == Map && i.Name == prefix)
+                                        {
+                                            // add it to the list of items
+                                            WayList.Add(i);
+                                        }
+                                    }
+                                    // add the new list to the local table
+                                    spawnPositionWayTable[prefix] = WayList;
+                                }
+                            }
+                            break;
+                        }
+                    case SpawnPositionType.Player:
+                        {
+                            // syntax PLAYER[,range]
+                            positioning = s.positionType;
+                            if (positionargs != null && positionargs.Length > 1)
+                            {
+                                try
+                                {
+                                    positionrange = int.Parse(positionargs[1]);
+                                }
+                                catch { }
+                            }
+                            break;
+                        }
                 }
             }
         }
@@ -10607,191 +10701,208 @@ public class XmlSpawner : Item, ISpawner
                 switch (positioning)
                 {
                     case SpawnPositionType.Random:
-
-                        if (includetilelist != null || excludetilelist != null || tileflag != TileFlag.None)
                         {
-
-                            if (locations != null && locations.Count > 0)
+                            if (includetilelist != null || excludetilelist != null || tileflag != TileFlag.None)
                             {
-                                Point3D p = locations[Utility.Random(locations.Count)];
-                                x = p.X;
-                                y = p.Y;
-                                defaultZ = p.Z;
+
+                                if (locations != null && locations.Count > 0)
+                                {
+                                    Point3D p = locations[Utility.Random(locations.Count)];
+                                    x = p.X;
+                                    y = p.Y;
+                                    defaultZ = p.Z;
+                                }
                             }
+                            else
+                            {
+
+                                if (m_Width > 0)
+                                {
+                                    x = m_X + Utility.Random(m_Width + 1);
+                                }
+
+                                if (m_Height > 0)
+                                {
+                                    y = m_Y + Utility.Random(m_Height + 1);
+                                }
+                            }
+                            break;
                         }
-                        else
-                        {
 
-                            if (m_Width > 0)
-                            {
-                                x = m_X + Utility.Random(m_Width + 1);
-                            }
-
-                            if (m_Height > 0)
-                            {
-                                y = m_Y + Utility.Random(m_Height + 1);
-                            }
-                        }
-                        break;
                     case SpawnPositionType.RelXY:
+                        {
+                            x = mostRecentSpawnPosition.X + xinc;
+                            y = mostRecentSpawnPosition.Y + yinc;
+                            defaultZ = mostRecentSpawnPosition.Z + zinc;
+                            break;
+                        }
 
-                        x = mostRecentSpawnPosition.X + xinc;
-                        y = mostRecentSpawnPosition.Y + yinc;
-                        defaultZ = mostRecentSpawnPosition.Z + zinc;
-                        break;
                     case SpawnPositionType.DeltaLocation:
+                        {
+                            x = X + xinc;
+                            y = Y + yinc;
+                            defaultZ = Z + zinc;
+                            break;
+                        }
 
-                        x = X + xinc;
-                        y = Y + yinc;
-                        defaultZ = Z + zinc;
-                        break;
                     case SpawnPositionType.Location:
+                        {
+                            x = xinc;
+                            y = yinc;
+                            defaultZ = zinc;
+                            break;
+                        }
 
-                        x = xinc;
-                        y = yinc;
-                        defaultZ = zinc;
-                        break;
                     case SpawnPositionType.RowFill:
-
-                        x = mostRecentSpawnPosition.X + fillinc;
-                        y = mostRecentSpawnPosition.Y;
-
-                        if (x < m_X)
                         {
-                            x = m_X;
-                        }
+                            x = mostRecentSpawnPosition.X + fillinc;
+                            y = mostRecentSpawnPosition.Y;
 
-                        if (y < m_Y)
-                        {
-                            y = m_Y;
-                        }
-
-                        if (x > m_X + m_Width)
-                        {
-                            x = m_X + (x - m_X - m_Width - 1);
-                            y++;
-                        }
-
-                        if (y > m_Y + m_Height)
-                        {
-                            y = m_Y;
-                        }
-
-                        break;
-                    case SpawnPositionType.ColFill:
-
-                        x = mostRecentSpawnPosition.X;
-                        y = mostRecentSpawnPosition.Y + fillinc;
-
-                        if (x < m_X)
-                        {
-                            x = m_X;
-                        }
-
-                        if (y < m_Y)
-                        {
-                            y = m_Y;
-                        }
-
-                        if (y > m_Y + m_Height)
-                        {
-                            y = m_Y + (y - m_Y - m_Height - 1);
-                            x++;
-                        }
-
-                        if (x > m_X + m_Width)
-                        {
-                            x = m_X;
-                        }
-
-                        break;
-                    case SpawnPositionType.Perimeter:
-
-                        x = mostRecentSpawnPosition.X;
-                        y = mostRecentSpawnPosition.Y;
-
-                        // if the point is not on the perimeter, reset it to the corner
-                        if (x != m_X && x != m_X + m_Width && y != m_Y && y != m_Y + m_Height)
-                        {
-                            x = m_X;
-                            y = m_Y;
-                        }
-
-                        if (y == m_Y && x < m_X + m_Width)
-                        {
-                            x += fillinc;
-                        }
-                        else
-                        if (y == m_Y + m_Height && x > m_X)
-                        {
-                            x -= fillinc;
-                        }
-                        else
-                        if (x == m_X && y > m_Y)
-                        {
-                            y -= fillinc;
-                        }
-                        else
-                        if (x == m_X + m_Width && y < m_Y + m_Height)
-                        {
-                            y += fillinc;
-                        }
-
-                        if (x > m_X + m_Width)
-                        {
-                            x = m_X + m_Width;
-                        }
-
-                        if (y > m_Y + m_Height)
-                        {
-                            y = m_Y + m_Height;
-                        }
-
-                        if (x < m_X)
-                        {
-                            x = m_X;
-                        }
-
-                        if (y < m_Y)
-                        {
-                            y = m_Y;
-                        }
-
-                        break;
-                    case SpawnPositionType.Player:
-
-                        if (trigmob != null)
-                        {
-                            x = trigmob.Location.X;
-                            y = trigmob.Location.Y;
-                            if (positionrange > 0)
+                            if (x < m_X)
                             {
-                                x += Utility.Random(positionrange * 2 + 1) - positionrange;
-                                y += Utility.Random(positionrange * 2 + 1) - positionrange;
+                                x = m_X;
                             }
-                        }
-                        break;
-                    case SpawnPositionType.Waypoint:
 
-                        // pick an item randomly from the waylist
-                        if (WayList != null && WayList.Count > 0)
-                        {
-                            int index = Utility.Random(WayList.Count);
-                            Item waypoint = WayList[index];
-                            if (waypoint != null)
+                            if (y < m_Y)
                             {
-                                x = waypoint.Location.X;
-                                y = waypoint.Location.Y;
-                                defaultZ = waypoint.Location.Z;
+                                y = m_Y;
+                            }
+
+                            if (x > m_X + m_Width)
+                            {
+                                x = m_X + (x - m_X - m_Width - 1);
+                                y++;
+                            }
+
+                            if (y > m_Y + m_Height)
+                            {
+                                y = m_Y;
+                            }
+
+                            break;
+                        }
+
+                    case SpawnPositionType.ColFill:
+                        {
+                            x = mostRecentSpawnPosition.X;
+                            y = mostRecentSpawnPosition.Y + fillinc;
+
+                            if (x < m_X)
+                            {
+                                x = m_X;
+                            }
+
+                            if (y < m_Y)
+                            {
+                                y = m_Y;
+                            }
+
+                            if (y > m_Y + m_Height)
+                            {
+                                y = m_Y + (y - m_Y - m_Height - 1);
+                                x++;
+                            }
+
+                            if (x > m_X + m_Width)
+                            {
+                                x = m_X;
+                            }
+
+                            break;
+                        }
+
+                    case SpawnPositionType.Perimeter:
+                        {
+                            x = mostRecentSpawnPosition.X;
+                            y = mostRecentSpawnPosition.Y;
+
+                            // if the point is not on the perimeter, reset it to the corner
+                            if (x != m_X && x != m_X + m_Width && y != m_Y && y != m_Y + m_Height)
+                            {
+                                x = m_X;
+                                y = m_Y;
+                            }
+
+                            if (y == m_Y && x < m_X + m_Width)
+                            {
+                                x += fillinc;
+                            }
+                            else
+                            if (y == m_Y + m_Height && x > m_X)
+                            {
+                                x -= fillinc;
+                            }
+                            else
+                            if (x == m_X && y > m_Y)
+                            {
+                                y -= fillinc;
+                            }
+                            else
+                            if (x == m_X + m_Width && y < m_Y + m_Height)
+                            {
+                                y += fillinc;
+                            }
+
+                            if (x > m_X + m_Width)
+                            {
+                                x = m_X + m_Width;
+                            }
+
+                            if (y > m_Y + m_Height)
+                            {
+                                y = m_Y + m_Height;
+                            }
+
+                            if (x < m_X)
+                            {
+                                x = m_X;
+                            }
+
+                            if (y < m_Y)
+                            {
+                                y = m_Y;
+                            }
+
+                            break;
+                        }
+
+                    case SpawnPositionType.Player:
+                        {
+                            if (trigmob != null)
+                            {
+                                x = trigmob.Location.X;
+                                y = trigmob.Location.Y;
                                 if (positionrange > 0)
                                 {
                                     x += Utility.Random(positionrange * 2 + 1) - positionrange;
                                     y += Utility.Random(positionrange * 2 + 1) - positionrange;
                                 }
                             }
+                            break;
                         }
 
-                        break;
+                    case SpawnPositionType.Waypoint:
+                        {
+                            // pick an item randomly from the waylist
+                            if (WayList != null && WayList.Count > 0)
+                            {
+                                int index = Utility.Random(WayList.Count);
+                                Item waypoint = WayList[index];
+                                if (waypoint != null)
+                                {
+                                    x = waypoint.Location.X;
+                                    y = waypoint.Location.Y;
+                                    defaultZ = waypoint.Location.Z;
+                                    if (positionrange > 0)
+                                    {
+                                        x += Utility.Random(positionrange * 2 + 1) - positionrange;
+                                        y += Utility.Random(positionrange * 2 + 1) - positionrange;
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
                 }
 
                 mostRecentSpawnPosition = new Point3D(x, y, defaultZ);
@@ -12049,11 +12160,15 @@ public class XmlSpawner : Item, ISpawner
                     switch (todtype)
                     {
                         case (int)TODModeType.Gametime:
-                            m_TODMode = TODModeType.Gametime;
-                            break;
+                            {
+                                m_TODMode = TODModeType.Gametime;
+                                break;
+                            }
                         case (int)TODModeType.Realtime:
-                            m_TODMode = TODModeType.Realtime;
-                            break;
+                            {
+                                m_TODMode = TODModeType.Realtime;
+                                break;
+                            }
                     }
                     goto case 11;
                 }
@@ -12231,7 +12346,7 @@ public class XmlSpawner : Item, ISpawner
                             }
                             else
                             {
-                                IEntity e = World.FindEntity((Serial)(int)serial);
+                                IEntity e = World.FindEntity((Serial)(uint)serial);
 
                                 if (e != null)
                                 {

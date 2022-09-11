@@ -663,7 +663,19 @@ public class XmlSpawnerGump : Gump
                         {
                             if (m_Spawner.SpawnObjects[i].TypeName != str)
                             {
-                                CommandLogging.WriteLine(from, "{0} {1} changed XmlSpawner {2} '{3}' [{4}, {5}] ({6}) : {7} to {8}", from.AccessLevel, CommandLogging.Format(from), m_Spawner.Serial, m_Spawner.Name, m_Spawner.GetWorldLocation().X, m_Spawner.GetWorldLocation().Y, m_Spawner.Map, m_Spawner.SpawnObjects[i].TypeName, str);
+                                CommandLogging.WriteLine(
+                                    from,
+                                    "{0} {1} changed XmlSpawner {2} '{3}' [{4}, {5}] ({6}) : {7} to {8}",
+                                    from.AccessLevel,
+                                    CommandLogging.Format(from),
+                                    m_Spawner.Serial,
+                                    m_Spawner.Name,
+                                    m_Spawner.GetWorldLocation().X,
+                                    m_Spawner.GetWorldLocation().Y,
+                                    m_Spawner.Map,
+                                    m_Spawner.SpawnObjects[i].TypeName,
+                                    str
+                                );
 
                             }
 

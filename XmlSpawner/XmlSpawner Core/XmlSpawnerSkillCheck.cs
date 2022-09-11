@@ -112,23 +112,19 @@ public class XmlSpawnerSkillCheck
             {
                 maplist = m_FeluccaSkillList;
             }
-            else
-            if (map == Map.Ilshenar)
+            else if (map == Map.Ilshenar)
             {
                 maplist = m_IlshenarSkillList;
             }
-            else
-            if (map == Map.Malas)
+            else if (map == Map.Malas)
             {
                 maplist = m_MalasSkillList;
             }
-            else
-            if (map == Map.Trammel)
+            else if (map == Map.Trammel)
             {
                 maplist = m_TrammelSkillList;
             }
-            else
-            if (map == Map.Tokuno)
+            else if (map == Map.Tokuno)
             {
                 maplist = m_TokunoSkillList;
             }
@@ -140,23 +136,12 @@ public class XmlSpawnerSkillCheck
             // is it one of the standard 52 skills
             if ((int)index >= 0 && (int)index < MaxSkills)
             {
-                if (maplist[(int)index] == null)
-                {
-                    maplist[(int)index] = new ArrayList();
-                }
-
-                return maplist[(int)index];
+                return maplist[(int)index] ??= new ArrayList();
             }
 
             // otherwise pull it out of the final slot for unknown skills.  I dont know of a condition that would lead to
             // additional skills being registered but it will support them if they are
-            if (maplist[MaxSkills] == null)
-            {
-                maplist[MaxSkills] = new ArrayList();
-            }
-
-            return maplist[MaxSkills];
-
+            return maplist[MaxSkills] ??= new ArrayList();
         }
     }
 
@@ -228,7 +213,8 @@ public class XmlSpawnerSkillCheck
 
                 }
             }
-        } else
+        }
+        else
         {
             ArrayList skilllist = RegisteredSkill.TriggerList(s, map);
 

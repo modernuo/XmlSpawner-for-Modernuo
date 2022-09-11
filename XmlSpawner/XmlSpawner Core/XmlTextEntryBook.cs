@@ -1,6 +1,3 @@
-#define BOOKTEXTENTRY
-using Org.BouncyCastle.Bcpg;
-
 namespace Server.Items;
 
 public class XmlTextEntryBook : BaseEntryBook
@@ -139,16 +136,14 @@ public class BaseEntryBook : Item
         base.Deserialize(reader);
         reader.ReadInt();
     }
-#if (BOOKTEXTENTRY)
+
     public override void OnDoubleClick(Mobile from)
     {
         from.Send(new EntryBookHeader(from, this));
         from.Send(new EntryBookPageDetails(this));
     }
-#endif
 }
 
-#if (BOOKTEXTENTRY)
 public sealed class EntryBookPageDetails : Packet
 {
     public EntryBookPageDetails(BaseEntryBook book) : base(0x66)
@@ -202,4 +197,3 @@ public sealed class EntryBookHeader : Packet
         m_Stream.Write((byte)0); // terminate
     }
 }
-#endif
