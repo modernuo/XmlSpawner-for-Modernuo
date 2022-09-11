@@ -342,7 +342,7 @@ public class XmlQuestStatusGump : Gump
         : base(X, Y)
     {
         Closable = true;
-        Dragable = true;
+        Draggable = true;
         m_X = X;
         m_Y = Y;
         m_solid = solid;

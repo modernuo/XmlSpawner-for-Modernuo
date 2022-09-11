@@ -103,7 +103,7 @@ public class XmlEditDialogGump : Gump
             m_From = from;
 
             Closable = false;
-            Dragable = true;
+            Draggable = true;
             AddPage(0);
             AddBackground(10, 200, 200, 130, 5054);
 
@@ -1344,7 +1344,7 @@ public class XmlEditDialogGump : Gump
             m_Gump = gump;
             From = from;
             Closable = false;
-            Dragable = true;
+            Draggable = true;
             AddPage(0);
             AddBackground(10, 200, 200, 130, 5054);
             int count = 0;

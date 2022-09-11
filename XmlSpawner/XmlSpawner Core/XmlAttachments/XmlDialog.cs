@@ -1732,7 +1732,7 @@ public class XmlDialog : XmlAttachment
             m_updateconfig = updateconfig;
 
             Closable = false;
-            Dragable = true;
+            Draggable = true;
             AddPage(0);
             AddBackground(10, 200, 200, 130, 5054);
 

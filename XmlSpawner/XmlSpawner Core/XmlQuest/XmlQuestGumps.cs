@@ -25,7 +25,7 @@ public class XmlConfirmDeleteGump : Gump
         m_From =  from;
 
         Closable = false;
-        Dragable = true;
+        Draggable = true;
         AddPage(0);
         AddBackground(10, 180, 200, 130, 5054);
 
@@ -195,7 +195,7 @@ public class XmlSimpleGump : Gump
         int width = 369;
 
         Closable = false;
-        Dragable = true;
+        Draggable = true;
         m_gumptype = gumptype;
 
         m_invoker = invoker;
