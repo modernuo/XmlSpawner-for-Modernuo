@@ -1,4 +1,3 @@
-using System;
 using Server.Gumps;
 
 /*
@@ -74,11 +73,11 @@ public class SimpleNote : Item
 
         writer.Write( 0 ); // version
 
-        writer.Write( this.m_NoteString );
-        writer.Write( this.m_TitleString );
-        writer.Write( this.m_TextColor );
-        writer.Write( this.m_TitleColor );
-        writer.Write( this.m_size );
+        writer.Write( m_NoteString );
+        writer.Write( m_TitleString );
+        writer.Write( m_TextColor );
+        writer.Write( m_TitleColor );
+        writer.Write( m_size );
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -90,11 +89,11 @@ public class SimpleNote : Item
         {
             case 0:
                 {
-                    this.m_NoteString = reader.ReadString();
-                    this.m_TitleString = reader.ReadString();
-                    this.m_TextColor = reader.ReadInt();
-                    this.m_TitleColor = reader.ReadInt();
-                    this.m_size = reader.ReadInt();
+                    m_NoteString = reader.ReadString();
+                    m_TitleString = reader.ReadString();
+                    m_TextColor = reader.ReadInt();
+                    m_TitleColor = reader.ReadInt();
+                    m_size = reader.ReadInt();
                 }
                 break;
         }
@@ -134,8 +133,8 @@ public class SimpleNoteGump : Gump
         // scroll bottom
         AddImageTiled( 20, 111+70*(note.Size-1), 273, 34, 0x823 );
         // title string
-        AddHtml( 55, 10, 200, 37, SimpleNoteGump.HtmlFormat( note.TitleString, note.TitleColor), false , false );
+        AddHtml( 55, 10, 200, 37, HtmlFormat( note.TitleString, note.TitleColor), false , false );
         // text string
-        AddHtml( 40, 41, 225, 70*note.Size, SimpleNoteGump.HtmlFormat( note.NoteString, note.TextColor ), false , false );
+        AddHtml( 40, 41, 225, 70*note.Size, HtmlFormat( note.NoteString, note.TextColor ), false , false );
     }
 }

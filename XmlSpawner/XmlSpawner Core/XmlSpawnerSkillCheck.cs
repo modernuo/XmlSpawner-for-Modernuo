@@ -200,7 +200,7 @@ public class XmlSpawnerSkillCheck
             // if the all flag is not set then just remove the spawner from the list for the specified skill
             foreach(RegisteredSkill rs in skilllist)
             {
-                if((rs.target == o) && (rs.sid == s))
+                if(rs.target == o && rs.sid == s)
                 {
                     skilllist.Remove(rs);
                     break;

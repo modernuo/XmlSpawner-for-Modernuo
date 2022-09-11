@@ -309,11 +309,11 @@ public class XmlAosAttributes : XmlBaseAttributes
     {
         get
         {
-            return this.GetValue((int)attribute);
+            return GetValue((int)attribute);
         }
         set
         {
-            this.SetValue((int)attribute, value);
+            SetValue((int)attribute, value);
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -660,11 +660,11 @@ public class XmlAosWeaponAttributes : XmlBaseAttributes
     {
         get
         {
-            return this.GetValue((int)attribute);
+            return GetValue((int)attribute);
         }
         set
         {
-            this.SetValue((int)attribute, value);
+            SetValue((int)attribute, value);
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -759,11 +759,11 @@ public class XmlAosArmorAttributes : XmlBaseAttributes
     {
         get
         {
-            return this.GetValue((int)attribute);
+            return GetValue((int)attribute);
         }
         set
         {
-            this.SetValue((int)attribute, value);
+            SetValue((int)attribute, value);
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -870,11 +870,11 @@ public class XmlAosElementAttributes : XmlBaseAttributes
     {
         get
         {
-            return this.GetValue((int)attribute);
+            return GetValue((int)attribute);
         }
         set
         {
-            this.SetValue((int)attribute, value);
+            SetValue((int)attribute, value);
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -916,14 +916,14 @@ public class XmlBaseAttributes : XmlAttachment
     [Attachable]
     public XmlBaseAttributes(double expiresin)
     {
-        this.Expiration = TimeSpan.FromMinutes(expiresin);
+        Expiration = TimeSpan.FromMinutes(expiresin);
     }
 
     public bool IsEmpty
     {
         get
         {
-            return (this.m_Names == 0);
+            return m_Names == 0;
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -935,11 +935,11 @@ public class XmlBaseAttributes : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.m_Names);
-        writer.WriteEncodedInt(this.m_Values.Length);
+        writer.Write(m_Names);
+        writer.WriteEncodedInt(m_Values.Length);
 
-        for (int i = 0; i < this.m_Values.Length; ++i)
-            writer.WriteEncodedInt(this.m_Values[i]);
+        for (int i = 0; i < m_Values.Length; ++i)
+            writer.WriteEncodedInt(m_Values[i]);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -948,11 +948,11 @@ public class XmlBaseAttributes : XmlAttachment
 
         int version = reader.ReadInt();
         // version 0
-        this.m_Names = reader.ReadUInt();
-        this.m_Values = new int[reader.ReadEncodedInt()];
+        m_Names = reader.ReadUInt();
+        m_Values = new int[reader.ReadEncodedInt()];
 
-        for (int i = 0; i < this.m_Values.Length; ++i)
-            this.m_Values[i] = reader.ReadEncodedInt();
+        for (int i = 0; i < m_Values.Length; ++i)
+            m_Values[i] = reader.ReadEncodedInt();
     }
 
     public override void OnDelete()
@@ -960,9 +960,9 @@ public class XmlBaseAttributes : XmlAttachment
         base.OnDelete();
 
         // remove the mod
-        if (this.AttachedTo is Item)
+        if (AttachedTo is Item)
         {
-            ((Item)this.AttachedTo).InvalidateProperties();
+            ((Item)AttachedTo).InvalidateProperties();
         }
     }
 
@@ -970,9 +970,9 @@ public class XmlBaseAttributes : XmlAttachment
     {
         base.OnAttach();
 
-        if (this.AttachedTo is Item)
+        if (AttachedTo is Item)
         {
-            ((Item)this.AttachedTo).InvalidateProperties();
+            ((Item)AttachedTo).InvalidateProperties();
         }
     }
 
@@ -980,13 +980,13 @@ public class XmlBaseAttributes : XmlAttachment
     {
         uint mask = (uint)bitmask;
 
-        if ((this.m_Names & mask) == 0)
+        if ((m_Names & mask) == 0)
             return 0;
 
-        int index = this.GetIndex(mask);
+        int index = GetIndex(mask);
 
-        if (index >= 0 && index < this.m_Values.Length)
-            return this.m_Values[index];
+        if (index >= 0 && index < m_Values.Length)
+            return m_Values[index];
 
         return 0;
     }
@@ -997,70 +997,70 @@ public class XmlBaseAttributes : XmlAttachment
 
         if (value != 0)
         {
-            if ((this.m_Names & mask) != 0)
+            if ((m_Names & mask) != 0)
             {
-                int index = this.GetIndex(mask);
+                int index = GetIndex(mask);
 
-                if (index >= 0 && index < this.m_Values.Length)
-                    this.m_Values[index] = value;
+                if (index >= 0 && index < m_Values.Length)
+                    m_Values[index] = value;
             }
             else
             {
-                int index = this.GetIndex(mask);
+                int index = GetIndex(mask);
 
-                if (index >= 0 && index <= this.m_Values.Length)
+                if (index >= 0 && index <= m_Values.Length)
                 {
-                    int[] old = this.m_Values;
-                    this.m_Values = new int[old.Length + 1];
+                    int[] old = m_Values;
+                    m_Values = new int[old.Length + 1];
 
                     for (int i = 0; i < index; ++i)
-                        this.m_Values[i] = old[i];
+                        m_Values[i] = old[i];
 
-                    this.m_Values[index] = value;
+                    m_Values[index] = value;
 
                     for (int i = index; i < old.Length; ++i)
-                        this.m_Values[i + 1] = old[i];
+                        m_Values[i + 1] = old[i];
 
-                    this.m_Names |= mask;
+                    m_Names |= mask;
                 }
             }
         }
-        else if ((this.m_Names & mask) != 0)
+        else if ((m_Names & mask) != 0)
         {
-            int index = this.GetIndex(mask);
+            int index = GetIndex(mask);
 
-            if (index >= 0 && index < this.m_Values.Length)
+            if (index >= 0 && index < m_Values.Length)
             {
-                this.m_Names &= ~mask;
+                m_Names &= ~mask;
 
-                if (this.m_Values.Length == 1)
+                if (m_Values.Length == 1)
                 {
-                    this.m_Values = m_Empty;
+                    m_Values = m_Empty;
                 }
                 else
                 {
-                    int[] old = this.m_Values;
-                    this.m_Values = new int[old.Length - 1];
+                    int[] old = m_Values;
+                    m_Values = new int[old.Length - 1];
 
                     for (int i = 0; i < index; ++i)
-                        this.m_Values[i] = old[i];
+                        m_Values[i] = old[i];
 
                     for (int i = index + 1; i < old.Length; ++i)
-                        this.m_Values[i - 1] = old[i];
+                        m_Values[i - 1] = old[i];
                 }
             }
         }
 
-        if (this.AttachedTo is Item)
+        if (AttachedTo is Item)
         {
-            ((Item)this.AttachedTo).InvalidateProperties();
+            ((Item)AttachedTo).InvalidateProperties();
         }
     }
 
     private int GetIndex(uint mask)
     {
         int index = 0;
-        uint ourNames = this.m_Names;
+        uint ourNames = m_Names;
         uint currentBit = 1;
 
         while (currentBit != mask)

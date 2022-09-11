@@ -168,8 +168,8 @@ public abstract class TalkingBaseVendor : BaseVendor
             int hours;
             int minutes;
 
-            Server.Items.Clock.GetTime(this.Map, this.Location.X, this.Location.Y, out  hours, out  minutes);
-            return (new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day,hours, minutes,0).TimeOfDay);
+            Clock.GetTime(Map, Location.X, Location.Y, out  hours, out  minutes);
+            return new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day,hours, minutes,0).TimeOfDay;
         }
     }
 
@@ -215,7 +215,7 @@ public abstract class TalkingBaseVendor : BaseVendor
     {
         get
         {
-            return Clock.GetMoonPhase( this.Map, this.Location.X, this.Location.Y );
+            return Clock.GetMoonPhase( Map, Location.X, Location.Y );
         }
 
     }
@@ -863,7 +863,7 @@ public abstract class TalkingBaseVendor : BaseVendor
                 }
             case 1:
                 {
-                    ActivePlayer = reader.ReadMobile();
+                    ActivePlayer = reader.ReadEntity<Mobile>();
                     goto case 0;
                 }
             case 0:
@@ -916,7 +916,7 @@ public abstract class TalkingBaseVendor : BaseVendor
                     bool isrunning = reader.ReadBool();
                     if(isrunning)
                     {
-                        Mobile trigmob = reader.ReadMobile();
+                        Mobile trigmob = reader.ReadEntity<Mobile>();
                         TimeSpan delay = reader.ReadTimeSpan();
                         if(DialogAttachment != null)
                             DialogAttachment.DoTimer(delay,trigmob);

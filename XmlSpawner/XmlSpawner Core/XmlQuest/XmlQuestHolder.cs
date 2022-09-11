@@ -216,41 +216,41 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 }
             case 0:
                 {
-                    this.m_ReturnContainer = (Container)reader.ReadItem();
-                    this.m_RewardItem = reader.ReadItem();
-                    this.m_AutoReward = reader.ReadBool();
-                    this.m_CanSeeReward = reader.ReadBool();
-                    this.m_PlayerMade = reader.ReadBool();
-                    this.m_Creator = reader.ReadMobile() as PlayerMobile;
-                    this.m_Description1 = reader.ReadString();
-                    this.m_Description2 = reader.ReadString();
-                    this.m_Description3 = reader.ReadString();
-                    this.m_Description4 = reader.ReadString();
-                    this.m_Description5 = reader.ReadString();
-                    this.m_Owner = reader.ReadMobile() as PlayerMobile;
-                    this.m_RewardString = reader.ReadString();
-                    this.m_ConfigFile = reader.ReadString();
-                    this.m_NoteString = reader.ReadString();
-                    this.m_TitleString = reader.ReadString();
-                    this.m_PartyEnabled = reader.ReadBool();
-                    this.m_PartyRange = reader.ReadInt();
-                    this.m_State1 = reader.ReadString();
-                    this.m_State2 = reader.ReadString();
-                    this.m_State3 = reader.ReadString();
-                    this.m_State4 = reader.ReadString();
-                    this.m_State5 = reader.ReadString();
-                    this.Expiration = reader.ReadDouble();
-                    this.m_TimeCreated = reader.ReadDateTime();
-                    this.m_Objective1 = reader.ReadString();
-                    this.m_Objective2 = reader.ReadString();
-                    this.m_Objective3 = reader.ReadString();
-                    this.m_Objective4 = reader.ReadString();
-                    this.m_Objective5 = reader.ReadString();
-                    this.m_Completed1 = reader.ReadBool();
-                    this.m_Completed2 = reader.ReadBool();
-                    this.m_Completed3 = reader.ReadBool();
-                    this.m_Completed4 = reader.ReadBool();
-                    this.m_Completed5 = reader.ReadBool();
+                    m_ReturnContainer = reader.ReadEntity<Container>();
+                    m_RewardItem = reader.ReadEntity<Item>();
+                    m_AutoReward = reader.ReadBool();
+                    m_CanSeeReward = reader.ReadBool();
+                    m_PlayerMade = reader.ReadBool();
+                    m_Creator = reader.ReadEntity<PlayerMobile>();
+                    m_Description1 = reader.ReadString();
+                    m_Description2 = reader.ReadString();
+                    m_Description3 = reader.ReadString();
+                    m_Description4 = reader.ReadString();
+                    m_Description5 = reader.ReadString();
+                    m_Owner = reader.ReadEntity<PlayerMobile>();
+                    m_RewardString = reader.ReadString();
+                    m_ConfigFile = reader.ReadString();
+                    m_NoteString = reader.ReadString();
+                    m_TitleString = reader.ReadString();
+                    m_PartyEnabled = reader.ReadBool();
+                    m_PartyRange = reader.ReadInt();
+                    m_State1 = reader.ReadString();
+                    m_State2 = reader.ReadString();
+                    m_State3 = reader.ReadString();
+                    m_State4 = reader.ReadString();
+                    m_State5 = reader.ReadString();
+                    Expiration = reader.ReadDouble();
+                    m_TimeCreated = reader.ReadDateTime();
+                    m_Objective1 = reader.ReadString();
+                    m_Objective2 = reader.ReadString();
+                    m_Objective3 = reader.ReadString();
+                    m_Objective4 = reader.ReadString();
+                    m_Objective5 = reader.ReadString();
+                    m_Completed1 = reader.ReadBool();
+                    m_Completed2 = reader.ReadBool();
+                    m_Completed3 = reader.ReadBool();
+                    m_Completed4 = reader.ReadBool();
+                    m_Completed5 = reader.ReadBool();
                 }
                 break;
         }
@@ -297,7 +297,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
         Item tmpitem = null;
 
-        if (Items == Item.EmptyItems)
+        if (Items == EmptyItems)
         {
             tmpitem = PlaceHolderItem;
 
@@ -353,7 +353,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         to.Send(new ContainerContent(to, this, true));
 
 
-        List<Item> items = this.Items;
+        List<Item> items = Items;
 
         for (int i = 0; i < items.Count; ++i)
             to.Send(items[i].OPLPacket);
@@ -372,7 +372,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         }
         if (PlayerMade && Owner != null && !(RootParent is PlayerVendor))
         {
-            list.Add(1050044, "{0}\t{1}", this.TotalItems, this.TotalWeight); // ~1_COUNT~items,~2_WEIGHT~stones
+            list.Add(1050044, "{0}\t{1}", TotalItems, TotalWeight); // ~1_COUNT~items,~2_WEIGHT~stones
         }
 
         // add any playervendor price/description information
@@ -406,7 +406,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         return false;
     }
 
-    public override bool CheckTarget(Mobile from, Server.Targeting.Target targ, object targeted)
+    public override bool CheckTarget(Mobile from, Targeting.Target targ, object targeted)
     {
         if (from.AccessLevel == AccessLevel.Player) return false;
 
@@ -420,7 +420,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
         if (!(from is PlayerMobile)) return;
 
-        if (PlayerMade && (from == Creator) && (from == Owner))
+        if (PlayerMade && from == Creator && from == Owner)
         {
             from.SendGump(new XmlPlayerQuestGump((PlayerMobile)from, this));
         }
@@ -461,7 +461,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     {
         base.OnItemLifted(from, item);
 
-        if (from is PlayerMobile && PlayerMade && (Owner != null) && (Owner == Creator))
+        if (from is PlayerMobile && PlayerMade && Owner != null && Owner == Creator)
         {
             LootType = LootType.Regular;
         }
@@ -480,7 +480,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     {
         base.OnAdded(target);
 
-        if ((target != null) && target is Container)
+        if (target != null && target is Container)
         {
             // find the parent of the container
             // note, the only valid additions are to the player pack or a questbook.  Anything else is invalid.
@@ -489,15 +489,15 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             object parentOfTarget = ((Container)target).Parent;
 
             // if this is a QuestBook then allow additions if it is in a players pack or it is a player quest
-            if ((parentOfTarget != null) && parentOfTarget is Container && target is XmlQuestBook)
+            if (parentOfTarget != null && parentOfTarget is Container && target is XmlQuestBook)
             {
                 parentOfTarget = ((Container)parentOfTarget).Parent;
             }
 
             // check to see if it can be added.
             // allow playermade quests to be placed in playervendors or in xmlquestbooks that are in the world (supports the playerquestboards)
-            if (PlayerMade && (((parentOfTarget != null) && parentOfTarget is PlayerVendor) ||
-                               ((parentOfTarget == null) && target is XmlQuestBook)))
+            if (PlayerMade && (parentOfTarget != null && parentOfTarget is PlayerVendor ||
+                               parentOfTarget == null && target is XmlQuestBook))
             {
                 CheckOwnerFlag();
 
@@ -506,7 +506,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 LootType = LootType.Regular;
             }
             else
-            if ((parentOfTarget != null) && (parentOfTarget is PlayerMobile) && PlayerMade && (Owner != null) && ((Owner == Creator) || (Creator == null)))
+            if (parentOfTarget != null && parentOfTarget is PlayerMobile && PlayerMade && Owner != null && (Owner == Creator || Creator == null))
             {
                 // check the old owner
                 CheckOwnerFlag();
@@ -524,7 +524,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
             }
             else
-            if ((parentOfTarget != null) && (parentOfTarget is PlayerMobile))
+            if (parentOfTarget != null && parentOfTarget is PlayerMobile)
             {
                 if (Owner == null)
                 {
@@ -536,7 +536,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                     Owner.SetFlag(XmlQuest.CarriedXmlQuestFlag, true);
                 }
                 else
-                if ((parentOfTarget as PlayerMobile != Owner) || (target is BankBox))
+                if (parentOfTarget as PlayerMobile != Owner || target is BankBox)
                 {
                     // tried to give it to another player or placed it in the players bankbox. try to return it to the owners pack
                     Owner.AddToBackpack(this);
@@ -704,7 +704,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             double expiresin = Repeatable ? NextRepeatable.TotalMinutes : 0;
 
             // then add an attachment indicating that it has already been done
-            XmlAttach.AttachTo(Owner, new XmlQuestAttachment(this.Name, expiresin));
+            XmlAttach.AttachTo(Owner, new XmlQuestAttachment(Name, expiresin));
         }
 
         // have quest points been enabled?
@@ -805,7 +805,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             CheckRewardItem();
 
             // if this was player made, then return the item to the creator
-            if (PlayerMade && (Creator != null) && !Creator.Deleted)
+            if (PlayerMade && Creator != null && !Creator.Deleted)
             {
                 m_RewardItem.Movable = true;
 
@@ -814,7 +814,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
                 bool returned = false;
 
-                if ((ReturnContainer != null) && !ReturnContainer.Deleted)
+                if (ReturnContainer != null && !ReturnContainer.Deleted)
                 {
                     returned = ReturnContainer.TryDropItem(Creator, m_RewardItem, false);
                     //ReturnContainer.DropItem(m_RewardItem);
@@ -966,7 +966,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             if (m_RewardAttachment != null && m_RewardAttachment.Deleted) m_RewardAttachment = null;
 
             if ((m_RewardAttachment == null || m_RewardAttachment.Deleted) &&
-                (m_AttachmentString != null) && !PlayerMade)
+                m_AttachmentString != null && !PlayerMade)
             {
                 object o = XmlQuest.CreateItem(this, m_AttachmentString, out m_status_str, typeof(XmlAttachment));
                 if (o is Item)
@@ -1004,7 +1004,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             // reward item
             // dont allow player made quests to use the rewardstring creation feature
             if ((m_RewardItem == null || m_RewardItem.Deleted) &&
-                (m_RewardString != null) && !PlayerMade)
+                m_RewardString != null && !PlayerMade)
             {
                 object o = XmlQuest.CreateItem(this, m_RewardString, out m_status_str, typeof(Item));
                 if (o is Item)
@@ -1285,7 +1285,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                      m_TimeCreated = DateTime.Now;
                  }
                  */
-                return (m_TimeCreated + TimeSpan.FromHours(m_ExpirationDuration) - DateTime.Now);
+                return m_TimeCreated + TimeSpan.FromHours(m_ExpirationDuration) - DateTime.Now;
             }
             else
             {
@@ -1299,7 +1299,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     {
         get
         {
-            if (((m_ExpirationDuration > 0) && (ExpiresIn <= TimeSpan.FromHours(0))))
+            if (m_ExpirationDuration > 0 && ExpiresIn <= TimeSpan.FromHours(0))
             {
 
                 return true;
@@ -1425,11 +1425,11 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         get
         {
             if (IsValid &&
-                (Completed1 || Objective1 == null || (Objective1.Length == 0)) &&
-                (Completed2 || Objective2 == null || (Objective2.Length == 0)) &&
-                (Completed3 || Objective3 == null || (Objective3.Length == 0)) &&
-                (Completed4 || Objective4 == null || (Objective4.Length == 0)) &&
-                (Completed5 || Objective5 == null || (Objective5.Length == 0))
+                (Completed1 || Objective1 == null || Objective1.Length == 0) &&
+                (Completed2 || Objective2 == null || Objective2.Length == 0) &&
+                (Completed3 || Objective3 == null || Objective3.Length == 0) &&
+                (Completed4 || Objective4 == null || Objective4.Length == 0) &&
+                (Completed5 || Objective5 == null || Objective5.Length == 0)
                )
                 return true;
             else
@@ -1475,7 +1475,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
     }
 
-    public bool HandlesOnSkillUse { get { return (IsValid && m_SkillTrigger != null && m_SkillTrigger.Length > 0); } }
+    public bool HandlesOnSkillUse { get { return IsValid && m_SkillTrigger != null && m_SkillTrigger.Length > 0; } }
 
 
 
@@ -1506,7 +1506,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         {
             Owner.SendMessage($"Quest invalidated - '{Name}' removed");
         }
-        this.Delete();
+        Delete();
     }
 
     public void CheckRewardItem()
@@ -1528,8 +1528,8 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
     public void CheckAutoReward()
     {
-        if (!this.Deleted && AutoReward && IsCompleted && Owner != null &&
-            ((RewardItem != null && !m_RewardItem.Deleted) || (RewardAttachment != null && !m_RewardAttachment.Deleted)))
+        if (!Deleted && AutoReward && IsCompleted && Owner != null &&
+            (RewardItem != null && !m_RewardItem.Deleted || RewardAttachment != null && !m_RewardAttachment.Deleted))
         {
             if (RewardItem != null)
             {
@@ -1554,7 +1554,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             }
 
             Owner.SendMessage($"{Name} completed. You receive the quest reward!");
-            this.Delete();
+            Delete();
         }
     }
 
@@ -1575,7 +1575,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     {
         if (filename == null || filename.Length <= 0) return;
         // Check if the file exists
-        if (System.IO.File.Exists(filename) == true)
+        if (File.Exists(filename) == true)
         {
             FileStream fs = null;
             try
@@ -1628,7 +1628,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Name = strEntry;
+                            Name = strEntry;
                         }
 
                         valid_entry = true;
@@ -1637,7 +1637,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.TitleString = strEntry;
+                            TitleString = strEntry;
                         }
 
                         valid_entry = true;
@@ -1646,7 +1646,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.NoteString = strEntry;
+                            NoteString = strEntry;
                         }
 
                         valid_entry = true;
@@ -1655,7 +1655,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.RewardString = strEntry;
+                            RewardString = strEntry;
                         }
 
                         valid_entry = true;
@@ -1664,7 +1664,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.AttachmentString = strEntry;
+                            AttachmentString = strEntry;
                         }
 
                         valid_entry = true;
@@ -1673,7 +1673,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Objective1 = strEntry;
+                            Objective1 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1682,7 +1682,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Objective2 = strEntry;
+                            Objective2 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1691,7 +1691,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Objective3 = strEntry;
+                            Objective3 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1700,7 +1700,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Objective4 = strEntry;
+                            Objective4 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1709,7 +1709,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Objective5 = strEntry;
+                            Objective5 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1718,7 +1718,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Description1 = strEntry;
+                            Description1 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1727,7 +1727,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Description2 = strEntry;
+                            Description2 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1736,7 +1736,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Description3 = strEntry;
+                            Description3 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1745,7 +1745,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Description4 = strEntry;
+                            Description4 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1754,7 +1754,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Description5 = strEntry;
+                            Description5 = strEntry;
                         }
 
                         valid_entry = true;
@@ -1763,7 +1763,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.PartyEnabled = boolEntry;
+                            PartyEnabled = boolEntry;
                         }
 
                         valid_entry = true;
@@ -1772,7 +1772,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.AutoReward = boolEntry;
+                            AutoReward = boolEntry;
                         }
 
                         valid_entry = true;
@@ -1781,7 +1781,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.CanSeeReward = boolEntry;
+                            CanSeeReward = boolEntry;
                         }
 
                         valid_entry = true;
@@ -1790,7 +1790,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.m_Repeatable = boolEntry;
+                            m_Repeatable = boolEntry;
                         }
 
                         valid_entry = true;
@@ -1799,7 +1799,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.m_NextRepeatable = timespanEntry;
+                            m_NextRepeatable = timespanEntry;
                         }
 
                         valid_entry = true;
@@ -1808,7 +1808,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.PlayerMade = boolEntry;
+                            PlayerMade = boolEntry;
                         }
 
                         valid_entry = true;
@@ -1817,7 +1817,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.PartyRange = intEntry;
+                            PartyRange = intEntry;
                         }
 
                         valid_entry = true;
@@ -1826,7 +1826,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                         catch { valid_entry = false; }
                         if (valid_entry)
                         {
-                            this.Expiration = doubleEntry;
+                            Expiration = doubleEntry;
                         }
                     }
                 }

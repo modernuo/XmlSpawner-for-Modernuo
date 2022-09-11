@@ -104,7 +104,7 @@ public class XmlEditDialogGump : Gump
             if(targeted is Item)
             {
                 name = ((Item)targeted).Name;
-            } 
+            }
             else
             if(targeted is Mobile)
             {
@@ -127,7 +127,7 @@ public class XmlEditDialogGump : Gump
         public override void OnResponse( NetState state, RelayInfo info )
         {
             if(info == null || state == null || state.Mobile == null) return;
-            
+
             int radiostate = -1;
             if(info.Switches.Length > 0)
             {
@@ -162,7 +162,7 @@ public class XmlEditDialogGump : Gump
         return s.Substring(0,MaxLabelLength);
     }
 
-    public XmlEditDialogGump( Mobile from,  bool firststart, 
+    public XmlEditDialogGump( Mobile from,  bool firststart,
         XmlDialog dialog, int selected, int displayfrom, string savefilename,
         bool selectall, bool [] selectionlist, int X, int Y ) : base( X,Y )
     {
@@ -184,10 +184,10 @@ public class XmlEditDialogGump : Gump
 
         // fill the list with the XmlDialog entries
         m_SearchList = dialog.SpeechEntries;
-			
+
         // prepare the page
         int height = 500;
-			
+
 
         AddPage( 0 );
 
@@ -207,11 +207,11 @@ public class XmlEditDialogGump : Gump
         // the dialog name
         AddImageTiled( x, y, w, 21, 0x23F4 );
         // get the name of the object this is attached to
-			
+
         if(m_Dialog.AttachedTo is Item)
         {
             Name = ((Item)m_Dialog.AttachedTo).Name;
-        } 
+        }
         else
         if(m_Dialog.AttachedTo is Mobile)
         {
@@ -338,7 +338,7 @@ public class XmlEditDialogGump : Gump
             // display the entry number
             AddImageTiled( x, y + 22 * (i%MaxEntriesPerPage)  + 31, w, 21, 0xBBC );
             AddLabel( x, y + 22 * (i%MaxEntriesPerPage) + 31, texthue, s.EntryNumber.ToString() );
-				
+
             x += w;
             w = 50;
             // display the entry ID
@@ -352,7 +352,7 @@ public class XmlEditDialogGump : Gump
             AddLabel( x, y + 22 * (i%MaxEntriesPerPage) + 31, texthue, s.DependsOn );
 
             x += w;
-            w = 100;				
+            w = 100;
             // display the entry keywords
             AddImageTiled( x, y + 22 * (i%MaxEntriesPerPage)  + 31, w, 21, 0x23F4 );
             AddLabelCropped( x, y + 22 * (i%MaxEntriesPerPage) + 31, w-5, 21, texthue, TruncateLabel(s.Keywords) );
@@ -382,7 +382,7 @@ public class XmlEditDialogGump : Gump
             AddLabelCropped( x, y + 22 * (i%MaxEntriesPerPage) + 31, w-5, 21, texthue, TruncateLabel(s.Gump) );
 
             // display the selection button
-            AddButton( 730, y + 22 * (i%MaxEntriesPerPage)  + 32, (sel? 0xD3:0xD2), (sel? 0xD2:0xD3), 4000+i, GumpButtonType.Reply, 0 );
+            AddButton( 730, y + 22 * (i%MaxEntriesPerPage)  + 32, sel? 0xD3:0xD2, sel? 0xD2:0xD3, 4000+i, GumpButtonType.Reply, 0 );
 
         }
 
@@ -421,7 +421,7 @@ public class XmlEditDialogGump : Gump
             x += w + lw + spacing;
             w = 40;
             lw = 65;
-            // depends on 
+            // depends on
             AddLabel( x, y, 0x384, "DependsOn" );
             AddImageTiled( x+lw, y, w, 21, 0xBBC );
             AddTextEntry( x+lw, y, w, 21, 0, 202, sentry.DependsOn );
@@ -429,7 +429,7 @@ public class XmlEditDialogGump : Gump
             x += w + lw + spacing;
             w = 35;
             lw = 57;
-            // prepause 
+            // prepause
             AddLabel( x, y, 0x384, "PrePause" );
             AddImageTiled( x+lw, y, w, 21, 0xBBC );
             AddTextEntry( x+lw, y, w, 21, 0, 203, sentry.PrePause.ToString() );
@@ -520,7 +520,7 @@ public class XmlEditDialogGump : Gump
 
         if(from.AccessLevel >= XmlSpawner.DiskAccessLevel)
         {
-				
+
             // add the save entry
             AddButton( 185, y , 0xFA8, 0xFAA, 159, GumpButtonType.Reply, 0 );
             AddLabel( 218, y , 0x384, "Save to file:" );
@@ -533,7 +533,7 @@ public class XmlEditDialogGump : Gump
         {
             AddLabel( 495, y, 68, $"{m_SearchList.Count} Entries");
             int last = DisplayFrom + MaxEntries < m_SearchList.Count ? DisplayFrom + MaxEntries : m_SearchList.Count;
-            if(last > 0) 
+            if(last > 0)
                 AddLabel( 595, y, 68, $"Displaying {DisplayFrom}-{last - 1}");
         }
 
@@ -544,8 +544,8 @@ public class XmlEditDialogGump : Gump
         {
             AddButton( 10, y-5, 0x2A4E, 0x2A3A, 100, GumpButtonType.Reply, 0 );
             AddLabel( 43, y, 0x384, "On" );
-        } 
-        else 
+        }
+        else
         {
             AddButton( 10, y-5, 0x2A62, 0x2A3A, 100, GumpButtonType.Reply, 0 );
             AddLabel( 43, y, 0x384, "Off" );
@@ -585,14 +585,14 @@ public class XmlEditDialogGump : Gump
 
     }
 
- 
+
 
     private void SortFindList()
     {
         if(m_SearchList != null && m_SearchList.Count > 0)
         {
 
-            this.m_SearchList.Sort( new ListSorter(false) );
+            m_SearchList.Sort( new ListSorter(false) );
 
         }
     }
@@ -614,7 +614,7 @@ public class XmlEditDialogGump : Gump
 
             yn = ((XmlDialog.SpeechEntry)y).EntryNumber;
 
-				
+
             if(Dsort)
                 return yn - xn;
             else
@@ -627,14 +627,14 @@ public class XmlEditDialogGump : Gump
     private void SaveList(Mobile from,  string filename)
     {
         if(m_SearchList == null || m_SelectionList == null) return;
-		  
+
         string dirname;
         if( System.IO.Directory.Exists( XmlDialog.DefsDir ) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
         {
             // put it in the defaults directory if it exists
             dirname = $"{XmlDialog.DefsDir}/{filename}";
-        } 
-        else 
+        }
+        else
         {
             // otherwise just put it in the main installation dir
             dirname = filename;
@@ -645,8 +645,8 @@ public class XmlEditDialogGump : Gump
 
     private XmlEditDialogGump Refresh(NetState state)
     {
-        XmlEditDialogGump g = new XmlEditDialogGump(this.m_From, false, this.m_Dialog, this.Selected, 
-            this.DisplayFrom, this.SaveFilename, this.SelectAll, this.m_SelectionList, this.X, this.Y);
+        XmlEditDialogGump g = new XmlEditDialogGump(m_From, false, m_Dialog, Selected,
+            DisplayFrom, SaveFilename, SelectAll, m_SelectionList, X, Y);
         state.Mobile.SendGump(g);
         return g;
     }
@@ -711,7 +711,7 @@ public class XmlEditDialogGump : Gump
         }
 
 
-        from.CloseGump(typeof(XmlEditDialogGump));
+        from.CloseGump<XmlEditDialogGump>();
 
         //from.SendGump( new XmlEditDialogGump(from, false, m_Dialog, selected, displayfrom, savefilename, false, null, X, Y) );
         from.SendGump( new XmlEditDialogGump(from, true, dialog, selected, displayfrom, savefile, false, null, 0, 0));
@@ -721,7 +721,7 @@ public class XmlEditDialogGump : Gump
     public override void OnResponse( NetState state, RelayInfo info )
     {
         if(info == null || state == null || state.Mobile == null || m_Dialog == null) return;
-            
+
         int radiostate = -1;
         if(info.Switches.Length > 0)
         {
@@ -734,7 +734,7 @@ public class XmlEditDialogGump : Gump
         try
         {
             DisplayFrom = int.Parse(tr.Text);
-        } 
+        }
         catch{}
 
 
@@ -750,7 +750,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     m_Dialog.ProximityRange = int.Parse(tr.Text);
-                } 
+                }
                 catch{}
             }
             tr = info.GetTextEntry( 141 ); // reset time
@@ -759,7 +759,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     m_Dialog.ResetTime = TimeSpan.Parse(tr.Text);
-                } 
+                }
                 catch{}
             }
             tr = info.GetTextEntry( 142 ); // speech pace
@@ -768,7 +768,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     m_Dialog.SpeechPace = int.Parse(tr.Text);
-                } 
+                }
                 catch{}
             }
 
@@ -778,7 +778,7 @@ public class XmlEditDialogGump : Gump
                 if(tr.Text != null && tr.Text.Trim().Length > 0)
                 {
                     m_Dialog.TriggerOnCarried = tr.Text;
-                } 
+                }
                 else
                 {
                     m_Dialog.TriggerOnCarried = null;
@@ -791,7 +791,7 @@ public class XmlEditDialogGump : Gump
                 if(tr.Text != null && tr.Text.Trim().Length > 0)
                 {
                     m_Dialog.NoTriggerOnCarried = tr.Text;
-                } 
+                }
                 else
                 {
                     m_Dialog.NoTriggerOnCarried = null;
@@ -804,7 +804,7 @@ public class XmlEditDialogGump : Gump
         if(m_SearchList != null && Selected >= 0 && Selected + DisplayFrom >= 0 && Selected + DisplayFrom < m_SearchList.Count)
         {
             // entry information
-            XmlDialog.SpeechEntry entry = (XmlDialog.SpeechEntry)m_SearchList[Selected + DisplayFrom]; 
+            XmlDialog.SpeechEntry entry = (XmlDialog.SpeechEntry)m_SearchList[Selected + DisplayFrom];
 
             tr = info.GetTextEntry( 200 ); // entry number
             if(tr != null)
@@ -812,7 +812,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     entry.EntryNumber = int.Parse(tr.Text);
-                } 
+                }
                 catch {}
             }
 
@@ -822,7 +822,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     entry.ID = int.Parse(tr.Text);
-                } 
+                }
                 catch {}
             }
 
@@ -832,7 +832,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     entry.DependsOn = tr.Text;
-                } 
+                }
                 catch {}
             }
 
@@ -842,7 +842,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     entry.PrePause = int.Parse(tr.Text);
-                } 
+                }
                 catch {}
             }
 
@@ -852,7 +852,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     entry.Pause = int.Parse(tr.Text);
-                } 
+                }
                 catch {}
             }
 
@@ -862,7 +862,7 @@ public class XmlEditDialogGump : Gump
                 try
                 {
                     entry.SpeechHue = int.Parse(tr.Text);
-                } 
+                }
                 catch {}
             }
 
@@ -872,7 +872,7 @@ public class XmlEditDialogGump : Gump
                 if(tr.Text != null && tr.Text.Trim().Length > 0)
                 {
                     entry.Keywords = tr.Text;
-                } 
+                }
                 else
                 {
                     entry.Keywords = null;
@@ -886,7 +886,7 @@ public class XmlEditDialogGump : Gump
                 if(tr.Text != null && tr.Text.Trim().Length > 0)
                 {
                     entry.Text = tr.Text;
-                } 
+                }
                 else
                 {
                     entry.Text = null;
@@ -899,7 +899,7 @@ public class XmlEditDialogGump : Gump
                 if(tr.Text != null && tr.Text.Trim().Length > 0)
                 {
                     entry.Condition = tr.Text;
-                } 
+                }
                 else
                 {
                     entry.Condition = null;
@@ -912,7 +912,7 @@ public class XmlEditDialogGump : Gump
                 if(tr.Text != null && tr.Text.Trim().Length > 0)
                 {
                     entry.Action = tr.Text;
-                } 
+                }
                 else
                 {
                     entry.Action = null;
@@ -925,7 +925,7 @@ public class XmlEditDialogGump : Gump
                 if(tr.Text != null && tr.Text.Trim().Length > 0)
                 {
                     entry.Gump = tr.Text;
-                } 
+                }
                 else
                 {
                     entry.Gump = null;
@@ -989,7 +989,7 @@ public class XmlEditDialogGump : Gump
                 }
 
             case 159: // save to a .npc file
-                {           
+                {
 
                     // Create a new gump
                     Refresh(state);
@@ -1003,7 +1003,7 @@ public class XmlEditDialogGump : Gump
                 {
                     // clear the selections
                     if(m_SelectionList != null && !SelectAll) Array.Clear(m_SelectionList,0,m_SelectionList.Length);
-                    if(m_SearchList != null && DisplayFrom + MaxEntries < m_SearchList.Count) 
+                    if(m_SearchList != null && DisplayFrom + MaxEntries < m_SearchList.Count)
                     {
                         DisplayFrom += MaxEntries;
                         // clear any selection
@@ -1046,7 +1046,7 @@ public class XmlEditDialogGump : Gump
                     {
                         // flag the entry selected
                         Selected = info.ButtonID - 1000;
-                    } 
+                    }
                     else
                     if(info.ButtonID == 3998)
                     {
@@ -1062,14 +1062,14 @@ public class XmlEditDialogGump : Gump
                                 {
                                     // only toggle the selection list entries for things that actually have entries
                                     m_SelectionList[i] = SelectAll;
-                                } 
-                                else 
+                                }
+                                else
                                 {
                                     break;
                                 }
                             }
                         }
-                    } 
+                    }
                     else
                     if(info.ButtonID == 3999)
                     {
@@ -1082,18 +1082,18 @@ public class XmlEditDialogGump : Gump
                                 if(i < m_SelectionList.Length)
                                 {
                                     // only toggle the selection list entries for things that actually have entries
-                                    if((m_SearchList.Count - DisplayFrom > i)) 
+                                    if(m_SearchList.Count - DisplayFrom > i)
                                     {
                                         m_SelectionList[i] = !m_SelectionList[i];
                                     }
-                                } 
-                                else 
+                                }
+                                else
                                 {
                                     break;
                                 }
                             }
                         }
-                    } 
+                    }
                     else
                     if(info.ButtonID >= 4000 && info.ButtonID < 4000+ MaxEntries)
                     {
@@ -1102,17 +1102,17 @@ public class XmlEditDialogGump : Gump
                         if(m_SelectionList != null && i >= 0  && i < m_SelectionList.Length && !SelectAll)
                         {
                             // only toggle the selection list entries for things that actually have entries
-                            if(m_SearchList != null && (m_SearchList.Count - DisplayFrom > i)) 
+                            if(m_SearchList != null && m_SearchList.Count - DisplayFrom > i)
                             {
                                 m_SelectionList[i] = !m_SelectionList[i];
                             }
                         }
-                    } 
+                    }
                     else
                     if(info.ButtonID >= 5000 && info.ButtonID < 5100)
                     {
 
-						
+
                         // text entry book buttons
                         int textid = info.ButtonID - 5000;
 
@@ -1121,7 +1121,7 @@ public class XmlEditDialogGump : Gump
 
                         if(m_SearchList != null && Selected >= 0 && Selected + DisplayFrom >= 0 && Selected + DisplayFrom < m_SearchList.Count)
                         {
-                            entry = (XmlDialog.SpeechEntry)m_SearchList[Selected + DisplayFrom]; 
+                            entry = (XmlDialog.SpeechEntry)m_SearchList[Selected + DisplayFrom];
                         }
 
                         string text = String.Empty;
@@ -1222,8 +1222,8 @@ public class XmlEditDialogGump : Gump
         // Create a new gump
         Refresh(state);
     }
-        
-        
+
+
     public class XmlConfirmDeleteGump : Gump
     {
         private ArrayList SearchList;
@@ -1249,7 +1249,7 @@ public class XmlEditDialogGump : Gump
             if(selectall)
             {
                 count = allcount;
-            } 
+            }
             else
             {
                 for(int i =0;i<SelectedList.Length;i++)
@@ -1269,7 +1269,7 @@ public class XmlEditDialogGump : Gump
         public override void OnResponse( NetState state, RelayInfo info )
         {
             if(info == null || state == null || state.Mobile == null) return;
-            
+
             int radiostate = -1;
             if(info.Switches.Length > 0)
             {
@@ -1286,7 +1286,7 @@ public class XmlEditDialogGump : Gump
                             for(int i = 0;i < SearchList.Count;i++)
                             {
                                 int index = i-DisplayFrom;
-                                if((index >= 0 && index < SelectedList.Length && SelectedList[index] == true) || selectAll)
+                                if(index >= 0 && index < SelectedList.Length && SelectedList[index] == true || selectAll)
                                 {
                                     object o = SearchList[i];
                                     // delete the entry;
@@ -1304,7 +1304,7 @@ public class XmlEditDialogGump : Gump
 
                             if(m_Gump != null)
                             {
-                                state.Mobile.CloseGump(typeof(XmlEditDialogGump));
+                                state.Mobile.CloseGump<XmlEditDialogGump>();
                                 m_Gump.Refresh(state);
                             }
                         }

@@ -16,8 +16,8 @@ public class XmlSpawnTime : XmlAttachment
     [Attachable]
     public XmlSpawnTime(double mindelay, double maxdelay)
     {
-        this.MinDelay = TimeSpan.FromMinutes(mindelay);
-        this.MaxDelay = TimeSpan.FromMinutes(maxdelay);
+        MinDelay = TimeSpan.FromMinutes(mindelay);
+        MaxDelay = TimeSpan.FromMinutes(maxdelay);
     }
 
     [Attachable]
@@ -31,18 +31,18 @@ public class XmlSpawnTime : XmlAttachment
     {
         get
         {
-            XmlSpawner spawner = this.MySpawner;
+            XmlSpawner spawner = MySpawner;
 
             // try to get the min/maxdelay based on spawner values if not specified on the attachment.
-            if (spawner != null && this.m_MinDelay < TimeSpan.Zero)
+            if (spawner != null && m_MinDelay < TimeSpan.Zero)
             {
                 return spawner.MinDelay;
             }
-            return this.m_MinDelay;
+            return m_MinDelay;
         }
         set
         {
-            this.m_MinDelay = value;
+            m_MinDelay = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -50,19 +50,19 @@ public class XmlSpawnTime : XmlAttachment
     {
         get
         {
-            XmlSpawner spawner = this.MySpawner;
+            XmlSpawner spawner = MySpawner;
 
             // try to get the min/maxdelay based on spawner values if not specified on the attachment.
-            if (spawner != null && this.m_MaxDelay < TimeSpan.Zero)
+            if (spawner != null && m_MaxDelay < TimeSpan.Zero)
             {
                 return spawner.MaxDelay;
             }
 
-            return this.m_MaxDelay;
+            return m_MaxDelay;
         }
         set
         {
-            this.m_MaxDelay = value;
+            m_MaxDelay = value;
         }
     }
     public override bool HandlesOnKilled
@@ -77,13 +77,13 @@ public class XmlSpawnTime : XmlAttachment
         get
         {
             // figure out the spawner that spawned the object
-            if (this.AttachedTo is Item)
+            if (AttachedTo is Item)
             {
-                return ((Item)this.AttachedTo).Spawner as XmlSpawner;
+                return ((Item)AttachedTo).Spawner as XmlSpawner;
             }
-            else if (this.AttachedTo is Mobile)
+            else if (AttachedTo is Mobile)
             {
-                return ((Mobile)this.AttachedTo).Spawner as XmlSpawner;
+                return ((Mobile)AttachedTo).Spawner as XmlSpawner;
             }
 
             return null;
@@ -118,8 +118,8 @@ public class XmlSpawnTime : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.m_MinDelay);
-        writer.Write(this.m_MaxDelay);
+        writer.Write(m_MinDelay);
+        writer.Write(m_MaxDelay);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -131,8 +131,8 @@ public class XmlSpawnTime : XmlAttachment
         {
             case 0:
                 {
-                    this.m_MinDelay = reader.ReadTimeSpan();
-                    this.m_MaxDelay = reader.ReadTimeSpan();
+                    m_MinDelay = reader.ReadTimeSpan();
+                    m_MaxDelay = reader.ReadTimeSpan();
                     break;
                 }
         }
@@ -146,10 +146,10 @@ public class XmlSpawnTime : XmlAttachment
             return;
 
         // set the spawner's NextSpawn time based on min/maxdelay
-        XmlSpawner spawner = this.MySpawner;
+        XmlSpawner spawner = MySpawner;
 
-        int mind = (int)this.MinDelay.TotalSeconds;
-        int maxd = (int)this.MaxDelay.TotalSeconds;
+        int mind = (int)MinDelay.TotalSeconds;
+        int maxd = (int)MaxDelay.TotalSeconds;
 
         if (spawner != null && mind >= 0 && maxd >= 0)
         {

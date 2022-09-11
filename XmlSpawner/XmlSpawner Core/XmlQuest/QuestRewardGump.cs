@@ -18,7 +18,7 @@ namespace Server.Gumps;
 public class QuestRewardGump : Gump
 {
     private ArrayList Rewards;
-		
+
     private int y_inc = 35;
     private int x_creditoffset = 350;
     private int x_pointsoffset = 480;
@@ -26,15 +26,15 @@ public class QuestRewardGump : Gump
     private int viewpage;
 
     public QuestRewardGump( Mobile from, int page ) : base( 20, 30 )
-    { 
-			
-        from.CloseGump(typeof(QuestRewardGump));
+    {
+
+        from.CloseGump<QuestRewardGump>();
 
         // determine the gump size based on the number of rewards
         Rewards = XmlQuestPointsRewards.RewardsList;
-            
+
         viewpage = page;
-            
+
         int height = maxItemsPerPage*y_inc + 120;
         int width = x_pointsoffset+110;
 
@@ -48,12 +48,12 @@ public class QuestRewardGump : Gump
         AddBackground( 0, 0, width, height, 0xDAC );
 
         AddHtml( 40, 20, 350, 50, "Rewards Available for Purchase with QuestPoints Credits", false, false );
-			
+
         AddLabel( 400, 20, 0, $"Available Credits: {XmlQuestPoints.GetCredits(from)}");
 
         //AddButton( 30, height - 35, 0xFB7, 0xFB9, 0, GumpButtonType.Reply, 0 );
         //AddLabel( 70, height - 35, 0, "Close" );
- 
+
         // put the page buttons in the lower right corner
         if(Rewards != null && Rewards.Count > 0)
         {
@@ -67,7 +67,7 @@ public class QuestRewardGump : Gump
         AddLabel( 70, 50, 40, "Reward" );
         AddLabel( x_creditoffset, 50, 40, "Credits" );
         AddLabel( x_pointsoffset, 50, 40, "Min Points" );
-			
+
         // display the items with their selection buttons
         if(Rewards != null)
         {
@@ -80,7 +80,7 @@ public class QuestRewardGump : Gump
                 if(r == null) continue;
 
                 y += y_inc;
-                    
+
                 int texthue = 0;
 
                 // display the item
@@ -95,16 +95,16 @@ public class QuestRewardGump : Gump
 
                 // display the name
                 AddLabel( 70, y+3, texthue, r.Name);
-        			
+
                 // display the cost
                 AddLabel( x_creditoffset, y+3, texthue, r.Cost.ToString() );
-        			
+
 
 
                 // display the item
                 if(r.ItemID > 0)
                     AddItem(x_creditoffset+60, y, r.ItemID);
-                        
+
                 // display the min points requirement
                 AddLabel( x_pointsoffset, y+3, texthue, r.MinPoints.ToString() );
             }
@@ -117,7 +117,7 @@ public class QuestRewardGump : Gump
 
         Mobile from = state.Mobile;
 
-        switch ( info.ButtonID ) 
+        switch ( info.ButtonID )
         {
             case 12:
                 {
@@ -153,13 +153,13 @@ public class QuestRewardGump : Gump
                         if(selection < Rewards.Count)
                         {
                             XmlQuestPointsRewards r = Rewards[selection] as XmlQuestPointsRewards;
-    
+
                             // check the price
                             if(XmlQuestPoints.HasCredits(from,r.Cost))
                             {
                                 // create an instance of the reward type
                                 object o = null;
-                                
+
                                 try{
                                     o = Activator.CreateInstance( r.RewardType , r.RewardArgs);
                                 } catch {}
@@ -198,7 +198,7 @@ public class QuestRewardGump : Gump
                                     from.SendMessage(33, "unable to create {0}.", r.RewardType.Name);
                                     received = false;
                                 }
-                                
+
                                 // complete the transaction
                                 if(received)
                                 {
@@ -216,5 +216,5 @@ public class QuestRewardGump : Gump
                     break;
                 }
         }
-    } 
+    }
 }

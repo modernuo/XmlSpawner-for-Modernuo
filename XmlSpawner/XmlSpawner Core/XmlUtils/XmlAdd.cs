@@ -58,7 +58,7 @@ public class XmlSpawnerDefaults
         public int FindGumpX;
         public int FindGumpY;
 
-        // these are additional defaults that are not set by XmlAdd but can be used by other routines such as the custom properties gump to determine 
+        // these are additional defaults that are not set by XmlAdd but can be used by other routines such as the custom properties gump to determine
         // whether properties have been changed from spawner default values
         public bool Running = true;
 
@@ -187,7 +187,7 @@ public class XmlAddGump : Gump
         sb.AppendFormat("{0}", defs.SelectionList.Length);
         for (int i = 0; i < defs.SelectionList.Length; i++)
         {
-            sb.AppendFormat(":{0}", (defs.SelectionList[i] ? 1 : 0));
+            sb.AppendFormat(":{0}", defs.SelectionList[i] ? 1 : 0);
         }
         return sb.ToString();
     }
@@ -732,7 +732,7 @@ public class XmlAddGump : Gump
 
         // Sequentialspawn
         AddLabel(125, y, 0x384, "SeqSpawn");
-        AddCheck(105, y, 0xD2, 0xD3, (defs.SequentialSpawn == 0), 307);
+        AddCheck(105, y, 0xD2, 0xD3, defs.SequentialSpawn == 0, 307);
 
         y += yinc;
         // IsGroup
@@ -872,7 +872,7 @@ public class XmlAddGump : Gump
             for (int i = 0; i < MaxEntries; i++)
             {
                 int xpos = i / MaxEntriesPerColumn * 155;
-                int ypos = (i % MaxEntriesPerColumn) * 22 + 30;
+                int ypos = i % MaxEntriesPerColumn * 22 + 30;
 
                 // background for search results area
                 AddImageTiled(xpos + 205, ypos, 116, 23, 0x52);
@@ -896,7 +896,7 @@ public class XmlAddGump : Gump
 
                 AddTextEntry(xpos + 208, ypos + 1, 110, 21, texthue, 1000 + i, namestr);
                 // display the selection button
-                AddButton(xpos + 320, ypos + 2, (sel ? 0xD3 : 0xD2), (sel ? 0xD2 : 0xD3), 4000 + i, GumpButtonType.Reply, 0);
+                AddButton(xpos + 320, ypos + 2, sel ? 0xD3 : 0xD2, sel ? 0xD2 : 0xD3, 4000 + i, GumpButtonType.Reply, 0);
                 // display the info button
                 AddButton(xpos + 340, ypos + 2, 0x15E1, 0x15E5, 5000 + i, GumpButtonType.Reply, 0);
             }
@@ -974,7 +974,7 @@ public class XmlAddGump : Gump
 
         defs.IgnoreUpdate = ignoreupdate;
 
-        from.CloseGump(typeof(XmlAddGump));
+        from.CloseGump<XmlAddGump>();
 
         defs.IgnoreUpdate = false;
         from.SendGump(new XmlAddGump(from, defs.StartingLoc, defs.StartingMap, false, defs.ShowExtension, x, y));
@@ -1073,10 +1073,10 @@ public class XmlAddGump : Gump
                 // bump the autonumber
                 defs.AutoNumberValue++;
 
-            //from.CloseGump(typeof(XmlAddGump));
+            //from.CloseGump<XmlAddGump>();
             Refresh(m_state.Mobile, true);
 
-            // open the spawner gump 
+            // open the spawner gump
             DoShowGump(from, spawner);
         }
     }
@@ -1283,7 +1283,7 @@ public class XmlAddGump : Gump
         defaults.Group = info.IsSwitched(304);
         defaults.HomeRangeIsRelative = info.IsSwitched(305);
         defaults.AutoNumber = info.IsSwitched(306);
-        defaults.SequentialSpawn = (info.IsSwitched(307) ? 0 : -1);
+        defaults.SequentialSpawn = info.IsSwitched(307) ? 0 : -1;
         defaults.ExternalTriggering = info.IsSwitched(308);
         defaults.AllowGhostTrig = info.IsSwitched(309);
         defaults.SpawnOnTrigger = info.IsSwitched(311);
@@ -1427,13 +1427,13 @@ public class XmlAddGump : Gump
                         if (defaults.NameList[i] == null || defaults.NameList[i].Length == 0)
                         {
                             // if no string has been entered then just use the full categorized add gump
-                            state.Mobile.CloseGump(typeof(XmlCategorizedAddGump));
+                            state.Mobile.CloseGump<XmlCategorizedAddGump>();
                             state.Mobile.SendGump(new XmlCategorizedAddGump(state.Mobile, defaults.CurrentCategory, defaults.CurrentCategoryPage, i, newg));
                         }
                         else
                         {
                             // use the XmlPartialCategorizedAddGump
-                            state.Mobile.CloseGump(typeof(XmlPartialCategorizedAddGump));
+                            state.Mobile.CloseGump<XmlPartialCategorizedAddGump>();
 
                             //Type [] types = (Type[])XmlPartialCategorizedAddGump.Match( defs.NameList[i] ).ToArray( typeof( Type ) );
                             ArrayList types = XmlPartialCategorizedAddGump.Match(defaults.NameList[i]);

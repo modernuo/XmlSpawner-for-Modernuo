@@ -10,7 +10,6 @@ using System.Reflection;
 using Server.Gumps;
 using Server.Items;
 using System.IO;
-using System.Net.Mail;
 using Server.Misc;
 
 namespace Server.Engines.XmlSpawner2;
@@ -168,8 +167,8 @@ public class XmlAttach
     {
         get
         {
-            object[] valuearray = new object[XmlAttach.AllAttachments.Count];
-            XmlAttach.AllAttachments.Values.CopyTo(valuearray, 0);
+            object[] valuearray = new object[AllAttachments.Count];
+            AllAttachments.Values.CopyTo(valuearray, 0);
             return valuearray;
         }
     }
@@ -192,7 +191,7 @@ public class XmlAttach
             a.Serial = serial;
 
             // register the attachment in the serial keyed hashtable
-            XmlAttach.HashSerial(serial, a);
+            HashSerial(serial, a);
         }
 
         // Register our speech handler
@@ -251,7 +250,7 @@ public class XmlAttach
                     args[j] = e.Arguments[j + 1];
                 }
 
-                Type attachtype = AssemblyHandler.FindTypeByName()(e.Arguments[0]);
+                Type attachtype = AssemblyHandler.FindTypeByName(e.Arguments[0]);
 
                 if (attachtype != null && attachtype.IsSubclassOf(typeof(XmlAttachment)))
                 {
@@ -270,7 +269,7 @@ public class XmlAttach
                             break;
                         }
 
-                        if (XmlAttach.AttachTo(null, list[i], o, true))
+                        if (AttachTo(null, list[i], o, true))
                         {
                             if (list.Count < 10)
                             {
@@ -339,7 +338,7 @@ public class XmlAttach
 
                     for (int i = 0; i < list.Count; ++i)
                     {
-                        ArrayList alist = XmlAttach.FindAttachments(list[i], attachtype);
+                        ArrayList alist = FindAttachments(list[i], attachtype);
 
                         if (alist != null)
                         {
@@ -376,9 +375,9 @@ public class XmlAttach
     public static void CleanUp()
     {
         // clean up any unowned attachments
-        foreach (XmlAttachment a in XmlAttach.Values)
+        foreach (XmlAttachment a in Values)
         {
-            if (a.OwnedBy == null || (a.OwnedBy is Mobile && ((Mobile)a.OwnedBy).Deleted) || (a.OwnedBy is Item && ((Item)a.OwnedBy).Deleted))
+            if (a.OwnedBy == null || a.OwnedBy is Mobile && ((Mobile)a.OwnedBy).Deleted || a.OwnedBy is Item && ((Item)a.OwnedBy).Deleted)
             {
                 a.Delete();
             }
@@ -387,7 +386,7 @@ public class XmlAttach
 
     public static void Save()
     {
-        if (XmlAttach.MobileAttachments == null && XmlAttach.ItemAttachments == null)
+        if (MobileAttachments == null && ItemAttachments == null)
         {
             return;
         }
@@ -426,18 +425,18 @@ public class XmlAttach
             ASerial.GlobalSerialize(writer);
 
             // remove all deleted attachments
-            XmlAttach.FullDefrag();
+            FullDefrag();
 
             // save the attachments themselves
-            if (XmlAttach.AllAttachments != null)
+            if (AllAttachments != null)
             {
-                writer.Write(XmlAttach.AllAttachments.Count);
+                writer.Write(AllAttachments.Count);
 
-                object[] valuearray = new object[XmlAttach.AllAttachments.Count];
-                XmlAttach.AllAttachments.Values.CopyTo(valuearray, 0);
+                object[] valuearray = new object[AllAttachments.Count];
+                AllAttachments.Values.CopyTo(valuearray, 0);
 
-                object[] keyarray = new object[XmlAttach.AllAttachments.Count];
-                XmlAttach.AllAttachments.Keys.CopyTo(keyarray, 0);
+                object[] keyarray = new object[AllAttachments.Count];
+                AllAttachments.Keys.CopyTo(keyarray, 0);
 
                 for (int i = 0; i < keyarray.Length; i++)
                 {
@@ -447,10 +446,10 @@ public class XmlAttach
                     XmlAttachment a = valuearray[i] as XmlAttachment;
 
                     // write the value type
-                    writer.Write(a.GetType().ToString());
+                    writer.Write(a?.GetType().ToString());
 
                     // serialize the attachment itself
-                    a.Serialize(writer);
+                    a?.Serialize(writer);
 
                     // save the fileposition index
                     fpiwriter.Write(writer.Position);
@@ -465,15 +464,15 @@ public class XmlAttach
 
             // save the hash table info for items and mobiles
             // mobile attachments
-            if (XmlAttach.MobileAttachments != null)
+            if (MobileAttachments != null)
             {
-                imawriter.Write(XmlAttach.MobileAttachments.Count);
+                imawriter.Write(MobileAttachments.Count);
 
-                object[] valuearray = new object[XmlAttach.MobileAttachments.Count];
-                XmlAttach.MobileAttachments.Values.CopyTo(valuearray, 0);
+                object[] valuearray = new object[MobileAttachments.Count];
+                MobileAttachments.Values.CopyTo(valuearray, 0);
 
-                object[] keyarray = new object[XmlAttach.MobileAttachments.Count];
-                XmlAttach.MobileAttachments.Keys.CopyTo(keyarray, 0);
+                object[] keyarray = new object[MobileAttachments.Count];
+                MobileAttachments.Keys.CopyTo(keyarray, 0);
 
                 for (int i = 0; i < keyarray.Length; i++)
                 {
@@ -504,15 +503,15 @@ public class XmlAttach
             }
 
             // item attachments
-            if (XmlAttach.ItemAttachments != null)
+            if (ItemAttachments != null)
             {
-                imawriter.Write(XmlAttach.ItemAttachments.Count);
+                imawriter.Write(ItemAttachments.Count);
 
-                object[] valuearray = new object[XmlAttach.ItemAttachments.Count];
-                XmlAttach.ItemAttachments.Values.CopyTo(valuearray, 0);
+                object[] valuearray = new object[ItemAttachments.Count];
+                ItemAttachments.Values.CopyTo(valuearray, 0);
 
-                object[] keyarray = new object[XmlAttach.ItemAttachments.Count];
-                XmlAttach.ItemAttachments.Keys.CopyTo(keyarray, 0);
+                object[] keyarray = new object[ItemAttachments.Count];
+                ItemAttachments.Keys.CopyTo(keyarray, 0);
 
                 for (int i = 0; i < keyarray.Length; i++)
                 {
@@ -581,12 +580,38 @@ public class XmlAttach
             return;
         }
 
-        if (reader != null && imareader != null && fpireader != null)
+        // restore the current global attachment serial state
+        try
         {
-            // restore the current global attachment serial state
+            ASerial.GlobalDeserialize(reader);
+        }
+        catch (Exception e)
+        {
+            ErrorReporter.GenerateErrorReport(e.ToString());
+            return;
+        }
+
+        ASerial.serialInitialized = true;
+
+        // read in the serial attachment hash table information
+        int count = 0;
+        try
+        {
+            count = reader.ReadInt();
+        }
+        catch (Exception e)
+        {
+            ErrorReporter.GenerateErrorReport(e.ToString());
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            // read the serial
+            ASerial serialno = null;
             try
             {
-                ASerial.GlobalDeserialize(reader);
+                serialno = new ASerial(reader.ReadInt());
             }
             catch (Exception e)
             {
@@ -594,13 +619,11 @@ public class XmlAttach
                 return;
             }
 
-            ASerial.serialInitialized = true;
-
-            // read in the serial attachment hash table information
-            int count = 0;
+            // read the attachment type
+            string valuetype = null;
             try
             {
-                count = reader.ReadInt();
+                valuetype = reader.ReadString();
             }
             catch (Exception e)
             {
@@ -608,13 +631,146 @@ public class XmlAttach
                 return;
             }
 
-            for (int i = 0; i < count; i++)
+            // read the position of the beginning of the next attachment deser within the .bin file
+            long position = 0;
+            try
             {
-                // read the serial
+                position = fpireader.ReadLong();
+
+            }
+            catch (Exception e)
+            {
+                ErrorReporter.GenerateErrorReport(e.ToString());
+                return;
+            }
+
+            bool skip = false;
+
+            XmlAttachment o = null;
+            try
+            {
+                o = (XmlAttachment)Activator.CreateInstance(Type.GetType(valuetype), new object[] { serialno });
+            }
+            catch
+            {
+                skip = true;
+            }
+
+            if (skip)
+            {
+                if (!AlreadyReported(valuetype))
+                {
+                    Console.WriteLine("\nError deserializing attachments {0}.\nMissing a serial constructor?\n", valuetype);
+                    ReportDeserError(valuetype, "Missing a serial constructor?");
+                }
+
+                // position the .ima file at the next deser point
+                try
+                {
+                    reader.Seek(position, SeekOrigin.Begin);
+                }
+                catch
+                {
+                    ErrorReporter.GenerateErrorReport(
+                        "Error deserializing. Attachments save file corrupted. Attachment load aborted."
+                    );
+                    return;
+                }
+
+                continue;
+            }
+
+            try
+            {
+                o?.Deserialize(reader);
+            }
+            catch
+            {
+                skip = true;
+            }
+
+            // confirm the read position
+            if (reader.Position != position || skip)
+            {
+                if (!AlreadyReported(valuetype))
+                {
+                    Console.WriteLine("\nError deserializing attachments {0}\n", valuetype);
+                    ReportDeserError(valuetype, "save file corruption or incorrect Serialize/Deserialize methods?");
+                }
+
+                // position the .ima file at the next deser point
+                try
+                {
+                    reader.Seek(position, SeekOrigin.Begin);
+                }
+                catch
+                {
+                    ErrorReporter.GenerateErrorReport(
+                        "Error deserializing. Attachments save file corrupted. Attachment load aborted."
+                    );
+                    return;
+                }
+
+                continue;
+            }
+
+            // add it to the hash table
+            try
+            {
+                AllAttachments.Add(serialno.Value, o);
+            }
+            catch
+            {
+                ErrorReporter.GenerateErrorReport(
+                    $"\nError deserializing {valuetype} serialno {serialno.Value}. Attachments save file corrupted. Attachment load aborted.\n"
+                );
+                return;
+            }
+        }
+
+        // read in the mobile attachment hash table information
+        try
+        {
+            count = imareader.ReadInt();
+        }
+        catch (Exception e)
+        {
+            ErrorReporter.GenerateErrorReport(e.ToString());
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+
+            Mobile key = null;
+            try
+            {
+                key = imareader.ReadEntity<Mobile>();
+            }
+            catch (Exception e)
+            {
+                ErrorReporter.GenerateErrorReport(e.ToString());
+                return;
+            }
+
+            int nattach = 0;
+            try
+            {
+                nattach = imareader.ReadInt();
+            }
+            catch (Exception e)
+            {
+                ErrorReporter.GenerateErrorReport(e.ToString());
+                return;
+            }
+
+            for (int j = 0; j < nattach; j++)
+            {
+                // and serial
                 ASerial serialno = null;
                 try
                 {
-                    serialno = new ASerial(reader.ReadInt());
+                    serialno = new ASerial(imareader.ReadInt());
                 }
                 catch (Exception e)
                 {
@@ -626,7 +782,7 @@ public class XmlAttach
                 string valuetype = null;
                 try
                 {
-                    valuetype = reader.ReadString();
+                    valuetype = imareader.ReadString();
                 }
                 catch (Exception e)
                 {
@@ -639,7 +795,6 @@ public class XmlAttach
                 try
                 {
                     position = fpireader.ReadLong();
-
                 }
                 catch (Exception e)
                 {
@@ -647,303 +802,160 @@ public class XmlAttach
                     return;
                 }
 
-                bool skip = false;
+                XmlAttachment o = FindAttachmentBySerial(serialno.Value);
 
-                XmlAttachment o = null;
-                try
-                {
-                    o = (XmlAttachment)Activator.CreateInstance(Type.GetType(valuetype), new object[] { serialno });
-                }
-                catch
-                {
-                    skip = true;
-                }
-
-                if (skip)
+                if (o == null || imareader.Position != position)
                 {
                     if (!AlreadyReported(valuetype))
                     {
-                        Console.WriteLine("\nError deserializing attachments {0}.\nMissing a serial constructor?\n", valuetype);
-                        ReportDeserError(valuetype, "Missing a serial constructor?");
-                    }
-                    // position the .ima file at the next deser point
-                    try
-                    {
-                        reader.Seek(position, SeekOrigin.Begin);
-                    }
-                    catch
-                    {
-                        ErrorReporter.GenerateErrorReport("Error deserializing. Attachments save file corrupted. Attachment load aborted.");
-                        return;
-                    }
-                    continue;
-                }
-
-                try
-                {
-                    o.Deserialize(reader);
-                }
-                catch
-                {
-                    skip = true;
-                }
-
-                // confirm the read position
-                if (reader.Position != position || skip)
-                {
-                    if (!AlreadyReported(valuetype))
-                    {
-                        Console.WriteLine("\nError deserializing attachments {0}\n", valuetype);
+                        Console.WriteLine("\nError deserializing attachments of type {0}.\n", valuetype);
                         ReportDeserError(valuetype, "save file corruption or incorrect Serialize/Deserialize methods?");
                     }
+
                     // position the .ima file at the next deser point
                     try
                     {
-                        reader.Seek(position, SeekOrigin.Begin);
+                        imareader.Seek(position, SeekOrigin.Begin);
                     }
                     catch
                     {
-                        ErrorReporter.GenerateErrorReport("Error deserializing. Attachments save file corrupted. Attachment load aborted.");
+                        ErrorReporter.GenerateErrorReport(
+                            "Error deserializing. Attachments save file corrupted. Attachment load aborted."
+                        );
                         return;
                     }
+
                     continue;
                 }
 
-                // add it to the hash table
-                try
-                {
-                    AllAttachments.Add(serialno.Value, o);
-                }
-                catch
-                {
-                    ErrorReporter.GenerateErrorReport(
-                        $"\nError deserializing {valuetype} serialno {serialno.Value}. Attachments save file corrupted. Attachment load aborted.\n"
-                    );
-                    return;
-                }
-            }
-
-            // read in the mobile attachment hash table information
-            try
-            {
-                count = imareader.ReadInt();
-            }
-            catch (Exception e)
-            {
-                ErrorReporter.GenerateErrorReport(e.ToString());
-                return;
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-
-                Mobile key = null;
-                try
-                {
-                    key = imareader.ReadMobile();
-                }
-                catch (Exception e)
-                {
-                    ErrorReporter.GenerateErrorReport(e.ToString());
-                    return;
-                }
-
-                int nattach = 0;
-                try
-                {
-                    nattach = imareader.ReadInt();
-                }
-                catch (Exception e)
-                {
-                    ErrorReporter.GenerateErrorReport(e.ToString());
-                    return;
-                }
-
-                for (int j = 0; j < nattach; j++)
-                {
-                    // and serial
-                    ASerial serialno = null;
-                    try
-                    {
-                        serialno = new ASerial(imareader.ReadInt());
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorReporter.GenerateErrorReport(e.ToString());
-                        return;
-                    }
-
-                    // read the attachment type
-                    string valuetype = null;
-                    try
-                    {
-                        valuetype = imareader.ReadString();
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorReporter.GenerateErrorReport(e.ToString());
-                        return;
-                    }
-
-                    // read the position of the beginning of the next attachment deser within the .bin file
-                    long position = 0;
-                    try
-                    {
-                        position = fpireader.ReadLong();
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorReporter.GenerateErrorReport(e.ToString());
-                        return;
-                    }
-
-                    XmlAttachment o = FindAttachmentBySerial(serialno.Value);
-
-                    if (o == null || imareader.Position != position)
-                    {
-                        if (!AlreadyReported(valuetype))
-                        {
-                            Console.WriteLine("\nError deserializing attachments of type {0}.\n", valuetype);
-                            ReportDeserError(valuetype, "save file corruption or incorrect Serialize/Deserialize methods?");
-                        }
-                        // position the .ima file at the next deser point
-                        try
-                        {
-                            imareader.Seek(position, SeekOrigin.Begin);
-                        }
-                        catch
-                        {
-                            ErrorReporter.GenerateErrorReport("Error deserializing. Attachments save file corrupted. Attachment load aborted.");
-                            return;
-                        }
-                        continue;
-                    }
-
-                    // attachment successfully deserialized so attach it
-                    AttachTo(key, o, false);
-                }
-            }
-
-            // read in the item attachment hash table information
-            try
-            {
-                count = imareader.ReadInt();
-            }
-            catch (Exception e)
-            {
-                ErrorReporter.GenerateErrorReport(e.ToString());
-                return;
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                Item key = null;
-                try
-                {
-                    key = imareader.ReadItem();
-                }
-                catch (Exception e)
-                {
-                    ErrorReporter.GenerateErrorReport(e.ToString());
-                    return;
-                }
-
-                int nattach = 0;
-                try
-                {
-                    nattach = imareader.ReadInt();
-                }
-                catch (Exception e)
-                {
-                    ErrorReporter.GenerateErrorReport(e.ToString());
-                    return;
-                }
-
-                for (int j = 0; j < nattach; j++)
-                {
-                    // and serial
-                    ASerial serialno = null;
-                    try
-                    {
-                        serialno = new ASerial(imareader.ReadInt());
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorReporter.GenerateErrorReport(e.ToString());
-                        return;
-                    }
-
-                    // read the attachment type
-                    string valuetype = null;
-                    try
-                    {
-                        valuetype = imareader.ReadString();
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorReporter.GenerateErrorReport(e.ToString());
-                        return;
-                    }
-
-                    // read the position of the beginning of the next attachment deser within the .bin file
-                    long position = 0;
-                    try
-                    {
-                        position = fpireader.ReadLong();
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorReporter.GenerateErrorReport(e.ToString());
-                        return;
-                    }
-
-                    XmlAttachment o = FindAttachmentBySerial(serialno.Value);
-
-                    if (o == null || imareader.Position != position)
-                    {
-                        if (!AlreadyReported(valuetype))
-                        {
-                            Console.WriteLine("\nError deserializing attachments of type {0}.\n", valuetype);
-                            ReportDeserError(valuetype, "save file corruption or incorrect Serialize/Deserialize methods?");
-                        }
-                        // position the .ima file at the next deser point
-                        try
-                        {
-                            imareader.Seek(position, SeekOrigin.Begin);
-                        }
-                        catch
-                        {
-                            ErrorReporter.GenerateErrorReport("Error deserializing. Attachments save file corrupted. Attachment load aborted.");
-                            return;
-                        }
-                        continue;
-                    }
-
-                    // attachment successfully deserialized so attach it
-                    AttachTo(key, o, false);
-                }
-            }
-            if (fs != null)
-            {
-                fs.Close();
-            }
-
-            if (imafs != null)
-            {
-                imafs.Close();
-            }
-
-            if (fpifs != null)
-            {
-                fpifs.Close();
-            }
-
-            if (desererror != null)
-            {
-                ErrorReporter.GenerateErrorReport("Error deserializing particular attachments.");
+                // attachment successfully deserialized so attach it
+                AttachTo(key, o, false);
             }
         }
 
+        // read in the item attachment hash table information
+        try
+        {
+            count = imareader.ReadInt();
+        }
+        catch (Exception e)
+        {
+            ErrorReporter.GenerateErrorReport(e.ToString());
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            Item key = null;
+            try
+            {
+                key = imareader.ReadEntity<Item>();
+            }
+            catch (Exception e)
+            {
+                ErrorReporter.GenerateErrorReport(e.ToString());
+                return;
+            }
+
+            int nattach = 0;
+            try
+            {
+                nattach = imareader.ReadInt();
+            }
+            catch (Exception e)
+            {
+                ErrorReporter.GenerateErrorReport(e.ToString());
+                return;
+            }
+
+            for (int j = 0; j < nattach; j++)
+            {
+                // and serial
+                ASerial serialno = null;
+                try
+                {
+                    serialno = new ASerial(imareader.ReadInt());
+                }
+                catch (Exception e)
+                {
+                    ErrorReporter.GenerateErrorReport(e.ToString());
+                    return;
+                }
+
+                // read the attachment type
+                string valuetype = null;
+                try
+                {
+                    valuetype = imareader.ReadString();
+                }
+                catch (Exception e)
+                {
+                    ErrorReporter.GenerateErrorReport(e.ToString());
+                    return;
+                }
+
+                // read the position of the beginning of the next attachment deser within the .bin file
+                long position = 0;
+                try
+                {
+                    position = fpireader.ReadLong();
+                }
+                catch (Exception e)
+                {
+                    ErrorReporter.GenerateErrorReport(e.ToString());
+                    return;
+                }
+
+                XmlAttachment o = FindAttachmentBySerial(serialno.Value);
+
+                if (o == null || imareader.Position != position)
+                {
+                    if (!AlreadyReported(valuetype))
+                    {
+                        Console.WriteLine("\nError deserializing attachments of type {0}.\n", valuetype);
+                        ReportDeserError(valuetype, "save file corruption or incorrect Serialize/Deserialize methods?");
+                    }
+
+                    // position the .ima file at the next deser point
+                    try
+                    {
+                        imareader.Seek(position, SeekOrigin.Begin);
+                    }
+                    catch
+                    {
+                        ErrorReporter.GenerateErrorReport(
+                            "Error deserializing. Attachments save file corrupted. Attachment load aborted."
+                        );
+                        return;
+                    }
+
+                    continue;
+                }
+
+                // attachment successfully deserialized so attach it
+                AttachTo(key, o, false);
+            }
+        }
+
+        if (fs != null)
+        {
+            fs.Close();
+        }
+
+        if (imafs != null)
+        {
+            imafs.Close();
+        }
+
+        if (fpifs != null)
+        {
+            fpifs.Close();
+        }
+
+        if (desererror != null)
+        {
+            ErrorReporter.GenerateErrorReport("Error deserializing particular attachments.");
+        }
     }
 
     private class DeserErrorDetails
@@ -995,7 +1007,7 @@ public class XmlAttach
         if (m_killer != null)
         {
             // check the killer
-            ArrayList alist = XmlAttach.FindAttachments(m_killer);
+            ArrayList alist = FindAttachments(m_killer);
             if (alist != null)
             {
                 foreach (XmlAttachment a in alist)
@@ -1018,7 +1030,7 @@ public class XmlAttach
                         continue;
                     }
 
-                    alist = XmlAttach.FindAttachments(i);
+                    alist = FindAttachments(i);
                     if (alist != null)
                     {
                         foreach (XmlAttachment a in alist)
@@ -1036,7 +1048,7 @@ public class XmlAttach
         if (m_killed != null)
         {
             // check the killed
-            ArrayList alist = XmlAttach.FindAttachments(m_killed);
+            ArrayList alist = FindAttachments(m_killed);
             if (alist != null)
             {
                 foreach (XmlAttachment a in alist)
@@ -1061,7 +1073,7 @@ public class XmlAttach
         if (m_killer != null)
         {
             // check the killer
-            ArrayList alist = XmlAttach.FindAttachments(m_killer);
+            ArrayList alist = FindAttachments(m_killer);
             if (alist != null)
             {
                 foreach (XmlAttachment a in alist)
@@ -1084,7 +1096,7 @@ public class XmlAttach
                         continue;
                     }
 
-                    alist = XmlAttach.FindAttachments(i);
+                    alist = FindAttachments(i);
                     if (alist != null)
                     {
                         foreach (XmlAttachment a in alist)
@@ -1102,7 +1114,7 @@ public class XmlAttach
         if (m_killed != null)
         {
             // check the killed
-            ArrayList alist = XmlAttach.FindAttachments(m_killed);
+            ArrayList alist = FindAttachments(m_killed);
             if (alist != null)
             {
                 foreach (XmlAttachment a in alist)
@@ -1138,7 +1150,7 @@ public class XmlAttach
                         continue;
                     }
 
-                    ArrayList alist = XmlAttach.FindAttachments(i);
+                    ArrayList alist = FindAttachments(i);
                     if (alist != null)
                     {
                         foreach (XmlAttachment a in alist)
@@ -1166,7 +1178,7 @@ public class XmlAttach
                         continue;
                     }
 
-                    ArrayList alist = XmlAttach.FindAttachments(i);
+                    ArrayList alist = FindAttachments(i);
                     if (alist != null)
                     {
                         foreach (XmlAttachment a in alist)
@@ -1193,7 +1205,7 @@ public class XmlAttach
         }
 
         // check the mob for any attachments that might handle speech
-        ArrayList alist = XmlAttach.FindAttachments(from);
+        ArrayList alist = FindAttachments(from);
         if (alist != null)
         {
             foreach (XmlAttachment a in alist)
@@ -1216,7 +1228,7 @@ public class XmlAttach
                     continue;
                 }
 
-                alist = XmlAttach.FindAttachments(i);
+                alist = FindAttachments(i);
                 if (alist != null)
                 {
                     foreach (XmlAttachment a in alist)
@@ -1243,7 +1255,7 @@ public class XmlAttach
                     continue;
                 }
 
-                alist = XmlAttach.FindAttachments(i);
+                alist = FindAttachments(i);
                 if (alist != null)
                 {
                     foreach (XmlAttachment a in alist)
@@ -1273,7 +1285,7 @@ public class XmlAttach
                         continue;
                     }
 
-                    alist = XmlAttach.FindAttachments(i);
+                    alist = FindAttachments(i);
                     if (alist != null)
                     {
                         foreach (XmlAttachment a in alist)
@@ -1299,7 +1311,7 @@ public class XmlAttach
                     continue;
                 }
 
-                alist = XmlAttach.FindAttachments(i);
+                alist = FindAttachments(i);
                 if (alist != null)
                 {
                     foreach (XmlAttachment a in alist)
@@ -1322,12 +1334,12 @@ public class XmlAttach
         }
 
         // check the mob for any attachments
-        ArrayList alist = XmlAttach.FindAttachments(from);
+        ArrayList alist = FindAttachments(from);
         if (alist != null)
         {
             foreach (XmlAttachment a in alist)
             {
-                if (a != null && !a.Deleted && (type == null || (a.GetType() == type || a.GetType().IsSubclassOf(type))) && (name == null || name == a.Name))
+                if (a != null && !a.Deleted && (type == null || a.GetType() == type || a.GetType().IsSubclassOf(type)) && (name == null || name == a.Name))
                 {
                     return a;
                 }
@@ -1348,12 +1360,12 @@ public class XmlAttach
                         continue;
                     }
 
-                    alist = XmlAttach.FindAttachments(i);
+                    alist = FindAttachments(i);
                     if (alist != null)
                     {
                         foreach (XmlAttachment a in alist)
                         {
-                            if (a != null && !a.Deleted && (type == null || (a.GetType() == type || a.GetType().IsSubclassOf(type))) && (name == null || name == a.Name))
+                            if (a != null && !a.Deleted && (type == null || a.GetType() == type || a.GetType().IsSubclassOf(type)) && (name == null || name == a.Name))
                             {
                                 return a;
                             }
@@ -1374,13 +1386,13 @@ public class XmlAttach
                     continue;
                 }
 
-                alist = XmlAttach.FindAttachments(i);
+                alist = FindAttachments(i);
 
                 if (alist != null)
                 {
                     foreach (XmlAttachment a in alist)
                     {
-                        if (a != null && !a.Deleted && (type == null || (a.GetType() == type || a.GetType().IsSubclassOf(type))) && (name == null || name == a.Name))
+                        if (a != null && !a.Deleted && (type == null || a.GetType() == type || a.GetType().IsSubclassOf(type)) && (name == null || name == a.Name))
                         {
                             return a;
                         }
@@ -1415,7 +1427,7 @@ public class XmlAttach
             if (m_e.Arguments.Length > 0)
             {
 
-                type = SpawnerType.GetType(m_e.Arguments[0]);
+                type = AssemblyHandler.FindTypeByName(m_e.Arguments[0]);
 
             }
             if (m_e.Arguments.Length > 1)
@@ -1423,9 +1435,9 @@ public class XmlAttach
                 name = m_e.Arguments[1];
             }
 
-            XmlAttach.Defrag(targeted);
+            Defrag(targeted);
 
-            ArrayList plist = XmlAttach.FindAttachments(targeted, type);
+            ArrayList plist = FindAttachments(targeted, type);
 
             if (plist == null && m_set != "add")
             {
@@ -1456,7 +1468,7 @@ public class XmlAttach
 
                         XmlAttachment o = null;
 
-                        Type attachtype = SpawnerType.GetType(m_e.Arguments[0]);
+                        Type attachtype = AssemblyHandler.FindTypeByName(m_e.Arguments[0]);
 
                         if (attachtype != null && attachtype.IsSubclassOf(typeof(XmlAttachment)))
                         {
@@ -1467,7 +1479,7 @@ public class XmlAttach
                         if (o != null)
                         {
                             //o.Name = aname;
-                            if (XmlAttach.AttachTo(from, targeted, o, true))
+                            if (AttachTo(from, targeted, o, true))
                             {
                                 from.SendMessage("Added attachment {2} : {0} to {1}", m_e.Arguments[0], targeted, o.Serial.Value);
                             }
@@ -1518,7 +1530,7 @@ public class XmlAttach
                     {
                         foreach (XmlAttachment p in plist)
                         {
-                            if (p == null || p.Deleted || (name != null && name != p.Name) || (type != null && type != p.GetType()))
+                            if (p == null || p.Deleted || name != null && name != p.Name || type != null && type != p.GetType())
                             {
                                 continue;
                             }
@@ -1627,7 +1639,7 @@ public class XmlAttach
             return;
         }
 
-        XmlAttach.FullDefrag(ItemAttachments);
+        FullDefrag(ItemAttachments);
 
         Item[] itemarray = new Item[ItemAttachments.Count];
 
@@ -1661,7 +1673,7 @@ public class XmlAttach
             return;
         }
 
-        XmlAttach.FullDefrag(MobileAttachments);
+        FullDefrag(MobileAttachments);
 
         Mobile[] mobilearray = new Mobile[MobileAttachments.Count];
 
@@ -1711,15 +1723,15 @@ public class XmlAttach
         ArrayList results = new ArrayList();
         Type[] types;
 
-        Assembly[] asms = ScriptCompiler.Assemblies;
+        Assembly[] asms = AssemblyHandler.Assemblies;
 
         for (int i = 0; i < asms.Length; ++i)
         {
-            types = ScriptCompiler.GetTypeCache(asms[i]).Types;
+            types = AssemblyHandler.GetTypeCache(asms[i]).Types;
             Match(matchtype, types, results);
         }
 
-        types = ScriptCompiler.GetTypeCache(Core.Assembly).Types;
+        types = AssemblyHandler.GetTypeCache(Core.Assembly).Types;
         Match(matchtype, types, results);
 
         results.Sort(new TypeNameComparer());
@@ -1824,7 +1836,7 @@ public class XmlAttach
             return;
         }
 
-        ArrayList plist = XmlAttach.FindAttachments(o);
+        ArrayList plist = FindAttachments(o);
 
         if (plist == null)
         {
@@ -1846,7 +1858,7 @@ public class XmlAttach
         }
         if (msg != null)
         {
-            from.CloseGump(typeof(DisplayAttachmentGump));
+            from.CloseGump<DisplayAttachmentGump>();
             from.SendMessage("Hidden attributes revealed!");
 
             from.SendGump(new DisplayAttachmentGump(from, msg, 0, 0));
@@ -1896,7 +1908,7 @@ public class XmlAttach
             attachments = MobileAttachments;
         }
 
-        XmlAttach.Defrag(o);
+        Defrag(o);
 
         // see if there is already an attachment list for the object
         ArrayList attachmententry = FindAttachments(attachments, o, true);
@@ -2009,7 +2021,7 @@ public class XmlAttach
             return null;
         }
 
-        if ((o is Item && ((Item)o).Deleted) || (o is Mobile && ((Mobile)o).Deleted))
+        if (o is Item && ((Item)o).Deleted || o is Mobile && ((Mobile)o).Deleted)
         {
             return null;
         }
@@ -2024,7 +2036,7 @@ public class XmlAttach
                 }
                 else
                 {
-                    return (ArrayList)(((ArrayList)attachments[o]).Clone());
+                    return (ArrayList)((ArrayList)attachments[o]).Clone();
                 }
             }
             else
@@ -2051,7 +2063,7 @@ public class XmlAttach
 
                     Type itype = i.GetType();
 
-                    if ((type == null || (itype != null && (itype == type || itype.IsSubclassOf(type)))) && (name == null || (name == i.Name)))
+                    if ((type == null || itype != null && (itype == type || itype.IsSubclassOf(type))) && (name == null || name == i.Name))
                     {
                         newlist.Add(i);
                     }
@@ -2106,7 +2118,7 @@ public class XmlAttach
             return null;
         }
 
-        if ((o is Item && ((Item)o).Deleted) || (o is Mobile && ((Mobile)o).Deleted))
+        if (o is Item && ((Item)o).Deleted || o is Mobile && ((Mobile)o).Deleted)
         {
             return null;
         }
@@ -2142,7 +2154,7 @@ public class XmlAttach
 
                     Type itype = i.GetType();
 
-                    if ((type == null || (itype != null && (itype == type || itype.IsSubclassOf(type)))) && (name == null || (name == i.Name)))
+                    if ((type == null || itype != null && (itype == type || itype.IsSubclassOf(type))) && (name == null || name == i.Name))
                     {
                         return i;
                     }
@@ -2241,7 +2253,7 @@ public class XmlAttach
 
         bool removeall = false;
 
-        if ((o is Item && ((Item)o).Deleted) || (o is Mobile && ((Mobile)o).Deleted))
+        if (o is Item && ((Item)o).Deleted || o is Mobile && ((Mobile)o).Deleted)
         {
             removeall = true;
         }
@@ -2409,7 +2421,7 @@ public class XmlAttach
 
         string propstr = null;
 
-        ArrayList plist = XmlAttach.FindAttachments(parent);
+        ArrayList plist = FindAttachments(parent);
         if (plist != null && plist.Count > 0)
         {
             for (int i = 0; i < plist.Count; i++)
@@ -2444,13 +2456,13 @@ public class XmlAttach
         }
     }
 
-    public static void UseReq(NetState state, PacketReader pvSrc)
+    public static void UseReq(NetState state, CircularBufferReader reader, int packetLength)
     {
         Mobile from = state.Mobile;
 
         if (from.AccessLevel >= AccessLevel.GameMaster || Core.TickCount - from.NextActionTime >= 0)
         {
-            int value = pvSrc.ReadInt32();
+            var value = reader.ReadUInt32();
 
             if ((value & ~0x7FFFFFFF) != 0)
             {
@@ -2458,7 +2470,7 @@ public class XmlAttach
             }
             else
             {
-                Serial s = new Serial(value);
+                Serial s = (Serial)value;
 
                 bool blockdefaultonuse = false;
 
@@ -2504,7 +2516,7 @@ public class XmlAttach
                             }
                         }
 
-                        if (!blockdefaultonuse && m != null && !m.Deleted)
+                        if (!blockdefaultonuse && !m.Deleted)
                         {
                             from.Use(m);
                         }
@@ -2552,7 +2564,7 @@ public class XmlAttach
                             }
                         }
                         // need to check the item again in case it was modified in the OnUse or OnUser method
-                        if (!blockdefaultonuse && item != null && !item.Deleted)
+                        if (!blockdefaultonuse && !item.Deleted)
                         {
                             from.Use(item);
                         }
@@ -2593,40 +2605,6 @@ public class XmlAttach
 
     public class ErrorReporter
     {
-
-
-        private static void SendEmail(string filePath)
-        {
-            Console.Write("XmlSpawner2 Attachment error: Sending email...");
-
-            MailMessage message = null;
-            try
-            {
-                message = new MailMessage("RunUO@localhost", Email.CrashAddresses);
-            }
-            catch { }
-
-            if (message == null)
-            {
-                Console.Write("Unable to send email.  Possible invalid email address.");
-                return;
-            }
-            message.Subject = "Automated XmlSpawner2 Attachment Error Report";
-
-            message.Body = "Automated XmlSpawner2 Attachment Report. See attachment for details.";
-
-            message.Attachments.Add(new Attachment(filePath));
-
-            if (Email.Send(message))
-            {
-                Console.WriteLine("done");
-            }
-            else
-            {
-                Console.WriteLine("failed");
-            }
-        }
-
         private static string GetRoot()
         {
             try
@@ -2694,7 +2672,7 @@ public class XmlAttach
 
                 using (StreamWriter op = new StreamWriter(filePath))
                 {
-                    Version ver = Core.Assembly.GetName().Version;
+                    Version ver = Core.Assembly.GetName().Version!;
 
                     op.WriteLine("XmlSpawner2 Attachment Error Report");
                     op.WriteLine("===================");
@@ -2712,18 +2690,14 @@ public class XmlAttach
 
                     op.WriteLine();
                     op.WriteLine("Specific Attachment Errors:");
-                    foreach (DeserErrorDetails s in XmlAttach.desererror)
+                    foreach (DeserErrorDetails s in desererror)
                     {
                         op.WriteLine("{0} - {1}", s.Type, s.Details);
                     }
                 }
 
                 Console.WriteLine("done");
-
-                if (Email.CrashAddresses != null)
-                {
-                    SendEmail(filePath);
-                }
+                Email.SendCrashEmail(filePath);
             }
             catch
             {

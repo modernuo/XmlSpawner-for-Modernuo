@@ -14,7 +14,7 @@ public class XmlPlayerQuestGump : Gump
     private PlayerMobile m_From;
     private IXmlQuest m_QuestItem;
 
-    public override void OnResponse( Server.Network.NetState sender, RelayInfo info )
+    public override void OnResponse( Network.NetState sender, RelayInfo info )
     {
         if(info == null || sender == null || sender.Mobile == null) return;
 
@@ -280,8 +280,8 @@ public class XmlPlayerQuestGump : Gump
                 }
             }
             // try to add the item as the reward item
-            if(m_QuestItem.PlayerMade && (from != null) && !from.Deleted && (from is PlayerMobile) && 
-               (from == m_QuestItem.Creator) && (from == m_QuestItem.Owner) && (targeted is Item) && 
+            if(m_QuestItem.PlayerMade && from != null && !from.Deleted && from is PlayerMobile && 
+               from == m_QuestItem.Creator && from == m_QuestItem.Owner && targeted is Item && 
                !(targeted is IXmlQuest))
             {
                 Item i = targeted as Item;
@@ -314,8 +314,8 @@ public class XmlPlayerQuestGump : Gump
             if(m_QuestItem == null || m_QuestItem.Deleted) return;
 
             // try to add the item as the reward item
-            if(m_QuestItem.PlayerMade && (from != null) && !from.Deleted && (from is PlayerMobile) && 
-               (from == m_QuestItem.Creator) && (from == m_QuestItem.Owner) && targeted is Container)
+            if(m_QuestItem.PlayerMade && from != null && !from.Deleted && from is PlayerMobile && 
+               from == m_QuestItem.Creator && from == m_QuestItem.Owner && targeted is Container)
             {
                 Container i = targeted as Container;
 

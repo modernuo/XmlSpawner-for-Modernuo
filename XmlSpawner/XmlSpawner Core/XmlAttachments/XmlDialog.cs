@@ -169,9 +169,8 @@ public class XmlDialog : XmlAttachment
     {
         if (m == null || m.Deleted) return false;
 
-        return (
-            ((m is PlayerMobile && (m.AccessLevel <= TriggerAccessLevel))) &&
-            ((!m.Body.IsGhost && !m_AllowGhostTriggering) || (m.Body.IsGhost && m_AllowGhostTriggering)));
+        return m is PlayerMobile && m.AccessLevel <= TriggerAccessLevel &&
+               (!m.Body.IsGhost && !m_AllowGhostTriggering || m.Body.IsGhost && m_AllowGhostTriggering);
     }
 
     private bool ValidSpeechTrig(Mobile m)
@@ -184,9 +183,8 @@ public class XmlDialog : XmlAttachment
             allownpctrigger = CurrentEntry.AllowNPCTrigger;
         }
 
-        return (
-            ((m is PlayerMobile && (m.AccessLevel <= TriggerAccessLevel)) || (allownpctrigger && !(m is PlayerMobile))) &&
-            ((!m.Body.IsGhost && !m_AllowGhostTriggering) || (m.Body.IsGhost && m_AllowGhostTriggering)));
+        return (m is PlayerMobile && m.AccessLevel <= TriggerAccessLevel || allownpctrigger && !(m is PlayerMobile)) &&
+               (!m.Body.IsGhost && !m_AllowGhostTriggering || m.Body.IsGhost && m_AllowGhostTriggering);
     }
 
 
@@ -264,8 +262,8 @@ public class XmlDialog : XmlAttachment
                 y = ((Mobile)AttachedTo).Location.Y;
             }
 
-            Server.Items.Clock.GetTime(map, x, y, out  hours, out  minutes);
-            return (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hours, minutes, 0).TimeOfDay);
+            Clock.GetTime(map, x, y, out  hours, out  minutes);
+            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hours, minutes, 0).TimeOfDay;
         }
     }
 
@@ -781,7 +779,7 @@ public class XmlDialog : XmlAttachment
             if (CheckDependsOn(s, s.ID)) continue;
 
             // start processing if set for spontaneous activation (banter), already active, or waiting in the default state
-            if (((CheckDependsOn(s, -1) || CheckDependsOn(s, -2)) && !IsActive) || (CheckDependsOn(s, currententryid) && (IsActive || currententryid == 0)))
+            if ((CheckDependsOn(s, -1) || CheckDependsOn(s, -2)) && !IsActive || CheckDependsOn(s, currententryid) && (IsActive || currententryid == 0))
             {
                 // now check for any conditions as well
                 // check for any condition that must be met for this entry to be processed
@@ -796,7 +794,7 @@ public class XmlDialog : XmlAttachment
                 }
 
                 // testing for keyword = null will handle calls from the OnTick
-                if ((keyword == null && s.Keywords == null))
+                if (keyword == null && s.Keywords == null)
                 {
                     // add it to the list of match candidates
                     matchlist.Add(s);
@@ -879,7 +877,7 @@ public class XmlDialog : XmlAttachment
 
         string status_str = null;
 
-        Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+        XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
         TheSpawn.TypeName = gumpstring;
         string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, this, gumpstring);
@@ -921,7 +919,7 @@ public class XmlDialog : XmlAttachment
     {
         if (action == null || action.Length <= 0) return;
         string status_str = null;
-        Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+        XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
         TheSpawn.TypeName = action;
         string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, this, action);
@@ -951,11 +949,11 @@ public class XmlDialog : XmlAttachment
         else
         {
             // its a regular type descriptor so find out what it is
-            Type type = SpawnerType.GetType(typeName);
+            Type type = AssemblyHandler.FindTypeByName(typeName);
             try
             {
                 string[] arglist = BaseXmlSpawner.ParseString(substitutedtypeName, 3, "/");
-                object o = Server.Mobiles.XmlSpawner.CreateObject(type, arglist[0]);
+                object o = XmlSpawner.CreateObject(type, arglist[0]);
 
                 if (o == null)
                 {
@@ -999,7 +997,7 @@ public class XmlDialog : XmlAttachment
 
     public override bool HandlesOnSpeech
     {
-        get { return (m_Running); }
+        get { return m_Running; }
     }
 
 
@@ -1042,7 +1040,7 @@ public class XmlDialog : XmlAttachment
             lockconversation = CurrentEntry.LockConversation;
         }
 
-        if (!e.Handled && m_Running && m_ProximityRange >= 0 && ValidSpeechTrig(e.Mobile) && ((e.Mobile == m_ActivePlayer) || !lockconversation || m_ActivePlayer == null))
+        if (!e.Handled && m_Running && m_ProximityRange >= 0 && ValidSpeechTrig(e.Mobile) && (e.Mobile == m_ActivePlayer || !lockconversation || m_ActivePlayer == null))
         {
 
             if (!Utility.InRange(e.Mobile.Location, loc, m_ProximityRange))
@@ -1064,7 +1062,7 @@ public class XmlDialog : XmlAttachment
         }
     }
 
-    public override bool HandlesOnMovement { get { return (m_Running); } }
+    public override bool HandlesOnMovement { get { return m_Running; } }
 
     public override void OnMovement(MovementEventArgs e)
     {
@@ -1135,8 +1133,8 @@ public class XmlDialog : XmlAttachment
     {
         // check to see if the interaction time has elapsed or player has gone out of range.  If so then reset to entry zero
         if (!m_HoldProcessing &&
-            ((DateTime.Now - ResetTime > m_LastInteraction) ||
-             (AttachedTo is IEntity && m_ActivePlayer != null && !IsInRange(m_ActivePlayer, (IEntity)AttachedTo, ResetRange))))
+            (DateTime.Now - ResetTime > m_LastInteraction ||
+             AttachedTo is IEntity && m_ActivePlayer != null && !IsInRange(m_ActivePlayer, (IEntity)AttachedTo, ResetRange)))
         {
             Reset();
         }
@@ -1272,7 +1270,7 @@ public class XmlDialog : XmlAttachment
             if (SpeechPace > 0 && speech != null)
             {
                 // do the auto delay calculation based on the length of the triggering speech
-                prepause = (speech.Length / SpeechPace) + 1; // make 1 sec the min pause
+                prepause = speech.Length / SpeechPace + 1; // make 1 sec the min pause
 
             }
         }
@@ -1310,9 +1308,6 @@ public class XmlDialog : XmlAttachment
         public InternalTimer(XmlDialog npc, TimeSpan delay, Mobile trigmob)
             : base(delay, delay)
         {
-
-            Priority = TimerPriority.OneSecond;
-
             m_npc = npc;
             m_trigmob = trigmob;
             m_delay = delay;
@@ -1350,13 +1345,13 @@ public class XmlDialog : XmlAttachment
         if (filename == null || filename.Length <= 0) return;
 
         string dirname;
-        if (System.IO.Directory.Exists(DefsDir) == true)
+        if (Directory.Exists(DefsDir) == true)
         {
             // look for it in the defaults directory
             dirname = $"{DefsDir}/{filename}.npc";
 
             // Check if the file exists
-            if (System.IO.File.Exists(dirname) == false)
+            if (File.Exists(dirname) == false)
             {
                 // didnt find it so just look in the main install dir
                 dirname = $"{filename}.npc";
@@ -1369,7 +1364,7 @@ public class XmlDialog : XmlAttachment
         }
 
         // Check if the file exists
-        if (System.IO.File.Exists(dirname) == true)
+        if (File.Exists(dirname) == true)
         {
             FileStream fs = null;
             try
@@ -1428,23 +1423,23 @@ public class XmlDialog : XmlAttachment
 
                     }
                     catch { }
-                    try { this.ProximityRange = int.Parse((string)dr["ProximityRange"]); }
+                    try { ProximityRange = int.Parse((string)dr["ProximityRange"]); }
                     catch { }
-                    try { this.ResetRange = int.Parse((string)dr["ResetRange"]); }
+                    try { ResetRange = int.Parse((string)dr["ResetRange"]); }
                     catch { }
-                    try { this.TriggerOnCarried = (string)dr["TriggerOnCarried"]; }
+                    try { TriggerOnCarried = (string)dr["TriggerOnCarried"]; }
                     catch { }
-                    try { this.NoTriggerOnCarried = (string)dr["NoTriggerOnCarried"]; }
+                    try { NoTriggerOnCarried = (string)dr["NoTriggerOnCarried"]; }
                     catch { }
-                    try { this.m_AllowGhostTriggering = bool.Parse((string)dr["AllowGhost"]); }
+                    try { m_AllowGhostTriggering = bool.Parse((string)dr["AllowGhost"]); }
                     catch { }
-                    try { this.m_SpeechPace = int.Parse((string)dr["SpeechPace"]); }
+                    try { m_SpeechPace = int.Parse((string)dr["SpeechPace"]); }
                     catch { }
-                    try { this.Running = bool.Parse((string)dr["Running"]); }
+                    try { Running = bool.Parse((string)dr["Running"]); }
                     catch { }
-                    try { this.ResetTime = TimeSpan.FromMinutes(double.Parse((string)dr["ResetTime"])); }
+                    try { ResetTime = TimeSpan.FromMinutes(double.Parse((string)dr["ResetTime"])); }
                     catch { }
-                    try { this.ConfigFile = (string)dr["ConfigFile"]; }
+                    try { ConfigFile = (string)dr["ConfigFile"]; }
                     catch { }
 
                     int entrycount = 0;
@@ -1568,15 +1563,15 @@ public class XmlDialog : XmlAttachment
             dr["Name"] = ((Mobile)AttachedTo).Name;
         }
 
-        dr["Running"] = this.Running;
-        dr["ProximityRange"] = this.m_ProximityRange;
-        dr["ResetRange"] = this.m_ResetRange;
-        dr["TriggerOnCarried"] = this.TriggerOnCarried;
-        dr["NoTriggerOnCarried"] = this.NoTriggerOnCarried;
-        dr["AllowGhost"] = this.m_AllowGhostTriggering;
-        dr["SpeechPace"] = this.SpeechPace;
-        dr["ResetTime"] = this.ResetTime.TotalMinutes;
-        dr["ConfigFile"] = this.ConfigFile;
+        dr["Running"] = Running;
+        dr["ProximityRange"] = m_ProximityRange;
+        dr["ResetRange"] = m_ResetRange;
+        dr["TriggerOnCarried"] = TriggerOnCarried;
+        dr["NoTriggerOnCarried"] = NoTriggerOnCarried;
+        dr["AllowGhost"] = m_AllowGhostTriggering;
+        dr["SpeechPace"] = SpeechPace;
+        dr["ResetTime"] = ResetTime.TotalMinutes;
+        dr["ConfigFile"] = ConfigFile;
         int entrycount = 0;
         if (SpeechEntries != null)
         {
@@ -1619,7 +1614,7 @@ public class XmlDialog : XmlAttachment
 
         string dirname;
 
-        if (System.IO.Directory.Exists(DefsDir) == true)
+        if (Directory.Exists(DefsDir) == true)
         {
             // put it in the defaults directory if it exists
             dirname = $"{DefsDir}/{filename}.npc";
@@ -1632,7 +1627,7 @@ public class XmlDialog : XmlAttachment
 
         // check to see if the file already exists
 
-        if (System.IO.File.Exists(dirname) == true)
+        if (File.Exists(dirname) == true)
         {
             // prompt the user to save over it
             if (from != null)
@@ -2159,7 +2154,7 @@ public class XmlDialog : XmlAttachment
                 }
             case 1:
                 {
-                    m_ActivePlayer = reader.ReadMobile();
+                    m_ActivePlayer = reader.ReadEntity<Mobile>();
                     goto case 0;
                 }
             case 0:
@@ -2219,7 +2214,7 @@ public class XmlDialog : XmlAttachment
                     bool isrunning = reader.ReadBool();
                     if (isrunning)
                     {
-                        Mobile trigmob = reader.ReadMobile();
+                        Mobile trigmob = reader.ReadEntity<Mobile>();
                         TimeSpan delay = reader.ReadTimeSpan();
                         DoTimer(delay, trigmob);
                     }

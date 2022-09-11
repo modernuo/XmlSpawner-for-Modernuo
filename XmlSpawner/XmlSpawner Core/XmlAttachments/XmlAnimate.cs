@@ -32,41 +32,41 @@ public class XmlAnimate : XmlAttachment
     [Attachable]
     public XmlAnimate(int animation)
     {
-        this.AnimationValue = animation;
+        AnimationValue = animation;
     }
 
     [Attachable]
     public XmlAnimate(int animation, double refractory)
     {
-        this.AnimationValue = animation;
-        this.Refractory = TimeSpan.FromSeconds(refractory);
+        AnimationValue = animation;
+        Refractory = TimeSpan.FromSeconds(refractory);
     }
 
     [Attachable]
     public XmlAnimate(int animation, int framecount, double refractory)
     {
-        this.AnimationValue = animation;
-        this.FrameCount = framecount;
-        this.Refractory = TimeSpan.FromSeconds(refractory);
+        AnimationValue = animation;
+        FrameCount = framecount;
+        Refractory = TimeSpan.FromSeconds(refractory);
     }
 
     [Attachable]
     public XmlAnimate(int animation, double refractory, int loopcount, int loopdelay)
     {
-        this.LoopCount = loopcount;
-        this.LoopDelay = loopdelay;
-        this.AnimationValue = animation;
-        this.Refractory = TimeSpan.FromSeconds(refractory);
+        LoopCount = loopcount;
+        LoopDelay = loopdelay;
+        AnimationValue = animation;
+        Refractory = TimeSpan.FromSeconds(refractory);
     }
 
     [Attachable]
     public XmlAnimate(int animation, int framecount, double refractory, int loopcount, int loopdelay)
     {
-        this.LoopCount = loopcount;
-        this.LoopDelay = loopdelay;
-        this.AnimationValue = animation;
-        this.FrameCount = framecount;
-        this.Refractory = TimeSpan.FromSeconds(refractory);
+        LoopCount = loopcount;
+        LoopDelay = loopdelay;
+        AnimationValue = animation;
+        FrameCount = framecount;
+        Refractory = TimeSpan.FromSeconds(refractory);
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -74,11 +74,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_ProximityRange;
+            return m_ProximityRange;
         }
         set
         {
-            this.m_ProximityRange = value;
+            m_ProximityRange = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -86,11 +86,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_FrameCount;
+            return m_FrameCount;
         }
         set
         {
-            this.m_FrameCount = value;
+            m_FrameCount = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -98,11 +98,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_RepeatCount;
+            return m_RepeatCount;
         }
         set
         {
-            this.m_RepeatCount = value;
+            m_RepeatCount = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -110,11 +110,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_AnimationDelay;
+            return m_AnimationDelay;
         }
         set
         {
-            this.m_AnimationDelay = value;
+            m_AnimationDelay = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -122,11 +122,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_Repeat;
+            return m_Repeat;
         }
         set
         {
-            this.m_Repeat = value;
+            m_Repeat = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -134,11 +134,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_Forward;
+            return m_Forward;
         }
         set
         {
-            this.m_Forward = value;
+            m_Forward = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -146,11 +146,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_AnimationValue;
+            return m_AnimationValue;
         }
         set
         {
-            this.m_AnimationValue = value;
+            m_AnimationValue = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -158,11 +158,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_ActivationWord;
+            return m_ActivationWord;
         }
         set
         {
-            this.m_ActivationWord = value;
+            m_ActivationWord = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -170,11 +170,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_Refractory;
+            return m_Refractory;
         }
         set
         {
-            this.m_Refractory = value;
+            m_Refractory = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -182,11 +182,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_LoopCount;
+            return m_LoopCount;
         }
         set
         {
-            this.m_LoopCount = value;
+            m_LoopCount = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -194,11 +194,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_LoopDelay;
+            return m_LoopDelay;
         }
         set
         {
-            this.m_LoopDelay = value;
+            m_LoopDelay = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -206,11 +206,11 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return this.m_CurrentCount;
+            return m_CurrentCount;
         }
         set
         {
-            this.m_CurrentCount = value;
+            m_CurrentCount = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -223,7 +223,7 @@ public class XmlAnimate : XmlAttachment
         set
         {
             if (value == true)
-                this.OnTrigger(null, null);
+                OnTrigger(null, null);
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -236,7 +236,7 @@ public class XmlAnimate : XmlAttachment
         set
         {
             if (value == true)
-                this.Reset();
+                Reset();
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -246,14 +246,14 @@ public class XmlAnimate : XmlAttachment
     {
         get
         {
-            return (this.ActivationWord != null);
+            return ActivationWord != null;
         }
     }
     public override bool HandlesOnMovement
     {
         get
         {
-            return (this.ProximityRange >= 0 && this.ActivationWord == null);
+            return ProximityRange >= 0 && ActivationWord == null;
         }
     }
     public override void Serialize(IGenericWriter writer)
@@ -262,19 +262,19 @@ public class XmlAnimate : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.m_CurrentCount);
-        writer.Write(this.m_LoopCount);
-        writer.Write(this.m_LoopDelay);
-        writer.Write(this.m_ProximityRange);
-        writer.Write(this.m_AnimationValue);
-        writer.Write(this.m_FrameCount);
-        writer.Write(this.m_RepeatCount);
-        writer.Write(this.m_AnimationDelay);
-        writer.Write(this.m_Forward);
-        writer.Write(this.m_Repeat);
-        writer.Write(this.m_ActivationWord);
-        writer.Write(this.m_Refractory);
-        writer.Write(this.m_EndTime - DateTime.UtcNow);
+        writer.Write(m_CurrentCount);
+        writer.Write(m_LoopCount);
+        writer.Write(m_LoopDelay);
+        writer.Write(m_ProximityRange);
+        writer.Write(m_AnimationValue);
+        writer.Write(m_FrameCount);
+        writer.Write(m_RepeatCount);
+        writer.Write(m_AnimationDelay);
+        writer.Write(m_Forward);
+        writer.Write(m_Repeat);
+        writer.Write(m_ActivationWord);
+        writer.Write(m_Refractory);
+        writer.Write(m_EndTime - DateTime.UtcNow);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -287,28 +287,28 @@ public class XmlAnimate : XmlAttachment
             case 0:
                 {
                     // version 0
-                    this.m_CurrentCount = reader.ReadInt();
-                    this.m_LoopCount = reader.ReadInt();
-                    this.m_LoopDelay = reader.ReadInt();
-                    this.m_ProximityRange = reader.ReadInt();
-                    this.m_AnimationValue = reader.ReadInt();
-                    this.m_FrameCount = reader.ReadInt();
-                    this.m_RepeatCount = reader.ReadInt();
-                    this.m_AnimationDelay = reader.ReadInt();
-                    this.m_Forward = reader.ReadBool();
-                    this.m_Repeat = reader.ReadBool();
-                    this.m_ActivationWord = reader.ReadString();
-                    this.m_Refractory = reader.ReadTimeSpan();
+                    m_CurrentCount = reader.ReadInt();
+                    m_LoopCount = reader.ReadInt();
+                    m_LoopDelay = reader.ReadInt();
+                    m_ProximityRange = reader.ReadInt();
+                    m_AnimationValue = reader.ReadInt();
+                    m_FrameCount = reader.ReadInt();
+                    m_RepeatCount = reader.ReadInt();
+                    m_AnimationDelay = reader.ReadInt();
+                    m_Forward = reader.ReadBool();
+                    m_Repeat = reader.ReadBool();
+                    m_ActivationWord = reader.ReadString();
+                    m_Refractory = reader.ReadTimeSpan();
                     TimeSpan remaining = reader.ReadTimeSpan();
-                    this.m_EndTime = DateTime.UtcNow + remaining;
+                    m_EndTime = DateTime.UtcNow + remaining;
                     break;
                 }
         }
 
         // restart any animation loops that were active
-        if (this.CurrentCount > 0)
+        if (CurrentCount > 0)
         {
-            this.DoTimer(TimeSpan.FromSeconds(this.LoopDelay));
+            DoTimer(TimeSpan.FromSeconds(LoopDelay));
         }
     }
 
@@ -318,15 +318,15 @@ public class XmlAnimate : XmlAttachment
             return null;
 
         string msg =
-            $"Animation #{this.AnimationValue},{this.FrameCount} : {this.Refractory.TotalSeconds} secs between uses";
+            $"Animation #{AnimationValue},{FrameCount} : {Refractory.TotalSeconds} secs between uses";
 
-        if (this.ActivationWord == null)
+        if (ActivationWord == null)
         {
             return msg;
         }
         else
         {
-            return $"{msg} : trigger on '{this.ActivationWord}'";
+            return $"{msg} : trigger on '{ActivationWord}'";
         }
     }
 
@@ -337,9 +337,9 @@ public class XmlAnimate : XmlAttachment
         if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
             return;
 
-        if (e.Speech == this.ActivationWord)
+        if (e.Speech == ActivationWord)
         {
-            this.OnTrigger(null, e.Mobile);
+            OnTrigger(null, e.Mobile);
         }
     }
 
@@ -350,9 +350,9 @@ public class XmlAnimate : XmlAttachment
         if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
             return;
 
-        if (this.AttachedTo is Item && (((Item)this.AttachedTo).Parent == null) && Utility.InRange(e.Mobile.Location, ((Item)this.AttachedTo).Location, this.ProximityRange))
+        if (AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange(e.Mobile.Location, ((Item)AttachedTo).Location, ProximityRange))
         {
-            this.OnTrigger(null, e.Mobile);
+            OnTrigger(null, e.Mobile);
         }
         else
             return;
@@ -363,63 +363,63 @@ public class XmlAnimate : XmlAttachment
         base.OnAttach();
 
         // only attach to mobiles
-        if (!(this.AttachedTo is Mobile))
+        if (!(AttachedTo is Mobile))
         {
-            this.Delete();
+            Delete();
         }
     }
 
     public void Reset()
     {
-        if (this.m_Timer != null)
-            this.m_Timer.Stop();
+        if (m_Timer != null)
+            m_Timer.Stop();
 
-        this.CurrentCount = 0;
-        this.m_EndTime = DateTime.UtcNow;
+        CurrentCount = 0;
+        m_EndTime = DateTime.UtcNow;
     }
 
     public void Animate()
     {
         // play a animation
-        if (this.AttachedTo is Mobile && this.AnimationValue >= 0)
+        if (AttachedTo is Mobile && AnimationValue >= 0)
         {
-            ((Mobile)this.AttachedTo).Animate(this.AnimationValue, this.FrameCount, this.RepeatCount, this.Forward, this.Repeat, this.AnimationDelay);
+            ((Mobile)AttachedTo).Animate(AnimationValue, FrameCount, RepeatCount, Forward, Repeat, AnimationDelay);
         }
 
-        this.UpdateRefractory();
+        UpdateRefractory();
 
-        this.CurrentCount--;
+        CurrentCount--;
     }
 
     public void UpdateRefractory()
     {
-        this.m_EndTime = DateTime.UtcNow + this.Refractory;
+        m_EndTime = DateTime.UtcNow + Refractory;
     }
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if (DateTime.UtcNow < this.m_EndTime)
+        if (DateTime.UtcNow < m_EndTime)
             return;
 
-        if (this.LoopCount > 0)
+        if (LoopCount > 0)
         {
-            this.CurrentCount = this.LoopCount;
+            CurrentCount = LoopCount;
             // check to make sure the timer is running
-            this.DoTimer(TimeSpan.FromSeconds(this.LoopDelay));
+            DoTimer(TimeSpan.FromSeconds(LoopDelay));
         }
         else
         {
-            this.Animate();
+            Animate();
         }
     }
 
     private void DoTimer(TimeSpan delay)
     {
-        if (this.m_Timer != null)
-            this.m_Timer.Stop();
+        if (m_Timer != null)
+            m_Timer.Stop();
 
-        this.m_Timer = new LoopTimer(this, delay);
-        this.m_Timer.Start();
+        m_Timer = new LoopTimer(this, delay);
+        m_Timer.Start();
     }
 
     private class LoopTimer : Timer
@@ -429,24 +429,22 @@ public class XmlAnimate : XmlAttachment
         public LoopTimer(XmlAnimate attachment, TimeSpan delay)
             : base(delay, delay)
         {
-            this.Priority = TimerPriority.OneSecond;
-
-            this.m_attachment = attachment;
-            this.m_delay = delay;
+            m_attachment = attachment;
+            m_delay = delay;
         }
 
         protected override void OnTick()
         {
-            if (this.m_attachment != null && !this.m_attachment.Deleted)
+            if (m_attachment != null && !m_attachment.Deleted)
             {
-                this.m_attachment.Animate();
+                m_attachment.Animate();
 
-                if (this.m_attachment.CurrentCount <= 0)
-                    this.Stop();
+                if (m_attachment.CurrentCount <= 0)
+                    Stop();
             }
             else
             {
-                this.Stop();
+                Stop();
             }
         }
     }

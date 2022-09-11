@@ -1,4 +1,3 @@
-using System;
 using Server.Gumps;
 using Server.Mobiles;
 using System.Collections;
@@ -69,7 +68,7 @@ public class XmlQuestBook : Container
     [CommandProperty( AccessLevel.GameMaster )]
     public bool IsCompleted
     {   get{
-            Item [] questitems = this.FindItemsByType(typeof(IXmlQuest));
+            Item [] questitems = FindItemsByType(typeof(IXmlQuest));
 
             if(questitems == null || questitems.Length <= 0)
                 return false;
@@ -153,7 +152,7 @@ public class XmlQuestBook : Container
         {
             Owner.SendMessage($"{TotalItems} Quests invalidated - '{Name}' removed");
         }
-        this.Delete();
+        Delete();
     }
 
     public override void OnItemLifted(Mobile from, Item item)
@@ -261,7 +260,7 @@ public class XmlQuestBook : Container
 
         int version = reader.ReadInt();
 
-        this.m_Owner = reader.ReadMobile() as PlayerMobile;
-        this.m_Locked = reader.ReadBool();
+        m_Owner = reader.ReadEntity<PlayerMobile>();
+        m_Locked = reader.ReadBool();
     }
 }

@@ -97,7 +97,7 @@ public class XmlMinionStrike : XmlAttachment
             object o = null;
             try
             {
-                o = Activator.CreateInstance( SpawnerType.GetType(m_Minion) );
+                o = Activator.CreateInstance( AssemblyHandler.FindTypeByName(m_Minion) );
             }
             catch{}
 
@@ -182,7 +182,7 @@ public class XmlMinionStrike : XmlAttachment
         int nminions = reader.ReadInt();
         for(int i = 0;i<nminions;i++)
         {
-            BaseCreature b = (BaseCreature)reader.ReadMobile();
+            BaseCreature b = (BaseCreature)reader.ReadEntity<Mobile>();
             MinionList.Add(b);
         }
     }

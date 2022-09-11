@@ -403,8 +403,8 @@ public class XmlSpawnerGump : Gump
             }
 
             // increment/decrement buttons
-            AddButton(15, 22 * (i % MaxEntriesPerPage) + 34, 0x15E0, 0x15E4, 6 + (i * 2), GumpButtonType.Reply, 0);
-            AddButton(30, 22 * (i % MaxEntriesPerPage) + 34, 0x15E2, 0x15E6, 7 + (i * 2), GumpButtonType.Reply, 0);
+            AddButton(15, 22 * (i % MaxEntriesPerPage) + 34, 0x15E0, 0x15E4, 6 + i * 2, GumpButtonType.Reply, 0);
+            AddButton(30, 22 * (i % MaxEntriesPerPage) + 34, 0x15E2, 0x15E6, 7 + i * 2, GumpButtonType.Reply, 0);
 
             // categorization gump button
             AddButton(171 + xoffset - 18, 22 * (i % MaxEntriesPerPage) + 34, 0x15E1, 0x15E5, 5000 + i, GumpButtonType.Reply, 0);
@@ -493,13 +493,13 @@ public class XmlSpawnerGump : Gump
                     {
                         // if the next spawn tick of the spawner will occur after the subgroup is available for spawning
                         // then report the next spawn tick since that is the earliest that the subgroup can actually be spawned
-                        if ((DateTime.UtcNow + m_Spawner.NextSpawn) > m_Spawner.SpawnObjects[i].NextSpawn)
+                        if (DateTime.UtcNow + m_Spawner.NextSpawn > m_Spawner.SpawnObjects[i].NextSpawn)
                         {
                             strnext = m_Spawner.NextSpawn.ToString();
                         }
                         else
                         {
-                            // estimate the earliest the next spawn could occur as the first spawn tick after reaching the subgroup nextspawn 
+                            // estimate the earliest the next spawn could occur as the first spawn tick after reaching the subgroup nextspawn
                             strnext = (m_Spawner.SpawnObjects[i].NextSpawn - DateTime.UtcNow + m_Spawner.NextSpawn).ToString();
                         }
                     }
@@ -589,7 +589,7 @@ public class XmlSpawnerGump : Gump
 #endif
                     string typestr = BaseXmlSpawner.ParseObjectType(str);
 
-                    Type type = SpawnerType.GetType(typestr);
+                    Type type = AssemblyHandler.FindTypeByName(typestr);
 
                     if (type != null)
                         SpawnObjects.Add(new XmlSpawner.SpawnObject(from, m_Spawner, str, 0));
@@ -654,7 +654,7 @@ public class XmlSpawnerGump : Gump
     {
         object[] args = (object[])state;
         Mobile m = (Mobile)args[0];
-        // refresh the spawner gumps			
+        // refresh the spawner gumps
         RefreshSpawnerGumps(m);
     }
 
@@ -678,7 +678,7 @@ public class XmlSpawnerGump : Gump
             }
 
             // close all of the currently opened spawner gumps
-            from.CloseGump(typeof(XmlSpawnerGump));
+            from.CloseGump<XmlSpawnerGump>();
 
             // reopen the closed gumps from the gump collection
             foreach (XmlSpawnerGump g in refresh)
@@ -701,7 +701,7 @@ public class XmlSpawnerGump : Gump
     {
         if (o is Item i)
         {
-            if (!i.Deleted && (i.Map != null) && (i.Map != Map.Internal))
+            if (!i.Deleted && i.Map != null && i.Map != Map.Internal)
                 return true;
 
             if (from != null && !from.Deleted)
@@ -711,7 +711,7 @@ public class XmlSpawnerGump : Gump
         }
         else if (o is Mobile m)
         {
-            if (!m.Deleted && (m.Map != null) && (m.Map != Map.Internal))
+            if (!m.Deleted && m.Map != null && m.Map != Map.Internal)
                 return true;
 
             if (from != null && !from.Deleted)
@@ -912,7 +912,7 @@ public class XmlSpawnerGump : Gump
                         catch (Exception e) { Diagnostics.ExceptionLogging.LogException(e); }
                         if (grpval < 0) grpval = 1;
 
-                        // if this value has changed, then update 
+                        // if this value has changed, then update
                         if (grpval != m_Spawner.SpawnObjects[i].PackRange)
                         {
                             m_Spawner.SpawnObjects[i].PackRange = grpval;
@@ -1176,13 +1176,13 @@ public class XmlSpawnerGump : Gump
                             state.Mobile.SendGump(newg);
 
                             // if no string has been entered then just use the full categorized add gump
-                            state.Mobile.CloseGump(typeof(XmlCategorizedAddGump));
+                            state.Mobile.CloseGump<XmlCategorizedAddGump>();
                             state.Mobile.SendGump(new XmlCategorizedAddGump(state.Mobile, i, newg));
                         }
                         else
                         {
                             // use the XmlPartialCategorizedAddGump
-                            state.Mobile.CloseGump(typeof(XmlPartialCategorizedAddGump));
+                            state.Mobile.CloseGump<XmlPartialCategorizedAddGump>();
 
                             //Type [] types = (Type[])XmlPartialCategorizedAddGump.Match( categorystring ).ToArray( typeof( Type ) );
                             ArrayList types = XmlPartialCategorizedAddGump.Match(categorystring);

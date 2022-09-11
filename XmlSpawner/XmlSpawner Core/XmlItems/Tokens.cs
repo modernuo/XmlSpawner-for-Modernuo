@@ -31,7 +31,7 @@ public class RewardScrollDeed : Item
     public override void OnDoubleClick( Mobile from )
     {
         from.AddToBackpack( new RewardScroll() );
-        this.Delete();
+        Delete();
     }
 
     [Constructable]

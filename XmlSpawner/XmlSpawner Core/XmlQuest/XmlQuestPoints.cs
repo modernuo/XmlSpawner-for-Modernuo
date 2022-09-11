@@ -92,7 +92,7 @@ public class XmlQuestPoints : XmlAttachment
             {
                 case 0:
                     {
-                        Quester = reader.ReadMobile();
+                        Quester = reader.ReadEntity<Mobile>();
                         Name = reader.ReadString();
                         WhenCompleted = reader.ReadDateTime();
                         WhenStarted = reader.ReadDateTime();
@@ -187,7 +187,7 @@ public class XmlQuestPoints : XmlAttachment
     {
         if(e == null || e.Mobile == null) return;
 
-        e.Mobile.CloseGump(typeof(QuestLogGump));
+        e.Mobile.CloseGump<QuestLogGump>();
         e.Mobile.SendGump(new QuestLogGump(e.Mobile));
     }
 
@@ -359,7 +359,7 @@ public class XmlQuestPoints : XmlAttachment
 
 
                     // get the owner of this in order to rebuild the rankings
-                    Mobile quester = reader.ReadMobile();
+                    Mobile quester = reader.ReadEntity<Mobile>();
 
                     // rebuild the ranking list
                     // if they have never made a kill, then dont rank

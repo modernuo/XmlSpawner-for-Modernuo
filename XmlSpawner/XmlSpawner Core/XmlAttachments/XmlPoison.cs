@@ -12,7 +12,7 @@ public class XmlPoison : XmlAttachment
     [Attachable]
     public XmlPoison(int level)
     {
-        this.p_level = level;
+        p_level = level;
     }
 
     // when attached to a mobile, it should gain poison immunity and a poison
@@ -22,23 +22,23 @@ public class XmlPoison : XmlAttachment
     {
         get
         {
-            if (this.p_level < 1)
+            if (p_level < 1)
             {
                 return Poison.Lesser;
             }
-            else if (this.p_level == 1)
+            else if (p_level == 1)
             {
                 return Poison.Regular;
             }
-            else if (this.p_level == 2)
+            else if (p_level == 2)
             {
                 return Poison.Greater;
             }
-            else if (this.p_level == 3)
+            else if (p_level == 3)
             {
                 return Poison.Deadly;
             }
-            else if (this.p_level > 3)
+            else if (p_level > 3)
             {
                 return Poison.Lethal;
             }
@@ -52,23 +52,23 @@ public class XmlPoison : XmlAttachment
     {
         get
         {
-            if (this.p_level < 1)
+            if (p_level < 1)
             {
                 return Poison.Lesser;
             }
-            else if (this.p_level == 1)
+            else if (p_level == 1)
             {
                 return Poison.Regular;
             }
-            else if (this.p_level == 2)
+            else if (p_level == 2)
             {
                 return Poison.Greater;
             }
-            else if (this.p_level == 3)
+            else if (p_level == 3)
             {
                 return Poison.Deadly;
             }
-            else if (this.p_level > 3)
+            else if (p_level > 3)
             {
                 return Poison.Lethal;
             }
@@ -84,7 +84,7 @@ public class XmlPoison : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.p_level);
+        writer.Write(p_level);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -97,7 +97,7 @@ public class XmlPoison : XmlAttachment
             case 0:
                 {
                     // version 0
-                    this.p_level = reader.ReadInt();
+                    p_level = reader.ReadInt();
                     break;
                 }
         }

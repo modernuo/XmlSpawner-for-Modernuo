@@ -14,29 +14,29 @@ public class XmlIsEnemy : XmlAttachment
     [Attachable]
     public XmlIsEnemy()
     {
-        this.Test = String.Empty;
+        Test = String.Empty;
     }
 
     [Attachable]
     public XmlIsEnemy(string name)
     {
-        this.Name = name;
-        this.Test = String.Empty;
+        Name = name;
+        Test = String.Empty;
     }
 
     [Attachable]
     public XmlIsEnemy(string name, string test)
     {
-        this.Name = name;
-        this.Test = test;
+        Name = name;
+        Test = test;
     }
 
     [Attachable]
     public XmlIsEnemy(string name, string test, double expiresin)
     {
-        this.Name = name;
-        this.Test = test;
-        this.Expiration = TimeSpan.FromMinutes(expiresin);
+        Name = name;
+        Test = test;
+        Expiration = TimeSpan.FromMinutes(expiresin);
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -44,11 +44,11 @@ public class XmlIsEnemy : XmlAttachment
     {
         get
         {
-            return this.m_TestString;
+            return m_TestString;
         }
         set
         {
-            this.m_TestString = value;
+            m_TestString = value;
         }
     }
     public bool IsEnemy(Mobile from)
@@ -59,11 +59,11 @@ public class XmlIsEnemy : XmlAttachment
         bool isenemy = false;
 
         // test the condition if there is one
-        if (this.Test != null && this.Test.Length > 0)
+        if (Test != null && Test.Length > 0)
         {
             string status_str;
 
-            isenemy = BaseXmlSpawner.CheckPropertyString(null, this.AttachedTo, this.Test, out status_str);
+            isenemy = BaseXmlSpawner.CheckPropertyString(null, AttachedTo, Test, out status_str);
         }
 
         return isenemy;
@@ -75,7 +75,7 @@ public class XmlIsEnemy : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.m_TestString);
+        writer.Write(m_TestString);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -87,7 +87,7 @@ public class XmlIsEnemy : XmlAttachment
         {
             case 0:
                 {
-                    this.m_TestString = reader.ReadString();
+                    m_TestString = reader.ReadString();
                     break;
                 }
         }
@@ -98,13 +98,13 @@ public class XmlIsEnemy : XmlAttachment
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
             return null;
 
-        if (this.Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
-            return $"{this.Name}: IsEnemy '{this.Test}' expires in {this.Expiration.TotalMinutes} mins";
+            return $"{Name}: IsEnemy '{Test}' expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            return $"{this.Name}: IsEnemy '{this.Test}'";
+            return $"{Name}: IsEnemy '{Test}'";
         }
     }
 }

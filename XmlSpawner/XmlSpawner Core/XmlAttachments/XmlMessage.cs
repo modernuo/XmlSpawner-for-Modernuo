@@ -134,7 +134,7 @@ public class XmlMessage : XmlAttachment
 
     }
 
-    public override bool HandlesOnSpeech { get { return (ActivationWord != null); } }
+    public override bool HandlesOnSpeech { get { return ActivationWord != null; } }
 
     public override void OnSpeech(SpeechEventArgs e )
     {
@@ -148,7 +148,7 @@ public class XmlMessage : XmlAttachment
         }
     }
 
-    public override bool HandlesOnMovement { get { return (ActivationWord == null); } }
+    public override bool HandlesOnMovement { get { return ActivationWord == null; } }
 
     public override void OnMovement(MovementEventArgs e )
     {
@@ -156,7 +156,7 @@ public class XmlMessage : XmlAttachment
 
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
-        if(AttachedTo is Item && (((Item)AttachedTo).Parent == null) && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
+        if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
         }

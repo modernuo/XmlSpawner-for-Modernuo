@@ -17,14 +17,14 @@ namespace Server.Engines.XmlSpawner2
         [Attachable]
         public XmlFollow(int distance)
         {
-            this.Distance = distance;
+            Distance = distance;
         }
 
         [Attachable]
         public XmlFollow(int distance, double expiresin)
         {
-            this.Distance = distance;
-            this.Expiration = TimeSpan.FromMinutes(expiresin);
+            Distance = distance;
+            Expiration = TimeSpan.FromMinutes(expiresin);
         }
 
         [CommandProperty(AccessLevel.GameMaster)]
@@ -32,14 +32,14 @@ namespace Server.Engines.XmlSpawner2
         {
             get
             {
-                return this.m_DataValue;
+                return m_DataValue;
             }
             set
             {
-                this.m_DataValue = value;
-                if (this.AttachedTo is BaseCreature)
+                m_DataValue = value;
+                if (AttachedTo is BaseCreature)
                 {
-                    ((BaseCreature)this.AttachedTo).FollowRange = this.m_DataValue;
+                    ((BaseCreature)AttachedTo).FollowRange = m_DataValue;
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace Server.Engines.XmlSpawner2
 
             writer.Write(0);
             // version 0
-            writer.Write(this.m_DataValue);
+            writer.Write(m_DataValue);
         }
 
         public override void Deserialize(IGenericReader reader)
@@ -61,7 +61,7 @@ namespace Server.Engines.XmlSpawner2
 
             int version = reader.ReadInt();
             // version 0
-            this.m_DataValue = reader.ReadInt();
+            m_DataValue = reader.ReadInt();
         }
 
         public override void OnDelete()
@@ -69,9 +69,9 @@ namespace Server.Engines.XmlSpawner2
             base.OnDelete();
 
             // remove the mod
-            if (this.AttachedTo is BaseCreature)
+            if (AttachedTo is BaseCreature)
             {
-                ((BaseCreature)this.AttachedTo).FollowRange = -1;
+                ((BaseCreature)AttachedTo).FollowRange = -1;
             }
         }
 
@@ -80,9 +80,9 @@ namespace Server.Engines.XmlSpawner2
             base.OnAttach();
 
             // apply the mod immediately if attached to a mob
-            if (this.AttachedTo is BaseCreature)
+            if (AttachedTo is BaseCreature)
             {
-                ((BaseCreature)this.AttachedTo).FollowRange = this.Distance;
+                ((BaseCreature)AttachedTo).FollowRange = Distance;
             }
         }
 
@@ -91,27 +91,27 @@ namespace Server.Engines.XmlSpawner2
             base.OnReattach();
 
             // reapply the mod if attached to a mob
-            if (this.AttachedTo is BaseCreature)
+            if (AttachedTo is BaseCreature)
             {
-                ((BaseCreature)this.AttachedTo).FollowRange = this.Distance;
+                ((BaseCreature)AttachedTo).FollowRange = Distance;
             }
         }
 
         public override string OnIdentify(Mobile from)
         {
-            if (from == null || from.IsPlayer() || !(this.AttachedTo is BaseCreature))
+            if (from == null || from.IsPlayer() || !(AttachedTo is BaseCreature))
                 return null;
 
-            BaseCreature b = this.AttachedTo as BaseCreature;
+            BaseCreature b = AttachedTo as BaseCreature;
 
-            if (this.Expiration > TimeSpan.Zero)
+            if (Expiration > TimeSpan.Zero)
             {
                 return
-                    $"Following {b.SummonMaster} at Distance {this.Distance} expires in {this.Expiration.TotalMinutes} mins";
+                    $"Following {b.SummonMaster} at Distance {Distance} expires in {Expiration.TotalMinutes} mins";
             }
             else
             {
-                return $"Following {b.SummonMaster} at Distance {this.Distance}";
+                return $"Following {b.SummonMaster} at Distance {Distance}";
             }
         }
     }

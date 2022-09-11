@@ -200,16 +200,16 @@ public class SimpleLever : Item, ILinkable
         // version 1
         writer.Write(m_LinkedItem);
         // version 0
-        writer.Write(this.m_LeverState);
-        writer.Write(this.m_LeverSound);
-        int ltype = (int)this.m_LeverType;
+        writer.Write(m_LeverState);
+        writer.Write(m_LeverSound);
+        int ltype = (int)m_LeverType;
         writer.Write(ltype);
-        writer.Write(this.m_TargetItem0);
-        writer.Write(this.m_TargetProperty0);
-        writer.Write(this.m_TargetItem1);
-        writer.Write(this.m_TargetProperty1);
-        writer.Write(this.m_TargetItem2);
-        writer.Write(this.m_TargetProperty2);
+        writer.Write(m_TargetItem0);
+        writer.Write(m_TargetProperty0);
+        writer.Write(m_TargetItem1);
+        writer.Write(m_TargetProperty1);
+        writer.Write(m_TargetItem2);
+        writer.Write(m_TargetProperty2);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -226,31 +226,31 @@ public class SimpleLever : Item, ILinkable
                 }
             case 1:
                 {
-                    m_LinkedItem = reader.ReadItem();
+                    m_LinkedItem = reader.ReadEntity<Item>();
                     goto case 0;
                 }
             case 0:
                 {
-                    this.m_LeverState = reader.ReadInt();
-                    this.m_LeverSound = reader.ReadInt();
+                    m_LeverState = reader.ReadInt();
+                    m_LeverSound = reader.ReadInt();
                     int ltype = reader.ReadInt();
                     switch (ltype)
                     {
                         case (int)leverType.Two_State:
                             {
-                                this.m_LeverType = leverType.Two_State; break;
+                                m_LeverType = leverType.Two_State; break;
                             }
                         case (int)leverType.Three_State:
                             {
-                                this.m_LeverType = leverType.Three_State; break;
+                                m_LeverType = leverType.Three_State; break;
                             }
                     }
-                    this.m_TargetItem0 = reader.ReadItem();
-                    this.m_TargetProperty0 = reader.ReadString();
-                    this.m_TargetItem1 = reader.ReadItem();
-                    this.m_TargetProperty1 = reader.ReadString();
-                    this.m_TargetItem2 = reader.ReadItem();
-                    this.m_TargetProperty2 = reader.ReadString();
+                    m_TargetItem0 = reader.ReadEntity<Item>();
+                    m_TargetProperty0 = reader.ReadString();
+                    m_TargetItem1 = reader.ReadEntity<Item>();
+                    m_TargetProperty1 = reader.ReadString();
+                    m_TargetItem2 = reader.ReadEntity<Item>();
+                    m_TargetProperty2 = reader.ReadString();
                 }
                 break;
         }
@@ -259,7 +259,7 @@ public class SimpleLever : Item, ILinkable
     public void SetLeverStatic()
     {
 
-        switch (this.Direction)
+        switch (Direction)
         {
             case Direction.North:
             case Direction.South:
@@ -267,9 +267,9 @@ public class SimpleLever : Item, ILinkable
             case Direction.Up:
                 {
                     if (m_LeverType == leverType.Two_State)
-                        this.ItemID = 0x108c + m_LeverState * 2;
+                        ItemID = 0x108c + m_LeverState * 2;
                     else
-                        this.ItemID = 0x108c + m_LeverState;
+                        ItemID = 0x108c + m_LeverState;
                     break;
                 }
             case Direction.East:
@@ -278,9 +278,9 @@ public class SimpleLever : Item, ILinkable
             case Direction.Down:
                 {
                     if (m_LeverType == leverType.Two_State)
-                        this.ItemID = 0x1093 + m_LeverState * 2;
+                        ItemID = 0x1093 + m_LeverState * 2;
                     else
-                        this.ItemID = 0x1093 + m_LeverState;
+                        ItemID = 0x1093 + m_LeverState;
                     break;
                 }
             default:
@@ -527,16 +527,16 @@ public class SimpleSwitch : Item, ILinkable
 
         writer.Write(2); // version
         // version 2
-        writer.Write(this.m_Disabled);
+        writer.Write(m_Disabled);
         // version 1
-        writer.Write(this.m_LinkedItem);
+        writer.Write(m_LinkedItem);
         // version 0
-        writer.Write(this.m_SwitchState);
-        writer.Write(this.m_SwitchSound);
-        writer.Write(this.m_TargetItem0);
-        writer.Write(this.m_TargetProperty0);
-        writer.Write(this.m_TargetItem1);
-        writer.Write(this.m_TargetProperty1);
+        writer.Write(m_SwitchState);
+        writer.Write(m_SwitchSound);
+        writer.Write(m_TargetItem0);
+        writer.Write(m_TargetProperty0);
+        writer.Write(m_TargetItem1);
+        writer.Write(m_TargetProperty1);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -553,17 +553,17 @@ public class SimpleSwitch : Item, ILinkable
                 }
             case 1:
                 {
-                    m_LinkedItem = reader.ReadItem();
+                    m_LinkedItem = reader.ReadEntity<Item>();
                     goto case 0;
                 }
             case 0:
                 {
-                    this.m_SwitchState = reader.ReadInt();
-                    this.m_SwitchSound = reader.ReadInt();
-                    this.m_TargetItem0 = reader.ReadItem();
-                    this.m_TargetProperty0 = reader.ReadString();
-                    this.m_TargetItem1 = reader.ReadItem();
-                    this.m_TargetProperty1 = reader.ReadString();
+                    m_SwitchState = reader.ReadInt();
+                    m_SwitchSound = reader.ReadInt();
+                    m_TargetItem0 = reader.ReadEntity<Item>();
+                    m_TargetProperty0 = reader.ReadString();
+                    m_TargetItem1 = reader.ReadEntity<Item>();
+                    m_TargetProperty1 = reader.ReadString();
                 }
                 break;
         }
@@ -572,14 +572,14 @@ public class SimpleSwitch : Item, ILinkable
     public void SetSwitchStatic()
     {
 
-        switch (this.Direction)
+        switch (Direction)
         {
             case Direction.North:
             case Direction.South:
             case Direction.Right:
             case Direction.Up:
                 {
-                    this.ItemID = 0x108f + m_SwitchState;
+                    ItemID = 0x108f + m_SwitchState;
                     break;
                 }
             case Direction.East:
@@ -587,12 +587,12 @@ public class SimpleSwitch : Item, ILinkable
             case Direction.Left:
             case Direction.Down:
                 {
-                    this.ItemID = 0x1091 + m_SwitchState;
+                    ItemID = 0x1091 + m_SwitchState;
                     break;
                 }
             default:
                 {
-                    this.ItemID = 0x108f + m_SwitchState;
+                    ItemID = 0x108f + m_SwitchState;
                     break;
                 }
         }
@@ -723,7 +723,7 @@ public class CombinationLock : Item
     public int CheckDigit(object o, string property)
     {
         if (o == null) return 0;
-        if (property == null || property.Length <= 0) return (0);
+        if (property == null || property.Length <= 0) return 0;
         Type ptype;
         int ival = -1;
         string testvalue;
@@ -795,7 +795,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit0
-    { get { return (CheckDigit(m_Digit0Object, m_Digit0Property)); } }
+    { get { return CheckDigit(m_Digit0Object, m_Digit0Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit1Object
@@ -811,7 +811,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit1
-    { get { return (CheckDigit(m_Digit1Object, m_Digit1Property)); } }
+    { get { return CheckDigit(m_Digit1Object, m_Digit1Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit2Object
@@ -827,7 +827,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit2
-    { get { return (CheckDigit(m_Digit2Object, m_Digit2Property)); } }
+    { get { return CheckDigit(m_Digit2Object, m_Digit2Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit3Object
@@ -843,7 +843,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit3
-    { get { return (CheckDigit(m_Digit3Object, m_Digit3Property)); } }
+    { get { return CheckDigit(m_Digit3Object, m_Digit3Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit4Object
@@ -859,7 +859,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit4
-    { get { return (CheckDigit(m_Digit4Object, m_Digit4Property)); } }
+    { get { return CheckDigit(m_Digit4Object, m_Digit4Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit5Object
@@ -875,7 +875,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit5
-    { get { return (CheckDigit(m_Digit5Object, m_Digit5Property)); } }
+    { get { return CheckDigit(m_Digit5Object, m_Digit5Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit6Object
@@ -891,7 +891,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit6
-    { get { return (CheckDigit(m_Digit6Object, m_Digit6Property)); } }
+    { get { return CheckDigit(m_Digit6Object, m_Digit6Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit7Object
@@ -907,7 +907,7 @@ public class CombinationLock : Item
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int Digit7
-    { get { return (CheckDigit(m_Digit7Object, m_Digit7Property)); } }
+    { get { return CheckDigit(m_Digit7Object, m_Digit7Property); } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item TargetItem
@@ -939,7 +939,7 @@ public class CombinationLock : Item
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Matched
     {
-        get { return (m_Combination == CurrentValue); }
+        get { return m_Combination == CurrentValue; }
     }
     [CommandProperty(AccessLevel.GameMaster)]
 
@@ -959,26 +959,26 @@ public class CombinationLock : Item
 
         writer.Write(0); // version
 
-        writer.Write(this.m_Combination);
-        writer.Write(this.m_CombinationSound);
-        writer.Write(this.m_Digit0Object);
-        writer.Write(this.m_Digit0Property);
-        writer.Write(this.m_Digit1Object);
-        writer.Write(this.m_Digit1Property);
-        writer.Write(this.m_Digit2Object);
-        writer.Write(this.m_Digit2Property);
-        writer.Write(this.m_Digit3Object);
-        writer.Write(this.m_Digit3Property);
-        writer.Write(this.m_Digit4Object);
-        writer.Write(this.m_Digit4Property);
-        writer.Write(this.m_Digit5Object);
-        writer.Write(this.m_Digit5Property);
-        writer.Write(this.m_Digit6Object);
-        writer.Write(this.m_Digit6Property);
-        writer.Write(this.m_Digit7Object);
-        writer.Write(this.m_Digit7Property);
-        writer.Write(this.m_TargetItem);
-        writer.Write(this.m_TargetProperty);
+        writer.Write(m_Combination);
+        writer.Write(m_CombinationSound);
+        writer.Write(m_Digit0Object);
+        writer.Write(m_Digit0Property);
+        writer.Write(m_Digit1Object);
+        writer.Write(m_Digit1Property);
+        writer.Write(m_Digit2Object);
+        writer.Write(m_Digit2Property);
+        writer.Write(m_Digit3Object);
+        writer.Write(m_Digit3Property);
+        writer.Write(m_Digit4Object);
+        writer.Write(m_Digit4Property);
+        writer.Write(m_Digit5Object);
+        writer.Write(m_Digit5Property);
+        writer.Write(m_Digit6Object);
+        writer.Write(m_Digit6Property);
+        writer.Write(m_Digit7Object);
+        writer.Write(m_Digit7Property);
+        writer.Write(m_TargetItem);
+        writer.Write(m_TargetProperty);
 
     }
 
@@ -991,26 +991,26 @@ public class CombinationLock : Item
         {
             case 0:
                 {
-                    this.m_Combination = reader.ReadInt();
-                    this.m_CombinationSound = reader.ReadInt();
-                    this.m_Digit0Object = reader.ReadItem();
-                    this.m_Digit0Property = reader.ReadString();
-                    this.m_Digit1Object = reader.ReadItem();
-                    this.m_Digit1Property = reader.ReadString();
-                    this.m_Digit2Object = reader.ReadItem();
-                    this.m_Digit2Property = reader.ReadString();
-                    this.m_Digit3Object = reader.ReadItem();
-                    this.m_Digit3Property = reader.ReadString();
-                    this.m_Digit4Object = reader.ReadItem();
-                    this.m_Digit4Property = reader.ReadString();
-                    this.m_Digit5Object = reader.ReadItem();
-                    this.m_Digit5Property = reader.ReadString();
-                    this.m_Digit6Object = reader.ReadItem();
-                    this.m_Digit6Property = reader.ReadString();
-                    this.m_Digit7Object = reader.ReadItem();
-                    this.m_Digit7Property = reader.ReadString();
-                    this.m_TargetItem = reader.ReadItem();
-                    this.m_TargetProperty = reader.ReadString();
+                    m_Combination = reader.ReadInt();
+                    m_CombinationSound = reader.ReadInt();
+                    m_Digit0Object = reader.ReadEntity<Item>();
+                    m_Digit0Property = reader.ReadString();
+                    m_Digit1Object = reader.ReadEntity<Item>();
+                    m_Digit1Property = reader.ReadString();
+                    m_Digit2Object = reader.ReadEntity<Item>();
+                    m_Digit2Property = reader.ReadString();
+                    m_Digit3Object = reader.ReadEntity<Item>();
+                    m_Digit3Property = reader.ReadString();
+                    m_Digit4Object = reader.ReadEntity<Item>();
+                    m_Digit4Property = reader.ReadString();
+                    m_Digit5Object = reader.ReadEntity<Item>();
+                    m_Digit5Property = reader.ReadString();
+                    m_Digit6Object = reader.ReadEntity<Item>();
+                    m_Digit6Property = reader.ReadString();
+                    m_Digit7Object = reader.ReadEntity<Item>();
+                    m_Digit7Property = reader.ReadString();
+                    m_TargetItem = reader.ReadEntity<Item>();
+                    m_TargetProperty = reader.ReadString();
 
                 }
                 break;

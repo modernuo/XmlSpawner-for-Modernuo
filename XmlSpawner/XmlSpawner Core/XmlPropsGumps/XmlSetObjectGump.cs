@@ -48,7 +48,7 @@ public class XmlSetObjectGump : Gump
     private static readonly int EntryWidth = 212;
 
     private static readonly int TotalWidth = OffsetSize + EntryWidth + OffsetSize + SetWidth + OffsetSize;
-    private static readonly int TotalHeight = OffsetSize + (5 * (EntryHeight + OffsetSize));
+    private static readonly int TotalHeight = OffsetSize + 5 * (EntryHeight + OffsetSize);
 
     private static readonly int BackWidth = BorderSize + TotalWidth + BorderSize;
     private static readonly int BackHeight = BorderSize + TotalHeight + BorderSize;

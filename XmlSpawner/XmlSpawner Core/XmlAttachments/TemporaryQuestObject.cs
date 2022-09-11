@@ -92,7 +92,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
         int version = reader.ReadInt();
 
         // version 0
-        m_QuestOwner = reader.ReadMobile();
+        m_QuestOwner = reader.ReadEntity<Mobile>();
 
     }
 

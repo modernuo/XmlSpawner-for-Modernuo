@@ -124,7 +124,7 @@ public class XmlDeathAction : XmlAttachment
         if (action == null || action.Length <= 0 || corpse == null) return;
 
         string status_str = null;
-        Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+        XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
         TheSpawn.TypeName = action;
         string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, corpse, action);
@@ -140,11 +140,11 @@ public class XmlDeathAction : XmlAttachment
         else
         {
             // its a regular type descriptor so find out what it is
-            Type type = SpawnerType.GetType(typeName);
+            Type type = AssemblyHandler.FindTypeByName(typeName);
             try
             {
                 string[] arglist = BaseXmlSpawner.ParseString(substitutedtypeName, 3, "/");
-                object o = Server.Mobiles.XmlSpawner.CreateObject(type, arglist[0]);
+                object o = XmlSpawner.CreateObject(type, arglist[0]);
 
                 if (o == null)
                 {

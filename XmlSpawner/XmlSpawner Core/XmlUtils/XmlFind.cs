@@ -203,13 +203,13 @@ public class XmlFindGump : Gump
                 }
 
             }
-            return (Utility.InRange(currentloc, loc, range));
+            return Utility.InRange(currentloc, loc, range);
 
         }
         if (o is Mobile mob)
         {
             if (mob.Map != currentmap) return false;
-            return (Utility.InRange(currentloc, mob.Location, range));
+            return Utility.InRange(currentloc, mob.Location, range);
 
         }
         return false;
@@ -243,7 +243,7 @@ public class XmlFindGump : Gump
             if (r == null)
                 return false;
 
-            return (r.Contains(loc));
+            return r.Contains(loc);
         }
 
         if (o is Mobile mob)
@@ -251,7 +251,7 @@ public class XmlFindGump : Gump
             Region r = Region.Regions.FirstOrDefault(reg => reg.Map == mob.Map && !string.IsNullOrEmpty(reg.Name) && string.Equals(reg.Name, regionname, StringComparison.CurrentCultureIgnoreCase));
 
             if (r == null) return false;
-            return (r.Contains(mob.Location));
+            return r.Contains(mob.Location);
 
         }
 
@@ -267,12 +267,12 @@ public class XmlFindGump : Gump
             if (direction)
             {
                 // true means allow only mobs greater than the age
-                if ((DateTime.UtcNow - mob.CreationTime) > TimeSpan.FromHours(age)) return true;
+                if (DateTime.UtcNow - mob.CreationTime > TimeSpan.FromHours(age)) return true;
             }
             else
             {
                 // false means allow only mobs less than the age
-                if ((DateTime.UtcNow - mob.CreationTime) < TimeSpan.FromHours(age)) return true;
+                if (DateTime.UtcNow - mob.CreationTime < TimeSpan.FromHours(age)) return true;
             }
         }
 
@@ -319,17 +319,17 @@ public class XmlFindGump : Gump
         if (o is Mobile m)
         {
             if (m.Map != Map.Internal || m.Account != null ||
-                ((m as IMount)?.Rider != null) ||
-                (m is GalleonPilot) || m is PetParrot ||
-                (GenericBuyInfo.IsDisplayCache(m)) ||
-                (m is EffectMobile) ||
-                (m is BaseCreature creature && creature.IsStabled) ||
-                (m is PlayerVendor && BaseHouse.AllHouses.Any(x => x.InternalizedVendors.Contains(m))))
+                (m as IMount)?.Rider != null ||
+                m is GalleonPilot || m is PetParrot ||
+                GenericBuyInfo.IsDisplayCache(m) ||
+                m is EffectMobile ||
+                m is BaseCreature creature && creature.IsStabled ||
+                m is PlayerVendor && BaseHouse.AllHouses.Any(x => x.InternalizedVendors.Contains(m)))
                 return true;
         }
         else if (o is Item i)
         {
-            // note, in order to test for a vendors display container that contains valid internal map items 
+            // note, in order to test for a vendors display container that contains valid internal map items
             if (i.Map != Map.Internal || i.Parent != null || i is Fists || i is MountItem || i is EffectItem || i.HeldBy != null ||
                 i is MovingCrate || i is SpawnPersistence || GenericBuyInfo.IsDisplayCache(i) || i.GetType().DeclaringType == typeof(GenericBuyInfo))
                 return true;
@@ -388,7 +388,7 @@ public class XmlFindGump : Gump
         // if the type is specified then get the search type
         if (criteria.Dosearchtype && criteria.Searchtype != null)
         {
-            targetType = SpawnerType.GetType(criteria.Searchtype);
+            targetType = AssemblyHandler.FindTypeByName(criteria.Searchtype);
             if (targetType == null)
             {
                 status_str = "Invalid type: " + criteria.Searchtype;
@@ -436,10 +436,10 @@ public class XmlFindGump : Gump
                 }
 
                 // check for map
-                if ((i.Map == Map.Felucca && criteria.Dosearchfel) || (i.Map == Map.Trammel && criteria.Dosearchtram) ||
-                    (i.Map == Map.Malas && criteria.Dosearchmal) || (i.Map == Map.Ilshenar && criteria.Dosearchilsh) ||
-                    (i.Map == Map.TerMur && criteria.Dosearchter) || (i.Map == Map.Internal && criteria.Dosearchint) ||
-                    (i.Map == null && criteria.Dosearchnull))
+                if (i.Map == Map.Felucca && criteria.Dosearchfel || i.Map == Map.Trammel && criteria.Dosearchtram ||
+                    i.Map == Map.Malas && criteria.Dosearchmal || i.Map == Map.Ilshenar && criteria.Dosearchilsh ||
+                    i.Map == Map.TerMur && criteria.Dosearchter || i.Map == Map.Internal && criteria.Dosearchint ||
+                    i.Map == null && criteria.Dosearchnull)
                 {
                     hasmap = true;
                 }
@@ -460,7 +460,7 @@ public class XmlFindGump : Gump
                 if (criteria.Dosearchtype && !hastype) continue;
 
                 // check for name
-                if (criteria.Dosearchname && (i.Name != null) && (criteria.Searchname != null) && (i.Name.ToLower().IndexOf(criteria.Searchname.ToLower()) >= 0))
+                if (criteria.Dosearchname && i.Name != null && criteria.Searchname != null && i.Name.ToLower().IndexOf(criteria.Searchname.ToLower()) >= 0)
                 {
                     hasname = true;
                 }
@@ -491,7 +491,7 @@ public class XmlFindGump : Gump
                 if (criteria.Dosearchregion && !hasregion) continue;
 
                 // check for condition
-                if (criteria.Dosearchcondition && (criteria.Searchcondition != null))
+                if (criteria.Dosearchcondition && criteria.Searchcondition != null)
                 {
                     // check the property test
                     hascondition = BaseXmlSpawner.CheckPropertyString(null, i, criteria.Searchcondition, out status_str);
@@ -505,10 +505,10 @@ public class XmlFindGump : Gump
 
                     if (criteria.Dosearchspawntype)
                     {
-                        targetentrytype = SpawnerType.GetType(criteria.Searchspawnentry.ToLower());
+                        targetentrytype = AssemblyHandler.FindTypeByName(criteria.Searchspawnentry.ToLower());
                     }
 
-                    if (criteria.Searchspawnentry == null || (targetentrytype == null && criteria.Dosearchspawntype))
+                    if (criteria.Searchspawnentry == null || targetentrytype == null && criteria.Dosearchspawntype)
                     {
                         hasentry = false;
                     }
@@ -535,7 +535,7 @@ public class XmlFindGump : Gump
                                             typestr = args[0];
                                         }
 
-                                        type = SpawnerType.GetType(typestr);
+                                        type = AssemblyHandler.FindTypeByName(typestr);
                                     }
 
                                     if (type != null && (type == targetentrytype || type.IsSubclassOf(targetentrytype)))
@@ -569,7 +569,7 @@ public class XmlFindGump : Gump
 
                                     if (so != null)
                                     {
-                                        type = SpawnerType.GetType(so);
+                                        type = AssemblyHandler.FindTypeByName(so);
                                     }
 
                                     if (type != null && (type == targetentrytype || type.IsSubclassOf(targetentrytype)))
@@ -642,10 +642,10 @@ public class XmlFindGump : Gump
                     if (i == null || i.Deleted) continue;
 
                     // check for map
-                    if ((i.Map == Map.Felucca && criteria.Dosearchfel) || (i.Map == Map.Trammel && criteria.Dosearchtram) ||
-                        (i.Map == Map.Malas && criteria.Dosearchmal) || (i.Map == Map.Ilshenar && criteria.Dosearchilsh) ||
-                        (i.Map == Map.TerMur && criteria.Dosearchter) || (i.Map == Map.Internal && criteria.Dosearchint) ||
-                        (i.Map == null && criteria.Dosearchnull))
+                    if (i.Map == Map.Felucca && criteria.Dosearchfel || i.Map == Map.Trammel && criteria.Dosearchtram ||
+                        i.Map == Map.Malas && criteria.Dosearchmal || i.Map == Map.Ilshenar && criteria.Dosearchilsh ||
+                        i.Map == Map.TerMur && criteria.Dosearchter || i.Map == Map.Internal && criteria.Dosearchint ||
+                        i.Map == null && criteria.Dosearchnull)
                     {
                         hasmap = true;
                     }
@@ -693,14 +693,14 @@ public class XmlFindGump : Gump
                     if (criteria.Dosearchtype && !hastype) continue;
 
                     // check for name
-                    if (criteria.Dosearchname && (i.Name != null) && (criteria.Searchname != null) && (i.Name.ToLower().IndexOf(criteria.Searchname.ToLower()) >= 0))
+                    if (criteria.Dosearchname && i.Name != null && criteria.Searchname != null && i.Name.ToLower().IndexOf(criteria.Searchname.ToLower()) >= 0)
                     {
                         hasname = true;
                     }
                     if (criteria.Dosearchname && !hasname) continue;
 
                     // check for condition
-                    if (criteria.Dosearchcondition && (criteria.Searchcondition != null))
+                    if (criteria.Dosearchcondition && criteria.Searchcondition != null)
                     {
                         // check the property test
                         hascondition = BaseXmlSpawner.CheckPropertyString(null, i, criteria.Searchcondition, out status_str);
@@ -820,7 +820,7 @@ public class XmlFindGump : Gump
                 null,    // condition
                 type,    // type
                 null,    // name
-                null     // entry 
+                null     // entry
             ),
 
             null, -1, 0, null, null,
@@ -1143,7 +1143,7 @@ public class XmlFindGump : Gump
 
             AddLabel(610, y, 0x384, "Select All");
             // display the select-all toggle
-            AddButton(670, y, (SelectAll ? 0xD3 : 0xD2), (SelectAll ? 0xD2 : 0xD3), 3998, GumpButtonType.Reply, 0);
+            AddButton(670, y, SelectAll ? 0xD3 : 0xD2, SelectAll ? 0xD2 : 0xD3, 3998, GumpButtonType.Reply, 0);
 
             for (int i = 0; i < MaxEntries; i++)
             {
@@ -1271,7 +1271,7 @@ public class XmlFindGump : Gump
 
                 // display the selection button
 
-                AddButton(730, 22 * (i % MaxEntriesPerPage) + 32, (e.Selected ? 0xD3 : 0xD2), (e.Selected ? 0xD2 : 0xD3), 4000 + i, GumpButtonType.Reply, 0);
+                AddButton(730, 22 * (i % MaxEntriesPerPage) + 32, e.Selected ? 0xD3 : 0xD2, e.Selected ? 0xD2 : 0xD3, 4000 + i, GumpButtonType.Reply, 0);
             }
         }
     }
@@ -1483,8 +1483,8 @@ public class XmlFindGump : Gump
             if (From == null || From.Deleted)
                 return 0;
 
-            IEntity entity1 = ((e1 as SearchEntry)?.Object as IEntity);
-            IEntity entity2 = ((e2 as SearchEntry)?.Object as IEntity);
+            IEntity entity1 = (e1 as SearchEntry)?.Object as IEntity;
+            IEntity entity2 = (e2 as SearchEntry)?.Object as IEntity;
 
             if (entity1 == null && entity2 == null)
                 return 0;
@@ -2147,7 +2147,7 @@ public class XmlFindGump : Gump
                                         }
                                         catch (Exception ex) { Diagnostics.ExceptionLogging.LogException(ex); }
                                     }
-                                    else if ((o is Mobile mobile) && !(mobile.Player))
+                                    else if (o is Mobile mobile && !mobile.Player)
                                     {
                                         try
                                         {

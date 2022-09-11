@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Collections;
 using Server.Items;
@@ -105,7 +104,7 @@ public class WriteMulti
         }
 
         string dirname;
-        if (System.IO.Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
+        if (Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
         {
             // put it in the defaults directory if it exists
             dirname = $"{XmlSpawner.XmlSpawnDir}/{filename}";
@@ -117,7 +116,7 @@ public class WriteMulti
         }
 
         // check to see if the file already exists and can be written to by the owner
-        if (System.IO.File.Exists(dirname))
+        if (File.Exists(dirname))
         {
 
             // check the file
@@ -205,10 +204,10 @@ public class WriteMulti
             ArrayList staticlist = new ArrayList();
             ArrayList tilelist = new ArrayList();
 
-            int sx = (start.X > end.X) ? end.X : start.X;
-            int sy = (start.Y > end.Y) ? end.Y : start.Y;
-            int ex = (start.X < end.X) ? end.X : start.X;
-            int ey = (start.Y < end.Y) ? end.Y : start.Y;
+            int sx = start.X > end.X ? end.X : start.X;
+            int sy = start.Y > end.Y ? end.Y : start.Y;
+            int ex = start.X < end.X ? end.X : start.X;
+            int ey = start.Y < end.Y ? end.Y : start.Y;
 
             // find all of the world-placed items within the specified area
             if (includeitems)
@@ -219,10 +218,10 @@ public class WriteMulti
                 foreach (Item item in eable)
                 {
                     // is it within the bounding area
-                    if (item.Parent == null && (zmin == int.MinValue || (item.Location.Z >= zmin && item.Location.Z <= zmax)))
+                    if (item.Parent == null && (zmin == int.MinValue || item.Location.Z >= zmin && item.Location.Z <= zmax))
                     {
                         // add the item
-                        if ((includeinvisible || item.Visible) && (item.ItemID <= 16383))
+                        if ((includeinvisible || item.Visible) && item.ItemID <= 16383)
                         {
                             itemlist.Add(item);
                         }
@@ -253,7 +252,7 @@ public class WriteMulti
                                 int z = c.Z;
 
                                 if ((includeinvisible || item.Visible) && (item.ItemID <= 16383 || includemultis) &&
-                                    (x >= sx && x <= ex && y >= sy && y <= ey && (zmin == int.MinValue || (z >= zmin && z <= zmax))))
+                                    x >= sx && x <= ex && y >= sy && y <= ey && (zmin == int.MinValue || z >= zmin && z <= zmax))
                                 {
                                     itemlist.Add(c);
                                 }
@@ -275,7 +274,7 @@ public class WriteMulti
                                     int z = t.m_OffsetZ + item.Z;
                                     int itemID = t.m_ItemID & 0x3FFF;
 
-                                    if (x >= sx && x <= ex && y >= sy && y <= ey && (zmin == int.MinValue || (z >= zmin && z <= zmax)))
+                                    if (x >= sx && x <= ex && y >= sy && y <= ey && (zmin == int.MinValue || z >= zmin && z <= zmax))
                                     {
                                         tilelist.Add(new TileEntry(itemID, x, y, z));
                                     }
@@ -301,7 +300,7 @@ public class WriteMulti
 
                         for (int j = 0; j < statics.Length; j++)
                         {
-                            if ((zmin == int.MinValue || (statics[j].Z >= zmin && statics[j].Z <= zmax)))
+                            if (zmin == int.MinValue || statics[j].Z >= zmin && statics[j].Z <= zmax)
                             {
                                 staticlist.Add(new TileEntry(statics[j].ID & 0x3FFF, x, y, statics[j].Z));
                             }

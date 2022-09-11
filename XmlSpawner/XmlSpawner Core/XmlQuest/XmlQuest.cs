@@ -157,8 +157,8 @@ public abstract class XmlQuest
         {
             if (targeted is Item && m_quest != null && !m_quest.Deleted)
             {
-                XmlQuest.Collect(from, (Item)targeted, m_quest);
-                from.CloseGump(typeof(XmlQuestStatusGump));
+                Collect(from, (Item)targeted, m_quest);
+                from.CloseGump<XmlQuestStatusGump>();
                 from.SendGump(new XmlQuestStatusGump(m_quest, m_quest.TitleString));
             }
         }
@@ -169,7 +169,7 @@ public abstract class XmlQuest
         if (e == null || e.Mobile == null) return;
         Mobile from = e.Mobile;
 
-        from.CloseGump(typeof(QuestLogGump));
+        from.CloseGump<QuestLogGump>();
         // bring up the quest status gump
         from.SendGump(new QuestLogGump(from));
 
@@ -183,7 +183,7 @@ public abstract class XmlQuest
         if (state == null || state.Mobile == null) return;
         Mobile from = state.Mobile;
 
-        from.CloseGump(typeof(QuestLogGump));
+        from.CloseGump<QuestLogGump>();
         // bring up the quest status gump
         from.SendGump(new QuestLogGump(from));
 
@@ -191,7 +191,7 @@ public abstract class XmlQuest
         //NormalQuestButton(from as PlayerMobile);
     }
 
-    // this just brings up the normal quest objectives gump 
+    // this just brings up the normal quest objectives gump
     public static void NormalQuestButton(PlayerMobile from)
     {
         if (from == null || from.Quest == null) return;
@@ -227,10 +227,10 @@ public abstract class XmlQuest
         // if this was player made, then return the item to the creator
         // dont allow players to return items to themselves.  This prevents possible exploits where quests are used as
         // item transporters
-        if (quest != null && quest.PlayerMade && (quest.Creator != null) && !quest.Creator.Deleted && (quest.Creator != quest.Owner))
+        if (quest != null && quest.PlayerMade && quest.Creator != null && !quest.Creator.Deleted && quest.Creator != quest.Owner)
         {
             bool returned = false;
-            if ((quest.ReturnContainer != null) && !quest.ReturnContainer.Deleted)
+            if (quest.ReturnContainer != null && !quest.ReturnContainer.Deleted)
             {
                 returned = quest.ReturnContainer.TryDropItem(quest.Creator, item, false);
 
@@ -292,7 +292,7 @@ public abstract class XmlQuest
         else
         {
             // its a regular type descriptor so find out what it is
-            Type type = SpawnerType.GetType(typeName);
+            Type type = AssemblyHandler.FindTypeByName(typeName);
 
             // if a type restriction has been specified then test it
             if (typerestrict != null && type != null && type != typerestrict && !type.IsSubclassOf(typerestrict))
@@ -333,12 +333,12 @@ public abstract class XmlQuest
         {
             if (TheSpawn.SpawnedObjects[0] is Item)
             {
-                return ((Item)TheSpawn.SpawnedObjects[0]);
+                return (Item)TheSpawn.SpawnedObjects[0];
             }
             else if (TheSpawn.SpawnedObjects[0] is Mobile)
             {
                 // dont do mobiles as rewards at this point
-                ((Mobile)(TheSpawn.SpawnedObjects[0])).Delete();
+                ((Mobile)TheSpawn.SpawnedObjects[0]).Delete();
             }
         }
 
@@ -561,7 +561,7 @@ public abstract class XmlQuest
             // collect task objective
             if (arglist[0] == "COLLECT")
             {
-                //Type targettype = SpawnerType.GetType( arglist[1] );
+                //Type targettype = AssemblyHandler.FindTypeByName( arglist[1] );
                 // test the collect requirements against the the collected item
                 if (item != null && !item.Deleted && BaseXmlSpawner.CheckType(item, arglist[1])/*(item.GetType() == targettype)*/ && checkprop)
                 {
@@ -571,7 +571,7 @@ public abstract class XmlQuest
             }
             else if (arglist[0] == "COLLECTNAMED")
             {
-                if (item != null && !item.Deleted && (arglist[1] == item.Name) && checkprop &&
+                if (item != null && !item.Deleted && arglist[1] == item.Name && checkprop &&
                     (typestr == null || BaseXmlSpawner.CheckType(item, typestr))
                    )
                 {
@@ -844,7 +844,7 @@ public abstract class XmlQuest
             // collect task objective
             if (arglist[0] == "GIVE")
             {
-                //Type targettype = SpawnerType.GetType( arglist[2] );
+                //Type targettype = AssemblyHandler.FindTypeByName( arglist[2] );
 
                 // test the requirements against the the given item
                 if (item != null && !item.Deleted && BaseXmlSpawner.CheckType(item, arglist[2]) /*(item.GetType() == targettype)*/ && checkprop)
@@ -855,7 +855,7 @@ public abstract class XmlQuest
             }
             else if (arglist[0] == "GIVENAMED")
             {
-                if (item != null && !item.Deleted && (arglist[2] == item.Name) && checkprop &&
+                if (item != null && !item.Deleted && arglist[2] == item.Name && checkprop &&
                     (typestr == null || BaseXmlSpawner.CheckType(item, typestr))
                    )
                 {
@@ -923,7 +923,7 @@ public abstract class XmlQuest
                 givestatus = true;
             }
 
-            return (added > 0);
+            return added > 0;
 
         }
         else
@@ -957,7 +957,7 @@ public abstract class XmlQuest
             // kill task objective
             if (arglist[0] == "KILL")
             {
-                //Type targettype = SpawnerType.GetType( arglist[1] );
+                //Type targettype = AssemblyHandler.FindTypeByName( arglist[1] );
 
                 // test the kill requirements against the the killed mobile
                 if (m_killed != null && !m_killed.Deleted && BaseXmlSpawner.CheckType(m_killed, arglist[1])/*(m_killed.GetType() == targettype)*/ && checkprop)
@@ -968,7 +968,7 @@ public abstract class XmlQuest
             }
             else if (arglist[0] == "KILLNAMED")
             {
-                if (m_killed != null && !m_killed.Deleted && (arglist[1] == m_killed.Name) && checkprop &&
+                if (m_killed != null && !m_killed.Deleted && arglist[1] == m_killed.Name && checkprop &&
                     (typestr == null || BaseXmlSpawner.CheckType(m_killed, typestr))
                    )
                 {
@@ -1056,7 +1056,7 @@ public abstract class XmlQuest
             // search the objects for kill requirements
             if (mobitems[i] is IXmlQuest)
             {
-                IXmlQuest quest = (IXmlQuest)(mobitems[i]);
+                IXmlQuest quest = (IXmlQuest)mobitems[i];
 
                 if (quest != null && !quest.Deleted && quest.PartyEnabled)
                 {
@@ -1150,7 +1150,7 @@ public abstract class XmlQuest
         {
             // check the mobname, allow for empty names to match any escort
 
-            if (m_escorted != null && !m_escorted.Deleted && (arglist[1] == m_escorted.Name || (arglist[1] == null || arglist[1] == String.Empty)) && checkprop)
+            if (m_escorted != null && !m_escorted.Deleted && (arglist[1] == m_escorted.Name || arglist[1] == null || arglist[1] == String.Empty) && checkprop)
             {
                 // found a match
                 found = true;
@@ -1248,7 +1248,7 @@ public abstract class XmlQuest
             if (mobitems[i] is IXmlQuest)
             {
                 // search the objects for escort requirements
-                IXmlQuest quest = (IXmlQuest)(mobitems[i]);
+                IXmlQuest quest = (IXmlQuest)mobitems[i];
 
 
                 if (quest != null && !quest.Deleted && quest.PartyEnabled)
@@ -1476,7 +1476,7 @@ public abstract class XmlQuest
             if (mobitems[i] is IXmlQuest)
             {
                 // search the objects for visitation requirements
-                IXmlQuest quest = (IXmlQuest)(mobitems[i]);
+                IXmlQuest quest = (IXmlQuest)mobitems[i];
 
                 if (quest != null && !quest.Deleted)
                 {
@@ -1505,10 +1505,10 @@ public abstract class XmlQuest
             case "COLLECT":
             case "KILL":
                 {
-                    XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+                    CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
                     if (arglist.Length > 1)
                     {
-                        if (SpawnerType.GetType(arglist[1]) == null)
+                        if (AssemblyHandler.FindTypeByName(arglist[1]) == null)
                         {
                             status_str = "Invalid type: " + arglist[1];
                             return false;
@@ -1524,7 +1524,7 @@ public abstract class XmlQuest
             case "COLLECTNAMED":
             case "KILLNAMED":
                 {
-                    XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
+                    CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
                     if (arglist.Length < 1)
                     {
                         status_str = arglist[0] + "missing args";
@@ -1534,7 +1534,7 @@ public abstract class XmlQuest
                 }
             case "GIVENAMED":
                 {
-                    XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+                    CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
                     if (arglist.Length < 1)
                     {
                         status_str = arglist[0] + "missing args";
@@ -1544,10 +1544,10 @@ public abstract class XmlQuest
                 }
             case "GIVE":
                 {
-                    XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
+                    CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
                     if (arglist.Length > 2)
                     {
-                        if (SpawnerType.GetType(arglist[2]) == null)
+                        if (AssemblyHandler.FindTypeByName(arglist[2]) == null)
                         {
                             status_str = "Invalid type: " + arglist[2];
                             return false;
@@ -1566,7 +1566,7 @@ public abstract class XmlQuest
         // check the validity of the typestr
         if (typestr != null)
         {
-            if (SpawnerType.GetType(typestr) == null)
+            if (AssemblyHandler.FindTypeByName(typestr) == null)
             {
                 status_str = "Invalid type: " + typestr;
                 return false;

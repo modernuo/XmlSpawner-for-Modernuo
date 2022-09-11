@@ -20,7 +20,7 @@ public class XmlAddCAGObject : XmlAddCAGNode
 
     public int ItemID { get; }
 
-    public override string Caption => (m_Type == null ? "bad type" : m_Type.Name);
+    public override string Caption => m_Type == null ? "bad type" : m_Type.Name;
 
     public override void OnClick(Mobile from, int page, int index, Gump gump)
     {
@@ -248,7 +248,7 @@ public class XmlCategorizedAddGump : Gump
             page = 0;
         }
 
-        owner.CloseGump(typeof(WhoGump));
+        owner.CloseGump<WhoGump>();
 
         m_Owner = owner;
         m_Category = category;
@@ -274,14 +274,14 @@ public class XmlCategorizedAddGump : Gump
 
         XmlAddCAGNode[] nodes = m_Category.Nodes;
 
-        int count = nodes.Length - (page * EntryCount);
+        int count = nodes.Length - page * EntryCount;
 
         if (count < 0)
             count = 0;
         else if (count > EntryCount)
             count = EntryCount;
 
-        int totalHeight = OffsetSize + ((EntryHeight + OffsetSize) * (count + 1));
+        int totalHeight = OffsetSize + (EntryHeight + OffsetSize) * (count + 1);
 
         AddPage(0);
 
@@ -292,7 +292,7 @@ public class XmlCategorizedAddGump : Gump
         int y = BorderSize + OffsetSize;
 
         if (OldStyle)
-            AddImageTiled(x, y, TotalWidth - (OffsetSize * 3) - SetWidth, EntryHeight, HeaderGumpID);
+            AddImageTiled(x, y, TotalWidth - OffsetSize * 3 - SetWidth, EntryHeight, HeaderGumpID);
         else
             AddImageTiled(x, y, PrevWidth, EntryHeight, HeaderGumpID);
 
@@ -306,18 +306,18 @@ public class XmlCategorizedAddGump : Gump
 
         x += PrevWidth + OffsetSize;
 
-        int emptyWidth = TotalWidth - (PrevWidth * 2) - NextWidth - (OffsetSize * 5) - (OldStyle ? SetWidth + OffsetSize : 0);
+        int emptyWidth = TotalWidth - PrevWidth * 2 - NextWidth - OffsetSize * 5 - (OldStyle ? SetWidth + OffsetSize : 0);
 
         if (!OldStyle)
             AddImageTiled(x - (OldStyle ? OffsetSize : 0), y, emptyWidth + (OldStyle ? OffsetSize * 2 : 0), EntryHeight, EntryGumpID);
 
-        AddHtml(x + TextOffsetX, y + ((EntryHeight - 20) / 2), emptyWidth - TextOffsetX, EntryHeight,
+        AddHtml(x + TextOffsetX, y + (EntryHeight - 20) / 2, emptyWidth - TextOffsetX, EntryHeight,
             $"<center>{m_Category.Caption}</center>", false, false);
 
         x += emptyWidth + OffsetSize;
 
         if (OldStyle)
-            AddImageTiled(x, y, TotalWidth - (OffsetSize * 3) - SetWidth, EntryHeight, HeaderGumpID);
+            AddImageTiled(x, y, TotalWidth - OffsetSize * 3 - SetWidth, EntryHeight, HeaderGumpID);
         else
             AddImageTiled(x, y, PrevWidth, EntryHeight, HeaderGumpID);
 
@@ -350,7 +350,7 @@ public class XmlCategorizedAddGump : Gump
             XmlAddCAGNode node = nodes[index];
 
             AddImageTiled(x, y, EntryWidth, EntryHeight, EntryGumpID);
-            AddLabelCropped(x + TextOffsetX, y + ((EntryHeight - 20) / 2), EntryWidth - TextOffsetX, EntryHeight, TextHue, node.Caption);
+            AddLabelCropped(x + TextOffsetX, y + (EntryHeight - 20) / 2, EntryWidth - TextOffsetX, EntryHeight, TextHue, node.Caption);
 
             x += EntryWidth + OffsetSize;
 
@@ -365,12 +365,12 @@ public class XmlCategorizedAddGump : Gump
 
                 Rectangle2D bounds = ItemBounds.Table[itemID];
 
-                if (itemID != 1 && bounds.Height < (EntryHeight * 2))
+                if (itemID != 1 && bounds.Height < EntryHeight * 2)
                 {
                     if (bounds.Height < EntryHeight)
-                        AddItem(x - OffsetSize - 22 - ((i % 2) * 44) - (bounds.Width / 2) - bounds.X, y + (EntryHeight / 2) - (bounds.Height / 2) - bounds.Y, itemID);
+                        AddItem(x - OffsetSize - 22 - i % 2 * 44 - bounds.Width / 2 - bounds.X, y + EntryHeight / 2 - bounds.Height / 2 - bounds.Y, itemID);
                     else
-                        AddItem(x - OffsetSize - 22 - ((i % 2) * 44) - (bounds.Width / 2) - bounds.X, y + EntryHeight - 1 - bounds.Height - bounds.Y, itemID);
+                        AddItem(x - OffsetSize - 22 - i % 2 * 44 - bounds.Width / 2 - bounds.X, y + EntryHeight - 1 - bounds.Height - bounds.Y, itemID);
                 }
             }
         }
@@ -416,7 +416,7 @@ public class XmlCategorizedAddGump : Gump
                 }
             default:
                 {
-                    int index = (m_Page * EntryCount) + (info.ButtonID - 4);
+                    int index = m_Page * EntryCount + (info.ButtonID - 4);
 
                     if (index >= 0 && index < m_Category.Nodes.Length)
                     {

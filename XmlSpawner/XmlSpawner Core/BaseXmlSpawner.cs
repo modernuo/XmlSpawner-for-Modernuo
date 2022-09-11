@@ -33,7 +33,7 @@ public class BaseXmlSpawner
 
     private static bool IsParsable(Type t)
     {
-        return (t == typeofTimeSpan || t.IsDefined(typeofParsable, false));
+        return t == typeofTimeSpan || t.IsDefined(typeofParsable, false);
     }
 
     private static readonly Type[] m_ParseTypes = { typeof(string) };
@@ -58,28 +58,28 @@ public class BaseXmlSpawner
 
     public static bool IsNumeric(Type t)
     {
-        return (Array.IndexOf(m_NumericTypes, t) >= 0);
+        return Array.IndexOf(m_NumericTypes, t) >= 0;
     }
 
     private static readonly Type typeofType = typeof(Type);
 
     private static bool IsType(Type t)
     {
-        return (t == typeofType);
+        return t == typeofType;
     }
 
     private static readonly Type typeofChar = typeof(char);
 
     private static bool IsChar(Type t)
     {
-        return (t == typeofChar);
+        return t == typeofChar;
     }
 
     private static readonly Type typeofString = typeof(string);
 
     private static bool IsString(Type t)
     {
-        return (t == typeofString);
+        return t == typeofString;
     }
 
     private static bool IsEnum(Type t)
@@ -152,13 +152,13 @@ public class BaseXmlSpawner
     public static bool IsTypeKeyword(string typeName)
     {
         if (string.IsNullOrEmpty(typeName) || !char.IsUpper(typeName[0])) return false;
-        return (typeKeywordHash.ContainsKey(typeName));
+        return typeKeywordHash.ContainsKey(typeName);
     }
 
     public static bool IsTypeOrItemKeyword(string typeName)
     {
         if (string.IsNullOrEmpty(typeName) || !char.IsUpper(typeName[0])) return false;
-        return (typeKeywordHash.ContainsKey(typeName));
+        return typeKeywordHash.ContainsKey(typeName);
     }
 
     public static void RemoveKeyword(string name)
@@ -326,7 +326,7 @@ public class BaseXmlSpawner
                     }
                 case 0:
                     {
-                        m_Spawner = (XmlSpawner)reader.ReadItem();
+                        m_Spawner = reader.ReadEntity<XmlSpawner>();
                         Type = reader.ReadInt();
                         Serial = reader.ReadInt();
                         if (Type == 0)
@@ -340,7 +340,7 @@ public class BaseXmlSpawner
                             TimeSpan timeoutdelay = reader.ReadTimeSpan();
                             m_TimeoutEnd = DateTime.UtcNow + timeoutdelay;
                             m_Timeout = reader.ReadTimeSpan();
-                            m_TrigMob = reader.ReadMobile();
+                            m_TrigMob = reader.ReadEntity<Mobile>();
 
                             DoTimer(delay, m_Delay, m_Condition, m_Goto);
                         }
@@ -361,7 +361,6 @@ public class BaseXmlSpawner
             public KeywordTimer(XmlSpawner spawner, KeywordTag tag, TimeSpan delay, TimeSpan repeatdelay, string condition, int gotogroup)
                 : base(delay)
             {
-                Priority = TimerPriority.OneSecond;
                 m_Tag = tag;
                 m_Spawner = spawner;
                 m_Condition = condition;
@@ -430,8 +429,7 @@ public class BaseXmlSpawner
     public static string TagInfo(KeywordTag tag)
     {
         if (tag != null)
-            return (
-                $"{tag.Typename} : type={tag.Type} cond={tag.m_Condition} go={tag.m_Goto} del={tag.m_Delay} end={tag.m_End}");
+            return $"{tag.Typename} : type={tag.Type} cond={tag.m_Condition} go={tag.m_Goto} del={tag.m_Delay} end={tag.m_End}";
 
         return null;
     }
@@ -457,7 +455,7 @@ public class BaseXmlSpawner
                 return spawner.m_KeywordTagList[i];
             }
         }
-        return (null);
+        return null;
     }
 
     #endregion
@@ -472,7 +470,7 @@ public class BaseXmlSpawner
         {
             value = p.GetValue(o, null);
         }
-        else if ((type.GetInterface("IList") != null) && index >= 0)
+        else if (type.GetInterface("IList") != null && index >= 0)
         {
             try
             {
@@ -504,12 +502,12 @@ public class BaseXmlSpawner
 
     public static bool IsItem(Type type)
     {
-        return (type != null && (type == typeof(Item) || type.IsSubclassOf(typeof(Item))));
+        return type != null && (type == typeof(Item) || type.IsSubclassOf(typeof(Item)));
     }
 
     public static bool IsMobile(Type type)
     {
-        return (type != null && (type == typeof(Mobile) || type.IsSubclassOf(typeof(Mobile))));
+        return type != null && (type == typeof(Mobile) || type.IsSubclassOf(typeof(Mobile)));
     }
 
     public static string ConstructFromString(PropertyInfo p, Type type, object obj, string value, ref object constructed)
@@ -604,7 +602,7 @@ public class BaseXmlSpawner
 
                 toSet = World.FindEntity(new Serial(Convert.ToInt32(valstr, 16)));
                 // now check to make sure the object returned is consistent with the type
-                if (!((toSet is Mobile && IsMobile(type)) || (toSet is Item && IsItem(type))))
+                if (!(toSet is Mobile && IsMobile(type) || toSet is Item && IsItem(type)))
                 {
                     return "Item/Mobile type mismatch. cannot assign.";
                 }
@@ -614,7 +612,7 @@ public class BaseXmlSpawner
                 return "That is not properly formatted. not convertible.";
             }
         }
-        else if ((type.GetInterface("IList") != null))
+        else if (type.GetInterface("IList") != null)
         {
             try
             {
@@ -668,7 +666,7 @@ public class BaseXmlSpawner
             {
                 p.SetValue(o, toSet, null);
             }
-            else if ((ptype.GetInterface("IList") != null) && index >= 0)
+            else if (ptype.GetInterface("IList") != null && index >= 0)
             {
                 try
                 {
@@ -736,7 +734,7 @@ public class BaseXmlSpawner
                 po = plookup.GetValue(o, null);
 
                 // now set the nested attribute using the new property list
-                return (SetPropertyValue(spawner, po, arglist[1], value));
+                return SetPropertyValue(spawner, po, arglist[1], value);
             }
 
             // is a nested property with attributes so first get the property
@@ -747,7 +745,7 @@ public class BaseXmlSpawner
                     po = p.GetValue(o, null);
 
                     // now set the nested attribute using the new property list
-                    return (SetPropertyValue(spawner, po, arglist[1], value));
+                    return SetPropertyValue(spawner, po, arglist[1], value);
                 }
             }
         }
@@ -815,7 +813,7 @@ public class BaseXmlSpawner
                 po = plookup.GetValue(o, null);
 
                 // now set the nested attribute using the new property list
-                return (SetPropertyObject(spawner, po, arglist[1], value));
+                return SetPropertyObject(spawner, po, arglist[1], value);
             }
 
             foreach (PropertyInfo p in props)
@@ -825,7 +823,7 @@ public class BaseXmlSpawner
                     po = p.GetValue(o, null);
 
                     // now set the nested attribute using the new property list
-                    return (SetPropertyObject(spawner, po, arglist[1], value));
+                    return SetPropertyObject(spawner, po, arglist[1], value);
 
                 }
             }
@@ -966,7 +964,7 @@ public class BaseXmlSpawner
                 {
                     po = plookup.GetValue(o, null);
                 }
-                else if ((ptype.GetInterface("IList") != null) && index >= 0)
+                else if (ptype.GetInterface("IList") != null && index >= 0)
                 {
                     try
                     {
@@ -980,7 +978,7 @@ public class BaseXmlSpawner
                     po = plookup.GetValue(o, null);
                 }
                 // now set the nested attribute using the new property list
-                return (GetPropertyValue(spawner, po, arglist[1], out ptype));
+                return GetPropertyValue(spawner, po, arglist[1], out ptype);
             }
 
             // is a nested property with attributes so first get the property
@@ -997,7 +995,7 @@ public class BaseXmlSpawner
                     {
                         po = p.GetValue(o, null);
                     }
-                    else if ((ptype.GetInterface("IList") != null) && index >= 0)
+                    else if (ptype.GetInterface("IList") != null && index >= 0)
                     {
                         try
                         {
@@ -1011,7 +1009,7 @@ public class BaseXmlSpawner
                         po = p.GetValue(o, null);
                     }
                     // now set the nested attribute using the new property list
-                    return (GetPropertyValue(spawner, po, arglist[1], out ptype));
+                    return GetPropertyValue(spawner, po, arglist[1], out ptype);
                 }
             }
         }
@@ -1383,7 +1381,7 @@ public class BaseXmlSpawner
                 }
             }
         }
-        return (no_error);
+        return no_error;
     }
     #endregion
 
@@ -1521,7 +1519,7 @@ public class BaseXmlSpawner
         char startc = str[0];
 
         // first see whether it is a standard numeric value
-        if ((startc == '.') || (startc == '-') || (startc == '+') || (startc >= '0' && startc <= '9'))
+        if (startc == '.' || startc == '-' || startc == '+' || startc >= '0' && startc <= '9')
         {
             // determine the type
             ptype = str.IndexOf(".") >= 0 ? typeof(double) : typeof(int);
@@ -1542,7 +1540,7 @@ public class BaseXmlSpawner
         }
         // or a bool
 
-        if ((str.ToLower()) == "true" || (str.ToLower() == "false"))
+        if (str.ToLower() == "true" || str.ToLower() == "false")
         {
             ptype = typeof(bool);
             return str;
@@ -1553,7 +1551,7 @@ public class BaseXmlSpawner
         {
             valueKeyword kw = valueKeywordHash[pname];
 
-            if ((kw == valueKeyword.PLAYERSINRANGE) && arglist.Length > 1)
+            if (kw == valueKeyword.PLAYERSINRANGE && arglist.Length > 1)
             {
                 // syntax is PLAYERSINRANGE,range
 
@@ -1593,7 +1591,7 @@ public class BaseXmlSpawner
 
                 return nplayers.ToString();
             }
-            if ((kw == valueKeyword.RANDNAME) && arglist.Length > 1)
+            if (kw == valueKeyword.RANDNAME && arglist.Length > 1)
             {
                 // syntax is RANDNAME,nametype
                 return NameList.RandomName(arglist[1]);
@@ -1679,16 +1677,16 @@ public class BaseXmlSpawner
         int orposition = testString.IndexOf("|");
 
         // combine them based upon the operator
-        if ((andposition > 0 && orposition <= 0) || (andposition > 0 && andposition < orposition))
+        if (andposition > 0 && orposition <= 0 || andposition > 0 && andposition < orposition)
         {
             // and operator
-            return (first && second);
+            return first && second;
         }
 
-        if ((orposition > 0 && andposition <= 0) || (orposition > 0 && orposition < andposition))
+        if (orposition > 0 && andposition <= 0 || orposition > 0 && orposition < andposition)
         {
             // or operator
-            return (first || second);
+            return first || second;
         }
 
         // should never get here
@@ -1933,7 +1931,7 @@ public class BaseXmlSpawner
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
         }
-        else if ((ptype2 == typeof(double)) && IsNumeric(ptype1))
+        else if (ptype2 == typeof(double) && IsNumeric(ptype1))
         {
             if (hasequal)
             {
@@ -1974,7 +1972,7 @@ public class BaseXmlSpawner
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
         }
-        else if ((ptype1 == typeof(double)) && IsNumeric(ptype2))
+        else if (ptype1 == typeof(double) && IsNumeric(ptype2))
         {
             if (hasequal)
             {
@@ -2015,7 +2013,7 @@ public class BaseXmlSpawner
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
         }
-        else if ((ptype1 == typeof(double)) && (ptype2 == typeof(double)))
+        else if (ptype1 == typeof(double) && ptype2 == typeof(double))
         {
             double val1;
             double val2;
@@ -2173,7 +2171,7 @@ public class BaseXmlSpawner
                     if (CheckNameMatch(targetName, item.Name))
                     {
 
-                        if ((typeStr == null || CheckType(item, typeStr)))
+                        if (typeStr == null || CheckType(item, typeStr))
                         {
                             //found it
                             return item;
@@ -2213,7 +2211,7 @@ public class BaseXmlSpawner
 
             if (typestr != null)
             {
-                targettype = SpawnerType.GetType(typestr);
+                targettype = AssemblyHandler.FindTypeByName(typestr);
             }
 
             // go through all of the items in the pack
@@ -2235,7 +2233,7 @@ public class BaseXmlSpawner
                     // test the item name against the trigger string
                     if (CheckNameMatch(targetName, item.Name))
                     {
-                        if (targettype == null || (item.GetType().Equals(targettype) || item.GetType().IsSubclassOf(targettype)))
+                        if (targettype == null || item.GetType().Equals(targettype) || item.GetType().IsSubclassOf(targettype))
                         {
                             //found it
                             return item;
@@ -2251,7 +2249,7 @@ public class BaseXmlSpawner
         // a "*" targetname will match anything
         // a null or empty targetname will match a null name
         // otherwise the strings must match
-        return (targetname == "*") || (name == targetname) || (targetname != null && targetname.Length == 0 && name == null);
+        return targetname == "*" || name == targetname || targetname != null && targetname.Length == 0 && name == null;
     }
     public static bool CheckType(object o, string typename)
     {
@@ -2264,7 +2262,7 @@ public class BaseXmlSpawner
 
         try
         {
-            targettype = SpawnerType.GetType(typename);
+            targettype = AssemblyHandler.FindTypeByName(typename);
         }
         catch { }
 
@@ -2301,15 +2299,15 @@ public class BaseXmlSpawner
             int orposition = objectivestr.IndexOf("|");
 
             // combine them based upon the operator
-            if ((andposition > 0 && orposition <= 0) || (andposition > 0 && andposition < orposition))
+            if (andposition > 0 && orposition <= 0 || andposition > 0 && andposition < orposition)
             {
                 // and operator
-                return (first && second);
+                return first && second;
             }
-            else if ((orposition > 0 && andposition <= 0) || (orposition > 0 && orposition < andposition))
+            else if (orposition > 0 && andposition <= 0 || orposition > 0 && orposition < andposition)
             {
                 // or operator
-                return (first || second);
+                return first || second;
             }
             else
             {
@@ -2342,7 +2340,7 @@ public class BaseXmlSpawner
                 {
                     try
                     {
-                        atype = SpawnerType.GetType(objstr[2]);
+                        atype = AssemblyHandler.FindTypeByName(objstr[2]);
                     }
                     catch { }
                 }
@@ -2448,7 +2446,7 @@ public class BaseXmlSpawner
             else
             {
                 // is the equippedonly flag set?  If so then see if the item is equipped
-                if ((equippedonly && testitem.Parent == m) || !equippedonly)
+                if (equippedonly && testitem.Parent == m || !equippedonly)
                     has_valid_item = true;
             }
         }
@@ -2487,15 +2485,15 @@ public class BaseXmlSpawner
             // similarly for the & operator
 
             // combine them based upon the operator
-            if ((andposition > 0 && orposition <= 0) || (andposition > 0 && andposition < orposition))
+            if (andposition > 0 && orposition <= 0 || andposition > 0 && andposition < orposition)
             {
                 // and operator (see explanation above)
-                return (first || second);
+                return first || second;
             }
-            else if ((orposition > 0 && andposition <= 0) || (orposition > 0 && orposition < andposition))
+            else if (orposition > 0 && andposition <= 0 || orposition > 0 && orposition < andposition)
             {
                 // or operator (see explanation above)
-                return (first && second);
+                return first && second;
             }
             else
             {
@@ -2528,7 +2526,7 @@ public class BaseXmlSpawner
                 {
                     try
                     {
-                        atype = SpawnerType.GetType(objstr[2]);
+                        atype = AssemblyHandler.FindTypeByName(objstr[2]);
                     }
                     catch { }
                 }
@@ -2633,7 +2631,7 @@ public class BaseXmlSpawner
             else
             {
                 // is the equippedonly flag set?  If so then see if the item is equipped
-                if ((equippedonly && testitem.Parent == m) || !equippedonly)
+                if (equippedonly && testitem.Parent == m || !equippedonly)
                     has_no_such_item = false;
             }
         }
@@ -2656,7 +2654,7 @@ public class BaseXmlSpawner
         Type targettype = null;
         if (typestr != null)
         {
-            targettype = SpawnerType.GetType(typestr);
+            targettype = AssemblyHandler.FindTypeByName(typestr);
         }
 
         // search through all items in the world and find the first one with a matching name
@@ -2683,7 +2681,7 @@ public class BaseXmlSpawner
             // add this to the recent search list
             AddToRecentItemSearchList(fromspawner, founditem);
 
-            return (founditem);
+            return founditem;
         }
 
         return null;
@@ -2702,14 +2700,14 @@ public class BaseXmlSpawner
         Type targettype = null;
         if (typestr != null)
         {
-            targettype = SpawnerType.GetType(typestr);
+            targettype = AssemblyHandler.FindTypeByName(typestr);
         }
 
         // search through all mobiles in the world and find one with a matching name
         foreach (Mobile mobile in World.Mobiles.Values)
         {
             Type mobtype = mobile.GetType();
-            if (!mobile.Deleted && ((name.Length == 0 || string.Compare(mobile.Name, name, true) == 0)) && (typestr == null ||
+            if (!mobile.Deleted && (name.Length == 0 || string.Compare(mobile.Name, name, true) == 0) && (typestr == null ||
                     targettype != null && (mobtype.Equals(targettype) || mobtype.IsSubclassOf(targettype))))
             {
                 foundmobile = mobile;
@@ -2725,7 +2723,7 @@ public class BaseXmlSpawner
             // add this to the recent search list
             AddToRecentMobileSearchList(fromspawner, foundmobile);
 
-            return (foundmobile);
+            return foundmobile;
         }
 
         return null;
@@ -2760,7 +2758,7 @@ public class BaseXmlSpawner
             if (item is XmlSpawner)
             {
                 XmlSpawner spawner = (XmlSpawner)item;
-                if (!spawner.Deleted && (string.Compare(spawner.Name, name, true) == 0))
+                if (!spawner.Deleted && string.Compare(spawner.Name, name, true) == 0)
                 {
                     foundspawner = spawner;
 
@@ -2777,7 +2775,7 @@ public class BaseXmlSpawner
             // add this to the recent search list
             AddToRecentSpawnerSearchList(fromspawner, foundspawner);
 
-            return (foundspawner);
+            return foundspawner;
         }
 
         return null;
@@ -2830,7 +2828,7 @@ public class BaseXmlSpawner
                 spawner.RecentSpawnerSearchList.Remove(i);
         }
 
-        return (foundspawner);
+        return foundspawner;
     }
 
     public static void AddToRecentItemSearchList(XmlSpawner spawner, Item target)
@@ -2861,7 +2859,7 @@ public class BaseXmlSpawner
         Type targettype = null;
         if (typestr != null)
         {
-            targettype = SpawnerType.GetType(typestr);
+            targettype = AssemblyHandler.FindTypeByName(typestr);
         }
 
         foreach (Item item in spawner.RecentItemSearchList)
@@ -2891,7 +2889,7 @@ public class BaseXmlSpawner
                 spawner.RecentItemSearchList.Remove(i);
         }
 
-        return (founditem);
+        return founditem;
     }
 
     public static void AddToRecentMobileSearchList(XmlSpawner spawner, Mobile target)
@@ -2922,7 +2920,7 @@ public class BaseXmlSpawner
         Type targettype = null;
         if (typestr != null)
         {
-            targettype = SpawnerType.GetType(typestr);
+            targettype = AssemblyHandler.FindTypeByName(typestr);
         }
 
         foreach (Mobile m in spawner.RecentMobileSearchList)
@@ -2953,7 +2951,7 @@ public class BaseXmlSpawner
                 spawner.RecentMobileSearchList.Remove(i);
         }
 
-        return (foundmobile);
+        return foundmobile;
     }
     #endregion
 
@@ -3024,7 +3022,7 @@ public class BaseXmlSpawner
             string[] typeargs = ParseCommaArgs(arglist[0], 2);
             if (typeargs.Length > 1)
             {
-                return (typeargs[0]);
+                return typeargs[0];
             }
             return arglist[0];
         }
@@ -3049,7 +3047,7 @@ public class BaseXmlSpawner
             {
                 typeargs = ParseCommaArgs(itemtypestring.Substring(argstart), 15);
             }
-            return (typeargs);
+            return typeargs;
 
         }
 
@@ -3124,7 +3122,7 @@ public class BaseXmlSpawner
                 if (index >= 0)
                 {
                     // check the char before it and after it to ignore </ and />
-                    if ((index > 0 && str[index - 1] == '<') || (index < length - 1 && str[index + 1] == '>'))
+                    if (index > 0 && str[index - 1] == '<' || index < length - 1 && str[index + 1] == '>')
                     {
                         // skip it
                         searchindex = index + 1;

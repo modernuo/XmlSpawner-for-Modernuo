@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Server.Items;
 using Server.Network;
@@ -400,7 +399,7 @@ public class XmlQuestStatusGump : Gump
             AddLabel(135, 356, 0x384, "Collect");
             //}
 
-            if ((questitem.RewardItem != null && !questitem.RewardItem.Deleted))
+            if (questitem.RewardItem != null && !questitem.RewardItem.Deleted)
             {
                 m_questitem.CheckRewardItem();
 
@@ -431,7 +430,7 @@ public class XmlQuestStatusGump : Gump
                 AddLabel(230, 339, 55, $"Bonus: {questitem.RewardAttachment.GetType().Name}");
             }
 
-            if ((questitem.RewardItem != null && !questitem.RewardItem.Deleted) || (questitem.RewardAttachment != null && !questitem.RewardAttachment.Deleted))
+            if (questitem.RewardItem != null && !questitem.RewardItem.Deleted || questitem.RewardAttachment != null && !questitem.RewardAttachment.Deleted)
             {
                 if (questitem.CanSeeReward)
                 {
@@ -531,7 +530,7 @@ public class XmlQuestStatusGump : Gump
                     if (m_questitem.RewardAttachment != null)
                     {
                         //state.Mobile.SendMessage("{0}",m_questitem.RewardAttachment.OnIdentify(state.Mobile));
-                        state.Mobile.CloseGump(typeof(DisplayAttachmentGump));
+                        state.Mobile.CloseGump<DisplayAttachmentGump>();
                         state.Mobile.SendGump(new DisplayAttachmentGump(state.Mobile, m_questitem.RewardAttachment.OnIdentify(state.Mobile)));
                     }
                     break;
@@ -687,7 +686,7 @@ public class XmlQuestStatusGump : Gump
                 m_questitem.AddJournalEntry = entryid + ":" + entrytext;
             }
             // open a new journal gump
-            state.Mobile.CloseGump(typeof(XmlQuestStatusGump));
+            state.Mobile.CloseGump<XmlQuestStatusGump>();
             state.Mobile.SendGump(new XmlQuestStatusGump(m_questitem, m_gumptitle, m_X, m_Y, m_solid, 1));
         }
     }

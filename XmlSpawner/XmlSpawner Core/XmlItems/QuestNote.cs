@@ -1,4 +1,3 @@
-using System;
 using Server.Gumps;
 
 /*
@@ -91,7 +90,7 @@ public class QuestNote : XmlQuestToken
         base.OnDoubleClick(from);
         from.CloseGump( typeof( XmlQuestStatusGump ) );
 
-        from.SendGump( new XmlQuestStatusGump(this, this.TitleString) );
+        from.SendGump( new XmlQuestStatusGump(this, TitleString) );
     }
 }
 
@@ -156,9 +155,9 @@ public class OriginalQuestNote : XmlQuestToken
         writer.Write( 1 ); // version
 
         // Version 1
-        writer.Write( this.m_TextColor );
-        writer.Write( this.m_TitleColor );
-        writer.Write( this.m_size );
+        writer.Write( m_TextColor );
+        writer.Write( m_TitleColor );
+        writer.Write( m_size );
         // Version 0
         //writer.Write( this.m_NoteString );    // moved to the XmlQuestToken class in version 1
         //writer.Write( this.m_TitleString );   // moved to the XmlQuestToken class in version 1
@@ -173,18 +172,18 @@ public class OriginalQuestNote : XmlQuestToken
         {
             case 1:
                 {
-                    this.m_TextColor = reader.ReadInt();
-                    this.m_TitleColor = reader.ReadInt();
-                    this.m_size = reader.ReadInt();
+                    m_TextColor = reader.ReadInt();
+                    m_TitleColor = reader.ReadInt();
+                    m_size = reader.ReadInt();
                 }
                 break;
             case 0:
                 {
-                    this.NoteString = reader.ReadString();
-                    this.TitleString = reader.ReadString();
-                    this.m_TextColor = reader.ReadInt();
-                    this.m_TitleColor = reader.ReadInt();
-                    this.m_size = reader.ReadInt();
+                    NoteString = reader.ReadString();
+                    TitleString = reader.ReadString();
+                    m_TextColor = reader.ReadInt();
+                    m_TitleColor = reader.ReadInt();
+                    m_size = reader.ReadInt();
                 }
                 break;
         }
@@ -226,16 +225,16 @@ public class QuestNoteGump : Gump
         AddImageTiled( 20, 111+70*(note.Size-1), 273, 34, 0x823 );
 
         // title string
-        AddHtml( 55, 10, 200, 37, QuestNoteGump.HtmlFormat( note.TitleString, note.TitleColor), false , false );
+        AddHtml( 55, 10, 200, 37, HtmlFormat( note.TitleString, note.TitleColor), false , false );
         // text string
-        AddHtml( 40, 41, 225, 70*note.Size, QuestNoteGump.HtmlFormat( note.NoteString, note.TextColor ), false , false );
+        AddHtml( 40, 41, 225, 70*note.Size, HtmlFormat( note.NoteString, note.TextColor ), false , false );
 
         // add the quest status gump button
         AddButton( 40, 50+ note.Size*70, 0x037, 0x037, 1, GumpButtonType.Reply, 0 );
 
     }
 
-    public override void OnResponse( Server.Network.NetState state, RelayInfo info )
+    public override void OnResponse( Network.NetState state, RelayInfo info )
     {
         Mobile from = state.Mobile;
         if ( info.ButtonID == 1 )

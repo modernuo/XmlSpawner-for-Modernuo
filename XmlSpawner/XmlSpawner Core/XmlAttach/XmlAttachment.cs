@@ -242,8 +242,6 @@ public abstract class XmlAttachment : IXmlAttachment
         public AttachmentTimer(XmlAttachment attachment, TimeSpan delay)
             : base(delay)
         {
-            Priority = TimerPriority.OneSecond;
-
             m_Attachment = attachment;
         }
 
@@ -416,21 +414,14 @@ public abstract class XmlAttachment : IXmlAttachment
 
     public void SafeMobileDelete(Mobile mob)
     {
-        Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(DeleteMobileCallback), new object[] { mob });
+        Timer.DelayCall(TimeSpan.Zero, DeleteMobileCallback, mob);
 
     }
 
-    public void DeleteMobileCallback(object state)
+    public static void DeleteMobileCallback(Mobile mob)
     {
-        object[] args = (object[])state;
-
-        Mobile mob = args[0] as Mobile;
-
-        if (mob != null)
-        {
-            // delete the mobile
-            mob.Delete();
-        }
+        // delete the mobile
+        mob?.Delete();
     }
 
     public void Delete()
@@ -515,12 +506,12 @@ public abstract class XmlAttachment : IXmlAttachment
                     int owned = reader.ReadInt();
                     if (owned == 0)
                     {
-                        OwnedBy = reader.ReadItem();
+                        OwnedBy = reader.ReadEntity<Item>();
                     }
                     else
                     if (owned == 1)
                     {
-                        OwnedBy = reader.ReadMobile();
+                        OwnedBy = reader.ReadEntity<Mobile>();
                     }
                     else
                     {

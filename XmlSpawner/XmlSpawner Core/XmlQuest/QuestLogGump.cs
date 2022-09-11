@@ -44,7 +44,7 @@ public class QuestLogGump : Gump
 
             add = 1;
 
-            if ( (slots + add) > 10 )
+            if ( slots + add > 10 )
                 break;
 
             slots += add;
@@ -60,7 +60,7 @@ public class QuestLogGump : Gump
     {
     }
 
-    public override void OnResponse( Server.Network.NetState sender, RelayInfo info )
+    public override void OnResponse( Network.NetState sender, RelayInfo info )
     {
         if(info == null || m_From == null) return;
 
@@ -90,7 +90,7 @@ public class QuestLogGump : Gump
                     // if this player has an XmlQuestPoints attachment, find it
                     XmlQuestPoints p = (XmlQuestPoints)XmlAttach.FindAttachment(m_From,typeof(XmlQuestPoints));
 
-                    m_From.CloseGump(typeof(XmlQuestLeaders.TopQuestPlayersGump));
+                    m_From.CloseGump<XmlQuestLeaders.TopQuestPlayersGump>();
                     m_From.SendGump(new XmlQuestLeaders.TopQuestPlayersGump(p));
 
                     break;
@@ -109,14 +109,14 @@ public class QuestLogGump : Gump
                         if(m_List[index] is IXmlQuest)
                         {
                             IXmlQuest o = m_List[index] as IXmlQuest;
-    
+
                             if(o != null && !o.Deleted){
                                 m_From.SendGump( new QuestLogGump( m_From, m_Page, null ) );
                                 m_From.CloseGump( typeof( XmlQuestStatusGump ) );
                                 m_From.SendGump( new XmlQuestStatusGump(o, o.TitleString, 320, 0, true) );
                             }
-                        } 
-                    } 
+                        }
+                    }
 
                     break;
                 }
@@ -169,7 +169,7 @@ public class QuestLogGump : Gump
                         if(questitems != null)
                         {
                             nquests += questitems.Length;
-				
+
                             for ( int i = 0; i < questitems.Length; ++i )
                             {
                                 list.Add( questitems[i] );
@@ -204,7 +204,7 @@ public class QuestLogGump : Gump
         width = 766;
 
         X = (824 - width) / 2;
-			
+
         int xoffset = 20;
 
         AddPage( 0 );
@@ -222,11 +222,11 @@ public class QuestLogGump : Gump
         AddImageTiled( 555 - xoffset, 64, 175, 352, 200 ); // completed
         AddImageTiled( 734 - xoffset, 64, 42, 352, 1416 ); // repeated
 
-        for ( int i = index; i < (index + count) && i >= 0 && i < list.Count; ++i )
+        for ( int i = index; i < index + count && i >= 0 && i < list.Count; ++i )
         {
             object obj = list[i];
 
-            AddImageTiled( 24, 94 + (tableIndex * 32), 489, 2, 2624 );
+            AddImageTiled( 24, 94 + tableIndex * 32, 489, 2, 2624 );
 
             ++tableIndex;
         }
@@ -239,9 +239,9 @@ public class QuestLogGump : Gump
 
         AddHtmlLocalized( 375, 25, 200, 30, 1046026, LabelColor, false, false ); // Quest Log
 
-        AddHtmlLocalized( 63 - xoffset, 45, 200, 32, 1072837, LabelColor, false, false ); // Current Points: 
-			
-        AddHtml( 243 - xoffset, 45, 200, 32, XmlSimpleGump.Color("Available Credits:","FFFFFF"), false, false ); // Your Reward Points: 
+        AddHtmlLocalized( 63 - xoffset, 45, 200, 32, 1072837, LabelColor, false, false ); // Current Points:
+
+        AddHtml( 243 - xoffset, 45, 200, 32, XmlSimpleGump.Color("Available Credits:","FFFFFF"), false, false ); // Your Reward Points:
 
         AddHtml( 453 - xoffset, 45, 200, 32, XmlSimpleGump.Color("Rank:","FFFFFF"),  false, false ); // Rank
 
@@ -273,7 +273,7 @@ public class QuestLogGump : Gump
 
         AddButton( 113 - xoffset, 416, 0xFA8, 0xFAA, 10, GumpButtonType.Reply, 0 );
         AddHtml( 150 - xoffset, 416, 200, 32, XmlSimpleGump.Color("Top Players","FFFFFF"), false, false ); // Top players gump
-			
+
 
         tableIndex = 0;
 
@@ -289,7 +289,7 @@ public class QuestLogGump : Gump
             AddHtmlLocalized( 410, 416, 150, 20, 1011066, LabelColor, false, false ); // Next page
         }
 
-        for ( int i = index; i < (index + count) && i >= 0 && i < list.Count; ++i )
+        for ( int i = index; i < index + count && i >= 0 && i < list.Count; ++i )
         {
             object obj = list[i];
 
@@ -298,7 +298,7 @@ public class QuestLogGump : Gump
             {
                 IXmlQuest e = (IXmlQuest)obj;
 
-                int y = 96 + (tableIndex++ * 32);
+                int y = 96 + tableIndex++ * 32;
 
 
                 AddButton( 60 - xoffset, y + 2, 0xFAB, 0xFAD, 2000 + i, GumpButtonType.Reply, 0 ); // open gump
@@ -309,12 +309,12 @@ public class QuestLogGump : Gump
                 if(!e.IsValid)
                 {
                     color = 33;
-                } 
+                }
                 else
                 if(e.IsCompleted)
                 {
                     color = 67;
-                } 
+                }
                 else
                 {
                     color = 5;
@@ -337,7 +337,7 @@ public class QuestLogGump : Gump
                         substring = e.ExpirationString.Substring(11);
                     }
                     AddLabel( 400 - xoffset, y, color, substring );
-                } 
+                }
                 else
                 {
                     AddLabel( 400 - xoffset, y, color, "No longer valid" );
@@ -348,8 +348,8 @@ public class QuestLogGump : Gump
 
                     AddLabel( 270 - xoffset, y, color, "Party" );
                     //AddHtmlLocalized( 250, y, 200, 32, 3000332, htmlcolor, false, false ); // Party
-                } 
-                else 
+                }
+                else
                 {
 
                     AddLabel( 270 - xoffset, y, color, "Solo" );
@@ -357,13 +357,13 @@ public class QuestLogGump : Gump
 
                 AddLabel( 515 - xoffset, y, color, e.Difficulty.ToString() );
 
-            } 
+            }
             else
             if(obj is XmlQuestPoints.QuestEntry)
             {
                 XmlQuestPoints.QuestEntry e = (XmlQuestPoints.QuestEntry)obj;
 
-                int y = 96 + (tableIndex++ * 32);
+                int y = 96 + tableIndex++ * 32;
                 int color = 67;
 
                 AddLabel( 100 - xoffset, y, color, e.Name );
@@ -375,8 +375,8 @@ public class QuestLogGump : Gump
 
                     AddLabel( 270 - xoffset, y, color, "Party" );
                     //AddHtmlLocalized( 250, y, 200, 32, 3000332, htmlcolor, false, false ); // Party
-                } 
-                else 
+                }
+                else
                 {
 
                     AddLabel( 270 - xoffset, y, color, "Solo" );
@@ -392,13 +392,13 @@ public class QuestLogGump : Gump
                     if(qa.Expiration == TimeSpan.Zero)
                     {
                         AddLabel( 560 - xoffset, y, color, "Not Repeatable" );
-                    } 
+                    }
                     else
                     {
                         DateTime nexttime = DateTime.Now + qa.Expiration;
                         AddLabel( 560 - xoffset, y, color, nexttime.ToString() );
                     }
-                } 
+                }
                 else
                 {
                     // didnt find one so it can be done again

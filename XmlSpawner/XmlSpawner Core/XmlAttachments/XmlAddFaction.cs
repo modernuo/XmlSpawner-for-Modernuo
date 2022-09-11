@@ -16,8 +16,8 @@ public class XmlAddFaction : XmlAttachment
     [Attachable]
     public XmlAddFaction(string factiontype, int value)
     {
-        this.Value = value;
-        this.FactionType = factiontype;
+        Value = value;
+        FactionType = factiontype;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -25,22 +25,22 @@ public class XmlAddFaction : XmlAttachment
     {
         get
         {
-            return this.m_DataValue;
+            return m_DataValue;
         }
         set
         {
-            this.m_DataValue = value;
+            m_DataValue = value;
         }
     }
     public string FactionType
     {
         get
         {
-            return this.m_GroupName;
+            return m_GroupName;
         }
         set
         {
-            this.m_GroupName = value;
+            m_GroupName = value;
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -59,8 +59,8 @@ public class XmlAddFaction : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.m_DataValue);
-        writer.Write(this.m_GroupName);
+        writer.Write(m_DataValue);
+        writer.Write(m_GroupName);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -69,8 +69,8 @@ public class XmlAddFaction : XmlAttachment
 
         int version = reader.ReadInt();
         // version 0
-        this.m_DataValue = reader.ReadInt();
-        this.m_GroupName = reader.ReadString();
+        m_DataValue = reader.ReadInt();
+        m_GroupName = reader.ReadString();
     }
 
     public override void OnAttach()
@@ -78,14 +78,14 @@ public class XmlAddFaction : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if (this.AttachedTo is PlayerMobile)
+        if (AttachedTo is PlayerMobile)
         {
             // for players just add it immediately
             // lookup the group type
             XmlMobFactions.GroupTypes g = XmlMobFactions.GroupTypes.End_Unused;
             try
             {
-                g = (XmlMobFactions.GroupTypes)Enum.Parse(typeof(XmlMobFactions.GroupTypes), this.FactionType, true);
+                g = (XmlMobFactions.GroupTypes)Enum.Parse(typeof(XmlMobFactions.GroupTypes), FactionType, true);
             }
             catch
             {
@@ -94,28 +94,28 @@ public class XmlAddFaction : XmlAttachment
             if (g != XmlMobFactions.GroupTypes.End_Unused)
             {
                 // get XmlMobFaction type attachments and add the faction
-                var list = XmlAttach.FindAttachments(this.AttachedTo, typeof(XmlMobFactions));
+                var list = XmlAttach.FindAttachments(AttachedTo, typeof(XmlMobFactions));
                 if (list != null && list.Count > 0)
                 {
                     foreach (XmlMobFactions x in list)
                     {
-                        x.SetFactionLevel(g, x.GetFactionLevel(g) + this.Value);
+                        x.SetFactionLevel(g, x.GetFactionLevel(g) + Value);
                     }
                 }
 
-                ((Mobile)this.AttachedTo).SendMessage("Receive {0}", this.OnIdentify((Mobile)this.AttachedTo));
+                ((Mobile)AttachedTo).SendMessage("Receive {0}", OnIdentify((Mobile)AttachedTo));
             }
             else
             {
-                ((Mobile)this.AttachedTo).SendMessage("{0}: no such faction", this.FactionType);
+                ((Mobile)AttachedTo).SendMessage("{0}: no such faction", FactionType);
             }
             // and then remove the attachment
-            this.Delete();
+            Delete();
         }
-        else if (this.AttachedTo is Item)
+        else if (AttachedTo is Item)
         {
             // dont allow item attachments
-            this.Delete();
+            Delete();
         }
     }
 
@@ -129,7 +129,7 @@ public class XmlAddFaction : XmlAttachment
         XmlMobFactions.GroupTypes g = XmlMobFactions.GroupTypes.End_Unused;
         try
         {
-            g = (XmlMobFactions.GroupTypes)Enum.Parse(typeof(XmlMobFactions.GroupTypes), this.FactionType, true);
+            g = (XmlMobFactions.GroupTypes)Enum.Parse(typeof(XmlMobFactions.GroupTypes), FactionType, true);
         }
         catch
         {
@@ -144,16 +144,16 @@ public class XmlAddFaction : XmlAttachment
             {
                 foreach (XmlMobFactions x in list)
                 {
-                    x.SetFactionLevel(g, x.GetFactionLevel(g) + this.Value);
+                    x.SetFactionLevel(g, x.GetFactionLevel(g) + Value);
                 }
             }
 
-            killer.SendMessage("Receive {0}", this.OnIdentify(killer));
+            killer.SendMessage("Receive {0}", OnIdentify(killer));
         }
     }
 
     public override string OnIdentify(Mobile from)
     {
-        return $"{this.Value} {this.FactionType} Faction";
+        return $"{Value} {FactionType} Faction";
     }
 }

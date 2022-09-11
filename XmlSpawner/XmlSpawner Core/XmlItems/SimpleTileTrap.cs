@@ -90,11 +90,11 @@ public class SimpleTileTrap : Item
 
         writer.Write( 0 ); // version
 
-        writer.Write( this.m_SwitchSound );
-        writer.Write( this.m_TargetItem0 );
-        writer.Write( this.m_TargetProperty0 );
-        writer.Write( this.m_TargetItem1 );
-        writer.Write( this.m_TargetProperty1 );
+        writer.Write( m_SwitchSound );
+        writer.Write( m_TargetItem0 );
+        writer.Write( m_TargetProperty0 );
+        writer.Write( m_TargetItem1 );
+        writer.Write( m_TargetProperty1 );
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -107,11 +107,11 @@ public class SimpleTileTrap : Item
             case 0:
                 {
 
-                    this.m_SwitchSound = reader.ReadInt();
-                    this.m_TargetItem0 = reader.ReadItem();
-                    this.m_TargetProperty0 = reader.ReadString();
-                    this.m_TargetItem1 = reader.ReadItem();
-                    this.m_TargetProperty1 = reader.ReadString();
+                    m_SwitchSound = reader.ReadInt();
+                    m_TargetItem0 = reader.ReadEntity<Item>();
+                    m_TargetProperty0 = reader.ReadString();
+                    m_TargetItem1 = reader.ReadEntity<Item>();
+                    m_TargetProperty1 = reader.ReadString();
                 }
                 break;
         }
@@ -124,8 +124,8 @@ public class SimpleTileTrap : Item
 
     public bool CheckRange( Point3D loc, int range )
     {
-        return ( (this.Z + 8) >= loc.Z && (loc.Z + 16) > this.Z )
-               && Utility.InRange( GetWorldLocation(), loc, range );
+        return Z + 8 >= loc.Z && loc.Z + 16 > Z
+                              && Utility.InRange( GetWorldLocation(), loc, range );
     }
 
 
@@ -139,11 +139,11 @@ public class SimpleTileTrap : Item
             return;
 
 
-        if( ( m.Player && m.AccessLevel == AccessLevel.Player ) )
+        if( m.Player && m.AccessLevel == AccessLevel.Player )
         {
             if ( CheckRange( m.Location, oldLocation, 0 ) )
                 OnEnter( m );
-            else if ( oldLocation == this.Location )
+            else if ( oldLocation == Location )
                 OnExit( m );
         }
     }

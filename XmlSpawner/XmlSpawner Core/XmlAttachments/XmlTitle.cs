@@ -15,23 +15,23 @@ public class XmlTitle : XmlAttachment
     [Attachable]
     public XmlTitle(string name)
     {
-        this.Name = name;
-        this.Title = String.Empty;
+        Name = name;
+        Title = String.Empty;
     }
 
     [Attachable]
     public XmlTitle(string name, string title)
     {
-        this.Name = name;
-        this.Title = title;
+        Name = name;
+        Title = title;
     }
 
     [Attachable]
     public XmlTitle(string name, string title, double expiresin)
     {
-        this.Name = name;
-        this.Title = title;
-        this.Expiration = TimeSpan.FromMinutes(expiresin);
+        Name = name;
+        Title = title;
+        Expiration = TimeSpan.FromMinutes(expiresin);
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -39,19 +39,19 @@ public class XmlTitle : XmlAttachment
     {
         get
         {
-            return this.m_Title;
+            return m_Title;
         }
         set
         {
-            this.m_Title = value;
+            m_Title = value;
             // change the title
-            if (this.AttachedTo is Mobile)
+            if (AttachedTo is Mobile)
             {
-                ((Mobile)this.AttachedTo).InvalidateProperties();
+                ((Mobile)AttachedTo).InvalidateProperties();
             }
-            if (this.AttachedTo is Item)
+            if (AttachedTo is Item)
             {
-                ((Item)this.AttachedTo).InvalidateProperties();
+                ((Item)AttachedTo).InvalidateProperties();
             }
         }
     }
@@ -89,7 +89,7 @@ public class XmlTitle : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.m_Title);
+        writer.Write(m_Title);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -98,7 +98,7 @@ public class XmlTitle : XmlAttachment
 
         int version = reader.ReadInt();
         // version 0
-        this.m_Title = reader.ReadString();
+        m_Title = reader.ReadString();
     }
 
     public override void OnDelete()
@@ -106,13 +106,13 @@ public class XmlTitle : XmlAttachment
         base.OnDelete();
 
         // remove the title when deleted
-        if (this.AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
-            ((Mobile)this.AttachedTo).InvalidateProperties();
+            ((Mobile)AttachedTo).InvalidateProperties();
         }
-        if (this.AttachedTo is Item)
+        if (AttachedTo is Item)
         {
-            ((Item)this.AttachedTo).InvalidateProperties();
+            ((Item)AttachedTo).InvalidateProperties();
         }
     }
 
@@ -121,13 +121,13 @@ public class XmlTitle : XmlAttachment
         base.OnAttach();
 
         // apply the title immediately when attached
-        if (this.AttachedTo is Mobile)
+        if (AttachedTo is Mobile)
         {
-            ((Mobile)this.AttachedTo).InvalidateProperties();
+            ((Mobile)AttachedTo).InvalidateProperties();
         }
-        if (this.AttachedTo is Item)
+        if (AttachedTo is Item)
         {
-            ((Item)this.AttachedTo).InvalidateProperties();
+            ((Item)AttachedTo).InvalidateProperties();
         }
     }
 
@@ -136,13 +136,13 @@ public class XmlTitle : XmlAttachment
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
             return null;
 
-        if (this.Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
-            return String.Format("{2}: Title {0} expires in {1} mins", this.Title, this.Expiration.TotalMinutes, this.Name);
+            return String.Format("{2}: Title {0} expires in {1} mins", Title, Expiration.TotalMinutes, Name);
         }
         else
         {
-            return String.Format("{1}: Title {0}", this.Title, this.Name);
+            return String.Format("{1}: Title {0}", Title, Name);
         }
     }
 }

@@ -164,7 +164,7 @@ public class XmlQuestLeaders
         // if this player has an XmlQuestPoints attachment, find it
         XmlQuestPoints p = (XmlQuestPoints)XmlAttach.FindAttachment(e.Mobile,typeof(XmlQuestPoints));
 
-        e.Mobile.CloseGump(typeof(TopQuestPlayersGump));
+        e.Mobile.CloseGump<TopQuestPlayersGump>();
         e.Mobile.SendGump(new TopQuestPlayersGump(p));
     }
 
@@ -473,7 +473,6 @@ public class XmlQuestLeaders
         {
             m_filename = filename;
             m_nranks = nranks;
-            Priority = TimerPriority.FiveSeconds;
         }
 
         protected override void OnTick()
@@ -622,7 +621,7 @@ public class XmlQuestLeaders
                             bool found = false;
                             foreach(string arg in args)
                             {
-                                if(arg != null && r.Quester.Name != null && (r.Quester.Name.ToLower().IndexOf(arg.Trim().ToLower()) >= 0))
+                                if(arg != null && r.Quester.Name != null && r.Quester.Name.ToLower().IndexOf(arg.Trim().ToLower()) >= 0)
                                 {
                                     found = true;
                                     break;
@@ -638,7 +637,7 @@ public class XmlQuestLeaders
 
                     int days = (int)timeranked.TotalDays;
                     int hours = (int)(timeranked.TotalHours - days*24);
-                    int mins = (int)(timeranked.TotalMinutes - ((int)timeranked.TotalHours)*60);
+                    int mins = (int)(timeranked.TotalMinutes - (int)timeranked.TotalHours*60);
 
                     string quests = "???";
                     try

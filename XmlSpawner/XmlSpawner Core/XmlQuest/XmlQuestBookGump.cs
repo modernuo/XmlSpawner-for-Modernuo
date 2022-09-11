@@ -43,7 +43,7 @@ public class XmlQuestBookGump : Gump
 
             add = 1;
 
-            if ( (slots + add) > 10 )
+            if ( slots + add > 10 )
                 break;
 
             slots += add;
@@ -59,7 +59,7 @@ public class XmlQuestBookGump : Gump
     {
     }
 
-    public override void OnResponse( Server.Network.NetState sender, RelayInfo info )
+    public override void OnResponse( Network.NetState sender, RelayInfo info )
     {
         if(info == null || m_From == null) return;
 
@@ -115,7 +115,7 @@ public class XmlQuestBookGump : Gump
                             break;
 
                         // allow quests to be dropped from books that are either in the world or in the players backpack
-                        if ( m_Book.IsChildOf( m_From.Backpack ) || (m_Book.Parent == null))
+                        if ( m_Book.IsChildOf( m_From.Backpack ) || m_Book.Parent == null)
                         {
                             // move the item from the book to the players backpack
                             Item item = m_List[index] as Item;
@@ -194,11 +194,11 @@ public class XmlQuestBookGump : Gump
         AddImageTiled( 308 - xoffset, 64, 85, 352, 1416 ); // status
         AddImageTiled( 395 - xoffset, 64, 116, 352, 200 ); // expires
 
-        for ( int i = index; i < (index + count) && i >= 0 && i < list.Count; ++i )
+        for ( int i = index; i < index + count && i >= 0 && i < list.Count; ++i )
         {
             object obj = list[i];
 
-            AddImageTiled( 24, 94 + (tableIndex * 32), 489, 2, 2624 );
+            AddImageTiled( 24, 94 + tableIndex * 32, 489, 2, 2624 );
 
             ++tableIndex;
         }
@@ -236,7 +236,7 @@ public class XmlQuestBookGump : Gump
             AddHtmlLocalized( 260, 416, 150, 20, 1011066, LabelColor, false, false ); // Next page
         }
 
-        for ( int i = index; i < (index + count) && i >= 0 && i < list.Count; ++i )
+        for ( int i = index; i < index + count && i >= 0 && i < list.Count; ++i )
         {
             object obj = list[i];
 
@@ -245,7 +245,7 @@ public class XmlQuestBookGump : Gump
             {
                 IXmlQuest e = (IXmlQuest)obj;
 
-                int y = 96 + (tableIndex++ * 32);
+                int y = 96 + tableIndex++ * 32;
 
                 if(!m_Book.Locked)
                     AddButton( 35, y + 2, 5602, 5606, 1000 + i, GumpButtonType.Reply, 0 ); // drop

@@ -182,7 +182,7 @@ public class XmlMagicWord : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null || Word == null || (RequireIdentification && !m_Identified)) return;
+        if(m == null || Word == null || RequireIdentification && !m_Identified) return;
 
         if(DateTime.Now < m_EndTime) return;
 

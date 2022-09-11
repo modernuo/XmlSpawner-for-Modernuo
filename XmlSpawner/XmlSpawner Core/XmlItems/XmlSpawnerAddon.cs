@@ -36,7 +36,7 @@ public class XmlSpawnerAddon : BaseAddon
             // starting at the beginning of the component list
             for (int i = 0; i < Components.Count; i++)
             {
-                Components[i].Visible = (i < nvisible);
+                Components[i].Visible = i < nvisible;
             }
         }
     }
@@ -53,7 +53,7 @@ public class XmlSpawnerAddon : BaseAddon
         // look for the file in the default spawner locations
         string dirname = XmlSpawner.LocateFile(filename);
 
-        if (System.IO.File.Exists(dirname))
+        if (File.Exists(dirname))
         {
             int ncomponents = 0;
 
@@ -106,7 +106,7 @@ public class XmlSpawnerAddon : BaseAddon
         bool badformat = false;
         int ncomponents = 0;
 
-        if (System.IO.File.Exists(filename))
+        if (File.Exists(filename))
         {
 
             using (StreamReader sr = new StreamReader(filename))
@@ -173,7 +173,7 @@ public class XmlSpawnerAddon : BaseAddon
                         newcomponent = new AddonComponent(itemid);
 
                         // set the properties according to the specification
-                        newcomponent.Visible = (visible == 1);
+                        newcomponent.Visible = visible == 1;
 
                         if (hue >= 0)
                             newcomponent.Hue = hue;
@@ -198,7 +198,7 @@ public class XmlSpawnerAddon : BaseAddon
                             Type type = null;
                             try
                             {
-                                type = SpawnerType.GetType(BaseXmlSpawner.ParseObjectType(attachstring));
+                                type = AssemblyHandler.FindTypeByName(BaseXmlSpawner.ParseObjectType(attachstring));
                             }
                             catch { }
 

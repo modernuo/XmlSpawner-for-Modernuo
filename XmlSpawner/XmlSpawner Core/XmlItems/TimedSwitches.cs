@@ -139,11 +139,7 @@ public class XmlLatch : Item
     {
         private XmlLatch m_latch;
 
-        public InternalTimer( XmlLatch xmllatch, TimeSpan delay ) : base( delay )
-        {
-            Priority = TimerPriority.OneSecond;
-            m_latch = xmllatch;
-        }
+        public InternalTimer( XmlLatch xmllatch, TimeSpan delay ) : base( delay ) => m_latch = xmllatch;
 
         protected override void OnTick()
         {
@@ -162,14 +158,14 @@ public class XmlLatch : Item
         writer.Write( 0 ); // version
 
         // version 0
-        writer.Write( this.m_State );
-        writer.Write( this.m_ResetState );
-        writer.Write( this.m_MinDelay );
-        writer.Write( this.m_MaxDelay );
-        bool running = (m_Timer != null && m_Timer.Running);
+        writer.Write( m_State );
+        writer.Write( m_ResetState );
+        writer.Write( m_MinDelay );
+        writer.Write( m_MaxDelay );
+        bool running = m_Timer != null && m_Timer.Running;
         writer.Write( running );
         if ( m_Timer != null && m_Timer.Running )
-            writer.Write( this.m_End - DateTime.Now );
+            writer.Write( m_End - DateTime.Now );
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -183,15 +179,15 @@ public class XmlLatch : Item
                 {
                     // note this is redundant with the base class serialization, but it is there for older (pre 1.02) version compatibility
                     // not needed
-                    this.m_State = reader.ReadInt();
-                    this.m_ResetState = reader.ReadInt();
-                    this.m_MinDelay = reader.ReadTimeSpan();
-                    this.m_MaxDelay = reader.ReadTimeSpan();
+                    m_State = reader.ReadInt();
+                    m_ResetState = reader.ReadInt();
+                    m_MinDelay = reader.ReadTimeSpan();
+                    m_MaxDelay = reader.ReadTimeSpan();
                     bool running = reader.ReadBool();
                     if(running)
                     {
                         TimeSpan delay = reader.ReadTimeSpan();
-                        this.DoTimer( delay );
+                        DoTimer( delay );
                     }
                 }
                 break;
@@ -407,18 +403,18 @@ public class TimedLever : XmlLatch, ILinkable
         writer.Write( 2 ); // version
 
         // version 2
-        writer.Write(this.m_Disabled);
+        writer.Write(m_Disabled);
         // version 1
-        writer.Write(this.m_LinkedItem);
+        writer.Write(m_LinkedItem);
         // version 0
-        writer.Write( this.m_LeverSound );
-        writer.Write( (int)this.m_LeverType );
-        writer.Write( this.m_TargetItem0 );
-        writer.Write( this.m_TargetProperty0 );
-        writer.Write( this.m_TargetItem1 );
-        writer.Write( this.m_TargetProperty1 );
-        writer.Write( this.m_TargetItem2 );
-        writer.Write( this.m_TargetProperty2 );
+        writer.Write( m_LeverSound );
+        writer.Write( (int)m_LeverType );
+        writer.Write( m_TargetItem0 );
+        writer.Write( m_TargetProperty0 );
+        writer.Write( m_TargetItem1 );
+        writer.Write( m_TargetProperty1 );
+        writer.Write( m_TargetItem2 );
+        writer.Write( m_TargetProperty2 );
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -435,30 +431,30 @@ public class TimedLever : XmlLatch, ILinkable
                 }
             case 1:
                 {
-                    m_LinkedItem = reader.ReadItem();
+                    m_LinkedItem = reader.ReadEntity<Item>();
                     goto case 0;
                 }
             case 0:
                 {
-                    this.m_LeverSound = reader.ReadInt();
+                    m_LeverSound = reader.ReadInt();
                     int ltype = reader.ReadInt();
                     switch( ltype )
                     {
                         case (int)leverType.Two_State:
                             {
-                                this.m_LeverType = leverType.Two_State;	break;
+                                m_LeverType = leverType.Two_State;	break;
                             }
                         case (int)leverType.Three_State:
                             {
-                                this.m_LeverType = leverType.Three_State;	break;
+                                m_LeverType = leverType.Three_State;	break;
                             }
                     }
-                    this.m_TargetItem0 = reader.ReadItem();
-                    this.m_TargetProperty0 = reader.ReadString();
-                    this.m_TargetItem1 = reader.ReadItem();
-                    this.m_TargetProperty1 = reader.ReadString();
-                    this.m_TargetItem2 = reader.ReadItem();
-                    this.m_TargetProperty2 = reader.ReadString();
+                    m_TargetItem0 = reader.ReadEntity<Item>();
+                    m_TargetProperty0 = reader.ReadString();
+                    m_TargetItem1 = reader.ReadEntity<Item>();
+                    m_TargetProperty1 = reader.ReadString();
+                    m_TargetItem2 = reader.ReadEntity<Item>();
+                    m_TargetProperty2 = reader.ReadString();
                 }
                 break;
         }
@@ -469,7 +465,7 @@ public class TimedLever : XmlLatch, ILinkable
     public void SetLeverStatic()
     {
 
-        switch(this.Direction)
+        switch(Direction)
         {
             case Direction.North:
             case Direction.South:
@@ -477,9 +473,9 @@ public class TimedLever : XmlLatch, ILinkable
             case Direction.Up:
                 {
                     if(m_LeverType == leverType.Two_State)
-                        this.ItemID = 0x108c+ State*2;
+                        ItemID = 0x108c+ State*2;
                     else
-                        this.ItemID = 0x108c+ State;
+                        ItemID = 0x108c+ State;
                     break;
                 }
             case Direction.East:
@@ -488,9 +484,9 @@ public class TimedLever : XmlLatch, ILinkable
             case Direction.Down:
                 {
                     if(m_LeverType == leverType.Two_State)
-                        this.ItemID = 0x1093+ State*2;
+                        ItemID = 0x1093+ State*2;
                     else
-                        this.ItemID = 0x1093+ State;
+                        ItemID = 0x1093+ State;
                     break;
                 }
             default:
@@ -692,15 +688,15 @@ public class TimedSwitch : XmlLatch, ILinkable
 
         writer.Write( 2 ); // version
         // version 2
-        writer.Write(this.m_Disabled);
+        writer.Write(m_Disabled);
         // version 1
-        writer.Write(this.m_LinkedItem);
+        writer.Write(m_LinkedItem);
         // version 0
-        writer.Write( this.m_SwitchSound );
-        writer.Write( this.m_TargetItem0 );
-        writer.Write( this.m_TargetProperty0 );
-        writer.Write( this.m_TargetItem1 );
-        writer.Write( this.m_TargetProperty1 );
+        writer.Write( m_SwitchSound );
+        writer.Write( m_TargetItem0 );
+        writer.Write( m_TargetProperty0 );
+        writer.Write( m_TargetItem1 );
+        writer.Write( m_TargetProperty1 );
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -717,17 +713,17 @@ public class TimedSwitch : XmlLatch, ILinkable
                 }
             case 1:
                 {
-                    m_LinkedItem = reader.ReadItem();
+                    m_LinkedItem = reader.ReadEntity<Item>();
                     goto case 0;
                 }
             case 0:
                 {
 
-                    this.m_SwitchSound = reader.ReadInt();
-                    this.m_TargetItem0 = reader.ReadItem();
-                    this.m_TargetProperty0 = reader.ReadString();
-                    this.m_TargetItem1 = reader.ReadItem();
-                    this.m_TargetProperty1 = reader.ReadString();
+                    m_SwitchSound = reader.ReadInt();
+                    m_TargetItem0 = reader.ReadEntity<Item>();
+                    m_TargetProperty0 = reader.ReadString();
+                    m_TargetItem1 = reader.ReadEntity<Item>();
+                    m_TargetProperty1 = reader.ReadString();
                 }
                 break;
         }
@@ -738,14 +734,14 @@ public class TimedSwitch : XmlLatch, ILinkable
     public void SetSwitchStatic()
     {
 
-        switch(this.Direction)
+        switch(Direction)
         {
             case Direction.North:
             case Direction.South:
             case Direction.Right:
             case Direction.Up:
                 {
-                    this.ItemID = 0x108f+ State;
+                    ItemID = 0x108f+ State;
                     break;
                 }
             case Direction.East:
@@ -753,12 +749,12 @@ public class TimedSwitch : XmlLatch, ILinkable
             case Direction.Left:
             case Direction.Down:
                 {
-                    this.ItemID = 0x1091+ State;
+                    ItemID = 0x1091+ State;
                     break;
                 }
             default:
                 {
-                    this.ItemID = 0x108f+ State;
+                    ItemID = 0x108f+ State;
                     break;
                 }
         }
@@ -998,21 +994,21 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
 
         writer.Write( 4 ); // version
         // version 4
-        writer.Write(this.m_NoDoubleClick);
+        writer.Write(m_NoDoubleClick);
         // version 3
-        writer.Write(this.m_Disabled);
-        writer.Write(this.m_Offset);
+        writer.Write(m_Disabled);
+        writer.Write(m_Offset);
         // version 2
-        writer.Write(this.m_LinkedItem);
+        writer.Write(m_LinkedItem);
         // version 1
-        writer.Write( this.m_ItemID0 );
-        writer.Write( this.m_ItemID1 );
+        writer.Write( m_ItemID0 );
+        writer.Write( m_ItemID1 );
         // version 0
-        writer.Write( this.m_SwitchSound );
-        writer.Write( this.m_TargetItem0 );
-        writer.Write( this.m_TargetProperty0 );
-        writer.Write( this.m_TargetItem1 );
-        writer.Write( this.m_TargetProperty1 );
+        writer.Write( m_SwitchSound );
+        writer.Write( m_TargetItem0 );
+        writer.Write( m_TargetProperty0 );
+        writer.Write( m_TargetItem1 );
+        writer.Write( m_TargetProperty1 );
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -1035,7 +1031,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
                 }
             case 2:
                 {
-                    m_LinkedItem = reader.ReadItem();
+                    m_LinkedItem = reader.ReadEntity<Item>();
                     goto case 1;
                 }
             case 1:
@@ -1048,9 +1044,9 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
                 {
 
                     m_SwitchSound = reader.ReadInt();
-                    m_TargetItem0 = reader.ReadItem();
+                    m_TargetItem0 = reader.ReadEntity<Item>();
                     m_TargetProperty0 = reader.ReadString();
-                    m_TargetItem1 = reader.ReadItem();
+                    m_TargetItem1 = reader.ReadEntity<Item>();
                     m_TargetProperty1 = reader.ReadString();
                 }
                 break;
@@ -1066,12 +1062,12 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         {
             case 0:
                 {
-                    this.ItemID = ItemID0;
+                    ItemID = ItemID0;
                     break;
                 }
             case 1:
                 {
-                    this.ItemID = ItemID1;
+                    ItemID = ItemID1;
                     break;
                 }
         }

@@ -73,7 +73,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
                 ((TalkingBaseCreature)m).DialogAttachment = xa;
 
                 // initialize Destination after world load (now, regions are loaded)
-                TalkingBaseEscortable t = ((TalkingBaseEscortable)m);
+                TalkingBaseEscortable t = (TalkingBaseEscortable)m;
                 t.Destination = t.m_DestinationString;
             }
         }
@@ -103,15 +103,15 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         {
             case -1:
                 {
-                    this.Female = Utility.RandomBool(); break;
+                    Female = Utility.RandomBool(); break;
                 }
             case 0:
                 {
-                    this.Female = false; break;
+                    Female = false; break;
                 }
             case 1:
                 {
-                    this.Female = true; break;
+                    Female = true; break;
                 }
         }
 
@@ -147,12 +147,12 @@ public class TalkingBaseEscortable : TalkingBaseCreature
 
         if ( escorter == null )
         {
-            Say( "I am looking to go to {0}, will you take me?", (dest.Name == "Ocllo" && m.Map == Map.Trammel) ? "Haven" : dest.Name );
+            Say( "I am looking to go to {0}, will you take me?", dest.Name == "Ocllo" && m.Map == Map.Trammel ? "Haven" : dest.Name );
             return true;
         }
         else if ( escorter == m )
         {
-            Say( "Lead on! Payment will be made when we arrive in {0}.", (dest.Name == "Ocllo" && m.Map == Map.Trammel) ? "Haven" : dest.Name );
+            Say( "Lead on! Payment will be made when we arrive in {0}.", dest.Name == "Ocllo" && m.Map == Map.Trammel ? "Haven" : dest.Name );
             return true;
         }
 
@@ -187,9 +187,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             Say( "I see you already have an escort." );
             return false;
         }
-        else if ( m is PlayerMobile && (((PlayerMobile)m).LastEscortTime + m_EscortDelay) >= DateTime.Now )
+        else if ( m is PlayerMobile && ((PlayerMobile)m).LastEscortTime + m_EscortDelay >= DateTime.Now )
         {
-            int minutes = (int)Math.Ceiling( ((((PlayerMobile)m).LastEscortTime + m_EscortDelay) - DateTime.Now).TotalMinutes );
+            int minutes = (int)Math.Ceiling( (((PlayerMobile)m).LastEscortTime + m_EscortDelay - DateTime.Now).TotalMinutes );
 
             Say( "You must rest {0} minute{1} before we set out on this journey.", minutes, minutes == 1 ? "" : "s" );
             return false;
@@ -201,7 +201,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             if ( m is PlayerMobile )
                 ((PlayerMobile)m).LastEscortTime = DateTime.Now;
 
-            Say( "Lead on! Payment will be made when we arrive in {0}.", (dest.Name == "Ocllo" && m.Map == Map.Trammel) ? "Haven" : dest.Name  );
+            Say( "Lead on! Payment will be made when we arrive in {0}.", dest.Name == "Ocllo" && m.Map == Map.Trammel ? "Haven" : dest.Name  );
             m_EscortTable[m] = this;
             StartFollow();
             return true;
@@ -212,7 +212,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
 
     public override bool HandlesOnSpeech( Mobile from )
     {
-        if ( from.InRange( this.Location, 3 ) )
+        if ( from.InRange( Location, 3 ) )
             return true;
 
         return base.HandlesOnSpeech( from );
@@ -224,7 +224,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
 
         EDI dest = GetDestination();
 
-        if ( dest != null && !e.Handled && e.Mobile.InRange( this.Location, 3 ) )
+        if ( dest != null && !e.Handled && e.Mobile.InRange( Location, 3 ) )
         {
             if ( e.HasKeyword( 0x1D ) ) // *destination*
                 e.Handled = SayDestinationTo( e.Mobile );
@@ -301,7 +301,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         if ( master == null )
             return null;
 
-        if ( master.Deleted || master.Map != this.Map || !master.InRange( Location, 30 ) || !master.Alive )
+        if ( master.Deleted || master.Map != Map || !master.InRange( Location, 30 ) || !master.Alive )
         {
             StopFollow();
 
@@ -463,7 +463,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
 
     public override bool CanBeRenamedBy( Mobile from )
     {
-        return ( from.AccessLevel >= AccessLevel.GameMaster );
+        return from.AccessLevel >= AccessLevel.GameMaster;
     }
 
     public override void AddCustomContextEntries(Mobile from, List<ContextMenuEntry> list)
@@ -520,21 +520,16 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             return m_Destination;
 
         if ( Map.Felucca.Regions.Count > 0 )
-            return ( m_Destination = EDI.Find( m_DestinationString ) );
+            return m_Destination = EDI.Find( m_DestinationString );
 
-        return ( m_Destination = null );
+        return m_Destination = null;
     }
 
     private class DeleteTimer : Timer
     {
         private Mobile m_Mobile;
 
-        public DeleteTimer( Mobile m, TimeSpan delay ) : base( delay )
-        {
-            m_Mobile = m;
-
-            Priority = TimerPriority.OneSecond;
-        }
+        public DeleteTimer( Mobile m, TimeSpan delay ) : base( delay ) => m_Mobile = m;
 
         protected override void OnTick()
         {

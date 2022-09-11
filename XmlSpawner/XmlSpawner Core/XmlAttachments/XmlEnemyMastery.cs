@@ -24,7 +24,7 @@ public class XmlEnemyMastery : XmlAttachment
         {
             m_Enemy  = value;
             // look up the type
-            m_EnemyType = SpawnerType.GetType(m_Enemy);
+            m_EnemyType = AssemblyHandler.FindTypeByName(m_Enemy);
         }
     }
 

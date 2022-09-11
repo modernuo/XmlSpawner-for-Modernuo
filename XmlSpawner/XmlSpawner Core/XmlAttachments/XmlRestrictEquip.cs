@@ -18,29 +18,29 @@ public class XmlRestrictEquip : XmlAttachment
     [Attachable]
     public XmlRestrictEquip()
     {
-        this.Test = String.Empty;
+        Test = String.Empty;
     }
 
     [Attachable]
     public XmlRestrictEquip(string name)
     {
-        this.Name = name;
-        this.Test = String.Empty;
+        Name = name;
+        Test = String.Empty;
     }
 
     [Attachable]
     public XmlRestrictEquip(string name, string test)
     {
-        this.Name = name;
-        this.Test = test;
+        Name = name;
+        Test = test;
     }
 
     [Attachable]
     public XmlRestrictEquip(string name, string test, double expiresin)
     {
-        this.Name = name;
-        this.Test = test;
-        this.Expiration = TimeSpan.FromMinutes(expiresin);
+        Name = name;
+        Test = test;
+        Expiration = TimeSpan.FromMinutes(expiresin);
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -48,11 +48,11 @@ public class XmlRestrictEquip : XmlAttachment
     {
         get
         {
-            return this.m_TestValue;
+            return m_TestValue;
         }
         set
         {
-            this.m_TestValue = value;
+            m_TestValue = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -60,11 +60,11 @@ public class XmlRestrictEquip : XmlAttachment
     {
         get
         {
-            return this.m_FailMsg;
+            return m_FailMsg;
         }
         set
         {
-            this.m_FailMsg = value;
+            m_FailMsg = value;
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -72,12 +72,12 @@ public class XmlRestrictEquip : XmlAttachment
     {
         get
         {
-            return this.m_PropertyListString;
+            return m_PropertyListString;
         }
         set
         {
-            this.m_PropertyListString = value;
-            this.InvalidateParentProperties();
+            m_PropertyListString = value;
+            InvalidateParentProperties();
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -91,15 +91,15 @@ public class XmlRestrictEquip : XmlAttachment
         bool allowequip = true;
 
         // test the condition if there is one
-        if (this.Test != null && this.Test.Length > 0)
+        if (Test != null && Test.Length > 0)
         {
             string status_str;
 
-            allowequip = BaseXmlSpawner.CheckPropertyString(null, this.AttachedTo, this.Test, out status_str);
+            allowequip = BaseXmlSpawner.CheckPropertyString(null, AttachedTo, Test, out status_str);
 
-            if (!allowequip && this.FailMsg != null)
+            if (!allowequip && FailMsg != null)
             {
-                from.SendMessage(this.FailMsg);
+                from.SendMessage(FailMsg);
             }
         }
 
@@ -112,10 +112,10 @@ public class XmlRestrictEquip : XmlAttachment
 
         writer.Write(1);
         // version 1
-        writer.Write(this.m_PropertyListString);
-        writer.Write(this.m_FailMsg);
+        writer.Write(m_PropertyListString);
+        writer.Write(m_FailMsg);
         // version 0
-        writer.Write(this.m_TestValue);
+        writer.Write(m_TestValue);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -127,13 +127,13 @@ public class XmlRestrictEquip : XmlAttachment
         {
             case 1:
                 {
-                    this.m_PropertyListString = reader.ReadString();
-                    this.m_FailMsg = reader.ReadString();
+                    m_PropertyListString = reader.ReadString();
+                    m_FailMsg = reader.ReadString();
                     goto case 0;
                 }
             case 0:
                 {
-                    this.m_TestValue = reader.ReadString();
+                    m_TestValue = reader.ReadString();
                     break;
                 }
         }
@@ -141,7 +141,7 @@ public class XmlRestrictEquip : XmlAttachment
 
     public override string DisplayedProperties(Mobile from)
     {
-        return this.PropertyListString;
+        return PropertyListString;
     }
 
     public override string OnIdentify(Mobile from)
@@ -149,13 +149,13 @@ public class XmlRestrictEquip : XmlAttachment
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
             return null;
 
-        if (this.Expiration > TimeSpan.Zero)
+        if (Expiration > TimeSpan.Zero)
         {
-            return $"{this.Name}: RestrictEquip '{this.Test}' expires in {this.Expiration.TotalMinutes} mins";
+            return $"{Name}: RestrictEquip '{Test}' expires in {Expiration.TotalMinutes} mins";
         }
         else
         {
-            return $"{this.Name}: RestrictEquip '{this.Test}'";
+            return $"{Name}: RestrictEquip '{Test}'";
         }
     }
 }

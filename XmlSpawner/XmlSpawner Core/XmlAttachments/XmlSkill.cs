@@ -176,9 +176,9 @@ public class XmlSkill : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null || (RequireIdentification && !m_Identified)) return;
+        if(m == null || RequireIdentification && !m_Identified) return;
 
-        if((AttachedTo is BaseArmor || AttachedTo is BaseWeapon) && (((Item)AttachedTo).Layer != Layer.Invalid))
+        if((AttachedTo is BaseArmor || AttachedTo is BaseWeapon) && ((Item)AttachedTo).Layer != Layer.Invalid)
         {
             // when activated via speech will apply mod when equipped by the speaker
             SkillMod sm = new EquipedSkillMod( m_Skill, true, m_Value, (Item)AttachedTo, m );

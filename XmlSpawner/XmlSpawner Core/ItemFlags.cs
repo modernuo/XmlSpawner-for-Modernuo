@@ -117,7 +117,7 @@ public partial class ItemFlags
             {
                 if(set)
                 {
-                    SetStealable(((Item)targeted), m_state);
+                    SetStealable((Item)targeted, m_state);
                 }
 
                 bool state = GetStealable((Item)targeted);

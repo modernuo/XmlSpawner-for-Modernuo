@@ -83,7 +83,7 @@ public class XmlManaDrain : XmlAttachment
 
         if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
 
-        if(AttachedTo is Item && (((Item)AttachedTo).Parent == null) && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
+        if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
         }

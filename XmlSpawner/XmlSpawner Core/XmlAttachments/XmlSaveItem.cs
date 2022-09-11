@@ -219,9 +219,9 @@ public class XmlSaveItem : XmlAttachment
 
         int version = reader.ReadInt();
         // version 0
-        m_SavedItem = reader.ReadItem();
-        m_WasOwnedBy = reader.ReadMobile();
-        m_Container = (Container)reader.ReadItem();
+        m_SavedItem = reader.ReadEntity<Item>();
+        m_WasOwnedBy = reader.ReadEntity<Mobile>();
+        m_Container = reader.ReadEntity<Container>();
 
         AddToContainer(m_SavedItem);
     }

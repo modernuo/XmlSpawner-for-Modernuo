@@ -1,4 +1,3 @@
-using System;
 using Server.Mobiles;
 
 namespace Server.Engines.XmlSpawner2;
@@ -16,7 +15,7 @@ public class XmlAddFactionCredits : XmlAttachment
     [Attachable]
     public XmlAddFactionCredits(int value)
     {
-        this.Value = value;
+        Value = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -24,11 +23,11 @@ public class XmlAddFactionCredits : XmlAttachment
     {
         get
         {
-            return this.m_DataValue;
+            return m_DataValue;
         }
         set
         {
-            this.m_DataValue = value;
+            m_DataValue = value;
         }
     }
     // These are the various ways in which the message attachment can be constructed.
@@ -47,7 +46,7 @@ public class XmlAddFactionCredits : XmlAttachment
 
         writer.Write(0);
         // version 0
-        writer.Write(this.m_DataValue);
+        writer.Write(m_DataValue);
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -56,7 +55,7 @@ public class XmlAddFactionCredits : XmlAttachment
 
         int version = reader.ReadInt();
         // version 0
-        this.m_DataValue = reader.ReadInt();
+        m_DataValue = reader.ReadInt();
     }
 
     public override void OnAttach()
@@ -64,24 +63,24 @@ public class XmlAddFactionCredits : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if (this.AttachedTo is PlayerMobile)
+        if (AttachedTo is PlayerMobile)
         {
             // for players just add it immediately
-            XmlMobFactions x = (XmlMobFactions)XmlAttach.FindAttachment(this.AttachedTo, typeof(XmlMobFactions));
+            XmlMobFactions x = (XmlMobFactions)XmlAttach.FindAttachment(AttachedTo, typeof(XmlMobFactions));
 
             if (x != null)
             {
-                x.Credits += this.Value;
-                ((Mobile)this.AttachedTo).SendMessage("Receive {0}", this.OnIdentify((Mobile)this.AttachedTo));
+                x.Credits += Value;
+                ((Mobile)AttachedTo).SendMessage("Receive {0}", OnIdentify((Mobile)AttachedTo));
             }
 
             // and then remove the attachment
-            this.Delete();
+            Delete();
         }
-        else if (this.AttachedTo is Item)
+        else if (AttachedTo is Item)
         {
             // dont allow item attachments
-            this.Delete();
+            Delete();
         }
     }
 
@@ -93,17 +92,17 @@ public class XmlAddFactionCredits : XmlAttachment
             return;
 
         // for players just add it immediately
-        XmlMobFactions x = (XmlMobFactions)XmlAttach.FindAttachment(this.AttachedTo, typeof(XmlMobFactions));
+        XmlMobFactions x = (XmlMobFactions)XmlAttach.FindAttachment(AttachedTo, typeof(XmlMobFactions));
 
         if (x != null)
         {
-            x.Credits += this.Value;
-            killer.SendMessage("Receive {0}", this.OnIdentify(killer));
+            x.Credits += Value;
+            killer.SendMessage("Receive {0}", OnIdentify(killer));
         }
     }
 
     public override string OnIdentify(Mobile from)
     {
-        return $"{this.Value} Mob Faction Credits";
+        return $"{Value} Mob Faction Credits";
     }
 }

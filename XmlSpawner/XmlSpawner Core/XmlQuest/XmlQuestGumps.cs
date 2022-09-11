@@ -137,7 +137,7 @@ public class XmlSimpleGump : Gump
             try
             {
                 string colorstring = $"{color:X}";
-                AddHtml(x, y, width, height, XmlSimpleGump.Color(text, colorstring), background, scrollbar);
+                AddHtml(x, y, width, height, Color(text, colorstring), background, scrollbar);
             }
             catch { }
         }
@@ -306,7 +306,7 @@ public class XmlSimpleGump : Gump
             {
                 int y = 360 + i*40;
                 AddRadio( 101, y, 9721, 9724, i==0 ? true: false, i ); // accept/yes radio
-                AddHtml( 137, y+4, 250, 40, XmlSimpleGump.Color( ((GumpSelection)gumpSelections[i]).Selection, "FFFFFF" ), false, false );
+                AddHtml( 137, y+4, 250, 40, Color( ((GumpSelection)gumpSelections[i]).Selection, "FFFFFF" ), false, false );
             }
 
             LocalAddHtml(maintext, 105, 159, 299, 182, 0xEFEF5A, false, true);
@@ -596,7 +596,7 @@ public class XmlSimpleGump : Gump
         }
     }
 
-    public override void OnResponse( Server.Network.NetState state, RelayInfo info )
+    public override void OnResponse( NetState state, RelayInfo info )
     {
         if(info == null || state == null || state.Mobile == null) return;
             

@@ -194,7 +194,7 @@ public class XmlUse : XmlAttachment
         if (action == null || action.Length <= 0) return;
 
         string status_str = null;
-        Server.Mobiles.XmlSpawner.SpawnObject TheSpawn = new Server.Mobiles.XmlSpawner.SpawnObject(null, 0);
+        XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
         TheSpawn.TypeName = action;
         string substitutedtypeName = BaseXmlSpawner.ApplySubstitution(null, target, action);
@@ -240,11 +240,11 @@ public class XmlUse : XmlAttachment
         else
         {
             // its a regular type descriptor so find out what it is
-            Type type = SpawnerType.GetType(typeName);
+            Type type = AssemblyHandler.FindTypeByName(typeName);
             try
             {
                 string[] arglist = BaseXmlSpawner.ParseString(substitutedtypeName, 3, "/");
-                object o = Server.Mobiles.XmlSpawner.CreateObject(type, arglist[0]);
+                object o = XmlSpawner.CreateObject(type, arglist[0]);
 
                 if (o == null)
                 {
@@ -469,7 +469,7 @@ public class XmlUse : XmlAttachment
     // disable the default use of the target
     public override bool BlockDefaultOnUse(Mobile from, object target)
     {
-        return (BlockDefaultUse || !(CheckRange(from, target) && CheckCondition(from, target) && CheckMaxUses && CheckRefractory));
+        return BlockDefaultUse || !(CheckRange(from, target) && CheckCondition(from, target) && CheckMaxUses && CheckRefractory);
     }
 
     // this is called when the attachment is on the user

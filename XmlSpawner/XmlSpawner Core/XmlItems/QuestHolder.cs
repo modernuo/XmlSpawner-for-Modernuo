@@ -42,18 +42,18 @@ public class QuestHolder : XmlQuestHolder
     public override void OnDoubleClick(Mobile from)
     {
         base.OnDoubleClick(from);
-        from.CloseGump(typeof(XmlQuestStatusGump));
+        from.CloseGump<XmlQuestStatusGump>();
 
-        from.SendGump(new XmlQuestStatusGump(this, this.TitleString));
+        from.SendGump(new XmlQuestStatusGump(this, TitleString));
     }
 
     public override void OnSnoop(Mobile from)
     {
         if (from.AccessLevel > AccessLevel.Player)
         {
-            from.CloseGump(typeof(XmlQuestStatusGump));
+            from.CloseGump<XmlQuestStatusGump>();
 
-            from.SendGump(new XmlQuestStatusGump(this, this.TitleString));
+            from.SendGump(new XmlQuestStatusGump(this, TitleString));
         }
     }
 
