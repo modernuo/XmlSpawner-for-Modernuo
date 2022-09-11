@@ -63,29 +63,10 @@ public class TalkingBaseCreature : BaseCreature
     {
         if (EItemID > 0)
         {
-            //SendOffsetTargetEffect(this, new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), EItemID, 10, EDuration, EHue, 0);
             Effects.SendLocationEffect(new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), Map, EItemID, EDuration, EHue);
 
             lasteffect = DateTime.Now;
 
-        }
-    }
-
-    public static void SendOffsetTargetEffect(IEntity target, Point3D loc, int itemID, int speed, int duration, int hue, int renderMode)
-    {
-        if (target is Mobile mobile)
-        {
-            mobile.ProcessDelta();
-        }
-
-        Effects.SendPacket(loc, target.Map, new OffsetTargetEffect(target, loc, itemID, speed, duration, hue, renderMode));
-    }
-
-    public sealed class OffsetTargetEffect : HuedEffect
-    {
-        public OffsetTargetEffect(IEntity e, Point3D loc, int itemID, int speed, int duration, int hue, int renderMode)
-            : base(EffectType.FixedFrom, e.Serial, Serial.Zero, itemID, loc, loc, speed, duration, true, false, hue, renderMode)
-        {
         }
     }
 

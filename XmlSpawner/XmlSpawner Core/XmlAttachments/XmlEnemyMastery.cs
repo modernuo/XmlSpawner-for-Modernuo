@@ -80,7 +80,7 @@ public class XmlEnemyMastery : XmlAttachment
         if (AttachedTo is Mobile)
         {
             Mobile m = AttachedTo as Mobile;
-            Effects.PlaySound(m, m.Map, 516);
+            Effects.PlaySound(m.Location, m.Map, 516);
             m.SendMessage($"You gain the power of Enemy Mastery over {Enemy}");
         }
     }
@@ -116,7 +116,7 @@ public class XmlEnemyMastery : XmlAttachment
             Mobile m = AttachedTo as Mobile;
             if (!m.Deleted)
             {
-                Effects.PlaySound(m, m.Map, 958);
+                Effects.PlaySound(m.Location, m.Map, 958);
                 m.SendMessage($"Your power of Enemy Mastery over {Enemy} fades..");
             }
         }

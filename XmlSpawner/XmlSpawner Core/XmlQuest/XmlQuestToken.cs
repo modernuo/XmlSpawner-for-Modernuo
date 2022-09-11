@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using Server.Gumps;
 using Server.Mobiles;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using Org.BouncyCastle.Bcpg;
 using Server.Engines.XmlSpawner2;
+using Server.Network;
 
 /*
 ** XmlQuestToken class
@@ -89,52 +91,53 @@ public class XmlQuestTokenPack : Container
         UpdateTotal(this, TotalType.Items, 0);
     }
 
-    public sealed class ForcedContainerContent : Packet
+    public static void SendForcedContainerContent(NetState ns, Item beheld)
     {
-        public ForcedContainerContent(Mobile beholder, Item beheld) : base(0x3C)
+        if (ns.CannotSendPackets())
         {
-            List<Item> items = beheld.Items;
-            int count = items.Count;
+            return;
+        }
 
-            this.EnsureCapacity(5 + count * 19);
+        var items = beheld.Items;
+        var maxCount = items.Count;
 
-            long pos = m_Stream.Position;
+        var length = 5 + maxCount * (ns.ContainerGridLines ? 20 : 19);
+        var writer = new SpanWriter(stackalloc byte[length]);
+        writer.Write((byte)0x3C); // Packet ID
+        writer.Write((ushort)length);
+        writer.Write((short)maxCount);
 
-            int written = 0;
-
-            m_Stream.Write((ushort)0);
-
-            for (int i = 0; i < count; ++i)
+        var count = 0;
+        for (var i = 0; i < items.Count; i++)
+        {
+            var child = items[i];
+            if (child.Deleted)
             {
-                Item child = items[i];
-
-                if (!child.Deleted)
-                {
-                    Point3D loc = child.Location;
-
-                    ushort cid = (ushort)child.ItemID;
-
-                    if (cid > 0x3FFF)
-                    {
-                        cid = 0x9D7;
-                    }
-
-                    m_Stream.Write((int)child.Serial);
-                    m_Stream.Write(cid);
-                    m_Stream.Write((byte)0); // signed, itemID offset
-                    m_Stream.Write((ushort)child.Amount);
-                    m_Stream.Write((short)loc.X);
-                    m_Stream.Write((short)loc.Y);
-                    m_Stream.Write((int)beheld.Serial);
-                    m_Stream.Write((ushort)child.Hue);
-
-                    ++written;
-                }
+                continue;
             }
 
-            m_Stream.Seek(pos, SeekOrigin.Begin);
-            m_Stream.Write((ushort)written);
+            writer.Write(child.Serial);
+            writer.Write((ushort)(child.ItemID > 0x3FFF ? 0x9D7 : child.ItemID));
+            writer.Write((byte)0); // itemID offset
+            writer.Write((ushort)child.Amount);
+            writer.Write((short)child.Location.X);
+            writer.Write((short)child.Location.Y);
+            if (ns.ContainerGridLines)
+            {
+                writer.Write((byte)count++); // Grid Location?
+            }
+            writer.Write(beheld.Serial);
+            writer.Write((ushort)child.Hue);
         }
+
+        if (count != maxCount)
+        {
+            writer.Seek(3, SeekOrigin.Begin);
+            writer.Write((ushort)count);
+            writer.Seek(0, SeekOrigin.End);
+        }
+
+        ns.Send(writer.Span);
     }
 
     public override void DisplayTo(Mobile to)
@@ -144,24 +147,20 @@ public class XmlQuestTokenPack : Container
             return;
         }
 
-        to.Send(new ContainerDisplay(this, null));
-        to.Send(new ForcedContainerContent(to, this));
+        to.NetState.SendDisplayContainer(Serial, 0);
+        SendForcedContainerContent(to.NetState, this);
 
 
         List<Item> items = Items;
-
         for (int i = 0; i < items.Count; ++i)
         {
-            to.Send(items[i].OPLPacket);
+            items[i].SendPropertiesTo(to.NetState);
         }
     }
 
-    public XmlQuestTokenPack()
-        : base(0x9B2) =>
-        Weight = 0;
+    public XmlQuestTokenPack() : base(0x9B2) => Weight = 0;
 
-    public XmlQuestTokenPack(Serial serial)
-        : base(serial)
+    public XmlQuestTokenPack(Serial serial) : base(serial)
     {
     }
 
@@ -1599,7 +1598,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
 
             if (RewardAttachment != null)
             {
-                Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(AttachToCallback), new object[] { Owner, m_RewardAttachment });
+                Timer.DelayCall(TimeSpan.Zero, AttachToCallback, Owner, m_RewardAttachment);
 
                 m_RewardAttachment = null;
             }
@@ -1609,11 +1608,9 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         }
     }
 
-    public void AttachToCallback(object state)
+    public static void AttachToCallback(PlayerMobile pm, XmlAttachment attachment)
     {
-        object[] args = (object[])state;
-
-        XmlAttach.AttachTo(args[0], (XmlAttachment)args[1]);
+        XmlAttach.AttachTo(pm, attachment);
     }
 
     private const string XmlTableName = "Properties";
