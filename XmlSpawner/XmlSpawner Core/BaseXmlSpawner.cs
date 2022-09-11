@@ -574,7 +574,7 @@ public class BaseXmlSpawner
         {
             try
             {
-                toSet = ScriptCompiler.FindTypeByName(value);
+                toSet = AssemblyHandler.FindTypeByName(value);
 
                 if (toSet == null)
                 {
@@ -624,7 +624,7 @@ public class BaseXmlSpawner
                     valstr = value.Substring(2, ispace - 2);
                 }
 
-                toSet = World.FindEntity(new Serial(Convert.ToInt32(valstr, 16)));
+                toSet = World.FindEntity((Serial)Convert.ToUInt32(valstr, 16));
                 // now check to make sure the object returned is consistent with the type
                 if (!(toSet is Mobile && IsMobile(type) || toSet is Item && IsItem(type)))
                 {
@@ -768,7 +768,7 @@ public class BaseXmlSpawner
             // is a nested property with attributes so first get the property
             foreach (PropertyInfo p in props)
             {
-                if (Insensitive.Equals(p.Name, propname))
+                if (p.Name.InsensitiveEquals(propname))
                 {
                     po = p.GetValue(o, null);
 
@@ -799,7 +799,7 @@ public class BaseXmlSpawner
 
             foreach (PropertyInfo p in props)
             {
-                if (Insensitive.Equals(p.Name, propname))
+                if (p.Name.InsensitiveEquals(propname))
                 {
                     if (!p.CanWrite)
                     {
@@ -850,7 +850,7 @@ public class BaseXmlSpawner
 
             foreach (PropertyInfo p in props)
             {
-                if (Insensitive.Equals(p.Name, arglist[0]))
+                if (p.Name.InsensitiveEquals(arglist[0]))
                 {
                     po = p.GetValue(o, null);
 
@@ -886,7 +886,7 @@ public class BaseXmlSpawner
 
             foreach (PropertyInfo p in props)
             {
-                if (Insensitive.Equals(p.Name, name))
+                if (p.Name.InsensitiveEquals(name))
                 {
 
                     if (!p.CanWrite)
@@ -1028,7 +1028,7 @@ public class BaseXmlSpawner
             foreach (PropertyInfo p in props)
             {
                 //if (Insensitive.Equals(p.Name, arglist[0]))
-                if (Insensitive.Equals(p.Name, propname))
+                if (p.Name.InsensitiveEquals(propname))
                 {
                     if (!p.CanRead)
                     {
@@ -1079,7 +1079,7 @@ public class BaseXmlSpawner
             foreach (PropertyInfo p in props)
             {
                 //if (Insensitive.Equals(p.Name, name))
-                if (Insensitive.Equals(p.Name, propname))
+                if (p.Name.InsensitiveEquals(propname))
                 {
                     if (!p.CanRead)
                     {
@@ -1532,7 +1532,7 @@ public class BaseXmlSpawner
                 // now search the property list
                 foreach (PropertyInfo p in to.plist)
                 {
-                    if (Insensitive.Equals(p.Name, propname))
+                    if (p.Name.InsensitiveEquals(propname))
                     {
                         pinfo = p;
                     }
@@ -1551,7 +1551,7 @@ public class BaseXmlSpawner
 
         foreach (PropertyInfo p in props)
         {
-            if (Insensitive.Equals(p.Name, propname))
+            if (p.Name.InsensitiveEquals(propname))
             {
                 // did we find the type at least?
                 if (tinfo == null)
@@ -1664,7 +1664,7 @@ public class BaseXmlSpawner
                 // count nearby players
                 if (spawner?.SpawnRegion != null && range < 0)
                 {
-                    foreach (Mobile p in spawner.SpawnRegion.AllPlayers)
+                    foreach (Mobile p in spawner.SpawnRegion.GetPlayers())
                     {
                         if (p.AccessLevel <= spawner.TriggerAccessLevel)
                         {
@@ -3020,13 +3020,13 @@ public class BaseXmlSpawner
 
         if (name.StartsWith("0x"))
         {
-            int serial = -1;
+            uint serial;
             try
             {
-                serial = Convert.ToInt32(name, 16);
+                serial = Convert.ToUInt32(name, 16);
+                return World.FindEntity<XmlSpawner>((Serial)serial);
             }
             catch { }
-            return World.FindEntity(new Serial(serial)) as XmlSpawner;
         }
 
         // do a quick search through the recent search list to see if it is there
@@ -3733,16 +3733,13 @@ public class BaseXmlSpawner
                             object setitem = null;
                             if (keywordargs[1].StartsWith("0x"))
                             {
-                                int serial = -1;
+                                uint serial;
                                 try
                                 {
-                                    serial = Convert.ToInt32(keywordargs[1], 16);
+                                    serial = Convert.ToUInt32(keywordargs[1], 16);
+                                    setitem = World.FindEntity((Serial)serial);
                                 }
                                 catch { }
-                                if (serial >= 0)
-                                {
-                                    setitem = World.FindEntity(new Serial(serial));
-                                }
                             }
                             else
                             {

@@ -50,7 +50,7 @@ public class WriteMulti
             return;
         }
 
-        string filename = e.Arguments[0].ToString();
+        string filename = e.Arguments[0];
 
         int zmin = int.MinValue;
         int zmax = int.MinValue;
@@ -175,34 +175,42 @@ public class WriteMulti
     public static void DefineMultiArea(Mobile m, string dirname, int zmin, int zmax, bool includeitems, bool includestatics,
         bool includemultis, bool includeinvisible, bool includeaddons)
     {
-        object[] multiargs = new object[8];
-        multiargs[0] = dirname;
-        multiargs[1] = zmin;
-        multiargs[2] = zmax;
-        multiargs[3] = includeitems;
-        multiargs[4] = includestatics;
-        multiargs[5] = includemultis;
-        multiargs[6] = includeinvisible;
-        multiargs[7] = includeaddons;
-
-        BoundingBoxPicker.Begin(m, new BoundingBoxCallback(DefineMultiArea_Callback), multiargs);
+        BoundingBoxPicker.Begin(
+            m,
+            (map, start, end) => DefineMultiArea_Callback(
+                m,
+                map,
+                start,
+                end,
+                dirname,
+                zmin,
+                zmax,
+                includeitems,
+                includestatics,
+                includemultis,
+                includeinvisible,
+                includeaddons
+            )
+        );
     }
 
-    private static void DefineMultiArea_Callback(Mobile from, Map map, Point3D start, Point3D end, object state)
+    private static void DefineMultiArea_Callback(
+        Mobile from,
+        Map map,
+        Point3D start,
+        Point3D end,
+        string dirname,
+        int zmin,
+        int zmax,
+        bool includeitems,
+        bool includestatics,
+        bool includemultis,
+        bool includeinvisible,
+        bool includeaddons
+    )
     {
-        object[] multiargs = (object[])state;
-
-        if (from != null && multiargs != null && map != null)
+        if (from != null && map != null)
         {
-            string dirname = (string)multiargs[0];
-            int zmin = (int)multiargs[1];
-            int zmax = (int)multiargs[2];
-            bool includeitems = (bool)multiargs[3];
-            bool includestatics = (bool)multiargs[4];
-            bool includemultis = (bool)multiargs[5];
-            bool includeinvisible = (bool)multiargs[6];
-            bool includeaddons = (bool)multiargs[7];
-
             ArrayList itemlist = new ArrayList();
             ArrayList staticlist = new ArrayList();
             ArrayList tilelist = new ArrayList();
@@ -272,10 +280,10 @@ public class WriteMulti
                                 {
                                     MultiTileEntry t = mcl.List[i];
 
-                                    int x = t.m_OffsetX + multi.X;
-                                    int y = t.m_OffsetY + multi.Y;
-                                    int z = t.m_OffsetZ + multi.Z;
-                                    int itemID = t.m_ItemID & 0x3FFF;
+                                    int x = t.OffsetX + multi.X;
+                                    int y = t.OffsetY + multi.Y;
+                                    int z = t.OffsetZ + multi.Z;
+                                    int itemID = t.ItemId & 0x3FFF;
 
                                     if (x >= sx && x <= ex && y >= sy && y <= ey && (zmin == int.MinValue || z >= zmin && z <= zmax))
                                     {

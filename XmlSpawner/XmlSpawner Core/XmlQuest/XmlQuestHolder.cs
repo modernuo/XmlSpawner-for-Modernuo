@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Server.Engines.XmlSpawner2;
+using Server.Network;
 
 /*
 ** XmlQuestHolder class
@@ -359,23 +360,23 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         // add the reward item back into the container list for display
         UnHideRewards();
 
-        to.Send(new ContainerDisplay(this,null));
+        to.NetState.SendDisplayContainer(Serial,0);
 
-        to.Send(new ContainerContent(to, this, true));
+        to.NetState.SendContainerContent(to, this);
 
 
         List<Item> items = Items;
 
         for (int i = 0; i < items.Count; ++i)
         {
-            to.Send(items[i].OPLPacket);
+            items[i].SendPropertiesTo(to.NetState);
         }
 
         // move the reward item out of container to protect it from use
         HideRewards();
     }
 
-    public override void GetProperties(ObjectPropertyList list)
+    public override void GetProperties(IPropertyList list)
     {
 
         list.Add(Name);
@@ -385,7 +386,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         }
         if (PlayerMade && Owner != null && !(RootParent is PlayerVendor))
         {
-            list.Add(1050044, "{0}\t{1}", TotalItems, TotalWeight); // ~1_COUNT~items,~2_WEIGHT~stones
+            list.Add(1050044, $"{TotalItems}\t{TotalWeight}"); // ~1_COUNT~items,~2_WEIGHT~stones
         }
 
         // add any playervendor price/description information
@@ -395,39 +396,18 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         }
     }
 
-    public override bool CheckHold(Mobile m, Item item, bool message, bool checkItems, bool checkWeight,int plusItems, int plusWeight)
-    {
-        if (m.AccessLevel == AccessLevel.Player)
-        {
-            return false;
-        }
+    public override bool CheckHold(Mobile m, Item item, bool message, bool checkItems, int plusItems, int plusWeight) =>
+        m.AccessLevel != AccessLevel.Player && base.CheckHold(m, item, message, checkItems, plusItems, plusWeight);
 
-        return base.CheckHold(m, item, message, checkItems, plusItems, plusWeight);
-    }
-
-    public override bool TryDropItem(Mobile from, Item dropped, bool sendFullMessage)
-    {
-        if (from.AccessLevel == AccessLevel.Player)
-        {
-            return false;
-        }
-
-        return base.TryDropItem(from, dropped, sendFullMessage);
-    }
+    public override bool TryDropItem(Mobile from, Item dropped, bool sendFullMessage) =>
+        from.AccessLevel != AccessLevel.Player && base.TryDropItem(from, dropped, sendFullMessage);
 
     public override bool OnDragDrop(Mobile from, Item dropped) => false;
 
     public override bool OnDragDropInto(Mobile from, Item item, Point3D p) => false;
 
-    public override bool CheckTarget(Mobile from, Targeting.Target targ, object targeted)
-    {
-        if (from.AccessLevel == AccessLevel.Player)
-        {
-            return false;
-        }
-
-        return true;
-    }
+    public override bool CheckTarget(Mobile from, Targeting.Target targ, object targeted) =>
+        from.AccessLevel != AccessLevel.Player;
 
 
     public override void OnDoubleClick(Mobile from)
@@ -1119,7 +1099,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     public bool LoadConfig
     {
         get => false;
-        set { if (value == true)
+        set { if (value)
             {
                 LoadXmlConfig(ConfigFile);
             }
@@ -1561,7 +1541,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             }
             if (RewardAttachment != null)
             {
-                Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(AttachToCallback), new object[] { Owner, m_RewardAttachment });
+                Timer.DelayCall(TimeSpan.Zero, AttachToCallback, Owner, m_RewardAttachment);
 
                 m_RewardAttachment = null;
             }
@@ -1571,11 +1551,9 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         }
     }
 
-    public void AttachToCallback(object state)
+    public void AttachToCallback(PlayerMobile pm, XmlAttachment attachment)
     {
-        object[] args = (object[])state;
-
-        XmlAttach.AttachTo(args[0], (XmlAttachment)args[1]);
+        XmlAttach.AttachTo(pm, attachment);
     }
 
 
@@ -1592,7 +1570,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         }
 
         // Check if the file exists
-        if (File.Exists(filename) == true)
+        if (File.Exists(filename))
         {
             FileStream fs = null;
             try

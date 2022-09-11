@@ -7,7 +7,9 @@ public class XmlQuestAttachment : XmlAttachment
     private DateTime m_DataValue;
 
 
-    public DateTime Date { get => m_DataValue;
+    public DateTime Date
+    {
+        get => m_DataValue;
         set => m_DataValue = value;
     }
 
@@ -16,8 +18,7 @@ public class XmlQuestAttachment : XmlAttachment
     // Other overloads could be defined to handle other types of arguments
 
     // a serial constructor is REQUIRED
-    public XmlQuestAttachment(ASerial serial)
-        : base(serial)
+    public XmlQuestAttachment(ASerial serial) : base(serial)
     {
     }
 
@@ -43,9 +44,7 @@ public class XmlQuestAttachment : XmlAttachment
         Name = name;
         Date = value;
         Expiration = TimeSpan.FromMinutes(expiresin);
-
     }
-
 
     public override void Serialize(IGenericWriter writer)
     {
@@ -54,7 +53,6 @@ public class XmlQuestAttachment : XmlAttachment
         writer.Write(0);
         // version 0
         writer.Write(m_DataValue);
-
     }
 
     public override void Deserialize(IGenericReader reader)

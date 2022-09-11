@@ -58,7 +58,6 @@ public class XmlSetGump : Gump
 
         bool canNull = !prop.PropertyType.IsValueType;
         bool canDye = prop.IsDefined(typeof(HueAttribute), false);
-        bool isBody = prop.IsDefined(typeof(BodyAttribute), false);
 
         int xextend = 0;
         if (prop.PropertyType == typeof(string))
@@ -72,8 +71,8 @@ public class XmlSetGump : Gump
 
         AddPage(0);
 
-        AddBackground(0, 0, BackWidth + xextend, BackHeight + (canNull ? EntryHeight + OffsetSize : 0) + (canDye ? EntryHeight + OffsetSize : 0) + (isBody ? EntryHeight + OffsetSize : 0), BackGumpID);
-        AddImageTiled(BorderSize, BorderSize, TotalWidth + xextend - (OldStyle ? SetWidth + OffsetSize : 0), TotalHeight + (canNull ? EntryHeight + OffsetSize : 0) + (canDye ? EntryHeight + OffsetSize : 0) + (isBody ? EntryHeight + OffsetSize : 0), OffsetGumpID);
+        AddBackground(0, 0, BackWidth + xextend, BackHeight + (canNull ? EntryHeight + OffsetSize : 0) + (canDye ? EntryHeight + OffsetSize : 0), BackGumpID);
+        AddImageTiled(BorderSize, BorderSize, TotalWidth + xextend - (OldStyle ? SetWidth + OffsetSize : 0), TotalHeight + (canNull ? EntryHeight + OffsetSize : 0) + (canDye ? EntryHeight + OffsetSize : 0), OffsetGumpID);
 
         int x = BorderSize + OffsetSize;
         int y = BorderSize + OffsetSize;
@@ -133,23 +132,6 @@ public class XmlSetGump : Gump
             }
 
             AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 3);
-        }
-
-        if (isBody)
-        {
-            x = BorderSize + OffsetSize;
-            y += EntryHeight + OffsetSize;
-
-            AddImageTiled(x, y, EntryWidth + xextend, EntryHeight, EntryGumpID);
-            AddLabelCropped(x + TextOffsetX, y, EntryWidth + xextend - TextOffsetX, EntryHeight, TextHue, "Body Picker");
-            x += EntryWidth + xextend + OffsetSize;
-
-            if (SetGumpID != 0)
-            {
-                AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
-            }
-
-            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 4);
         }
     }
 
@@ -235,16 +217,6 @@ public class XmlSetGump : Gump
                     shouldSend = false;
 
                     m_Mobile.SendHuePicker(new InternalPicker(m_Property, m_Mobile, m_Object, m_Stack, m_Page, m_List));
-
-                    break;
-                }
-            case 4: // Body Picker
-                {
-                    toSet = null;
-                    shouldSet = false;
-                    shouldSend = false;
-
-                    m_Mobile.SendGump(new SetBodyGump(m_Property, m_Mobile, m_Object, new Stack(m_Stack), m_Page, m_List));
 
                     break;
                 }

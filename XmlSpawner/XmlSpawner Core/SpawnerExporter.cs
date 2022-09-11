@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using Server.Engines.Spawners;
 
@@ -147,10 +148,10 @@ public class SpawnerExporter
             xml.WriteEndElement();
 
             xml.WriteStartElement("creaturesname");
-            foreach (XmlSpawner.SpawnObject kvp in spawner.SpawnObjects)
+            foreach (var entry in spawner.Entries)
             {
                 xml.WriteStartElement("creaturename");
-                xml.WriteString(kvp.SpawnName);
+                xml.WriteString(entry.SpawnedName);
                 xml.WriteEndElement();
             }
             xml.WriteEndElement();
@@ -246,7 +247,7 @@ public class SpawnerExporter
         Point3D location = Point3D.Parse(GetText(node["location"], "Error"));
         Map map = Map.Parse(GetText(node["map"], "Error"));
 
-        Spawner spawner = new Spawner(count, minDelay, maxDelay, team, homeRange, creaturesName);
+        Spawner spawner = new Spawner(count, minDelay, maxDelay, team, homeRange, creaturesName.ToArray());
         if (walkingRange >= 0)
         {
             spawner.WalkingRange = walkingRange;

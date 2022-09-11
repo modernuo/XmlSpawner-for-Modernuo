@@ -666,7 +666,7 @@ public class XmlDialog : XmlAttachment
     public bool LoadConfig
     {
         get => false;
-        set { if (value == true)
+        set { if (value)
             {
                 DoLoadNPC(null, ConfigFile);
             }
@@ -1345,7 +1345,7 @@ public class XmlDialog : XmlAttachment
         }
 
         string dirname;
-        if (Directory.Exists(DefsDir) == true)
+        if (Directory.Exists(DefsDir))
         {
             // look for it in the defaults directory
             dirname = $"{DefsDir}/{filename}.npc";
@@ -1364,7 +1364,7 @@ public class XmlDialog : XmlAttachment
         }
 
         // Check if the file exists
-        if (File.Exists(dirname) == true)
+        if (File.Exists(dirname))
         {
             FileStream fs = null;
             try
@@ -1626,7 +1626,7 @@ public class XmlDialog : XmlAttachment
 
         string dirname;
 
-        if (Directory.Exists(DefsDir) == true)
+        if (Directory.Exists(DefsDir))
         {
             // put it in the defaults directory if it exists
             dirname = $"{DefsDir}/{filename}.npc";
@@ -1639,7 +1639,7 @@ public class XmlDialog : XmlAttachment
 
         // check to see if the file already exists
 
-        if (File.Exists(dirname) == true)
+        if (File.Exists(dirname))
         {
             // prompt the user to save over it
             if (from != null)

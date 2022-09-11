@@ -126,7 +126,7 @@ public class QuestLogGump : Gump
                             if (o != null && !o.Deleted)
                             {
                                 m_From.SendGump(new QuestLogGump(m_From, m_Page, null));
-                                m_From.CloseGump(typeof(XmlQuestStatusGump));
+                                m_From.CloseGump<XmlQuestStatusGump>();
                                 m_From.SendGump(new XmlQuestStatusGump(o, o.TitleString, 320, 0, true));
                             }
                         }
@@ -145,7 +145,7 @@ public class QuestLogGump : Gump
             return;
         }
 
-        from.CloseGump(typeof(QuestLogGump));
+        from.CloseGump<QuestLogGump>();
 
         XmlQuestPoints p = (XmlQuestPoints)XmlAttach.FindAttachment(from, typeof(XmlQuestPoints));
 

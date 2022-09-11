@@ -6,22 +6,11 @@ namespace Server.Items
     public class XmlTextEntryBook : BaseEntryBook
     {
 
-		public XmlTextEntryBook(int itemID, string title, string author, int pageCount, bool writable) : base(itemID, title, author, pageCount, writable)
+        public XmlTextEntryBook(int itemID, string title, string author, int pageCount, bool writable) : base(itemID, title, author, pageCount, writable)
         {
         }
 
-		#region OLD METHODS
-		//public delegate void XmlTextEntryBookCallback(Mobile from, object[] args, string response);
-		//public XmlTextEntryBookCallback m_bookcallback;
-		//public object[] m_args;
-		//public XmlTextEntryBook(int itemID, string title, string author, int pageCount, bool writable,
-		//	XmlTextEntryBookCallback callback, object[] args) : base(itemID, title, author, pageCount, writable)
-		//{
-		//	m_args = args;
-		//	m_bookcallback = callback;
-		//}
-		#endregion
-		public XmlTextEntryBook(Serial serial) : base(serial)
+        public XmlTextEntryBook(Serial serial) : base(serial)
         {
         }
 

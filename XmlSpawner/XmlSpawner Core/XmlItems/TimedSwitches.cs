@@ -12,15 +12,12 @@ namespace Server.Items;
 
 public class XmlLatch : Item
 {
-
     private TimeSpan m_MinDelay;
     private TimeSpan m_MaxDelay;
     private DateTime m_End;
     private InternalTimer m_Timer;
     private int m_State;
     private int m_ResetState;
-
-
 
     [Constructible]
     public XmlLatch() : base(0x1BBF) => Movable = false;
@@ -33,7 +30,6 @@ public class XmlLatch : Item
     {
     }
 
-
     [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan MinDelay
     {
@@ -41,7 +37,8 @@ public class XmlLatch : Item
         set
         {
             m_MinDelay = value;
-            InvalidateProperties(); }
+            InvalidateProperties();
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -51,7 +48,8 @@ public class XmlLatch : Item
         set
         {
             m_MaxDelay = value;
-            InvalidateProperties(); }
+            InvalidateProperties();
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -85,7 +83,8 @@ public class XmlLatch : Item
                 m_Timer.Stop();
             }
 
-            InvalidateProperties();}
+            InvalidateProperties();
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -96,7 +95,8 @@ public class XmlLatch : Item
         {
             m_State = value;
             StartTimer();
-            InvalidateProperties();}
+            InvalidateProperties();
+        }
     }
 
     public void StartTimer()
@@ -116,7 +116,6 @@ public class XmlLatch : Item
     {
         State = ResetState;
     }
-
 
     public void DoTimer()
     {
@@ -203,7 +202,6 @@ public class XmlLatch : Item
                 break;
         }
     }
-
 }
 
 public class TimedLever : XmlLatch, ILinkable
@@ -247,7 +245,6 @@ public class TimedLever : XmlLatch, ILinkable
     public TimedLever(Serial serial) : base(serial)
     {
     }
-
 
     [CommandProperty(AccessLevel.GameMaster)]
     public override int State
@@ -386,15 +383,18 @@ public class TimedLever : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get
     {
-        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        get
         {
-            return m_TargetItem0.Name;
+            if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+            {
+                return m_TargetItem0.Name;
+            }
+
+            return null;
         }
 
-        return null;
-    }      }
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
@@ -410,15 +410,18 @@ public class TimedLever : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get
     {
-        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        get
         {
-            return m_TargetItem1.Name;
+            if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+            {
+                return m_TargetItem1.Name;
+            }
+
+            return null;
         }
 
-        return null;
-    }      }
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target2Item
@@ -426,6 +429,7 @@ public class TimedLever : XmlLatch, ILinkable
         get => m_TargetItem2;
         set { m_TargetItem2 = value;InvalidateProperties();}
     }
+
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target2Property
     {
@@ -434,15 +438,17 @@ public class TimedLever : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target2ItemName
-    {      	get
     {
-        if (m_TargetItem2 != null && !m_TargetItem2.Deleted)
+        get
         {
-            return m_TargetItem2.Name;
-        }
+            if (m_TargetItem2 != null && !m_TargetItem2.Deleted)
+            {
+                return m_TargetItem2.Name;
+            }
 
-        return null;
-    }      }
+            return null;
+        }
+    }
 
     public override void Serialize(IGenericWriter writer)
     {
@@ -717,7 +723,8 @@ public class TimedSwitch : XmlLatch, ILinkable
         set
         {
             m_SwitchSound = value;
-            InvalidateProperties();}
+            InvalidateProperties();
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -741,15 +748,17 @@ public class TimedSwitch : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get
     {
-        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        get
         {
-            return m_TargetItem0.Name;
-        }
+            if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+            {
+                return m_TargetItem0.Name;
+            }
 
-        return null;
-    }      }
+            return null;
+        }
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
@@ -765,15 +774,17 @@ public class TimedSwitch : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get
     {
-        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        get
         {
-            return m_TargetItem1.Name;
-        }
+            if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+            {
+                return m_TargetItem1.Name;
+            }
 
-        return null;
-    }      }
+            return null;
+        }
+    }
 
 
     public override void Serialize(IGenericWriter writer)
@@ -1079,15 +1090,17 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {      	get
     {
-        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        get
         {
-            return m_TargetItem0.Name;
-        }
+            if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+            {
+                return m_TargetItem0.Name;
+            }
 
-        return null;
-    }      }
+            return null;
+        }
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
@@ -1103,15 +1116,17 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {      	get
     {
-        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        get
         {
-            return m_TargetItem1.Name;
-        }
+            if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+            {
+                return m_TargetItem1.Name;
+            }
 
-        return null;
-    }      }
+            return null;
+        }
+    }
 
 
     public override void Serialize(IGenericWriter writer)

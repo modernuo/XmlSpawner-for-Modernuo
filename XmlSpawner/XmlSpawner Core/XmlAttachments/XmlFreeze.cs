@@ -49,7 +49,7 @@ public class XmlFreeze : XmlAttachment
             return String.Format("Freeze expires in {1} secs",Expiration.TotalSeconds);
         }
 
-        return String.Format("Frozen");
+        return "Frozen";
     }
 
     public override void OnDelete()

@@ -17,7 +17,6 @@ public class XmlQuestMaker : Item
     {
     }
 
-
     [Constructible]
     public XmlQuestMaker() : base(0xED4)
     {
@@ -25,7 +24,6 @@ public class XmlQuestMaker : Item
         Movable = false;
         Visible = true;
     }
-
 
     public override void Serialize(IGenericWriter writer)
     {

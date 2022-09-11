@@ -143,7 +143,7 @@ public class XmlAnimate : XmlAttachment
         get => false;
         set
         {
-            if (value == true)
+            if (value)
             {
                 OnTrigger(null, null);
             }
@@ -155,7 +155,7 @@ public class XmlAnimate : XmlAttachment
         get => false;
         set
         {
-            if (value == true)
+            if (value)
             {
                 Reset();
             }

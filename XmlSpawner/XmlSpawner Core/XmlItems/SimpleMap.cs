@@ -13,18 +13,7 @@ public class SimpleMap : MapItem
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int NPins
-    {
-        get
-        {
-            if (Pins != null)
-            {
-                return Pins.Count;
-            }
-
-            return 0;
-        }
-    }
+    public int NPins => Pins?.Count ?? 0;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Point2D PinLocation
@@ -81,7 +70,9 @@ public class SimpleMap : MapItem
     public bool ClearAllPins
     {
         get => false;
-        set { if (value == true)
+        set
+        {
+            if (value)
             {
                 ClearPins();
             }

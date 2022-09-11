@@ -675,14 +675,6 @@ public class XmlSpawnerGump : Gump
         }
     }
 
-    public static void Refresh_Callback(object state)
-    {
-        object[] args = (object[])state;
-        Mobile m = (Mobile)args[0];
-        // refresh the spawner gumps
-        RefreshSpawnerGumps(m);
-    }
-
     public static void RefreshSpawnerGumps(Mobile from)
     {
         if (from == null)

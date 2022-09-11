@@ -62,15 +62,18 @@ public class SimpleTileTrap : Item
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0ItemName
-    {         get
     {
-        if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        get
         {
-            return m_TargetItem0.Name;
+            if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+            {
+                return m_TargetItem0.Name;
+            }
+
+            return null;
         }
 
-        return null;
-    }     }
+    }
 
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -89,15 +92,18 @@ public class SimpleTileTrap : Item
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1ItemName
-    {         get
     {
-        if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        get
         {
-            return m_TargetItem1.Name;
+            if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+            {
+                return m_TargetItem1.Name;
+            }
+
+            return null;
         }
 
-        return null;
-    }     }
+    }
 
 
     public override void Serialize(IGenericWriter writer)

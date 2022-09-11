@@ -91,8 +91,7 @@ public class XmlQuestTokenPack : Container
 
     public sealed class ForcedContainerContent : Packet
     {
-        public ForcedContainerContent(Mobile beholder, Item beheld)
-            : base(0x3C)
+        public ForcedContainerContent(Mobile beholder, Item beheld) : base(0x3C)
         {
             List<Item> items = beheld.Items;
             int count = items.Count;
@@ -1163,7 +1162,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
     public bool LoadConfig
     {
         get => false;
-        set { if (value == true)
+        set { if (value)
             {
                 LoadXmlConfig(ConfigFile);
             }
@@ -1628,7 +1627,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         }
 
         // Check if the file exists
-        if (File.Exists(filename) == true)
+        if (File.Exists(filename))
         {
             FileStream fs = null;
             try

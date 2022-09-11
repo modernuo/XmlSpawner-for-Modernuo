@@ -31,19 +31,19 @@ public class XmlConfirmDeleteGump : Gump
 
         if (item is XmlQuestBook)
         {
-            AddLabel(20, 185, 33, String.Format("Delete this questbook?"));
+            AddLabel(20, 185, 33, "Delete this questbook?");
             AddLabel(20, 205, 33, $"{item.TotalItems} quest(s) will be lost.");
             AddLabel(20, 225, 53, item.Name);
         }
         else
         if (item is IXmlQuest)
         {
-            AddLabel(20, 205, 33, String.Format("Delete this quest?"));
+            AddLabel(20, 205, 33, "Delete this quest?");
             AddLabel(20, 225, 53, item.Name);
         }
         else
         {
-            AddLabel(20, 225, 33, String.Format("Delete this item?"));
+            AddLabel(20, 225, 33, "Delete this item?");
         }
         AddRadio(35, 255, 9721, 9724, false, 1);                    // accept/yes radio
         AddRadio(135, 255, 9721, 9724, true, 2);                    // decline/no radio
@@ -84,8 +84,7 @@ public class XmlConfirmDeleteGump : Gump
                             m_Item.Delete();
                         }
                     }
-                    else
-                    if (m_From != null && m_Item != null && !m_Item.Deleted)
+                    else if (m_From != null && m_Item != null && !m_Item.Deleted)
                     {
                         m_From.AddToBackpack(m_Item);
                     }

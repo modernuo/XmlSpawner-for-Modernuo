@@ -28,21 +28,13 @@ public class XmlQuestNPC : TalkingBaseCreature
         Title = string.Empty;
         Hue = Race.RandomSkinHue();
 
-        switch (gender)
+        Female = gender switch
         {
-            case -1:
-                {
-                    Female = Utility.RandomBool(); break;
-                }
-            case 0:
-                {
-                    Female = false; break;
-                }
-            case 1:
-                {
-                    Female = true; break;
-                }
-        }
+            -1 => Utility.RandomBool(),
+            0  => false,
+            1  => true,
+            _  => Female
+        };
 
         if (Female)
         {
@@ -53,76 +45,35 @@ public class XmlQuestNPC : TalkingBaseCreature
             hair.Layer = Layer.Hair;
             hair.Movable = false;
             AddItem(hair);
-            Item hat = null;
-            switch (Utility.Random(5)) //4 hats, one empty, for no hat
+            Item hat = Utility.Random(5) switch //4 hats, one empty, for no hat
             {
-                case 0:
-                    {
-                        hat = new FloppyHat(Utility.RandomNeutralHue());		break;
-                    }
-                case 1:
-                    {
-                        hat = new FeatheredHat(Utility.RandomNeutralHue());	break;
-                    }
-                case 2:
-                    {
-                        hat = new Bonnet();			break;
-                    }
-                case 3:
-                    {
-                        hat = new Cap(Utility.RandomNeutralHue());			break;
-                    }
-            }
+                0 => new FloppyHat(Utility.RandomNeutralHue()),
+                1 => new FeatheredHat(Utility.RandomNeutralHue()),
+                2 => new Bonnet(),
+                3 => new Cap(Utility.RandomNeutralHue()),
+                _ => null
+            };
+
             AddItem(hat);
-            Item pants = null;
-            switch (Utility.Random(3))
+            Item pants = Utility.Random(3) switch
             {
-                case 0:
-                    {
-                        pants = new ShortPants(GetRandomHue());	break;
-                    }
-                case 1:
-                    {
-                        pants = new LongPants(GetRandomHue());	break;
-                    }
-                case 2:
-                    {
-                        pants = new Skirt(GetRandomHue());		break;
-                    }
-            }
+                0 => new ShortPants(GetRandomHue()),
+                1 => new LongPants(GetRandomHue()),
+                2 => new Skirt(GetRandomHue()),
+                _ => null
+            };
             AddItem(pants);
-            Item shirt = null;
-            switch (Utility.Random(7))
+            Item shirt = Utility.Random(7) switch
             {
-                case 0:
-                    {
-                        shirt = new Doublet(GetRandomHue());		break;
-                    }
-                case 1:
-                    {
-                        shirt = new Surcoat(GetRandomHue());		break;
-                    }
-                case 2:
-                    {
-                        shirt = new Tunic(GetRandomHue());		break;
-                    }
-                case 3:
-                    {
-                        shirt = new FancyDress(GetRandomHue());	break;
-                    }
-                case 4:
-                    {
-                        shirt = new PlainDress(GetRandomHue());	break;
-                    }
-                case 5:
-                    {
-                        shirt = new FancyShirt(GetRandomHue());	break;
-                    }
-                case 6:
-                    {
-                        shirt = new Shirt(GetRandomHue());		break;
-                    }
-            }
+                0 => new Doublet(GetRandomHue()),
+                1 => new Surcoat(GetRandomHue()),
+                2 => new Tunic(GetRandomHue()),
+                3 => new FancyDress(GetRandomHue()),
+                4 => new PlainDress(GetRandomHue()),
+                5 => new FancyShirt(GetRandomHue()),
+                6 => new Shirt(GetRandomHue()),
+                _ => null
+            };
             AddItem(shirt);
         }
         else
@@ -139,91 +90,43 @@ public class XmlQuestNPC : TalkingBaseCreature
             beard.Layer = Layer.FacialHair;
             beard.Movable = false;
             AddItem(beard);
-            Item hat = null;
-            switch (Utility.Random(7)) //6 hats, one empty, for no hat
+            Item hat = Utility.Random(7) switch //6 hats, one empty, for no hat
             {
-                case 0:
-                    {
-                        hat = new SkullCap(GetRandomHue());					break;
-                    }
-                case 1:
-                    {
-                        hat = new Bandana(GetRandomHue());					break;
-                    }
-                case 2:
-                    {
-                        hat = new WideBrimHat();								break;
-                    }
-                case 3:
-                    {
-                        hat = new TallStrawHat(Utility.RandomNeutralHue());	break;
-                    }
-                case 4:
-                    {
-                        hat = new StrawHat(Utility.RandomNeutralHue());		break;
-                    }
-                case 5:
-                    {
-                        hat = new TricorneHat(Utility.RandomNeutralHue());	break;
-                    }
-            }
+                0 => new SkullCap(GetRandomHue()),
+                1 => new Bandana(GetRandomHue()),
+                2 => new WideBrimHat(),
+                3 => new TallStrawHat(Utility.RandomNeutralHue()),
+                4 => new StrawHat(Utility.RandomNeutralHue()),
+                5 => new TricorneHat(Utility.RandomNeutralHue()),
+                _ => null
+            };
             AddItem(hat);
-            Item pants = null;
-            switch (Utility.Random(2))
+            Item pants = Utility.Random(2) switch
             {
-                case 0:
-                    {
-                        pants = new ShortPants(GetRandomHue());	break;
-                    }
-                case 1:
-                    {
-                        pants = new LongPants(GetRandomHue());	break;
-                    }
-            }
+                0 => new ShortPants(GetRandomHue()),
+                1 => new LongPants(GetRandomHue()),
+                _ => null
+            };
             AddItem(pants);
-            Item shirt = null;
-            switch (Utility.Random(5))
+            Item shirt = Utility.Random(5) switch
             {
-                case 0:
-                    {
-                        shirt = new Doublet(GetRandomHue());		break;
-                    }
-                case 1:
-                    {
-                        shirt = new Surcoat(GetRandomHue());		break;
-                    }
-                case 2:
-                    {
-                        shirt = new Tunic(GetRandomHue());		break;
-                    }
-                case 3:
-                    {
-                        shirt = new FancyShirt(GetRandomHue());	break;
-                    }
-                case 4:
-                    {
-                        shirt = new Shirt(GetRandomHue());		break;
-                    }
-            }
+                0 => new Doublet(GetRandomHue()),
+                1 => new Surcoat(GetRandomHue()),
+                2 => new Tunic(GetRandomHue()),
+                3 => new FancyShirt(GetRandomHue()),
+                4 => new Shirt(GetRandomHue()),
+                _ => null
+            };
             AddItem(shirt);
         }
 
-        Item feet = null;
-        switch (Utility.Random(3))
+        Item feet = Utility.Random(3) switch
         {
-            case 0:
-                {
-                    feet = new Boots(Utility.RandomNeutralHue());	break;
-                }
-            case 1:
-                {
-                    feet = new Shoes(Utility.RandomNeutralHue());	break;
-                }
-            case 2:
-                {
-                    feet = new Sandals(Utility.RandomNeutralHue());		break;
-                }
-        }
+            0 => new Boots(Utility.RandomNeutralHue()),
+            1 => new Shoes(Utility.RandomNeutralHue()),
+            2 => new Sandals(Utility.RandomNeutralHue()),
+            _ => null
+        };
         AddItem(feet);
         Container pack = new Backpack();
 

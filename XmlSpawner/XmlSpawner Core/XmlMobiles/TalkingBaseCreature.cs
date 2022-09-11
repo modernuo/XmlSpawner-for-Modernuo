@@ -18,11 +18,11 @@ namespace Server.Mobiles;
 
 public class TalkingBaseCreature : BaseCreature
 {
-
     private XmlDialog m_DialogAttachment;
 
-
-    public XmlDialog DialogAttachment {get => m_DialogAttachment;
+    public XmlDialog DialogAttachment
+    {
+        get => m_DialogAttachment;
         set => m_DialogAttachment = value;
     }
 
@@ -111,7 +111,9 @@ public class TalkingBaseCreature : BaseCreature
     private string m_TalkText;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string TalkText {get => m_TalkText;
+    public string TalkText
+    {
+        get => m_TalkText;
         set => m_TalkText = value;
     }
 
@@ -120,15 +122,7 @@ public class TalkingBaseCreature : BaseCreature
 
     public Mobile ActivePlayer
     {
-        get
-        {
-            if (DialogAttachment != null)
-            {
-                return DialogAttachment.ActivePlayer;
-            }
-
-            return null;
-        }
+        get => DialogAttachment?.ActivePlayer;
         set
         {
             if (DialogAttachment != null)
@@ -140,15 +134,7 @@ public class TalkingBaseCreature : BaseCreature
 
     public ArrayList SpeechEntries
     {
-        get
-        {
-            if (DialogAttachment != null)
-            {
-                return DialogAttachment.SpeechEntries;
-            }
-
-            return null;
-        }
+        get => DialogAttachment?.SpeechEntries;
         set
         {
             if (DialogAttachment != null)
@@ -163,10 +149,7 @@ public class TalkingBaseCreature : BaseCreature
     {
         get
         {
-            int hours;
-            int minutes;
-
-            Clock.GetTime(Map, Location.X, Location.Y, out  hours, out  minutes);
+            Clock.GetTime(Map, Location.X, Location.Y, out var hours, out int minutes);
             return new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day,hours, minutes,0).TimeOfDay;
         }
     }
@@ -183,22 +166,13 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty(AccessLevel.GameMaster)]
     public DayOfWeek RealDayOfWeek => DateTime.Now.DayOfWeek;
 
-
     [CommandProperty(AccessLevel.GameMaster)]
     public MoonPhase MoonPhase => Clock.GetMoonPhase(Map, Location.X, Location.Y);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public AccessLevel TriggerAccessLevel
     {
-        get
-        {
-            if (DialogAttachment != null)
-            {
-                return DialogAttachment.TriggerAccessLevel;
-            }
-
-            return AccessLevel.Player;
-        }
+        get => DialogAttachment?.TriggerAccessLevel ?? AccessLevel.Player;
         set
         {
             if (DialogAttachment != null)
@@ -211,15 +185,7 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty(AccessLevel.GameMaster)]
     public DateTime LastInteraction
     {
-        get
-        {
-            if (DialogAttachment != null)
-            {
-                return DialogAttachment.LastInteraction;
-            }
-
-            return DateTime.MinValue;
-        }
+        get => DialogAttachment?.LastInteraction ?? DateTime.MinValue;
         set
         {
             if (DialogAttachment != null)
@@ -245,15 +211,7 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty(AccessLevel.GameMaster)]
     public bool IsActive
     {
-        get
-        {
-            if (DialogAttachment != null)
-            {
-                return DialogAttachment.IsActive;
-            }
-
-            return false;
-        }
+        get => DialogAttachment?.IsActive == true;
         set
         {
             if (DialogAttachment != null)
@@ -656,7 +614,9 @@ public class TalkingBaseCreature : BaseCreature
     public  bool LoadConfig
     {
         get => false;
-        set{ if (value == true && DialogAttachment != null)
+        set
+        {
+            if (value && DialogAttachment != null)
             {
                 DialogAttachment.DoLoadNPC(null,ConfigFile);
             }
@@ -669,7 +629,7 @@ public class TalkingBaseCreature : BaseCreature
         get => false;
         set
         {
-            if (value == true && DialogAttachment != null)
+            if (value && DialogAttachment != null)
             {
                 DialogAttachment.DoSaveNPC(null,ConfigFile, false);
             }
@@ -784,8 +744,12 @@ public class TalkingBaseCreature : BaseCreature
         int iRangePerception,
         int iRangeFight,
         double dActiveSpeed,
-        double dPassiveSpeed): base(ai, mode, iRangePerception, iRangeFight, dActiveSpeed, dPassiveSpeed)
+        double dPassiveSpeed
+    ): base(ai, mode, iRangePerception, iRangeFight)
     {
+        ActiveSpeed = dActiveSpeed;
+        PassiveSpeed = dPassiveSpeed;
+
         // add the XmlDialog attachment
         m_DialogAttachment = new XmlDialog((string)null);
         XmlAttach.AttachTo(this, m_DialogAttachment);

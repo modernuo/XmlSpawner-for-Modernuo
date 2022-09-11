@@ -12477,7 +12477,9 @@ namespace Server.Mobiles
                 }
                 set => m_MaxCount = value;
             }
-            public int ActualMaxCount { get => m_MaxCount;
+            public int ActualMaxCount
+            {
+                get => m_MaxCount;
                 set => m_MaxCount = value;
             }
             public int SubGroup { get; set; }

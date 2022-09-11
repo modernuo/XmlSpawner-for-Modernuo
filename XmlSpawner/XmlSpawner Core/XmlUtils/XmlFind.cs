@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Server.Engines.Spawners;
-using Server.Engines.Stealables;
 
 namespace Server.Mobiles;
 
@@ -51,18 +50,12 @@ public class XmlFindGump : Gump
                 false, false, false, false, false, false, 0, 0);
 
             // display the updated gump synched with the main server thread
-            Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(GumpDisplayCallback), new object[] { m_From, gump, status_str });
+            Timer.DelayCall(TimeSpan.Zero, GumpDisplayCallback, m_From, gump, status_str);
 
         }
 
-        public void GumpDisplayCallback(object state)
+        public void GumpDisplayCallback(Mobile from, XmlFindGump gump, string status_str)
         {
-            object[] args = (object[])state;
-
-            Mobile from = (Mobile)args[0];
-            XmlFindGump gump = (XmlFindGump)args[1];
-            string status_str = (string)args[2];
-
             if (from != null && !from.Deleted)
             {
                 from.SendGump(gump);
@@ -291,7 +284,7 @@ public class XmlFindGump : Gump
             if (direction)
             {
                 // true means allow only mobs greater than the age
-                if (DateTime.UtcNow - mob.CreationTime > TimeSpan.FromHours(age))
+                if (DateTime.UtcNow - mob.Created > TimeSpan.FromHours(age))
                 {
                     return true;
                 }
@@ -299,7 +292,7 @@ public class XmlFindGump : Gump
             else
             {
                 // false means allow only mobs less than the age
-                if (DateTime.UtcNow - mob.CreationTime < TimeSpan.FromHours(age))
+                if (DateTime.UtcNow - mob.Created < TimeSpan.FromHours(age))
                 {
                     return true;
                 }
@@ -354,9 +347,6 @@ public class XmlFindGump : Gump
         {
             if (m.Map != Map.Internal || m.Account != null ||
                 (m as IMount)?.Rider != null ||
-                m is GalleonPilot || m is PetParrot ||
-                GenericBuyInfo.IsDisplayCache(m) ||
-                m is EffectMobile ||
                 m is BaseCreature creature && creature.IsStabled ||
                 m is PlayerVendor && BaseHouse.AllHouses.Any(x => x.InternalizedVendors.Contains(m)))
             {
@@ -366,8 +356,8 @@ public class XmlFindGump : Gump
         else if (o is Item i)
         {
             // note, in order to test for a vendors display container that contains valid internal map items
-            if (i.Map != Map.Internal || i.Parent != null || i is Fists || i is MountItem || i is EffectItem || i.HeldBy != null ||
-                i is MovingCrate || i is SpawnPersistence || GenericBuyInfo.IsDisplayCache(i) || i.GetType().DeclaringType == typeof(GenericBuyInfo))
+            if (i.Map != Map.Internal || i.Parent != null || i is Fists or MountItem or EffectItem || i.HeldBy != null ||
+                i is MovingCrate || i.GetType().DeclaringType == typeof(GenericBuyInfo))
             {
                 return true;
             }
@@ -378,38 +368,13 @@ public class XmlFindGump : Gump
                 return true;
             }
 
-            if (i is GalleonHold || i is MooringLine || i is HoldItem || i is BaseDockedBoat || i is Rudder || i is RudderHandle || i is ShipWheel || i is BaseBoat || i is Plank || i is TillerMan || i is Hold || i is IShipCannon || i is DeckItem || i is WeaponPad)
+            // Ship/Vehicle parts
+            if (i is BaseDockedBoat or BaseBoat or Plank or TillerMan or Hold)
             {
                 return true;
             }
 
-            // Ignores shadowguard addons that are internalized while not in use
-            if (i is AddonComponent component)
-            {
-                BaseAddon addon = component.Addon;
-
-                if (addon != null && (addon is ArmoryAddon || addon is BarAddon || addon is BelfryAddon || addon is ShadowguardFountainAddon || addon is OrchardAddon
-                                      || addon is CastleAddon))
-                {
-                    return true;
-                }
-            }
-
-            if (i is BaseAddon && (i is ArmoryAddon || i is BarAddon || i is BelfryAddon || i is ShadowguardFountainAddon || i is OrchardAddon
-                                   || i is CastleAddon))
-            {
-                return true;
-            }
-
-            if (i is BoatMountItem || i is Misc.TreasuresOfTokunoPersistence || i is StealableArtifacts.StealableArtifactsSpawner)
-            {
-                return true;
-            }
-
-            if (i is ArisenController)
-            {
-                return true;
-            }
+            // TODO: Ignores addons, persistence, and other items that are internalized while not in use
         }
 
         return false;
@@ -591,7 +556,6 @@ public class XmlFindGump : Gump
                         // see what kind of spawner it is
                         if (i is XmlSpawner spawner)
                         {
-
                             // search the entries of the spawner
                             foreach (XmlSpawner.SpawnObject so in spawner.m_SpawnObjects)
                             {
@@ -632,9 +596,9 @@ public class XmlFindGump : Gump
                         else if (i is Spawner spawner1)
                         {
                             // search the entries of the spawner
-                            foreach (XmlSpawner.SpawnObject obj in spawner1.SpawnObjects)
+                            foreach (var entry in spawner1.Entries)
                             {
-                                string so = obj.SpawnName;
+                                string so = entry.SpawnedName;
 
                                 if (criteria.Dosearchspawntype)
                                 {
@@ -1797,7 +1761,7 @@ public class XmlFindGump : Gump
             return;
         }
 
-        ArrayList executelist = new ArrayList();
+        var executelist = new List<object>();
 
         for (int i = 0; i < m_SearchList.Count; i++)
         {

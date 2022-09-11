@@ -135,7 +135,7 @@ public abstract class XmlAttachment : IXmlAttachment
     public bool Deleted => m_Deleted;
 
     public bool DoDelete { get => false;
-        set { if (value == true)
+        set { if (value)
         {
             Delete();
         }

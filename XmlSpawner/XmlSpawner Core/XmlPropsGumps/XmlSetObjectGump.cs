@@ -4,6 +4,7 @@ using Server.Network;
 using Server.Prompts;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Server.Gumps;
@@ -168,9 +169,8 @@ public class XmlSetObjectGump : Gump
 
             try
             {
-                int serial = Utility.ToInt32(text);
-
-                toSet = World.FindEntity(new Serial(serial));
+                var serial = Utility.ToUInt32(text);
+                toSet = World.FindEntity((Serial)serial);
 
                 if (toSet == null)
                 {

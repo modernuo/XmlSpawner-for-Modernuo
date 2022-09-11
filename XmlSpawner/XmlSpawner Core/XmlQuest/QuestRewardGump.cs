@@ -150,7 +150,7 @@ public class QuestRewardGump : Gump
             case 13:
                 {
                     // page down
-                    page = viewpage-1;
+                    var page = viewpage - 1;
                     if (page < 0)
                     {
                         page = 0;

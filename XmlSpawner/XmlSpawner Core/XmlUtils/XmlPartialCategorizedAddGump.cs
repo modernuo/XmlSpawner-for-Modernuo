@@ -153,15 +153,15 @@ public class XmlPartialCategorizedAddGump : Gump
         ArrayList results = new ArrayList();
         Type[] types;
 
-        Assembly[] asms = ScriptCompiler.Assemblies;
+        Assembly[] asms = AssemblyHandler.Assemblies;
 
         for (int i = 0; i < asms.Length; ++i)
         {
-            types = ScriptCompiler.GetTypeCache(asms[i]).Types;
+            types = AssemblyHandler.GetTypeCache(asms[i]).Types;
             Match(match, types, results);
         }
 
-        types = ScriptCompiler.GetTypeCache(Core.Assembly).Types;
+        types = AssemblyHandler.GetTypeCache(Core.Assembly).Types;
         Match(match, types, results);
 
         results.Sort(new TypeNameComparer());
@@ -252,7 +252,7 @@ public class XmlPartialCategorizedAddGump : Gump
                                     Color = 0x1436
                                 };
 
-                                Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(XmlSpawnerGump.Refresh_Callback), new object[] { from });
+                                Timer.DelayCall(TimeSpan.Zero, XmlSpawnerGump.RefreshSpawnerGumps, from);
                                 //from.CloseGump<XmlSpawnerGump>();
                                 //from.SendGump(new XmlSpawnerGump(xg.m_Spawner, xg.X, xg.Y, xg.m_ShowGump, xg.xoffset, xg.page, xg.Rentry));
                             }

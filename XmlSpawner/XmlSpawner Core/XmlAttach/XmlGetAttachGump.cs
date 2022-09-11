@@ -791,7 +791,7 @@ public class XmlGetAttGump : Gump
                             for(int i = 0;i < SearchList.Count;i++)
                             {
                                 int index = i-DisplayFrom;
-                                if (index >= 0 && index < SelectedList.Length && SelectedList[index] == true || selectAll)
+                                if (index >= 0 && index < SelectedList.Length && SelectedList[index] || selectAll)
                                 {
                                     object o = SearchList[i];
                                     if (o is XmlAttachment attachment)

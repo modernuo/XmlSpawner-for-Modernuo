@@ -2,6 +2,7 @@ using Server.Commands;
 using Server.Network;
 using Server.Targeting;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Server.Gumps;
@@ -151,8 +152,8 @@ public class XmlSetPoint2DGump : Gump
             {
                 try
                 {
-                    CommandLogging.LogChangeProperty(m_Mobile, m_Object, m_Property.Name, new Point2D(p).ToString());
-                    m_Property.SetValue(m_Object, new Point2D(p), null);
+                    CommandLogging.LogChangeProperty(m_Mobile, m_Object, m_Property.Name, new Point2D(p.X, p.Y).ToString());
+                    m_Property.SetValue(m_Object, new Point2D(p.X, p.Y), null);
                 }
                 catch
                 {
@@ -176,7 +177,7 @@ public class XmlSetPoint2DGump : Gump
         {
             case 1: // Current location
                 {
-                    toSet = new Point2D(m_Mobile.Location);
+                    toSet = new Point2D(m_Mobile.X, m_Mobile.Y);
                     shouldSet = true;
                     shouldSend = true;
 

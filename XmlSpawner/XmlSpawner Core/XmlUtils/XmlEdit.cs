@@ -107,7 +107,7 @@ public class XmlEditDialogGump : Gump
             AddPage(0);
             AddBackground(10, 200, 200, 130, 5054);
 
-            AddLabel(20, 210, 68, String.Format("Add an XmlDialog to target?"));
+            AddLabel(20, 210, 68, "Add an XmlDialog to target?");
 
             string name = null;
             if (targeted is Item item)
@@ -1392,7 +1392,7 @@ public class XmlEditDialogGump : Gump
                             for(int i = 0;i < SearchList.Count;i++)
                             {
                                 int index = i-DisplayFrom;
-                                if (index >= 0 && index < SelectedList.Length && SelectedList[index] == true || selectAll)
+                                if (index >= 0 && index < SelectedList.Length && SelectedList[index] || selectAll)
                                 {
                                     object o = SearchList[i];
                                     // delete the entry;

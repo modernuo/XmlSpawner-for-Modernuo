@@ -84,7 +84,7 @@ public class XmlSaveItem : XmlAttachment
         get => false;
         set
         {
-            if (value == true && SavedItem != null && AttachedTo is IEntity && ((IEntity)AttachedTo).Map != Map.Internal && ((IEntity)AttachedTo).Map != null)
+            if (value && SavedItem != null && AttachedTo is IEntity && ((IEntity)AttachedTo).Map != Map.Internal && ((IEntity)AttachedTo).Map != null)
             {
 
                 // move the item to the location of the object the attachment is attached to

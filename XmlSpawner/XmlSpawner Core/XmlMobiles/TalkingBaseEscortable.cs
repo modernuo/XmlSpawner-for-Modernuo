@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using Server.Items;
 using Server.ContextMenus;
 using EDI = Server.Mobiles.EscortDestinationInfo;
@@ -22,16 +21,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     [CommandProperty(AccessLevel.GameMaster)]
     public string Destination
     {
-        get
+        get => m_Destination?.Name;
+        set
         {
-            if (m_Destination == null)
-            {
-                return null;
-            }
-
-            return m_Destination.Name;
-        }
-        set{
             m_DestinationString = value;
             m_Destination = EDI.Find(value);
 

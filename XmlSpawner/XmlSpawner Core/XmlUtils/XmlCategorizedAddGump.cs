@@ -57,7 +57,7 @@ public class XmlAddCAGObject : XmlAddCAGNode
                             Color = 0x1436
                         };
 
-                        Timer.DelayCall(TimeSpan.Zero, new TimerStateCallback(XmlSpawnerGump.Refresh_Callback), new object[] { from });
+                        Timer.DelayCall(TimeSpan.Zero, XmlSpawnerGump.RefreshSpawnerGumps, from);
                     }
                 }
             }
@@ -70,7 +70,7 @@ public class XmlAddCAGObject : XmlAddCAGNode
 
         if (xml.MoveToAttribute("type"))
         {
-            m_Type = ScriptCompiler.FindTypeByFullName(xml.Value, false);
+            m_Type = AssemblyHandler.FindTypeByFullName(xml.Value, false);
         }
 
         if (xml.MoveToAttribute("gfx"))

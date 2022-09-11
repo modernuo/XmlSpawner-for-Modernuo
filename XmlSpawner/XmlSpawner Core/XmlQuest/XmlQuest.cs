@@ -114,14 +114,12 @@ public interface IXmlQuest
     ArrayList Journal { get; set; }
 
     string AddJournalEntry { set;}
-
 }
 
 public interface ITemporaryQuestAttachment
 {
     Mobile QuestOwner { get; set; }
 }
-
 
 public abstract class XmlQuest
 {
@@ -167,32 +165,12 @@ public abstract class XmlQuest
         }
     }
 
-    public static void QuestButton(QuestGumpRequestArgs e)
+    public static void QuestButton(Mobile from)
     {
-        if (e == null || e.Mobile == null)
+        if (from == null)
         {
             return;
         }
-
-        Mobile from = e.Mobile;
-
-        from.CloseGump<QuestLogGump>();
-        // bring up the quest status gump
-        from.SendGump(new QuestLogGump(from));
-
-        // bring up the normal quest objectives gump
-        //NormalQuestButton(from as PlayerMobile);
-    }
-
-
-    public static void QuestButton(NetState state, IEntity e, EncodedReader reader)
-    {
-        if (state == null || state.Mobile == null)
-        {
-            return;
-        }
-
-        Mobile from = state.Mobile;
 
         from.CloseGump<QuestLogGump>();
         // bring up the quest status gump
@@ -205,12 +183,7 @@ public abstract class XmlQuest
     // this just brings up the normal quest objectives gump
     public static void NormalQuestButton(PlayerMobile from)
     {
-        if (from == null || from.Quest == null)
-        {
-            return;
-        }
-
-        from.Quest.ShowQuestLog();
+        from?.Quest?.ShowQuestLog();
     }
 
     public static void RemoveTemporaryQuestObjects(Mobile questowner, string questname)

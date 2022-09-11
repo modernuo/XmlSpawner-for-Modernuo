@@ -165,7 +165,7 @@ public class XmlPlayerQuestGump : Gump
     public XmlPlayerQuestGump(PlayerMobile from, IXmlQuest questitem) : base(12, 140)
     {
 
-        from.CloseGump(typeof(XmlPlayerQuestGump));
+        from.CloseGump<XmlPlayerQuestGump>();
 
         if (from == null || from.Deleted || questitem == null || questitem.Deleted)
         {

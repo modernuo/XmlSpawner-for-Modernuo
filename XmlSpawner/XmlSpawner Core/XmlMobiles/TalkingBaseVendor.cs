@@ -15,7 +15,6 @@ namespace Server.Mobiles;
 
 public abstract class TalkingBaseVendor : BaseVendor
 {
-
     public TalkingBaseVendor(string title) : base(title)
     {
         // add the XmlDialog attachment
@@ -659,7 +658,9 @@ public abstract class TalkingBaseVendor : BaseVendor
     public  bool LoadConfig
     {
         get => false;
-        set{ if (value == true && DialogAttachment != null)
+        set
+        {
+            if (value && DialogAttachment != null)
             {
                 DialogAttachment.DoLoadNPC(null,ConfigFile);
             }
@@ -672,7 +673,7 @@ public abstract class TalkingBaseVendor : BaseVendor
         get => false;
         set
         {
-            if (value == true && DialogAttachment != null)
+            if (value && DialogAttachment != null)
             {
                 DialogAttachment.DoSaveNPC(null,ConfigFile, false);
             }

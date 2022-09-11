@@ -7,7 +7,6 @@ namespace Server.Engines.XmlSpawner2;
 
 public class XmlSpawnerAddon : BaseAddon
 {
-
     public override bool ShareHue => false;
 
     [CommandProperty(AccessLevel.GameMaster)]

@@ -2,14 +2,12 @@ namespace Server.Items;
 
 public class SingleUseSwitch : SimpleSwitch
 {
-
     [Constructible]
     public SingleUseSwitch()
     {
     }
 
-    public SingleUseSwitch(Serial serial)
-        : base(serial)
+    public SingleUseSwitch(Serial serial) : base(serial)
     {
     }
 

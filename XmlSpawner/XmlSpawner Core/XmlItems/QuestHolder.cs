@@ -9,7 +9,6 @@ namespace Server.Items;
 
 public class QuestHolder : XmlQuestHolder
 {
-
     [Constructible]
     public QuestHolder()
     {

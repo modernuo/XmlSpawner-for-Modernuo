@@ -22,7 +22,6 @@ namespace Server.Items;
 
 public class QuestNote : XmlQuestToken
 {
-
     [Constructible]
     public QuestNote() : base(0x14EE)
     {
@@ -88,7 +87,7 @@ public class QuestNote : XmlQuestToken
     public override void OnDoubleClick(Mobile from)
     {
         base.OnDoubleClick(from);
-        from.CloseGump(typeof(XmlQuestStatusGump));
+        from.CloseGump<XmlQuestStatusGump>();
 
         from.SendGump(new XmlQuestStatusGump(this, TitleString));
     }
@@ -189,7 +188,7 @@ public class OriginalQuestNote : XmlQuestToken
     public override void OnDoubleClick(Mobile from)
     {
         base.OnDoubleClick(from);
-        from.CloseGump(typeof(QuestNoteGump));
+        from.CloseGump<QuestNoteGump>();
         from.SendGump(new QuestNoteGump(this));
     }
 }
