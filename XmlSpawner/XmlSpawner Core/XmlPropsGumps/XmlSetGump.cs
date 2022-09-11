@@ -1,8 +1,8 @@
 using Server.Commands;
 using Server.HuePickers;
 using Server.Network;
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Server.Gumps;
@@ -12,11 +12,7 @@ public class XmlSetGump : Gump
     private readonly PropertyInfo m_Property;
     private readonly Mobile m_Mobile;
     private readonly object m_Object;
-#if (NEWTIMERS)
-        private readonly Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-    private Stack m_Stack;
-#endif
+    private readonly Stack<StackEntry> m_Stack;
     private readonly int m_Page;
     private readonly ArrayList m_List;
 
@@ -51,11 +47,7 @@ public class XmlSetGump : Gump
     private static readonly int BackWidth = BorderSize + TotalWidth + BorderSize;
     private static readonly int BackHeight = BorderSize + TotalHeight + BorderSize;
 
-#if (NEWTIMERS)
-        public XmlSetGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
-#else
-    public XmlSetGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
-#endif
+    public XmlSetGump(PropertyInfo prop, Mobile mobile, object o, Stack<StackEntry> stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
     {
         m_Property = prop;
         m_Mobile = mobile;
@@ -107,7 +99,7 @@ public class XmlSetGump : Gump
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
         }
 
-        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 1, GumpButtonType.Reply, 0);
+        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 1);
 
         if (canNull)
         {
@@ -123,7 +115,7 @@ public class XmlSetGump : Gump
                 AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
             }
 
-            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 2, GumpButtonType.Reply, 0);
+            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 2);
         }
 
         if (canDye)
@@ -140,7 +132,7 @@ public class XmlSetGump : Gump
                 AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
             }
 
-            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 3, GumpButtonType.Reply, 0);
+            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 3);
         }
 
         if (isBody)
@@ -157,7 +149,7 @@ public class XmlSetGump : Gump
                 AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
             }
 
-            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 4, GumpButtonType.Reply, 0);
+            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 4);
         }
     }
 
@@ -166,19 +158,11 @@ public class XmlSetGump : Gump
         private readonly PropertyInfo m_Property;
         private readonly Mobile m_Mobile;
         private readonly object m_Object;
-#if (NEWTIMERS)
-            private readonly Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-        private Stack m_Stack;
-#endif
+        private readonly Stack<StackEntry> m_Stack;
         private readonly int m_Page;
         private readonly ArrayList m_List;
 
-#if (NEWTIMERS)
-            public InternalPicker(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(((IHued)o).HuedItemID)
-#else
-        public InternalPicker(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(((IHued)o).HuedItemID)
-#endif
+        public InternalPicker(PropertyInfo prop, Mobile mobile, object o, Stack<StackEntry> stack, int page, ArrayList list) : base(((IHued)o).HuedItemID)
         {
             m_Property = prop;
             m_Mobile = mobile;
@@ -186,11 +170,6 @@ public class XmlSetGump : Gump
             m_Stack = stack;
             m_Page = page;
             m_List = list;
-        }
-
-        public override void Clip(ref int hue)
-        {
-            hue = Math.Max(0, Math.Min(3000, hue));
         }
 
         public override void OnResponse(int hue)

@@ -2,6 +2,7 @@ using Server.Commands;
 using Server.Network;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Server.Gumps;
@@ -11,11 +12,7 @@ public class XmlSetTimeSpanGump : Gump
     private readonly PropertyInfo m_Property;
     private readonly Mobile m_Mobile;
     private readonly object m_Object;
-#if (NEWTIMERS)
-        private readonly Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-    private Stack m_Stack;
-#endif
+    private readonly Stack<StackEntry> m_Stack;
     private readonly int m_Page;
     private readonly ArrayList m_List;
 
@@ -50,11 +47,7 @@ public class XmlSetTimeSpanGump : Gump
     private static readonly int BackWidth = BorderSize + TotalWidth + BorderSize;
     private static readonly int BackHeight = BorderSize + TotalHeight + BorderSize;
 
-#if (NEWTIMERS)
-        public XmlSetTimeSpanGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
-#else
-    public XmlSetTimeSpanGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
-#endif
+    public XmlSetTimeSpanGump(PropertyInfo prop, Mobile mobile, object o, Stack<StackEntry> stack, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
     {
         m_Property = prop;
         m_Mobile = mobile;
@@ -101,7 +94,7 @@ public class XmlSetTimeSpanGump : Gump
 
         if (button != 0)
         {
-            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, button, GumpButtonType.Reply, 0);
+            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, button);
         }
     }
 

@@ -305,17 +305,17 @@ public class XmlQuestStatusGump : Gump
                 text = objectivestr;
             }
 
-            AddHtml(x, y, 223, 35, XmlSimpleGump.Color(text, "EFEF5A"), false, false);
+            AddHtml(x, y, 223, 35, XmlSimpleGump.Color(text, "EFEF5A"));
 
             if (status)
             {
                 AddImage(x - 20, y + 3, 0x939);                                       // bullet
-                AddHtmlLocalized(x + 222, y, 225, 37, 1046033, 0xff42, false, false); // Complete
+                AddHtmlLocalized(x + 222, y, 225, 37, 1046033, 0xff42); // Complete
             }
             else
             {
                 AddImage(x - 20, y + 3, 0x938);                                       // bullet
-                AddHtmlLocalized(x + 222, y, 225, 37, 1046034, 0x7fff, false, false); // Incomplete
+                AddHtmlLocalized(x + 222, y, 225, 37, 1046034, 0x7fff); // Incomplete
             }
         }
     }
@@ -366,7 +366,7 @@ public class XmlQuestStatusGump : Gump
 
         //			AddButton(338, 392, 2130, 2129, 3, GumpButtonType.Reply, 0); // Okay button
 
-        AddHtmlLocalized(139, 59, 200, 30, 1046026, 0x7fff, false, false); // Quest Log
+        AddHtmlLocalized(139, 59, 200, 30, 1046026, 0x7fff); // Quest Log
         AddImage(97, 49, 9005);                                            // quest ribbon
 
         AddImageTiled(58, 39, 29, 390, 10460);  // left hand border
@@ -393,9 +393,9 @@ public class XmlQuestStatusGump : Gump
             tab1 = 0x138E;
             tab2 = 0x138F;
         }
-        AddButton(100, 18, tab1, tab2, 900, GumpButtonType.Reply, 0);
+        AddButton(100, 18, tab1, tab2, 900);
         AddLabel(115, 17, 0, "Status");
-        AddButton(189, 18, tab2, tab1, 901, GumpButtonType.Reply, 0);
+        AddButton(189, 18, tab2, tab1, 901);
         AddLabel(205, 17, 0, "Journal");
 
         if (screen == 1)
@@ -417,7 +417,7 @@ public class XmlQuestStatusGump : Gump
             }
 
             // add the add journal entry button
-            AddButton(300, 49, 0x99C, 0x99D, 952, GumpButtonType.Reply, 0);
+            AddButton(300, 49, 0x99C, 0x99D, 952);
             //AddButton(300, 49, 0x159E, 0x159D, 952, GumpButtonType.Reply, 0);
         }
         else
@@ -425,7 +425,7 @@ public class XmlQuestStatusGump : Gump
             if (gumptitle != null && gumptitle.Length > 0)
             {                            // display the title if it is there
                 AddImage(146, 91, 2103); // bullet
-                AddHtml(164, 86, 200, 30, XmlSimpleGump.Color(gumptitle, "00FF42"), false, false);
+                AddHtml(164, 86, 200, 30, XmlSimpleGump.Color(gumptitle, "00FF42"));
             }
 
             if (questitem.NoteString != null && questitem.NoteString.Length > 0)
@@ -440,7 +440,7 @@ public class XmlQuestStatusGump : Gump
             DisplayQuestStatus(130, 320, questitem.Objective5, questitem.State5, questitem.Completed5, questitem.Description5);
 
             //if (questitem.HasCollect){
-            AddButton(100, 350, 0x2A4E, 0x2A3A, 700, GumpButtonType.Reply, 0);
+            AddButton(100, 350, 0x2A4E, 0x2A3A, 700);
             AddLabel(135, 356, 0x384, "Collect");
             //}
 
@@ -479,7 +479,7 @@ public class XmlQuestStatusGump : Gump
             {
                 if (questitem.CanSeeReward)
                 {
-                    AddButton(400, 380, 2103, 2103, 800, GumpButtonType.Reply, 0);
+                    AddButton(400, 380, 2103, 2103, 800);
                 }
             }
 
@@ -494,7 +494,7 @@ public class XmlQuestStatusGump : Gump
             if (questitem.IsValid)
             {
                 //AddHtmlLocalized(150, 400, 50, 37, 1046033, 0xf0000 , false , false); // Expires
-                AddHtml(130, 392, 200, 37, XmlSimpleGump.Color(questitem.ExpirationString, "00FF42"), false, false);
+                AddHtml(130, 392, 200, 37, XmlSimpleGump.Color(questitem.ExpirationString, "00FF42"));
             }
             else
             if (questitem.AlreadyDone)
@@ -523,23 +523,23 @@ public class XmlQuestStatusGump : Gump
             }
             if (XmlQuest.QuestPointsEnabled)
             {
-                AddHtml(250, 40, 200, 30, XmlSimpleGump.Color($"Difficulty Level {questitem.Difficulty}", "00FF42"), false, false);
+                AddHtml(250, 40, 200, 30, XmlSimpleGump.Color($"Difficulty Level {questitem.Difficulty}", "00FF42"));
             }
             if (questitem.PartyEnabled)
             {
-                AddHtml(250, 55, 200, 30, XmlSimpleGump.Color("Party Quest", "00FF42"), false, false);
+                AddHtml(250, 55, 200, 30, XmlSimpleGump.Color("Party Quest", "00FF42"));
                 if (questitem.PartyRange >= 0)
                 {
-                    AddHtml(250, 70, 200, 30, XmlSimpleGump.Color($"Party Range {questitem.PartyRange}", "00FF42"), false, false);
+                    AddHtml(250, 70, 200, 30, XmlSimpleGump.Color($"Party Range {questitem.PartyRange}", "00FF42"));
                 }
                 else
                 {
-                    AddHtml(250, 70, 200, 30, XmlSimpleGump.Color("No Range Limit", "00FF42"), false, false);
+                    AddHtml(250, 70, 200, 30, XmlSimpleGump.Color("No Range Limit", "00FF42"));
                 }
             }
             else
             {
-                AddHtml(250, 55, 200, 30, XmlSimpleGump.Color("Solo Quest", "00FF42"), false, false);
+                AddHtml(250, 55, 200, 30, XmlSimpleGump.Color("Solo Quest", "00FF42"));
             }
         }
 
@@ -651,9 +651,9 @@ public class XmlQuestStatusGump : Gump
 
 
             // OK button
-            AddButton(25, 327, 0xFB7, 0xFB9, 1, GumpButtonType.Reply, 0);
+            AddButton(25, 327, 0xFB7, 0xFB9, 1);
             // Close button
-            AddButton(230, 327, 0xFB1, 0xFB3, 0, GumpButtonType.Reply, 0);
+            AddButton(230, 327, 0xFB1, 0xFB3, 0);
             // Edit button
             //AddButton(100, 325, 0xEF, 0xEE, 2, GumpButtonType.Reply, 0);
             string str = null;

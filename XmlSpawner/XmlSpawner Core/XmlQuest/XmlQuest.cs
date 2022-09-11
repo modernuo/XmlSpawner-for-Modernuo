@@ -158,9 +158,9 @@ public abstract class XmlQuest
 
         protected override void OnTarget(Mobile from, object targeted)
         {
-            if (targeted is Item && m_quest != null && !m_quest.Deleted)
+            if (targeted is Item item && m_quest != null && !m_quest.Deleted)
             {
-                Collect(from, (Item)targeted, m_quest);
+                Collect(from, item, m_quest);
                 from.CloseGump<XmlQuestStatusGump>();
                 from.SendGump(new XmlQuestStatusGump(m_quest, m_quest.TitleString));
             }
@@ -222,7 +222,7 @@ public abstract class XmlQuest
         foreach (XmlAttachment i in XmlAttach.Values)
         {
             // check for type
-            if (i != null && !i.Deleted && i is ITemporaryQuestAttachment && ((ITemporaryQuestAttachment)i).QuestOwner == questowner && i.Name == questname)
+            if (i != null && !i.Deleted && i is ITemporaryQuestAttachment attachment && attachment.QuestOwner == questowner && i.Name == questname)
             {
                 list.Add(i);
             }
@@ -333,16 +333,13 @@ public abstract class XmlQuest
                 {
                     status_str = "invalid type specification: " + arglist[0];
                 }
-                else if (o is Mobile)
+                else if (o is Mobile mobile)
                 {
-                    Mobile m = (Mobile)o;
-
                     // dont do mobiles as rewards at this point
-                    m.Delete();
+                    mobile.Delete();
                 }
-                else if (o is Item)
+                else if (o is Item item)
                 {
-                    Item item = (Item)o;
                     BaseXmlSpawner.AddSpawnItem(null, from, TheSpawn, item, from.Location, Map.Internal, null, false, substitutedtypeName, out status_str);
                 }
                 else if (o is XmlAttachment)
@@ -402,9 +399,8 @@ public abstract class XmlQuest
 
             }
             // is it an XmlQuestBook?
-            if (item is XmlQuestBook)
+            if (item is XmlQuestBook book)
             {
-                XmlQuestBook book = item as XmlQuestBook;
                 // search the book
                 foreach (Item xi in book.Items)
                 {
@@ -558,9 +554,9 @@ public abstract class XmlQuest
                         // find the quest item in their packs
                         Item questitem = BaseXmlSpawner.SearchMobileForItem(member, quest.Name, "IXmlQuest", false);
 
-                        if (questitem != null && !questitem.Deleted && questitem is IXmlQuest)
+                        if (questitem != null && !questitem.Deleted && questitem is IXmlQuest xmlQuest)
                         {
-                            ApplyCollected(target, (IXmlQuest)questitem);
+                            ApplyCollected(target, xmlQuest);
                         }
                     }
                 }
@@ -811,9 +807,9 @@ public abstract class XmlQuest
                         // find the quest item in their packs
                         Item questitem = BaseXmlSpawner.SearchMobileForItem(member, quest.Name, "IXmlQuest", false);
 
-                        if (questitem != null && !questitem.Deleted && questitem is IXmlQuest)
+                        if (questitem != null && !questitem.Deleted && questitem is IXmlQuest xmlQuest)
                         {
-                            if (ApplyGiven(to, target, (IXmlQuest)questitem))
+                            if (ApplyGiven(to, target, xmlQuest))
                             {
                                 found = true;
                             }
@@ -837,10 +833,10 @@ public abstract class XmlQuest
 
         bool found = false;
 
-        if (item != null && !item.Deleted && from is PlayerMobile)
+        if (item != null && !item.Deleted && from is PlayerMobile mobile)
         {
 
-            ArrayList questlist = FindXmlQuest(from as PlayerMobile);
+            ArrayList questlist = FindXmlQuest(mobile);
             if (questlist != null)
             {
                 // now go through the list and try to apply the dropped item
@@ -848,7 +844,7 @@ public abstract class XmlQuest
                 {
                     if (questlist[i] is IXmlQuest)
                     {
-                        if (Give(from, to, item, questlist[i] as IXmlQuest))
+                        if (Give(mobile, to, item, questlist[i] as IXmlQuest))
                         {
                             found = true;
                         }
@@ -1116,13 +1112,13 @@ public abstract class XmlQuest
 
     public static void CheckKilled(Mobile m_killed, Mobile m_killer, Mobile member)
     {
-        if (!(member is PlayerMobile))
+        if (!(member is PlayerMobile mobile))
         {
             return;
         }
 
         // search the player for IXmlQuest objects
-        ArrayList mobitems = FindXmlQuest(member as PlayerMobile);
+        ArrayList mobitems = FindXmlQuest(mobile);
 
         if (mobitems == null)
         {
@@ -1138,15 +1134,15 @@ public abstract class XmlQuest
 
                 if (quest != null && !quest.Deleted && quest.PartyEnabled)
                 {
-                    if (member != null && !member.Deleted)
+                    if (member != null && !mobile.Deleted)
                     {
-                        if (quest.PartyRange < 0 || Utility.InRange(m_killer.Location, member.Location, quest.PartyRange))
+                        if (quest.PartyRange < 0 || Utility.InRange(m_killer.Location, mobile.Location, quest.PartyRange))
                         {
-                            ApplyKilled(m_killed, member, quest);
+                            ApplyKilled(m_killed, mobile, quest);
                         }
                     }
                 }
-                else if (member != null && !member.Deleted && member == m_killer && quest != null && !quest.Deleted)
+                else if (member != null && !mobile.Deleted && member == m_killer && quest != null && !quest.Deleted)
                 {
                     ApplyKilled(m_killed, m_killer, quest);
                 }
@@ -1173,10 +1169,10 @@ public abstract class XmlQuest
             foreach (PartyMemberInfo mi in p.Members)
             {
                 Mobile member = mi.Mobile;
-                if (member != null && member is PlayerMobile && ((PlayerMobile)member).GetFlag(CarriedXmlQuestFlag))
+                if (member != null && member is PlayerMobile mobile && mobile.GetFlag(CarriedXmlQuestFlag))
                 {
 
-                    CheckKilled(m_killed, m_killer, member);
+                    CheckKilled(m_killed, m_killer, mobile);
 
                 }
 
@@ -1184,9 +1180,9 @@ public abstract class XmlQuest
         }
         else
         {
-            if (m_killer != null && m_killer is PlayerMobile && ((PlayerMobile)m_killer).GetFlag(CarriedXmlQuestFlag))
+            if (m_killer != null && m_killer is PlayerMobile mobile && mobile.GetFlag(CarriedXmlQuestFlag))
             {
-                CheckKilled(m_killed, m_killer, m_killer);
+                CheckKilled(m_killed, mobile, mobile);
 
             }
 
@@ -1329,13 +1325,13 @@ public abstract class XmlQuest
 
     public static void CheckEscorted(Mobile m_escorted, Mobile m_escorter, Mobile member)
     {
-        if (!(member is PlayerMobile))
+        if (!(member is PlayerMobile mobile))
         {
             return;
         }
 
         // search the player for IXmlQuest objects
-        ArrayList mobitems = FindXmlQuest(member as PlayerMobile);
+        ArrayList mobitems = FindXmlQuest(mobile);
 
         if (mobitems == null)
         {
@@ -1353,15 +1349,15 @@ public abstract class XmlQuest
 
                 if (quest != null && !quest.Deleted && quest.PartyEnabled)
                 {
-                    if (member != null && !member.Deleted)
+                    if (member != null && !mobile.Deleted)
                     {
-                        if (quest.PartyRange < 0 || Utility.InRange(m_escorter.Location, member.Location, quest.PartyRange))
+                        if (quest.PartyRange < 0 || Utility.InRange(m_escorter.Location, mobile.Location, quest.PartyRange))
                         {
-                            ApplyEscorted(m_escorted, member, quest);
+                            ApplyEscorted(m_escorted, mobile, quest);
                         }
                     }
                 }
-                else if (member != null && !member.Deleted && member == m_escorter && quest != null && !quest.Deleted)
+                else if (member != null && !mobile.Deleted && member == m_escorter && quest != null && !quest.Deleted)
                 {
                     ApplyEscorted(m_escorted, m_escorter, quest);
                 }
@@ -1379,19 +1375,19 @@ public abstract class XmlQuest
             foreach (PartyMemberInfo mi in p.Members)
             {
                 Mobile member = mi.Mobile;
-                if (member != null && member is PlayerMobile && ((PlayerMobile)member).GetFlag(CarriedXmlQuestFlag))
+                if (member != null && member is PlayerMobile mobile && mobile.GetFlag(CarriedXmlQuestFlag))
                 {
 
-                    CheckEscorted(m_escorted, m_escorter, member);
+                    CheckEscorted(m_escorted, m_escorter, mobile);
                 }
 
             }
         }
         else
         {
-            if (m_escorter != null && m_escorter is PlayerMobile && ((PlayerMobile)m_escorter).GetFlag(CarriedXmlQuestFlag))
+            if (m_escorter != null && m_escorter is PlayerMobile mobile && mobile.GetFlag(CarriedXmlQuestFlag))
             {
-                CheckEscorted(m_escorted, m_escorter, m_escorter);
+                CheckEscorted(m_escorted, mobile, mobile);
             }
 
         }

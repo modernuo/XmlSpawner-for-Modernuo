@@ -13,11 +13,7 @@ public class XmlSetObjectGump : Gump
     private readonly PropertyInfo m_Property;
     private readonly Mobile m_Mobile;
     private readonly object m_Object;
-#if (NEWTIMERS)
-        private readonly Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-    private Stack m_Stack;
-#endif
+    private readonly Stack<StackEntry> m_Stack;
     private readonly Type m_Type;
     private readonly int m_Page;
     private readonly ArrayList m_List;
@@ -53,11 +49,7 @@ public class XmlSetObjectGump : Gump
     private static readonly int BackWidth = BorderSize + TotalWidth + BorderSize;
     private static readonly int BackHeight = BorderSize + TotalHeight + BorderSize;
 
-#if (NEWTIMERS)
-        public XmlSetObjectGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, Type type, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
-#else
-    public XmlSetObjectGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, Type type, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
-#endif
+    public XmlSetObjectGump(PropertyInfo prop, Mobile mobile, object o, Stack<StackEntry> stack, Type type, int page, ArrayList list) : base(GumpOffsetX, GumpOffsetY)
     {
         m_Property = prop;
         m_Mobile = mobile;
@@ -98,7 +90,7 @@ public class XmlSetObjectGump : Gump
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
         }
 
-        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 1, GumpButtonType.Reply, 0);
+        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 1);
 
         x = BorderSize + OffsetSize;
         y += EntryHeight + OffsetSize;
@@ -112,7 +104,7 @@ public class XmlSetObjectGump : Gump
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
         }
 
-        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 2, GumpButtonType.Reply, 0);
+        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 2);
 
         x = BorderSize + OffsetSize;
         y += EntryHeight + OffsetSize;
@@ -126,7 +118,7 @@ public class XmlSetObjectGump : Gump
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
         }
 
-        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 3, GumpButtonType.Reply, 0);
+        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 3);
 
         x = BorderSize + OffsetSize;
         y += EntryHeight + OffsetSize;
@@ -140,7 +132,7 @@ public class XmlSetObjectGump : Gump
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
         }
 
-        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 4, GumpButtonType.Reply, 0);
+        AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 4);
     }
 
     private class InternalPrompt : Prompt
@@ -148,20 +140,12 @@ public class XmlSetObjectGump : Gump
         private readonly PropertyInfo m_Property;
         private readonly Mobile m_Mobile;
         private readonly object m_Object;
-#if (NEWTIMERS)
-            private readonly Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-        private Stack m_Stack;
-#endif
+        private readonly Stack<StackEntry> m_Stack;
         private readonly Type m_Type;
         private readonly int m_Page;
         private readonly ArrayList m_List;
 
-#if (NEWTIMERS)
-            public InternalPrompt(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, Type type, int page, ArrayList list)
-#else
-        public InternalPrompt(PropertyInfo prop, Mobile mobile, object o, Stack stack, Type type, int page, ArrayList list)
-#endif
+        public InternalPrompt(PropertyInfo prop, Mobile mobile, object o, Stack<StackEntry> stack, Type type, int page, ArrayList list)
         {
             m_Property = prop;
             m_Mobile = mobile;

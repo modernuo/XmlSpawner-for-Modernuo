@@ -12,20 +12,12 @@ public class XmlSetObjectTarget : Target
     private readonly PropertyInfo m_Property;
     private readonly Mobile m_Mobile;
     private readonly object m_Object;
-#if (NEWTIMERS)
-        private readonly Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-    private Stack m_Stack;
-#endif
+    private readonly Stack<StackEntry> m_Stack;
     private readonly Type m_Type;
     private readonly int m_Page;
     private readonly ArrayList m_List;
 
-#if (NEWTIMERS)
-        public XmlSetObjectTarget(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, Type type, int page, ArrayList list) : base(-1, false, TargetFlags.None)
-#else
-    public XmlSetObjectTarget(PropertyInfo prop, Mobile mobile, object o, Stack stack, Type type, int page, ArrayList list) : base(-1, false, TargetFlags.None)
-#endif
+    public XmlSetObjectTarget(PropertyInfo prop, Mobile mobile, object o, Stack<StackEntry> stack, Type type, int page, ArrayList list) : base(-1, false, TargetFlags.None)
     {
         m_Property = prop;
         m_Mobile = mobile;

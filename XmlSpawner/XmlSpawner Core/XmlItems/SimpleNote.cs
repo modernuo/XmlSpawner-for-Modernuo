@@ -134,8 +134,8 @@ public class SimpleNoteGump : Gump
         // scroll bottom
         AddImageTiled(20, 111+70*(note.Size-1), 273, 34, 0x823);
         // title string
-        AddHtml(55, 10, 200, 37, HtmlFormat(note.TitleString, note.TitleColor), false , false);
+        AddHtml(55, 10, 200, 37, HtmlFormat(note.TitleString, note.TitleColor));
         // text string
-        AddHtml(40, 41, 225, 70*note.Size, HtmlFormat(note.NoteString, note.TextColor), false , false);
+        AddHtml(40, 41, 225, 70*note.Size, HtmlFormat(note.NoteString, note.TextColor));
     }
 }

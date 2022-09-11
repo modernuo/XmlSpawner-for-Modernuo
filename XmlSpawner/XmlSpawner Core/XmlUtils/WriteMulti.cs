@@ -245,16 +245,16 @@ public class WriteMulti
                     if (item.Parent == null)
                     {
 
-                        if (item is BaseAddon && includeaddons)
+                        if (item is BaseAddon addon && includeaddons)
                         {
                             // go through all of the addon components
-                            foreach (AddonComponent c in ((BaseAddon)item).Components)
+                            foreach (AddonComponent c in addon.Components)
                             {
                                 int x = c.X;
                                 int y = c.Y;
                                 int z = c.Z;
 
-                                if ((includeinvisible || item.Visible) && (item.ItemID <= 16383 || includemultis) &&
+                                if ((includeinvisible || addon.Visible) && (addon.ItemID <= 16383 || includemultis) &&
                                     x >= sx && x <= ex && y >= sy && y <= ey && (zmin == int.MinValue || z >= zmin && z <= zmax))
                                 {
                                     itemlist.Add(c);
@@ -262,19 +262,19 @@ public class WriteMulti
                             }
                         }
 
-                        if (item is BaseMulti && includemultis)
+                        if (item is BaseMulti multi && includemultis)
                         {
                             // go through all of the multi components
-                            MultiComponentList mcl = ((BaseMulti)item).Components;
+                            MultiComponentList mcl = multi.Components;
                             if (mcl != null && mcl.List != null)
                             {
                                 for (int i = 0; i < mcl.List.Length; i++)
                                 {
                                     MultiTileEntry t = mcl.List[i];
 
-                                    int x = t.m_OffsetX + item.X;
-                                    int y = t.m_OffsetY + item.Y;
-                                    int z = t.m_OffsetZ + item.Z;
+                                    int x = t.m_OffsetX + multi.X;
+                                    int y = t.m_OffsetY + multi.Y;
+                                    int z = t.m_OffsetZ + multi.Z;
                                     int itemID = t.m_ItemID & 0x3FFF;
 
                                     if (x >= sx && x <= ex && y >= sy && y <= ey && (zmin == int.MinValue || z >= zmin && z <= zmax))

@@ -61,13 +61,12 @@ public class XmlGetAttGump : Gump
             return true;
         }
 
-        if (o is XmlAttachment){
-            XmlAttachment a = (XmlAttachment)o;
-
+        if (o is XmlAttachment attachment)
+        {
             if (Searchagedirection)
             {
                 // true means allow only mobs greater than the age
-                if (DateTime.Now - a.CreationTime > TimeSpan.FromHours(Searchage))
+                if (DateTime.Now - attachment.CreationTime > TimeSpan.FromHours(Searchage))
                 {
                     return true;
                 }
@@ -75,7 +74,7 @@ public class XmlGetAttGump : Gump
             else
             {
                 // false means allow only mobs less than the age
-                if (DateTime.Now - a.CreationTime < TimeSpan.FromHours(Searchage))
+                if (DateTime.Now - attachment.CreationTime < TimeSpan.FromHours(Searchage))
                 {
                     return true;
                 }
@@ -92,9 +91,11 @@ public class XmlGetAttGump : Gump
         ArrayList newarray = new ArrayList();
         Type  targetType = null;
         // if the type is specified then get the search type
-        if (Dosearchtype && Searchtype != null){
+        if (Dosearchtype && Searchtype != null)
+        {
             targetType = AssemblyHandler.FindTypeByName(Searchtype);
-            if (targetType == null){
+            if (targetType == null)
+            {
                 status_str = "Invalid type: " + Searchtype;
                 return newarray;
             }
@@ -191,7 +192,8 @@ public class XmlGetAttGump : Gump
         m_TargetObject = targeted;
         m_From = from;
         m_SelectionList = selectionlist;
-        if (m_SelectionList == null){
+        if (m_SelectionList == null)
+        {
             m_SelectionList = new bool[MaxEntries];
         }
         SelectAll = selectall;
@@ -228,26 +230,27 @@ public class XmlGetAttGump : Gump
         AddAlphaRegion(0, 0, 640, 474);
 
         string tnamestr = null;
-        if (targeted is Item)
+        if (targeted is Item item)
         {
-            tnamestr = ((Item)targeted).Name;
+            tnamestr = item.Name;
         } else
-        if (targeted is Mobile)
+        if (targeted is Mobile mobile)
         {
-            tnamestr = ((Mobile)targeted).Name;
+            tnamestr = mobile.Name;
         }
         AddLabel(2, 0, 0x33, $"Attachments on {targeted.GetType().Name} : {tnamestr}");
 
         // add the Sort button
-        AddButton(5, 450, 0xFAB, 0xFAD, 700, GumpButtonType.Reply, 0);
+        AddButton(5, 450, 0xFAB, 0xFAD, 700);
         AddLabel(38, 450, 0x384, "Sort");
 
         // add the sort direction button
-        if (Descendingsort){
-            AddButton(75, 453, 0x15E2, 0x15E6, 701, GumpButtonType.Reply, 0);
+        if (Descendingsort)
+        {
+            AddButton(75, 453, 0x15E2, 0x15E6, 701);
             AddLabel(100, 450, 0x384, "descend");
         } else {
-            AddButton(75, 453, 0x15E0, 0x15E4, 701, GumpButtonType.Reply, 0);
+            AddButton(75, 453, 0x15E0, 0x15E4, 701);
             AddLabel(100, 450, 0x384, "ascend");
         }
 
@@ -267,39 +270,41 @@ public class XmlGetAttGump : Gump
         AddLabel(505, 13, 0x384, "Attached By");
 
         // add the Delete button
-        AddButton(250, 450, 0xFB1, 0xFB3, 156, GumpButtonType.Reply, 0);
+        AddButton(250, 450, 0xFB1, 0xFB3, 156);
         AddLabel(283, 450, 0x384, "Delete");
 
 
         // add the page buttons
-        for(int i = 0;i<MaxEntries/MaxEntriesPerPage;i++){
+        for(int i = 0;i<MaxEntries/MaxEntriesPerPage;i++)
+        {
             //AddButton(38+i*30, 365, 2206, 2206, 0, GumpButtonType.Page, 1+i);
             AddButton(418+i*25, 450, 0x8B1+i, 0x8B1+i, 0, GumpButtonType.Page, 1+i);
         }
 
         // add the advance pageblock buttons
-        AddButton(415+25*(MaxEntries/MaxEntriesPerPage), 450, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0); // block forward
-        AddButton(395, 450, 0x15E3, 0x15E7, 202, GumpButtonType.Reply, 0); // block backward
+        AddButton(415+25*(MaxEntries/MaxEntriesPerPage), 450, 0x15E1, 0x15E5, 201); // block forward
+        AddButton(395, 450, 0x15E3, 0x15E7, 202); // block backward
 
         // add the displayfrom entry
         AddLabel(460, 450, 0x384, "Display");
         AddImageTiled(500, 450, 60, 21, 0xBBC);
         AddTextEntry(501, 450, 60, 21, 0, 400, DisplayFrom.ToString());
-        AddButton(560, 450, 0xFAB, 0xFAD, 9998, GumpButtonType.Reply, 0);
+        AddButton(560, 450, 0xFAB, 0xFAD, 9998);
 
         // display the item list
-        if (m_SearchList != null){
+        if (m_SearchList != null)
+        {
             AddLabel(320, 425, 68, $"Found {m_SearchList.Count} attachments");
             AddLabel(500, 425, 68,
                 $"Displaying {DisplayFrom}-{(DisplayFrom + MaxEntries < m_SearchList.Count ? DisplayFrom + MaxEntries : m_SearchList.Count)}"
-           );
+            );
         }
 
         // display the select-all-displayed toggle
-        AddButton(620, 5, 0xD2, 0xD3, 3999, GumpButtonType.Reply, 0);
+        AddButton(620, 5, 0xD2, 0xD3, 3999);
 
         // display the select-all toggle
-        AddButton(600, 5, SelectAll? 0xD3:0xD2, SelectAll? 0xD2:0xD3, 3998, GumpButtonType.Reply, 0);
+        AddButton(600, 5, SelectAll? 0xD3:0xD2, SelectAll? 0xD2:0xD3, 3998);
 
         for (int i = 0;  i < MaxEntries; i++)
         {
@@ -310,7 +315,8 @@ public class XmlGetAttGump : Gump
             }
 
             int page = i/MaxEntriesPerPage;
-            if (i%MaxEntriesPerPage == 0){
+            if (i%MaxEntriesPerPage == 0)
+            {
                 AddPage(page+1);
             }
 
@@ -319,7 +325,7 @@ public class XmlGetAttGump : Gump
             //AddImageTiled(236, 22 * (i%MaxEntriesPerPage) + 31, 384, 21, 0xBBC);
 
             // add the Props button for each entry
-            AddButton(5, 22 * (i%MaxEntriesPerPage)  + 30, 0xFAB, 0xFAD, 3000+i, GumpButtonType.Reply, 0);
+            AddButton(5, 22 * (i%MaxEntriesPerPage)  + 30, 0xFAB, 0xFAD, 3000+i);
 
             string namestr = null;
             string typestr = null;
@@ -332,7 +338,8 @@ public class XmlGetAttGump : Gump
 
             object o = m_SearchList[index];
 
-            if (o is XmlAttachment){
+            if (o is XmlAttachment attachment)
+            {
                 XmlAttachment a = (XmlAttachment)m_SearchList[index];
 
                 namestr = a.Name;
@@ -343,10 +350,12 @@ public class XmlGetAttGump : Gump
                 attachedby = a.AttachedBy;
             }
 
-            bool sel=false;
-            if (m_SelectionList != null && i < m_SelectionList.Length){
+            bool sel = false;
+            if (m_SelectionList != null && i < m_SelectionList.Length)
+            {
                 sel = m_SelectionList[i];
             }
+
             if (sel)
             {
                 texthue = 33;
@@ -378,10 +387,10 @@ public class XmlGetAttGump : Gump
             AddLabelCropped(495, 22 * (i%MaxEntriesPerPage) + 31,105, 21, texthue, attachedby);
 
             // display the descriptio button
-            AddButton(600, 22 * (i%MaxEntriesPerPage)  + 32, 0x5689, 0x568A, 5000+i, GumpButtonType.Reply, 0);
+            AddButton(600, 22 * (i%MaxEntriesPerPage)  + 32, 0x5689, 0x568A, 5000+i);
 
             // display the selection button
-            AddButton(620, 22 * (i%MaxEntriesPerPage)  + 32, sel? 0xD3:0xD2, sel? 0xD2:0xD3, 4000+i, GumpButtonType.Reply, 0);
+            AddButton(620, 22 * (i%MaxEntriesPerPage)  + 32, sel? 0xD3:0xD2, sel? 0xD2:0xD3, 4000+i);
         }
     }
 
@@ -393,16 +402,17 @@ public class XmlGetAttGump : Gump
             return;
         }
 
-        if (index < m_SearchList.Count){
+        if (index < m_SearchList.Count)
+        {
             object o = m_SearchList[index];
-            if (o is XmlAttachment){
-                XmlAttachment x = (XmlAttachment)o;
-                if (x == null || x.Deleted)
+            if (o is XmlAttachment attachment)
+            {
+                if (attachment.Deleted)
                 {
                     return;
                 }
 
-                m_From.SendGump(new PropertiesGump(m_From, o));
+                m_From.SendGump(new PropertiesGump(m_From, attachment));
             }
 
         }
@@ -410,11 +420,14 @@ public class XmlGetAttGump : Gump
 
     private void SortFindList()
     {
-        if (m_SearchList != null && m_SearchList.Count > 0){
-            if (Sorttype){
+        if (m_SearchList != null && m_SearchList.Count > 0)
+        {
+            if (Sorttype)
+            {
                 m_SearchList.Sort(new ListTypeSorter(Descendingsort));
-            } else
-            if (Sortname){
+            }
+            else if (Sortname)
+            {
                 m_SearchList.Sort(new ListNameSorter(Descendingsort));
             }
         }
@@ -423,29 +436,34 @@ public class XmlGetAttGump : Gump
     private class ListTypeSorter : IComparer
     {
         private bool Dsort;
-        public ListTypeSorter(bool descend) : base () => Dsort = descend;
+        public ListTypeSorter(bool descend) => Dsort = descend;
 
         public int Compare(object x, object y)
         {
             string xstr=null;
             string ystr=null;
             string str=null;
-            if (x is XmlAttachment){
-                str = ((XmlAttachment)x).GetType().ToString();
+            if (x is XmlAttachment attachment)
+            {
+                str = attachment.GetType().ToString();
             }
-            if (str != null){
+            if (str != null)
+            {
                 string [] arglist = str.Split('.');
                 xstr = arglist[arglist.Length-1];
             }
 
             str = null;
-            if (y is XmlAttachment){
-                str = ((XmlAttachment)y).GetType().ToString();
+            if (y is XmlAttachment xmlAttachment)
+            {
+                str = xmlAttachment.GetType().ToString();
             }
-            if (str != null){
+            if (str != null)
+            {
                 string [] arglist = str.Split('.');
                 ystr = arglist[arglist.Length-1];
             }
+
             if (Dsort)
             {
                 return String.Compare(ystr, xstr, true);
@@ -461,19 +479,21 @@ public class XmlGetAttGump : Gump
     {
         private bool Dsort;
 
-        public ListNameSorter(bool descend) : base () => Dsort = descend;
+        public ListNameSorter(bool descend) => Dsort = descend;
 
         public int Compare(object x, object y)
         {
             string xstr=null;
             string ystr=null;
 
-            if (x is XmlAttachment){
-                xstr = ((XmlAttachment)x).Name;
+            if (x is XmlAttachment attachment)
+            {
+                xstr = attachment.Name;
             }
 
-            if (y is XmlAttachment){
-                ystr = ((XmlAttachment)y).Name;
+            if (y is XmlAttachment xmlAttachment)
+            {
+                ystr = xmlAttachment.Name;
             }
             if (Dsort)
             {
@@ -500,13 +520,14 @@ public class XmlGetAttGump : Gump
 
     public override void OnResponse(NetState state, RelayInfo info)
     {
-        if (info == null || state == null || state.Mobile == null)
+        if (info == null || state?.Mobile == null)
         {
             return;
         }
 
         int radiostate = -1;
-        if (info.Switches.Length > 0){
+        if (info.Switches.Length > 0)
+        {
             radiostate = info.Switches[0];
         }
 
@@ -515,9 +536,14 @@ public class XmlGetAttGump : Gump
         Searchage = 0;
 
         TextRelay tr = info.GetTextEntry(400); // displayfrom info
-        try{
+        try
+        {
             DisplayFrom = int.Parse(tr.Text);
-        } catch{}
+        }
+        catch
+        {
+
+        }
 
         switch (info.ButtonID)
         {
@@ -612,9 +638,8 @@ public class XmlGetAttGump : Gump
                 }
             default:
                 {
-
-
-                    if (info.ButtonID >= 3000 && info.ButtonID < 3000+ MaxEntries){
+                    if (info.ButtonID >= 3000 && info.ButtonID < 3000+ MaxEntries)
+                    {
 
                         Selected = info.ButtonID - 3000;
                         // Show the props window
@@ -624,8 +649,8 @@ public class XmlGetAttGump : Gump
                         return;
                     }
 
-                    if (info.ButtonID == 3998){
-
+                    if (info.ButtonID == 3998)
+                    {
                         SelectAll = !SelectAll;
 
                         // dont allow individual selection with the selectall button selected
@@ -633,56 +658,63 @@ public class XmlGetAttGump : Gump
                         {
                             for(int i = 0; i < MaxEntries;i++)
                             {
-                                if (i < m_SelectionList.Length){
+                                if (i < m_SelectionList.Length)
+                                {
                                     // only toggle the selection list entries for things that actually have entries
                                     m_SelectionList[i] = SelectAll;
-                                } else
+                                }
+                                else
                                 {
                                     break;
                                 }
                             }
                         }
                     }
-                    if (info.ButtonID == 3999){
-
+                    if (info.ButtonID == 3999)
+                    {
                         // dont allow individual selection with the selectall button selected
                         if (m_SelectionList != null && m_SearchList != null && !SelectAll)
                         {
                             for(int i = 0; i < MaxEntries;i++)
                             {
-                                if (i < m_SelectionList.Length){
+                                if (i < m_SelectionList.Length)
+                                {
                                     // only toggle the selection list entries for things that actually have entries
-                                    if (m_SearchList.Count - DisplayFrom > i) {
+                                    if (m_SearchList.Count - DisplayFrom > i)
+                                    {
                                         m_SelectionList[i] = !m_SelectionList[i];
                                     }
-                                } else
+                                }
+                                else
                                 {
                                     break;
                                 }
                             }
                         }
                     }
-                    if (info.ButtonID >= 4000 && info.ButtonID < 4000+ MaxEntries){
+                    if (info.ButtonID >= 4000 && info.ButtonID < 4000+ MaxEntries)
+                    {
                         int i = info.ButtonID - 4000;
                         // dont allow individual selection with the selectall button selected
-                        if (m_SelectionList != null && i >= 0  && i < m_SelectionList.Length && !SelectAll){
+                        if (m_SelectionList != null && i >= 0  && i < m_SelectionList.Length && !SelectAll)
+                        {
                             // only toggle the selection list entries for things that actually have entries
-                            if (m_SearchList != null && m_SearchList.Count - DisplayFrom > i) {
+                            if (m_SearchList != null && m_SearchList.Count - DisplayFrom > i)
+                            {
                                 m_SelectionList[i] = !m_SelectionList[i];
                             }
                         }
                     }
-                    if (info.ButtonID >= 5000 && info.ButtonID < 5000+ MaxEntries){
+                    if (info.ButtonID >= 5000 && info.ButtonID < 5000+ MaxEntries)
+                    {
                         int i = info.ButtonID - 5000;
                         // dont allow individual selection with the selectall button selected
-                        if (m_SelectionList != null && i >= 0  && i < m_SelectionList.Length && !SelectAll){
+                        if (m_SelectionList != null && i >= 0  && i < m_SelectionList.Length && !SelectAll)
+                        {
                             // only toggle the selection list entries for things that actually have entries
-                            if (m_SearchList != null && m_SearchList.Count - DisplayFrom > i) {
-                                XmlAttachment a = m_SearchList[i+DisplayFrom] as XmlAttachment;
-                                if (a != null)
-                                {
-                                    state.Mobile.SendMessage(a.OnIdentify(state.Mobile));
-                                }
+                            if (m_SearchList != null && m_SearchList.Count - DisplayFrom > i && m_SearchList[i+DisplayFrom] is XmlAttachment a)
+                            {
+                                state.Mobile.SendMessage(a.OnIdentify(state.Mobile));
                             }
                         }
                     }
@@ -722,7 +754,8 @@ public class XmlGetAttGump : Gump
                 count = allcount;
             } else
             {
-                for(int i =0;i<SelectedList.Length;i++){
+                for (int i =0;i<SelectedList.Length;i++)
+                {
                     if (SelectedList[i])
                     {
                         count++;
@@ -731,25 +764,27 @@ public class XmlGetAttGump : Gump
             }
 
             AddLabel(20, 225, 33, $"Delete {count} attachments?");
-            AddRadio(35, 255, 9721, 9724, false, 1);                             // accept/yes radio
-            AddRadio(135, 255, 9721, 9724, true, 2);                             // decline/no radio
-            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff , false , false);  // Yes
-            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff , false , false); // No
-            AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);          // Okay button
+            AddRadio(35, 255, 9721, 9724, false, 1);                    // accept/yes radio
+            AddRadio(135, 255, 9721, 9724, true, 2);                    // decline/no radio
+            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);        // Yes
+            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff);       // No
+            AddButton(80, 289, 2130, 2129, 3); // Okay button
 
         }
         public override void OnResponse(NetState state, RelayInfo info)
         {
 
-            if (info == null || state == null || state.Mobile == null)
+            if (info == null || state?.Mobile == null)
             {
                 return;
             }
 
             int radiostate = -1;
-            if (info.Switches.Length > 0){
+            if (info.Switches.Length > 0)
+            {
                 radiostate = info.Switches[0];
             }
+
             switch(info.ButtonID)
             {
 
@@ -757,15 +792,17 @@ public class XmlGetAttGump : Gump
                     {
                         if (radiostate == 1 && SearchList != null && SelectedList != null)
                         { // accept
-                            for(int i = 0;i < SearchList.Count;i++){
+                            for(int i = 0;i < SearchList.Count;i++)
+                            {
                                 int index = i-DisplayFrom;
-                                if (index >= 0 && index < SelectedList.Length && SelectedList[index] == true || selectAll){
+                                if (index >= 0 && index < SelectedList.Length && SelectedList[index] == true || selectAll)
+                                {
                                     object o = SearchList[i];
-                                    if (o is XmlAttachment)
+                                    if (o is XmlAttachment attachment)
                                     {
                                         // some objects may not delete gracefully (null map items are particularly error prone) so trap them
                                         try {
-                                            ((XmlAttachment)o).Delete();
+                                            attachment.Delete();
                                         } catch {}
                                     }
                                 }

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Server.Mobiles;
 
 namespace Server.Engines.XmlSpawner2;
@@ -49,7 +50,7 @@ public class XmlAddFame : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if (AttachedTo is PlayerMobile)
+        if (AttachedTo is PlayerMobile mobile)
         {
             // for players just add it immediately
             ((Mobile)AttachedTo).Fame += Value;

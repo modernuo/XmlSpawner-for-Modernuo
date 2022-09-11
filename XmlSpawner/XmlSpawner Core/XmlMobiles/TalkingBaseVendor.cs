@@ -33,10 +33,10 @@ public abstract class TalkingBaseVendor : BaseVendor
         // reestablish the DialogAttachment assignment
         foreach(Mobile m in World.Mobiles.Values)
         {
-            if (m is TalkingBaseVendor)
+            if (m is TalkingBaseVendor vendor)
             {
                 XmlDialog xa = XmlAttach.FindAttachment(m, typeof(XmlDialog)) as XmlDialog;
-                ((TalkingBaseVendor)m).DialogAttachment = xa;
+                vendor.DialogAttachment = xa;
             }
         }
     }
@@ -86,7 +86,7 @@ public abstract class TalkingBaseVendor : BaseVendor
     {
         if (EItemID > 0)
         {
-            Effects.SendLocationEffect(new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), Map, EItemID, EDuration, EHue, 0);
+            Effects.SendLocationEffect(new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), Map, EItemID, EDuration, EHue);
             lasteffect = DateTime.Now;
         }
     }

@@ -942,18 +942,18 @@ public class BaseXmlSpawner
         {
             try
             {
-                if (o is Mobile)
+                if (o is Mobile mobile)
                 {
-                    ptype = ((Mobile)o).Serial.GetType();
+                    ptype = mobile.Serial.GetType();
 
-                    return $"Serial = {((Mobile)o).Serial}";
+                    return $"Serial = {mobile.Serial}";
                 }
 
-                if (o is Item)
+                if (o is Item item)
                 {
-                    ptype = ((Item)o).Serial.GetType();
+                    ptype = item.Serial.GetType();
 
-                    return $"Serial = {((Item)o).Serial}";
+                    return $"Serial = {item.Serial}";
                 }
 
                 return "Object is not item/mobile";
@@ -1381,9 +1381,9 @@ public class BaseXmlSpawner
                             }
 
                             // count nearby players
-                            if (refobject is Item)
+                            if (refobject is Item item)
                             {
-                                IPooledEnumerable ie = ((Item)refobject).GetMobilesInRange(range);
+                                IPooledEnumerable ie = item.GetMobilesInRange(range);
                                 foreach (Mobile p in ie)
                                 {
                                     if (p.Player && p.AccessLevel == AccessLevel.Player)
@@ -1393,9 +1393,9 @@ public class BaseXmlSpawner
                                 }
                                 ie.Free();
                             }
-                            else if (refobject is Mobile)
+                            else if (refobject is Mobile mobile)
                             {
-                                IPooledEnumerable ie = ((Mobile)refobject).GetMobilesInRange(range);
+                                IPooledEnumerable ie = mobile.GetMobilesInRange(range);
                                 foreach (Mobile p in ie)
                                 {
                                     if (p.Player && p.AccessLevel == AccessLevel.Player)
@@ -1672,9 +1672,9 @@ public class BaseXmlSpawner
                         }
                     }
                 }
-                else if (o is Item)
+                else if (o is Item item)
                 {
-                    IPooledEnumerable ie = ((Item)o).GetMobilesInRange(range);
+                    IPooledEnumerable ie = item.GetMobilesInRange(range);
                     foreach (Mobile p in ie)
                     {
                         if (p.Player && p.AccessLevel == AccessLevel.Player)
@@ -1684,9 +1684,9 @@ public class BaseXmlSpawner
                     }
                     ie.Free();
                 }
-                else if (o is Mobile)
+                else if (o is Mobile mobile)
                 {
-                    IPooledEnumerable ie = ((Mobile)o).GetMobilesInRange(range);
+                    IPooledEnumerable ie = mobile.GetMobilesInRange(range);
                     foreach (Mobile p in ie)
                     {
                         if (p.Player && p.AccessLevel == AccessLevel.Player)
@@ -2369,9 +2369,9 @@ public class BaseXmlSpawner
                 // recursively search containers
                 if (item != null && !item.Deleted)
                 {
-                    if (item is Container && !equippedonly)
+                    if (item is Container container && !equippedonly)
                     {
-                        Item itemTarget = SearchPackForItem((Container)item, targetName, typeStr);
+                        Item itemTarget = SearchPackForItem(container, targetName, typeStr);
 
                         if (itemTarget != null)
                         {
@@ -2396,9 +2396,9 @@ public class BaseXmlSpawner
 
             if (held != null && !held.Deleted && !equippedonly)
             {
-                if (held is Container)
+                if (held is Container container)
                 {
-                    Item itemTarget = SearchPackForItem((Container)held, targetName, typeStr);
+                    Item itemTarget = SearchPackForItem(container, targetName, typeStr);
 
                     if (itemTarget != null)
                     {
@@ -2439,9 +2439,9 @@ public class BaseXmlSpawner
                 if (item != null && !item.Deleted)
                 {
 
-                    if (item is Container)
+                    if (item is Container container)
                     {
-                        Item itemTarget = SearchPackForItem((Container)item, targetName, typestr);
+                        Item itemTarget = SearchPackForItem(container, targetName, typestr);
 
                         if (itemTarget != null)
                         {
@@ -2624,10 +2624,8 @@ public class BaseXmlSpawner
         if (testitem != null)
         {
             // check to see if it is a quest token item.  If so, then check validity, otherwise just finding it is enough
-            if (testitem is IXmlQuest)
+            if (testitem is IXmlQuest token)
             {
-                IXmlQuest token = (IXmlQuest)testitem;
-
                 if (token.IsValid)
                 {
                     if (objstr.Length > objoffset)
@@ -2849,10 +2847,8 @@ public class BaseXmlSpawner
         if (testitem != null)
         {
             // check to see if it is a quest token item.  If so, then check validity, otherwise just finding it is enough
-            if (testitem is IXmlQuest && ((IXmlQuest)testitem).IsValid)
+            if (testitem is IXmlQuest token && token.IsValid)
             {
-                IXmlQuest token = (IXmlQuest)testitem;
-
                 if (objstr.Length > objoffset)
                 {
                     has_no_such_item = true;
@@ -3061,9 +3057,8 @@ public class BaseXmlSpawner
         // search through all xmlspawners in the world and find one with a matching name
         foreach (Item item in World.Items.Values)
         {
-            if (item is XmlSpawner)
+            if (item is XmlSpawner spawner)
             {
-                XmlSpawner spawner = (XmlSpawner)item;
                 if (!spawner.Deleted && string.Compare(spawner.Name, name, true) == 0)
                 {
                     foundspawner = spawner;
@@ -3636,10 +3631,8 @@ public class BaseXmlSpawner
                     item.Amount = spawner.StackAmount;
                 }
                 // if this is in any container such as a pack then add to the container.
-                if (spawner.Parent is Container)
+                if (spawner.Parent is Container parent)
                 {
-                    Container c = (Container)spawner.Parent;
-
                     Point3D loc = spawner.Location;
 
                     if (!smartspawn)
@@ -3654,11 +3647,11 @@ public class BaseXmlSpawner
                     // placement of single spawns at the spawn point
                     if (spawner.SpawnRange > 0)
                     {
-                        c.DropItem(item);
+                        parent.DropItem(item);
                     }
                     else
                     {
-                        c.AddItem(item);
+                        parent.AddItem(item);
                     }
                 }
                 else

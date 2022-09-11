@@ -46,7 +46,7 @@ public class XmlQuestMaker : Item
     {
         base.OnDoubleClick(from);
 
-        if (!(from is PlayerMobile))
+        if (!(from is PlayerMobile mobile))
         {
             return;
         }
@@ -54,10 +54,10 @@ public class XmlQuestMaker : Item
         // make a quest note
         QuestHolder newquest = new QuestHolder();
         newquest.PlayerMade = true;
-        newquest.Creator = from as PlayerMobile;
+        newquest.Creator = mobile;
         newquest.Hue = 500;
-        from.AddToBackpack(newquest);
-        from.SendMessage("A blank quest has been added to your pack!");
+        mobile.AddToBackpack(newquest);
+        mobile.SendMessage("A blank quest has been added to your pack!");
 
     }
 

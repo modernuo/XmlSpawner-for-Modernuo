@@ -10,11 +10,7 @@ public class XmlSetListOptionGump : Gump
     protected PropertyInfo m_Property;
     protected Mobile m_Mobile;
     protected object m_Object;
-#if (NEWTIMERS)
-        protected Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-    protected Stack m_Stack;
-#endif
+    protected Stack<StackEntry> m_Stack;
     protected int m_Page;
     protected ArrayList m_List;
 
@@ -69,11 +65,7 @@ public class XmlSetListOptionGump : Gump
 
     protected object[] m_Values;
 
-#if (NEWTIMERS)
-        public XmlSetListOptionGump(PropertyInfo prop, Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, int propspage, ArrayList list, string[] names, object[] values) : base(GumpOffsetX, GumpOffsetY)
-#else
-    public XmlSetListOptionGump(PropertyInfo prop, Mobile mobile, object o, Stack stack, int propspage, ArrayList list, string[] names, object[] values) : base(GumpOffsetX, GumpOffsetY)
-#endif
+    public XmlSetListOptionGump(PropertyInfo prop, Mobile mobile, object o, Stack<StackEntry> stack, int propspage, ArrayList list, string[] names, object[] values) : base(GumpOffsetX, GumpOffsetY)
     {
         m_Property = prop;
         m_Mobile = mobile;
@@ -176,7 +168,7 @@ public class XmlSetListOptionGump : Gump
 
         if (button != 0)
         {
-            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, button, GumpButtonType.Reply, 0);
+            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, button);
         }
     }
 

@@ -1,4 +1,6 @@
 #define BOOKTEXTENTRY
+using Org.BouncyCastle.Bcpg;
+
 namespace Server.Items
 {
     public class XmlTextEntryBook : BaseEntryBook

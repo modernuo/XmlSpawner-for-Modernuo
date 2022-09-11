@@ -289,19 +289,16 @@ public class XmlSpawnerSkillCheck
             if (rs.sid == skill.SkillName)
             {
                 // if so then invoke their skill handlers
-                if (rs.target is XmlSpawner)
+                if (rs.target is XmlSpawner spawner)
                 {
-                    XmlSpawner spawner = (XmlSpawner)rs.target;
-
                     if (spawner.HandlesOnSkillUse)
                     {
                         // call the spawner handler
                         spawner.OnSkillUse(m, skill, success);
                     }
                 } else
-                if (rs.target is IXmlQuest)
+                if (rs.target is IXmlQuest quest)
                 {
-                    IXmlQuest quest = (IXmlQuest)rs.target;
                     if (quest.HandlesOnSkillUse)
                     {
                         // call the xmlquest handler

@@ -52,7 +52,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
         base.OnDelete();
 
         // delete the object that it is attached to
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             // dont allow deletion of players
             if (!((Mobile)AttachedTo).Player)

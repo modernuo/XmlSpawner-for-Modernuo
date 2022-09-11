@@ -66,11 +66,11 @@ public class XmlSpawnTime : XmlAttachment
         get
         {
             // figure out the spawner that spawned the object
-            if (AttachedTo is Item)
+            if (AttachedTo is Item item)
             {
                 return ((Item)AttachedTo).Spawner as XmlSpawner;
             }
-            else if (AttachedTo is Mobile)
+            else if (AttachedTo is Mobile mobile)
             {
                 return ((Mobile)AttachedTo).Spawner as XmlSpawner;
             }

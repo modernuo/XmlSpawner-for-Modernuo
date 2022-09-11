@@ -60,7 +60,7 @@ public class XmlFreeze : XmlAttachment
         base.OnDelete();
 
         // remove the mod
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).Frozen = false;
         }
@@ -71,7 +71,7 @@ public class XmlFreeze : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).Frozen = true;
             ((Mobile)AttachedTo).ProcessDelta();

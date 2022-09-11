@@ -575,7 +575,7 @@ public class XmlQuestLeaders
             AddImageTiled(140, height - 20, 160, 19, 0xBBC);
             AddTextEntry(140, height - 20, 160, 19, 0, 200, filter);
 
-            AddButton(20, height - 20, 0x15E1, 0x15E5, 200, GumpButtonType.Reply, 0);
+            AddButton(20, height - 20, 0x15E1, 0x15E5, 200);
 
             // name filter
             AddLabel(340, height - 20, 55, "Filter by Name"); //
@@ -588,7 +588,7 @@ public class XmlQuestLeaders
             AddImageTiled(440, height - 20, 160, 19, 0xBBC);
             AddTextEntry(440, height - 20, 160, 19, 0, 100, nfilter);
 
-            AddButton(320, height - 20, 0x15E1, 0x15E5, 100, GumpButtonType.Reply, 0);
+            AddButton(320, height - 20, 0x15E1, 0x15E5, 100);
 
             RefreshQuestRankList();
 

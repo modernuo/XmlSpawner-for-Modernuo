@@ -209,7 +209,7 @@ public class XmlSound : XmlAttachment
 
 
         // play a sound
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             try
             {

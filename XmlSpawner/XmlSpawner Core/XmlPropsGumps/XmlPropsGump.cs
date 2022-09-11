@@ -2,6 +2,7 @@ using Server.Commands.Generic;
 using Server.Network;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using CPA = Server.CommandPropertyAttribute;
 /*
@@ -16,11 +17,7 @@ public class XmlPropertiesGump : Gump
     private int m_Page;
     private readonly Mobile m_Mobile;
     private readonly object m_Object;
-#if (NEWTIMERS)
-        private readonly Stack<PropertiesGump.StackEntry> m_Stack;
-#else
-    private Stack m_Stack;
-#endif
+    private readonly Stack<StackEntry> m_Stack;
 
     public static readonly bool OldStyle = PropsConfig.OldStyle;
 
@@ -64,11 +61,7 @@ public class XmlPropertiesGump : Gump
         Initialize(0);
     }
 
-#if (NEWTIMERS)
-        public XmlPropertiesGump(Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, PropertiesGump.StackEntry parent) : base(GumpOffsetX, GumpOffsetY)
-#else
-    public XmlPropertiesGump(Mobile mobile, object o, Stack stack, object parent) : base(GumpOffsetX, GumpOffsetY)
-#endif
+    public XmlPropertiesGump(Mobile mobile, object o, Stack<StackEntry> stack, StackEntry parent) : base(GumpOffsetX, GumpOffsetY)
     {
         m_Mobile = mobile;
         m_Object = o;
@@ -78,13 +71,9 @@ public class XmlPropertiesGump : Gump
         if (parent != null)
         {
             if (m_Stack == null)
-#if (NEWTIMERS)
-                    m_Stack = new Stack<PropertiesGump.StackEntry>();
-#else
             {
-                m_Stack = new Stack();
+                m_Stack = new Stack<Server.Gumps.StackEntry>();
             }
-#endif
 
             m_Stack.Push(parent);
         }
@@ -92,11 +81,7 @@ public class XmlPropertiesGump : Gump
         Initialize(0);
     }
 
-#if (NEWTIMERS)
-        public XmlPropertiesGump(Mobile mobile, object o, Stack<PropertiesGump.StackEntry> stack, ArrayList list, int page) : base(GumpOffsetX, GumpOffsetY)
-#else
-    public XmlPropertiesGump(Mobile mobile, object o, Stack stack, ArrayList list, int page) : base(GumpOffsetX, GumpOffsetY)
-#endif
+    public XmlPropertiesGump(Mobile mobile, object o, Stack<StackEntry> stack, ArrayList list, int page) : base(GumpOffsetX, GumpOffsetY)
     {
         m_Mobile = mobile;
         m_Object = o;
@@ -201,7 +186,7 @@ public class XmlPropertiesGump : Gump
 
                 if (prop.CanWrite && cpa != null && m_Mobile.AccessLevel >= cpa.WriteLevel)
                 {
-                    AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, i + 3, GumpButtonType.Reply, 0);
+                    AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, i + 3);
                 }
             }
         }
@@ -229,15 +214,8 @@ public class XmlPropertiesGump : Gump
                 {
                     if (m_Stack != null && m_Stack.Count > 0)
                     {
-#if (NEWTIMERS)
-                            PropertiesGump.StackEntry entry = m_Stack.Pop();
-
-                            from.SendGump(new XmlPropertiesGump(from, entry.m_Object, m_Stack, null));
-#else
-                        object obj = m_Stack.Pop();
-
-                        from.SendGump(new XmlPropertiesGump(from, obj, m_Stack, null));
-#endif
+                        StackEntry entry = m_Stack.Pop();
+                        from.SendGump(new XmlPropertiesGump(from, entry.m_Object, m_Stack, null));
                     }
 
                     break;
@@ -333,16 +311,12 @@ public class XmlPropertiesGump : Gump
                         }
                         else if (HasAttribute(type, typeofPropertyObject, true))
                         {
-#if (NEWTIMERS)
-                                object obj = prop.GetValue(m_Object, null);
+                            object obj = prop.GetValue(m_Object, null);
 
-                                from.SendGump(obj != null
-                                    ? new XmlPropertiesGump(from, obj, m_Stack,
-                                        new PropertiesGump.StackEntry(m_Object, prop))
-                                    : new XmlPropertiesGump(from, m_Object, m_Stack, m_List, m_Page));
-#else
-                            from.SendGump(new XmlPropertiesGump(from, prop.GetValue(m_Object, null), m_Stack, m_Object));
-#endif
+                            from.SendGump(obj != null
+                                ? new XmlPropertiesGump(from, obj, m_Stack,
+                                    new StackEntry(m_Object, prop))
+                                : new XmlPropertiesGump(from, m_Object, m_Stack, m_List, m_Page));
                         }
                     }
 
@@ -733,13 +707,10 @@ public class XmlPropertiesGump : Gump
                 return 1;
             }
 
-            if (!(x is DictionaryEntry) || !(y is DictionaryEntry))
+            if (!(x is DictionaryEntry de1) || !(y is DictionaryEntry de2))
             {
                 throw new ArgumentException();
             }
-
-            DictionaryEntry de1 = (DictionaryEntry)x;
-            DictionaryEntry de2 = (DictionaryEntry)y;
 
             Type a = (Type)de1.Key;
             Type b = (Type)de2.Key;

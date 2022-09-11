@@ -151,12 +151,12 @@ public class XmlMorph : XmlAttachment
         base.OnDelete();
 
         // remove the mod
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).BodyMod = m_OriginalID;
         }
         else
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).ItemID = m_OriginalID;
         }
@@ -225,7 +225,7 @@ public class XmlMorph : XmlAttachment
         base.OnReattach();
 
         // reapply the mod if attached to a mob
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).BodyMod = m_MorphID;
         }
@@ -256,10 +256,9 @@ public class XmlMorph : XmlAttachment
 
         protected override void OnTick()
         {
-            if (m_Attachment != null && !m_Attachment.Deleted && m_Attachment.AttachedTo is Item && !((Item)m_Attachment.AttachedTo).Deleted)
+            if (m_Attachment != null && !m_Attachment.Deleted && m_Attachment.AttachedTo is Item to && !to.Deleted)
             {
-                Item i = m_Attachment.AttachedTo as Item;
-                i.ItemID = m_Attachment.m_OriginalID;
+                to.ItemID = m_Attachment.m_OriginalID;
                 m_Attachment.m_OriginalID = -1;
             }
         }

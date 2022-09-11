@@ -219,12 +219,12 @@ public class QuestNoteGump : Gump
         AddImageTiled(20, 111+70*(note.Size-1), 273, 34, 0x823);
 
         // title string
-        AddHtml(55, 10, 200, 37, HtmlFormat(note.TitleString, note.TitleColor), false , false);
+        AddHtml(55, 10, 200, 37, HtmlFormat(note.TitleString, note.TitleColor));
         // text string
-        AddHtml(40, 41, 225, 70*note.Size, HtmlFormat(note.NoteString, note.TextColor), false , false);
+        AddHtml(40, 41, 225, 70*note.Size, HtmlFormat(note.NoteString, note.TextColor));
 
         // add the quest status gump button
-        AddButton(40, 50+ note.Size*70, 0x037, 0x037, 1, GumpButtonType.Reply, 0);
+        AddButton(40, 50+ note.Size*70, 0x037, 0x037, 1);
 
     }
 

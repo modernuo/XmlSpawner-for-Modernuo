@@ -31,7 +31,7 @@ namespace Server.Engines.XmlSpawner2
             set
             {
                 m_DataValue = value;
-                if (AttachedTo is BaseCreature)
+                if (AttachedTo is BaseCreature creature)
                 {
                     ((BaseCreature)AttachedTo).FollowRange = m_DataValue;
                 }
@@ -63,7 +63,7 @@ namespace Server.Engines.XmlSpawner2
             base.OnDelete();
 
             // remove the mod
-            if (AttachedTo is BaseCreature)
+            if (AttachedTo is BaseCreature creature)
             {
                 ((BaseCreature)AttachedTo).FollowRange = -1;
             }
@@ -74,7 +74,7 @@ namespace Server.Engines.XmlSpawner2
             base.OnAttach();
 
             // apply the mod immediately if attached to a mob
-            if (AttachedTo is BaseCreature)
+            if (AttachedTo is BaseCreature creature)
             {
                 ((BaseCreature)AttachedTo).FollowRange = Distance;
             }
@@ -85,7 +85,7 @@ namespace Server.Engines.XmlSpawner2
             base.OnReattach();
 
             // reapply the mod if attached to a mob
-            if (AttachedTo is BaseCreature)
+            if (AttachedTo is BaseCreature creature)
             {
                 ((BaseCreature)AttachedTo).FollowRange = Distance;
             }

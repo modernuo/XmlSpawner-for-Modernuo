@@ -244,7 +244,7 @@ public class XmlDialog : XmlAttachment
             Map map = null;
             int x = 0;
             int y = 0;
-            if (AttachedTo is Item)
+            if (AttachedTo is Item item)
             {
                 map = ((Item)AttachedTo).Map;
                 x = ((Item)AttachedTo).Location.X;
@@ -252,7 +252,7 @@ public class XmlDialog : XmlAttachment
 
             }
             else
-            if (AttachedTo is Mobile)
+            if (AttachedTo is Mobile mobile)
             {
                 map = ((Mobile)AttachedTo).Map;
                 x = ((Mobile)AttachedTo).Location.X;
@@ -285,7 +285,7 @@ public class XmlDialog : XmlAttachment
             Map map = null;
             int x = 0;
             int y = 0;
-            if (AttachedTo is Item)
+            if (AttachedTo is Item item)
             {
                 map = ((Item)AttachedTo).Map;
                 x = ((Item)AttachedTo).Location.X;
@@ -293,7 +293,7 @@ public class XmlDialog : XmlAttachment
 
             }
             else
-            if (AttachedTo is Mobile)
+            if (AttachedTo is Mobile mobile)
             {
                 map = ((Mobile)AttachedTo).Map;
                 x = ((Mobile)AttachedTo).Location.X;
@@ -836,9 +836,8 @@ public class XmlDialog : XmlAttachment
     public static void DialogGumpCallback(Mobile from, object invoker, string response)
     {
         // insert the response into the triggering speech of the invoking attachment
-        if (invoker is XmlDialog)
+        if (invoker is XmlDialog xd)
         {
-            XmlDialog xd = (XmlDialog)invoker;
             xd.m_HoldProcessing = false;
 
             xd.ProcessSpeech(from, response);
@@ -941,24 +940,21 @@ public class XmlDialog : XmlAttachment
                     status_str = "invalid type specification: " + arglist[0];
                 }
                 else
-                if (o is Mobile)
+                if (o is Mobile mobile)
                 {
-                    Mobile m = (Mobile)o;
-                    if (m is BaseCreature)
+                    if (mobile is BaseCreature creature)
                     {
-                        BaseCreature c = (BaseCreature)m;
-                        c.Home = loc; // Spawners location is the home point
+                        creature.Home = loc; // Spawners location is the home point
                     }
 
-                    m.Location = loc;
-                    m.Map = map;
+                    mobile.Location = loc;
+                    mobile.Map = map;
 
-                    BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, m, mob, AttachedTo, out status_str);
+                    BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, mobile, mob, AttachedTo, out status_str);
                 }
                 else
-                if (o is Item)
+                if (o is Item item)
                 {
-                    Item item = (Item)o;
                     BaseXmlSpawner.AddSpawnItem(null, AttachedTo, TheSpawn, item, loc, map, mob, false, substitutedtypeName, out status_str);
                 }
             }
@@ -1181,7 +1177,7 @@ public class XmlDialog : XmlAttachment
                     ((Item)AttachedTo).PublicOverheadMessage(MessageType.Regular, speechhue, true, text);
                 }
                 else
-                if (AttachedTo is Mobile)
+                if (AttachedTo is Mobile mobile)
                 {
                     // mobiles can produce actual speech
                     // so let them.  This allows mobiles to talk with one another
@@ -1432,12 +1428,12 @@ public class XmlDialog : XmlAttachment
 
                     try
                     {
-                        if (AttachedTo is Item)
+                        if (AttachedTo is Item item)
                         {
                             ((Item)AttachedTo).Name = (string)dr["Name"];
                         }
                         else
-                        if (AttachedTo is Mobile)
+                        if (AttachedTo is Mobile mobile)
                         {
                             ((Mobile)AttachedTo).Name = (string)dr["Name"];
                         }
@@ -1583,12 +1579,12 @@ public class XmlDialog : XmlAttachment
         DataRow dr = ds.Tables[NPCPointName].NewRow();
 
         // Populate the npc data
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             dr["Name"] = ((Item)AttachedTo).Name;
         }
         else
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             dr["Name"] = ((Mobile)AttachedTo).Name;
         }
@@ -1744,9 +1740,9 @@ public class XmlDialog : XmlAttachment
             AddLabel(20, 230, 33, String.Format("Overwrite?", filename));
             AddRadio(35, 255, 9721, 9724, false, 1);                            // accept/yes radio
             AddRadio(135, 255, 9721, 9724, true, 2);                            // decline/no radio
-            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff, false, false);  // Yes
-            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff, false, false); // No
-            AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);         // Okay button
+            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);  // Yes
+            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff); // No
+            AddButton(80, 289, 2130, 2129, 3);         // Okay button
 
         }
         public override void OnResponse(NetState state, RelayInfo info)

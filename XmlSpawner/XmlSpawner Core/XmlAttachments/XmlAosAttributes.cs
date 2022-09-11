@@ -19,7 +19,6 @@ public class XmlAosAttributes : XmlBaseAttributes
 
     [Attachable]
     public XmlAosAttributes()
-        : base()
     {
     }
 
@@ -202,7 +201,6 @@ public class XmlAosWeaponAttributes : XmlBaseAttributes
 
     [Attachable]
     public XmlAosWeaponAttributes()
-        : base()
     {
     }
 
@@ -397,7 +395,6 @@ public class XmlAosArmorAttributes : XmlBaseAttributes
 
     [Attachable]
     public XmlAosArmorAttributes()
-        : base()
     {
     }
 
@@ -466,7 +463,6 @@ public class XmlAosElementAttributes : XmlBaseAttributes
 
     [Attachable]
     public XmlAosElementAttributes()
-        : base()
     {
     }
 
@@ -590,7 +586,7 @@ public class XmlBaseAttributes : XmlAttachment
         base.OnDelete();
 
         // remove the mod
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).InvalidateProperties();
         }
@@ -600,7 +596,7 @@ public class XmlBaseAttributes : XmlAttachment
     {
         base.OnAttach();
 
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).InvalidateProperties();
         }
@@ -695,7 +691,7 @@ public class XmlBaseAttributes : XmlAttachment
             }
         }
 
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).InvalidateProperties();
         }

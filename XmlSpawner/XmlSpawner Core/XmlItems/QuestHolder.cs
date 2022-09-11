@@ -12,7 +12,6 @@ public class QuestHolder : XmlQuestHolder
 
     [Constructible]
     public QuestHolder()
-        : base()
     {
         Name = "A quest";
         TitleString = "A quest";

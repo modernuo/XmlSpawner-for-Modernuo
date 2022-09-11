@@ -60,9 +60,9 @@ public partial class ItemFlags
         }
         protected override void OnTarget(Mobile from, object targeted)
         {
-            if (targeted is Item)
+            if (targeted is Item item)
             {
-                bool state = ((Item)targeted).GetSavedFlag(m_flag);
+                bool state = item.GetSavedFlag(m_flag);
 
                 from.SendMessage("Flag (0x{0:X}) = {1}",m_flag,state);
             } else
@@ -79,9 +79,16 @@ public partial class ItemFlags
     {
         bool state = false;
         bool error = false;
-        if (e.Arguments.Length > 0){
-            try{state = bool.Parse(e.Arguments[0]); } catch { error = true;}
-
+        if (e.Arguments.Length > 0)
+        {
+            try
+            {
+                state = bool.Parse(e.Arguments[0]);
+            }
+            catch
+            {
+                error = true;
+            }
         }
         if (!error)
         {
@@ -107,14 +114,14 @@ public partial class ItemFlags
         }
         protected override void OnTarget(Mobile from, object targeted)
         {
-            if (targeted is Item)
+            if (targeted is Item item)
             {
                 if (set)
                 {
-                    SetStealable((Item)targeted, m_state);
+                    SetStealable(item, m_state);
                 }
 
-                bool state = GetStealable((Item)targeted);
+                bool state = GetStealable(item);
 
                 from.SendMessage("Stealable = {0}",state);
 

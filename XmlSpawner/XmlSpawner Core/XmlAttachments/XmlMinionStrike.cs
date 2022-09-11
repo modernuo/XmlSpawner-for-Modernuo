@@ -112,32 +112,31 @@ public class XmlMinionStrike : XmlAttachment
             }
             catch{}
 
-            if (o is BaseCreature)
+            if (o is BaseCreature value)
             {
-                BaseCreature b = o as BaseCreature;
-                b.MoveToWorld(attacker.Location, attacker.Map);
+                value.MoveToWorld(attacker.Location, attacker.Map);
 
                 if (attacker is PlayerMobile)
                 {
-                    b.Controlled = true;
-                    b.ControlMaster = attacker;
+                    value.Controlled = true;
+                    value.ControlMaster = attacker;
                 }
 
-                b.Combatant = defender;
+                value.Combatant = defender;
 
                 // add it to the list of controlled mobs
-                MinionList.Add(b);
+                MinionList.Add(value);
             }
             else
             {
-                if (o is Item)
+                if (o is Item item)
                 {
-                    ((Item)o).Delete();
+                    item.Delete();
                 }
 
-                if (o is Mobile)
+                if (o is Mobile mobile)
                 {
-                    ((Mobile)o).Delete();
+                    mobile.Delete();
                 }
 
                 // bad minion specification so delete the attachment

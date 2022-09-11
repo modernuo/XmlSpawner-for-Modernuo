@@ -39,11 +39,11 @@ public class TextEntryGump : Gump
         AddLabel(28, 10, 0x384, label);
 
         // OK button
-        AddButton(25, 325, 0xFB7, 0xFB9, 1, GumpButtonType.Reply, 0);
+        AddButton(25, 325, 0xFB7, 0xFB9, 1);
         // Close button
-        AddButton(205, 325, 0xFB1, 0xFB3, 0, GumpButtonType.Reply, 0);
+        AddButton(205, 325, 0xFB1, 0xFB3, 0);
         // Edit button
-        AddButton(100, 325, 0xEF, 0xEE, 2, GumpButtonType.Reply, 0);
+        AddButton(100, 325, 0xEF, 0xEE, 2);
         string str = null;
         if (index < m_Spawner.SpawnObjects.Length)
         {
@@ -252,48 +252,48 @@ public class XmlSpawnerGump : Gump
         AddImageTiled(4, 6, 225, 21, 0xBBC);
         AddTextEntry(6, 5, 222, 21, 0, 999, spawner.Name); // changed from color 50
 
-        AddButton(5, 450, 0xFAE, 0xFAF, 4, GumpButtonType.Reply, 0);
+        AddButton(5, 450, 0xFAE, 0xFAF, 4);
         AddLabel(38, 450, 0x384, "Goto");
 
         //AddButton(5, 428, 0xFB7, 0xFB9, 1, GumpButtonType.Reply, 0);
-        AddButton(5, 428, 0xFAE, 0xFAF, 1, GumpButtonType.Reply, 0);
+        AddButton(5, 428, 0xFAE, 0xFAF, 1);
         AddLabel(38, 428, 0x384, "Help");
 
-        AddButton(71, 428, 0xFB4, 0xFB6, 2, GumpButtonType.Reply, 0);
+        AddButton(71, 428, 0xFB4, 0xFB6, 2);
         AddLabel(104, 428, 0x384, "Bring Home");
-        AddButton(71, 450, 0xFA8, 0xFAA, 3, GumpButtonType.Reply, 0);
+        AddButton(71, 450, 0xFA8, 0xFAA, 3);
         AddLabel(104, 450, 0x384, "Respawn");
 
         // Props button
-        AddButton(168, 428, 0xFAB, 0xFAD, 9999, GumpButtonType.Reply, 0);
+        AddButton(168, 428, 0xFAB, 0xFAD, 9999);
         AddLabel(201, 428, 0x384, "Props");
 
         // Sort button
-        AddButton(168, 450, 0xFAB, 0xFAD, 702, GumpButtonType.Reply, 0);
+        AddButton(168, 450, 0xFAB, 0xFAD, 702);
         AddLabel(201, 450, 0x384, "Sort");
 
         // Reset button
-        AddButton(71, 406, 0xFA2, 0xFA3, 701, GumpButtonType.Reply, 0);
+        AddButton(71, 406, 0xFA2, 0xFA3, 701);
         AddLabel(104, 406, 0x384, "Reset");
 
         // Refresh button
-        AddButton(168, 406, 0xFBD, 0xFBE, 9998, GumpButtonType.Reply, 0);
+        AddButton(168, 406, 0xFBD, 0xFBE, 9998);
         AddLabel(201, 406, 0x384, "Refresh");
 
         AddButton(280, 395, m_Spawner.DisableGlobalAutoReset ? 0xD3 : 0xD2,
-            m_Spawner.DisableGlobalAutoReset ? 0xD2 : 0xD3, 9997, GumpButtonType.Reply, 0);
+            m_Spawner.DisableGlobalAutoReset ? 0xD2 : 0xD3, 9997);
         AddLabel(263, 410, m_Spawner.DisableGlobalAutoReset ? 68 : 33, "Disable");
         AddLabel(247, 424, m_Spawner.DisableGlobalAutoReset ? 68 : 33, "TickReset");
 
         // add run status display
         if (m_Spawner.Running)
         {
-            AddButton(5, 399, 0x2A4E, 0x2A3A, 700, GumpButtonType.Reply, 0);
+            AddButton(5, 399, 0x2A4E, 0x2A3A, 700);
             AddLabel(38, 406, 0x384, "On");
         }
         else
         {
-            AddButton(5, 399, 0x2A62, 0x2A3A, 700, GumpButtonType.Reply, 0);
+            AddButton(5, 399, 0x2A62, 0x2A3A, 700);
             AddLabel(38, 406, 0x384, "Off");
         }
 
@@ -344,32 +344,32 @@ public class XmlSpawnerGump : Gump
         for (int i = 0; i < MaxSpawnEntries / MaxEntriesPerPage; i++)
         {
             //AddButton(38+i*30, 365, 2206, 2206, 0, GumpButtonType.Page, 1+i);
-            AddButton(38 + i * 25, 365, 0x8B1 + i, 0x8B1 + i, 4000 + i, GumpButtonType.Reply, 0);
+            AddButton(38 + i * 25, 365, 0x8B1 + i, 0x8B1 + i, 4000 + i);
         }
 
         // add gump extension button
         if (m_ShowGump > 1)
         {
-            AddButton(645 + xoffset + 30, 450, 0x15E3, 0x15E7, 200, GumpButtonType.Reply, 0);
+            AddButton(645 + xoffset + 30, 450, 0x15E3, 0x15E7, 200);
         }
         else
         if (m_ShowGump > 0)
         {
-            AddButton(315 + xoffset, 450, 0x15E1, 0x15E5, 200, GumpButtonType.Reply, 0);
+            AddButton(315 + xoffset, 450, 0x15E1, 0x15E5, 200);
         }
         else
         {
-            AddButton(285 + xoffset, 450, 0x15E1, 0x15E5, 200, GumpButtonType.Reply, 0);
+            AddButton(285 + xoffset, 450, 0x15E1, 0x15E5, 200);
         }
 
         // add the textentry extender button
         if (xoffset > 0)
         {
-            AddButton(160, 365, 0x15E3, 0x15E7, 201, GumpButtonType.Reply, 0);
+            AddButton(160, 365, 0x15E3, 0x15E7, 201);
         }
         else
         {
-            AddButton(160, 365, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0);
+            AddButton(160, 365, 0x15E1, 0x15E5, 201);
         }
 
 
@@ -400,11 +400,11 @@ public class XmlSpawnerGump : Gump
                 {
                     // change the background for the spawn text entry if disabled
                     background = 0x23F4;
-                    AddButton(2, 22 * (i % MaxEntriesPerPage) + 34, 0x82C, 0x82C, 6000 + i, GumpButtonType.Reply, 0);
+                    AddButton(2, 22 * (i % MaxEntriesPerPage) + 34, 0x82C, 0x82C, 6000 + i);
                 }
                 else
                 {
-                    AddButton(2, 22 * (i % MaxEntriesPerPage) + 36, 0x837, 0x837, 6000 + i, GumpButtonType.Reply, 0);
+                    AddButton(2, 22 * (i % MaxEntriesPerPage) + 36, 0x837, 0x837, 6000 + i);
                 }
             }
 
@@ -421,17 +421,17 @@ public class XmlSpawnerGump : Gump
             }
 
             // increment/decrement buttons
-            AddButton(15, 22 * (i % MaxEntriesPerPage) + 34, 0x15E0, 0x15E4, 6 + i * 2, GumpButtonType.Reply, 0);
-            AddButton(30, 22 * (i % MaxEntriesPerPage) + 34, 0x15E2, 0x15E6, 7 + i * 2, GumpButtonType.Reply, 0);
+            AddButton(15, 22 * (i % MaxEntriesPerPage) + 34, 0x15E0, 0x15E4, 6 + i * 2);
+            AddButton(30, 22 * (i % MaxEntriesPerPage) + 34, 0x15E2, 0x15E6, 7 + i * 2);
 
             // categorization gump button
-            AddButton(171 + xoffset - 18, 22 * (i % MaxEntriesPerPage) + 34, 0x15E1, 0x15E5, 5000 + i, GumpButtonType.Reply, 0);
+            AddButton(171 + xoffset - 18, 22 * (i % MaxEntriesPerPage) + 34, 0x15E1, 0x15E5, 5000 + i);
 
             // goto spawn button
-            AddButton(171 + xoffset, 22 * (i % MaxEntriesPerPage) + 30, 0xFAE, 0xFAF, 1300 + i, GumpButtonType.Reply, 0);
+            AddButton(171 + xoffset, 22 * (i % MaxEntriesPerPage) + 30, 0xFAE, 0xFAF, 1300 + i);
 
             // text entry gump button
-            AddButton(200 + xoffset, 22 * (i % MaxEntriesPerPage) + 30, 0xFAB, 0xFAD, 800 + i, GumpButtonType.Reply, 0);
+            AddButton(200 + xoffset, 22 * (i % MaxEntriesPerPage) + 30, 0xFAB, 0xFAD, 800 + i);
 
             // background for text entry area
             AddImageTiled(48, 22 * (i % MaxEntriesPerPage) + 30, 133 + xoffset - 25, 23, 0x52);
@@ -567,11 +567,11 @@ public class XmlSpawnerGump : Gump
                     {
                         // restrict kills button
                         AddButton(545 + xoffset + 30, yoff, m_Spawner.SpawnObjects[i].RestrictKillsToSubgroup ? 0xD3 : 0xD2,
-                            m_Spawner.SpawnObjects[i].RestrictKillsToSubgroup ? 0xD2 : 0xD3, 300 + i, GumpButtonType.Reply, 0);
+                            m_Spawner.SpawnObjects[i].RestrictKillsToSubgroup ? 0xD2 : 0xD3, 300 + i);
 
                         //clear on advance button for spawn entries in subgroups that require kills
                         AddButton(565 + xoffset + 30, yoff, m_Spawner.SpawnObjects[i].ClearOnAdvance ? 0xD3 : 0xD2,
-                            m_Spawner.SpawnObjects[i].ClearOnAdvance ? 0xD2 : 0xD3, 400 + i, GumpButtonType.Reply, 0);
+                            m_Spawner.SpawnObjects[i].ClearOnAdvance ? 0xD2 : 0xD3, 400 + i);
                     }
 
                     // add the next spawn time

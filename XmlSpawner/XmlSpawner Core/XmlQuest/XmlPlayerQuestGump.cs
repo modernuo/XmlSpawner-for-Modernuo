@@ -121,8 +121,15 @@ public class XmlPlayerQuestGump : Gump
         }
 
         tr = info.GetTextEntry(210); // expiration
-        if (tr != null && tr.Text != null && tr.Text.Length > 0){
-            try{m_QuestItem.Expiration = double.Parse(tr.Text.Trim());} catch{}
+        if (tr != null && tr.Text != null && tr.Text.Length > 0)
+        {
+            try
+            {
+                m_QuestItem.Expiration = double.Parse(tr.Text.Trim());
+            }
+            catch
+            {
+            }
         }
 
         // check all of the check boxes
@@ -264,15 +271,15 @@ public class XmlPlayerQuestGump : Gump
         AddLabel(48, y, 0x384, "CanSeeReward");
 
         // select reward button
-        AddButton(225, y+3, 2103, 2103, 1, GumpButtonType.Reply, 0);
+        AddButton(225, y+3, 2103, 2103, 1);
         AddLabel(245, y, 0x384, "Select Reward");
 
         // select reward button
-        AddButton(375, y+3, 2103, 2103, 2, GumpButtonType.Reply, 0);
+        AddButton(375, y+3, 2103, 2103, 2);
         AddLabel(395, y, 0x384, "Select Return Container");
 
 
-        AddButton(45, 416, 2130, 2129, 0, GumpButtonType.Reply, 0); // Okay button
+        AddButton(45, 416, 2130, 2129, 0); // Okay button
 
         //AddButton(375 - xoffset, 416, 4017, 4018, 0, GumpButtonType.Reply, 0);
 
@@ -322,15 +329,13 @@ public class XmlPlayerQuestGump : Gump
             }
             // try to add the item as the reward item
             if (m_QuestItem.PlayerMade && from != null && !from.Deleted && from is PlayerMobile &&
-               from == m_QuestItem.Creator && from == m_QuestItem.Owner && targeted is Item &&
-               !(targeted is IXmlQuest))
+               from == m_QuestItem.Creator && from == m_QuestItem.Owner && targeted is Item o &&
+               !(o is IXmlQuest))
             {
-                Item i = targeted as Item;
-
                 // make sure the target item is in the oweners backpack
-                if (i != null && !i.Deleted && i.RootParent == m_QuestItem.Owner)
+                if (o != null && !o.Deleted && o.RootParent == m_QuestItem.Owner)
                 {
-                    m_QuestItem.RewardItem = i;
+                    m_QuestItem.RewardItem = o;
                     m_QuestItem.AutoReward = true;
                 } else
                 {
@@ -355,14 +360,12 @@ public class XmlPlayerQuestGump : Gump
 
             // try to add the item as the reward item
             if (m_QuestItem.PlayerMade && from != null && !from.Deleted && from is PlayerMobile &&
-               from == m_QuestItem.Creator && from == m_QuestItem.Owner && targeted is Container)
+               from == m_QuestItem.Creator && from == m_QuestItem.Owner && targeted is Container container)
             {
-                Container i = targeted as Container;
-
                 // make sure the target item is in the oweners backpack
-                if (i != null && !i.Deleted)
+                if (container != null && !container.Deleted)
                 {
-                    m_QuestItem.ReturnContainer = i;
+                    m_QuestItem.ReturnContainer = container;
                     from.SendMessage("Reward return container set");
 
                 } else

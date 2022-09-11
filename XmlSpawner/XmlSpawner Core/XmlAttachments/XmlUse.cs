@@ -241,30 +241,27 @@ public class XmlUse : XmlAttachment
         Map map = null;
 
 
-        if (target is Item)
+        if (target is Item ti1)
         {
-            Item ti = target as Item;
-            if (ti.Parent == null)
+            if (ti1.Parent == null)
             {
-                loc = ti.Location;
-                map = ti.Map;
+                loc = ti1.Location;
+                map = ti1.Map;
             }
-            else if (ti.RootParent is Item)
+            else if (ti1.RootParent is Item item)
             {
-                loc = ((Item)ti.RootParent).Location;
-                map = ((Item)ti.RootParent).Map;
+                loc = item.Location;
+                map = item.Map;
             }
-            else if (ti.RootParent is Mobile)
+            else if (ti1.RootParent is Mobile mobile)
             {
-                loc = ((Mobile)ti.RootParent).Location;
-                map = ((Mobile)ti.RootParent).Map;
+                loc = mobile.Location;
+                map = mobile.Map;
             }
 
         }
-        else if (target is Mobile)
+        else if (target is Mobile ti)
         {
-            Mobile ti = target as Mobile;
-
             loc = ti.Location;
             map = ti.Map;
 
@@ -288,24 +285,21 @@ public class XmlUse : XmlAttachment
                     status_str = "invalid type specification: " + arglist[0];
                 }
                 else
-                if (o is Mobile)
+                if (o is Mobile mobile)
                 {
-                    Mobile m = (Mobile)o;
-                    if (m is BaseCreature)
+                    if (mobile is BaseCreature creature)
                     {
-                        BaseCreature c = (BaseCreature)m;
-                        c.Home = loc; // Spawners location is the home point
+                        creature.Home = loc; // Spawners location is the home point
                     }
 
-                    m.Location = loc;
-                    m.Map = map;
+                    mobile.Location = loc;
+                    mobile.Map = map;
 
-                    BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, m, mob, target, out status_str);
+                    BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, mobile, mob, target, out status_str);
                 }
                 else
-                if (o is Item)
+                if (o is Item item)
                 {
-                    Item item = (Item)o;
                     BaseXmlSpawner.AddSpawnItem(null, target, TheSpawn, item, loc, map, mob, false, substitutedtypeName, out status_str);
                 }
             }
@@ -354,13 +348,13 @@ public class XmlUse : XmlAttachment
     // return true to allow use
     private bool CheckRange(Mobile from, object target)
     {
-        if (from == null || !(target is IEntity) || MaxRange < 0)
+        if (from == null || !(target is IEntity entity) || MaxRange < 0)
         {
             return false;
         }
 
-        Map map = ((IEntity)target).Map;
-        Point3D loc = ((IEntity)target).Location;
+        Map map = entity.Map;
+        Point3D loc = entity.Location;
 
         if (map != from.Map)
         {
@@ -368,9 +362,8 @@ public class XmlUse : XmlAttachment
         }
 
         // check for allowed use in pack
-        if (target is Item)
+        if (entity is Item targetitem)
         {
-            Item targetitem = (Item)target;
             // is it carried by the user?
             if (targetitem.RootParent == from)
             {
@@ -388,7 +381,7 @@ public class XmlUse : XmlAttachment
         if (RequireLOS)
         {
             // check los as well
-            haslos = from.InLOS(target);
+            haslos = from.InLOS(entity);
         }
 
         return from.InRange(loc, MaxRange) && haslos;

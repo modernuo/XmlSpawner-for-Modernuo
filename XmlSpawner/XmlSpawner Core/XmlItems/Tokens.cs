@@ -4,11 +4,15 @@ public abstract class BaseRewardScroll : Item
 {
     public override double DefaultWeight => 0.0;
 
-    public BaseRewardScroll() : base(0x2D51){}
+    public BaseRewardScroll() : base(0x2D51)
+    {
+    }
 
-    public BaseRewardScroll(Serial serial) : base(serial) { }
+    public BaseRewardScroll(Serial serial) : base(serial)
+    {
+    }
 
-    public override void Serialize(IGenericWriter writer) { base.Serialize(writer); writer.Write(0);}
+    public override void Serialize(IGenericWriter writer) { base.Serialize(writer); writer.Write(0); }
 
     public override void Deserialize(IGenericReader reader) { base.Deserialize(reader); int version = reader.ReadInt();}
 }

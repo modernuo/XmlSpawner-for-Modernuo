@@ -202,12 +202,12 @@ public class XmlMessage : XmlAttachment
 
 
         // display a message over the item it was attached to
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).PublicOverheadMessage(MessageType.Regular, 0x3B2, true, Message);
         }
         else
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).PublicOverheadMessage(MessageType.Regular, 0x3B2, true, Message);
         }

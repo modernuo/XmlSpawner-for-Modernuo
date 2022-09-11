@@ -47,7 +47,7 @@ public class QuestRewardGump : Gump
 
         AddBackground(0, 0, width, height, 0xDAC);
 
-        AddHtml(40, 20, 350, 50, "Rewards Available for Purchase with QuestPoints Credits", false, false);
+        AddHtml(40, 20, 350, 50, "Rewards Available for Purchase with QuestPoints Credits");
 
         AddLabel(400, 20, 0, $"Available Credits: {XmlQuestPoints.GetCredits(from)}");
 
@@ -60,8 +60,8 @@ public class QuestRewardGump : Gump
             AddLabel(width - 165, height - 35, 0, $"Page: {viewpage + 1}/{Rewards.Count / maxItemsPerPage + 1}");
 
             // page up and down buttons
-            AddButton(width - 55, height - 35, 0x15E0, 0x15E4, 13, GumpButtonType.Reply, 0);
-            AddButton(width - 35, height - 35, 0x15E2, 0x15E6, 12, GumpButtonType.Reply, 0);
+            AddButton(width - 55, height - 35, 0x15E0, 0x15E4, 13);
+            AddButton(width - 35, height - 35, 0x15E2, 0x15E6, 12);
         }
 
         AddLabel(70, 50, 40, "Reward");
@@ -96,7 +96,7 @@ public class QuestRewardGump : Gump
                 } else
                 {
                     // add the selection button
-                    AddButton(30, y, 0xFA5, 0xFA7, 1000+i, GumpButtonType.Reply, 0);
+                    AddButton(30, y, 0xFA5, 0xFA7, 1000+i);
                 }
 
                 // display the name
@@ -179,32 +179,29 @@ public class QuestRewardGump : Gump
 
                                 bool received = true;
 
-                                if (o is Item)
+                                if (o is Item item)
                                 {
 
                                     // and give them the item
-                                    from.AddToBackpack((Item)o);
+                                    from.AddToBackpack(item);
 
                                 } else
-                                if (o is Mobile)
+                                if (o is Mobile mobile)
                                 {
 
                                     // if it is controllable then set the buyer as master.  Note this does not check for control slot limits.
-                                    if (o is BaseCreature)
+                                    if (mobile is BaseCreature creature)
                                     {
-                                        BaseCreature b = o as BaseCreature;
-                                        b.Controlled = true;
-                                        b.ControlMaster = from;
+                                        creature.Controlled = true;
+                                        creature.ControlMaster = from;
                                     }
 
-                                    ((Mobile)o).MoveToWorld(from.Location, from.Map);
+                                    mobile.MoveToWorld(from.Location, from.Map);
 
                                 } else
-                                if (o is XmlAttachment)
+                                if (o is XmlAttachment attachment)
                                 {
-                                    XmlAttachment a = o as XmlAttachment;
-
-                                    XmlAttach.AttachTo(from, a);
+                                    XmlAttach.AttachTo(from, attachment);
 
                                 } else
                                 {

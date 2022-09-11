@@ -112,7 +112,8 @@ public class XmlQuestBookGump : Gump
                         {
                             IXmlQuest o = m_List[index] as IXmlQuest;
 
-                            if (o != null && !o.Deleted){
+                            if (o != null && !o.Deleted)
+                            {
                                 m_From.SendGump(new XmlQuestBookGump(m_From, m_Book, m_Page, null));
                                 m_From.CloseGump(typeof(XmlQuestStatusGump));
                                 m_From.SendGump(new XmlQuestStatusGump(o, o.TitleString, 320, 0, true));
@@ -228,33 +229,33 @@ public class XmlQuestBookGump : Gump
         AddImage(5, 424, 10460);
         AddImage(width - 15, 424, 10460);
 
-        AddHtmlLocalized(224, 32, 200, 32, 1046026, LabelColor, false, false);           // Quest Log
-        AddHtmlLocalized(63 - xoffset, 64, 200, 32, 3000362, LabelColor, false, false);  // Open
-        AddHtmlLocalized(147 - xoffset, 64, 200, 32, 3005104, LabelColor, false, false); // Name
-        AddHtmlLocalized(270 - xoffset, 64, 200, 32, 1062213, LabelColor, false, false); // Type
-        AddHtmlLocalized(326 - xoffset, 64, 200, 32, 3000132, LabelColor, false, false); // Status
-        AddHtmlLocalized(429 - xoffset, 64, 200, 32, 1062465, LabelColor, false, false); // Expires
+        AddHtmlLocalized(224, 32, 200, 32, 1046026, LabelColor);           // Quest Log
+        AddHtmlLocalized(63 - xoffset, 64, 200, 32, 3000362, LabelColor);  // Open
+        AddHtmlLocalized(147 - xoffset, 64, 200, 32, 3005104, LabelColor); // Name
+        AddHtmlLocalized(270 - xoffset, 64, 200, 32, 1062213, LabelColor); // Type
+        AddHtmlLocalized(326 - xoffset, 64, 200, 32, 3000132, LabelColor); // Status
+        AddHtmlLocalized(429 - xoffset, 64, 200, 32, 1062465, LabelColor); // Expires
 
-        AddButton(375 - xoffset, 416, 4017, 4018, 0, GumpButtonType.Reply, 0);
+        AddButton(375 - xoffset, 416, 4017, 4018, 0);
 
-        AddHtmlLocalized(410 - xoffset, 416, 120, 20, 1011441, LabelColor, false, false); // EXIT
+        AddHtmlLocalized(410 - xoffset, 416, 120, 20, 1011441, LabelColor); // EXIT
         if (!m_Book.Locked)
         {
-            AddHtmlLocalized(26, 64, 50, 32, 1062212, LabelColor, false, false); // Drop
+            AddHtmlLocalized(26, 64, 50, 32, 1062212, LabelColor); // Drop
         }
 
         tableIndex = 0;
 
         if (page > 0)
         {
-            AddButton(75, 416, 4014, 4016, 2, GumpButtonType.Reply, 0);
-            AddHtmlLocalized(110, 416, 150, 20, 1011067, LabelColor, false, false); // Previous page
+            AddButton(75, 416, 4014, 4016, 2);
+            AddHtmlLocalized(110, 416, 150, 20, 1011067, LabelColor); // Previous page
         }
 
         if (GetIndexForPage(page + 1) < list.Count)
         {
-            AddButton(225, 416, 4005, 4007, 3, GumpButtonType.Reply, 0);
-            AddHtmlLocalized(260, 416, 150, 20, 1011066, LabelColor, false, false); // Next page
+            AddButton(225, 416, 4005, 4007, 3);
+            AddHtmlLocalized(260, 416, 150, 20, 1011066, LabelColor); // Next page
         }
 
         for (int i = index; i < index + count && i >= 0 && i < list.Count; ++i)
@@ -262,27 +263,25 @@ public class XmlQuestBookGump : Gump
             object obj = list[i];
 
 
-            if (obj is IXmlQuest)
+            if (obj is IXmlQuest quest)
             {
-                IXmlQuest e = (IXmlQuest)obj;
-
                 int y = 96 + tableIndex++ * 32;
 
                 if (!m_Book.Locked)
                 {
-                    AddButton(35, y + 2, 5602, 5606, 1000 + i, GumpButtonType.Reply, 0); // drop
+                    AddButton(35, y + 2, 5602, 5606, 1000 + i); // drop
                 }
 
-                AddButton(60 - xoffset, y + 2, 0xFAB, 0xFAD, 2000 + i, GumpButtonType.Reply, 0); // open gump
+                AddButton(60 - xoffset, y + 2, 0xFAB, 0xFAD, 2000 + i); // open gump
 
 
                 int color;
 
-                if (!e.IsValid)
+                if (!quest.IsValid)
                 {
                     color = 33;
                 } else
-                if (e.IsCompleted)
+                if (quest.IsCompleted)
                 {
                     color = 67;
                 } else
@@ -291,28 +290,29 @@ public class XmlQuestBookGump : Gump
                 }
 
 
-                AddLabel(100 - xoffset, y, color, e.Name);
+                AddLabel(100 - xoffset, y, color, quest.Name);
 
                 //AddHtmlLocalized(315, y, 200, 32, e.IsCompleted ? 1049071 : 1049072, htmlcolor, false, false); // Completed/Incomplete
-                AddLabel(315 - xoffset, y, color, e.IsCompleted ? "Completed" : "In Progress");
+                AddLabel(315 - xoffset, y, color, quest.IsCompleted ? "Completed" : "In Progress");
 
                 // indicate the expiration time
-                if (e.IsValid){
-
+                if (quest.IsValid)
+                {
                     // do a little parsing of the expiration string to fit it in the space
-                    string substring = e.ExpirationString;
-                    if (e.ExpirationString.IndexOf("Expires in") >= 0)
+                    string substring = quest.ExpirationString;
+                    if (quest.ExpirationString.IndexOf("Expires in") >= 0)
                     {
-                        substring = e.ExpirationString.Substring(11);
+                        substring = quest.ExpirationString.Substring(11);
                     }
                     AddLabel(400 - xoffset, y, color, substring);
-                } else
+                }
+                else
                 {
                     AddLabel(400 - xoffset, y, color, "No longer valid");
                 }
 
-                if (e.PartyEnabled){
-
+                if (quest.PartyEnabled)
+                {
                     AddLabel(270 - xoffset, y, color, "Party");
                     //AddHtmlLocalized(250, y, 200, 32, 3000332, htmlcolor, false, false); // Party
                 } else {

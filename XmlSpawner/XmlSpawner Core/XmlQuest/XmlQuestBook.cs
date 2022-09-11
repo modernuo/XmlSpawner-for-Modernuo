@@ -9,7 +9,7 @@ using System.Collections;
 */
 namespace Server.Items;
 
-[Flipable(0x1E5E, 0x1E5F)]
+[Flippable(0x1E5E, 0x1E5F)]
 public class PlayerQuestBoard : XmlQuestBook
 {
 
@@ -105,17 +105,17 @@ public class XmlQuestBook : Container
 
     public override void OnDoubleClick(Mobile from)
     {
-        if (!(from is PlayerMobile))
+        if (!(from is PlayerMobile mobile))
         {
             return;
         }
 
-        if (from.AccessLevel >= AccessLevel.GameMaster)
+        if (mobile.AccessLevel >= AccessLevel.GameMaster)
         {
-            base.OnDoubleClick(from);
+            base.OnDoubleClick(mobile);
         }
 
-        from.SendGump(new XmlQuestBookGump((PlayerMobile)from, this));
+        mobile.SendGump(new XmlQuestBookGump(mobile, this));
     }
 
     public override bool OnDragDrop(Mobile from, Item dropped)
@@ -160,9 +160,9 @@ public class XmlQuestBook : Container
     {
         base.OnItemLifted(from,item);
 
-        if (from is PlayerMobile && Owner == null)
+        if (from is PlayerMobile mobile && Owner == null)
         {
-            Owner = from as PlayerMobile;
+            Owner = mobile;
             LootType = LootType.Blessed;
             // flag the owner as carrying a questtoken assuming the book contains quests and then confirm it with CheckOwnerFlag
             Owner.SetFlag(XmlQuest.CarriedXmlQuestFlag,true);
@@ -175,19 +175,19 @@ public class XmlQuestBook : Container
     {
         base.OnAdded(parent);
 
-        if (parent != null && parent is Container)
+        if (parent != null && parent is Container container)
         {
             // find the parent of the container
             // note, the only valid additions are to the player pack.  Anything else is invalid.  This is to avoid exploits involving storage or transfer of questtokens
-            object from = ((Container)parent).Parent;
+            object from = container.Parent;
 
             // check to see if it can be added
-            if (from != null && from is PlayerMobile)
+            if (from != null && from is PlayerMobile mobile)
             {
                 // if it was not owned then allow it to go anywhere
                 if (Owner == null)
                 {
-                    Owner = from as PlayerMobile;
+                    Owner = mobile;
 
                     LootType = LootType.Blessed;
                     // could also bless all of the quests inside as well but not actually necessary since blessed containers retain their
@@ -197,7 +197,7 @@ public class XmlQuestBook : Container
                     Owner.SetFlag(XmlQuest.CarriedXmlQuestFlag,true);
                     CheckOwnerFlag();
                 } else
-                if (from as PlayerMobile != Owner || parent is BankBox)
+                if (mobile != Owner || container is BankBox)
                 {
                     // tried to give it to another player or placed it in the players bankbox. try to return it to the owners pack
                     Owner.AddToBackpack(this);
@@ -211,7 +211,7 @@ public class XmlQuestBook : Container
                 }
                 // allow placement into npcs or drop on their corpses when owner is null
                 else
-                if (!(from is Mobile) && !(parent is Corpse))
+                if (!(from is Mobile) && !(container is Corpse))
                 {
                     // in principle this should never be reached
 

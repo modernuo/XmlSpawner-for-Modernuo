@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Org.BouncyCastle.Bcpg;
 using Server.Engines.XmlSpawner2;
 
 /*
@@ -462,19 +463,17 @@ public abstract class XmlQuestToken : Item, IXmlQuest
     {
         foreach (Item item in World.Items.Values)
         {
-            if (item is XmlQuestToken)
+            if (item is XmlQuestToken token)
             {
-                XmlQuestToken t = item as XmlQuestToken;
-
-                if (t.Pack != null && !t.Pack.Deleted)
+                if (token.Pack != null && !token.Pack.Deleted)
                 {
 
-                    t.UpdateWeight();
+                    token.UpdateWeight();
 
-                    t.UpdateTotal(t.Pack, TotalType.Weight, 0);
-                    t.UpdateTotal(t.Pack, TotalType.Gold, 0);
+                    token.UpdateTotal(token.Pack, TotalType.Weight, 0);
+                    token.UpdateTotal(token.Pack, TotalType.Gold, 0);
 
-                    t.RestoreRewardAttachment();
+                    token.RestoreRewardAttachment();
 
                 }
             }
@@ -485,14 +484,14 @@ public abstract class XmlQuestToken : Item, IXmlQuest
     {
         base.OnDoubleClick(from);
 
-        if (!(from is PlayerMobile))
+        if (!(from is PlayerMobile mobile))
         {
             return;
         }
 
         if (PlayerMade && from == Creator && from == Owner)
         {
-            from.SendGump(new XmlPlayerQuestGump((PlayerMobile)from, this));
+            mobile.SendGump(new XmlPlayerQuestGump(mobile, this));
         }
     }
 
@@ -540,9 +539,9 @@ public abstract class XmlQuestToken : Item, IXmlQuest
             LootType = LootType.Regular;
         }
         else
-        if (from is PlayerMobile && Owner == null)
+        if (from is PlayerMobile mobile && Owner == null)
         {
-            Owner = from as PlayerMobile;
+            Owner = mobile;
 
             LootType = LootType.Blessed;
             // flag the owner as carrying a questtoken
@@ -554,17 +553,17 @@ public abstract class XmlQuestToken : Item, IXmlQuest
     {
         base.OnAdded(target);
 
-        if (target != null && target is Container)
+        if (target != null && target is Container container)
         {
             // find the parent of the container
             // note, the only valid additions are to the player pack or a questbook.  Anything else is invalid.  This is to avoid exploits involving storage or transfer of questtokens
             // make an exception for playermade quests that can be put on playervendors
-            object parentOfTarget = ((Container)target).Parent;
+            object parentOfTarget = container.Parent;
 
             // if this is a QuestBook then allow additions if it is in a players pack or it is a player quest
-            if (parentOfTarget != null && parentOfTarget is Container && target is XmlQuestBook)
+            if (parentOfTarget != null && parentOfTarget is Container ofTarget && container is XmlQuestBook)
             {
-                parentOfTarget = ((Container)parentOfTarget).Parent;
+                parentOfTarget = ofTarget.Parent;
             }
 
 
@@ -572,7 +571,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
             // check to see if it can be added.
             // allow playermade quests to be placed in playervendors or in xmlquestbooks that are in the world (supports the playerquestboards)
             if (PlayerMade && (parentOfTarget != null && parentOfTarget is PlayerVendor ||
-                               parentOfTarget == null && target is XmlQuestBook))
+                               parentOfTarget == null && container is XmlQuestBook))
             {
                 CheckOwnerFlag();
 
@@ -581,12 +580,12 @@ public abstract class XmlQuestToken : Item, IXmlQuest
                 LootType = LootType.Regular;
             }
             else
-            if (parentOfTarget != null && parentOfTarget is PlayerMobile && PlayerMade && Owner != null && (Owner == Creator || Creator == null))
+            if (parentOfTarget != null && parentOfTarget is PlayerMobile mobile && PlayerMade && Owner != null && (Owner == Creator || Creator == null))
             {
                 // check the old owner
                 CheckOwnerFlag();
 
-                Owner = parentOfTarget as PlayerMobile;
+                Owner = mobile;
 
                 // first owner will become creator by default
                 if (Creator == null)
@@ -601,11 +600,11 @@ public abstract class XmlQuestToken : Item, IXmlQuest
 
             }
             else
-            if (parentOfTarget != null && parentOfTarget is PlayerMobile)
+            if (parentOfTarget != null && parentOfTarget is PlayerMobile playerMobile)
             {
                 if (Owner == null)
                 {
-                    Owner = parentOfTarget as PlayerMobile;
+                    Owner = playerMobile;
 
                     LootType = LootType.Blessed;
 
@@ -613,7 +612,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
                     Owner.SetFlag(XmlQuest.CarriedXmlQuestFlag, true);
                 }
                 else
-                if (parentOfTarget as PlayerMobile != Owner || target is BankBox)
+                if (playerMobile != Owner || container is BankBox)
                 {
                     // tried to give it to another player or placed it in the players bankbox. try to return it to the owners pack
                     Owner.AddToBackpack(this);
@@ -637,7 +636,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
                 }
                 // allow placement into npcs or drop on their corpses when owner is null
                 else
-                if (!(parentOfTarget is Mobile) && !(target is Corpse) && parentOfTarget != null)
+                if (!(parentOfTarget is Mobile) && !(container is Corpse) && parentOfTarget != null)
                 {
 
                     // in principle this should never be reached
@@ -794,12 +793,12 @@ public abstract class XmlQuestToken : Item, IXmlQuest
 
     private void CalculateWeight(Item target)
     {
-        if (target is Container)
+        if (target is Container container)
         {
             int gold = 0;
             int weight = 0;
             int nitems = 0;
-            foreach (Item i in ((Container)target).FindItemsByType(typeof(Item), false))
+            foreach (Item i in container.FindItemsByType(typeof(Item), false))
             {
                 // make sure gold amount is consistent with totalgold
                 if (i is Gold)
@@ -822,9 +821,9 @@ public abstract class XmlQuestToken : Item, IXmlQuest
                 }
             }
 
-            UpdateTotal((Container)target, TotalType.Weight, weight);
-            UpdateTotal((Container)target, TotalType.Gold, gold);
-            UpdateTotal((Container)target, TotalType.Items, nitems);
+            UpdateTotal(container, TotalType.Weight, weight);
+            UpdateTotal(container, TotalType.Gold, gold);
+            UpdateTotal(container, TotalType.Items, nitems);
         }
     }
 
@@ -1012,7 +1011,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
             return;
         }
 
-        Item[] itemlist = pack.FindItemsByType(typeof(Item), true);
+        Item[] itemlist = pack.FindItemsByType(typeof(Item));
         if (itemlist != null)
         {
             for (int i = 0; i < itemlist.Length; i++)
@@ -1044,15 +1043,15 @@ public abstract class XmlQuestToken : Item, IXmlQuest
                 m_AttachmentString != null && !PlayerMade)
             {
                 object o = XmlQuest.CreateItem(this, m_AttachmentString, out m_status_str, typeof(XmlAttachment));
-                if (o is Item)
+                if (o is Item item)
                 {
                     // should never get here
-                    ((Item)o).Delete();
+                    item.Delete();
                 }
                 else
-                if (o is XmlAttachment)
+                if (o is XmlAttachment attachment)
                 {
-                    m_RewardAttachment = o as XmlAttachment;
+                    m_RewardAttachment = attachment;
                     m_RewardAttachment.OwnedBy = this;
                 }
             }
@@ -1084,15 +1083,15 @@ public abstract class XmlQuestToken : Item, IXmlQuest
             {
                 string status_str;
                 object o = XmlQuest.CreateItem(this, m_RewardString, out status_str, typeof(Item));
-                if (o is Item)
+                if (o is Item item)
                 {
-                    m_RewardItem = o as Item;
+                    m_RewardItem = item;
                 }
                 else
-                if (o is XmlAttachment)
+                if (o is XmlAttachment attachment)
                 {
                     // should never get here
-                    ((XmlAttachment)o).Delete();
+                    attachment.Delete();
                 }
             }
 
@@ -1123,10 +1122,10 @@ public abstract class XmlQuestToken : Item, IXmlQuest
             }
 
             // is this currently carried by a mobile?
-            if (m_RewardItem.RootParent != null && m_RewardItem.RootParent is Mobile)
+            if (m_RewardItem.RootParent != null && m_RewardItem.RootParent is Mobile mobile)
             {
                 // if so then remove it
-                ((Mobile)m_RewardItem.RootParent).RemoveItem(m_RewardItem);
+                mobile.RemoveItem(m_RewardItem);
 
             }
 
@@ -1579,9 +1578,9 @@ public abstract class XmlQuestToken : Item, IXmlQuest
     {
         // go through all reward items and delete anything that is movable.  This blocks any exploits where players might
         // try to add items themselves
-        if (m_RewardItem != null && !m_RewardItem.Deleted && m_RewardItem is Container)
+        if (m_RewardItem != null && !m_RewardItem.Deleted && m_RewardItem is Container container)
         {
-            foreach (Item i in ((Container)m_RewardItem).FindItemsByType(typeof(Item), true))
+            foreach (Item i in container.FindItemsByType(typeof(Item)))
             {
                 if (i.Movable)
                 {

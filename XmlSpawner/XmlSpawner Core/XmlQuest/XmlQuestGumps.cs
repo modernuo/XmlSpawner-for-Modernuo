@@ -45,11 +45,11 @@ public class XmlConfirmDeleteGump : Gump
         {
             AddLabel(20, 225, 33, String.Format("Delete this item?"));
         }
-        AddRadio(35, 255, 9721, 9724, false, 1);                             // accept/yes radio
-        AddRadio(135, 255, 9721, 9724, true, 2);                             // decline/no radio
-        AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff , false , false);  // Yes
-        AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff , false , false); // No
-        AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);          // Okay button
+        AddRadio(35, 255, 9721, 9724, false, 1);                    // accept/yes radio
+        AddRadio(135, 255, 9721, 9724, true, 2);                    // decline/no radio
+        AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);        // Yes
+        AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff);       // No
+        AddButton(80, 289, 2130, 2129, 3); // Okay button
     }
 
     public override void OnResponse(NetState state, RelayInfo info)
@@ -70,14 +70,14 @@ public class XmlConfirmDeleteGump : Gump
                 {
                     if (radiostate == 1 && m_Item != null)
                     { // accept
-                        if (m_Item is IXmlQuest)
+                        if (m_Item is IXmlQuest quest)
                         {
-                            ((IXmlQuest)m_Item).Invalidate();
+                            quest.Invalidate();
                         }
                         else
-                        if (m_Item is XmlQuestBook)
+                        if (m_Item is XmlQuestBook book)
                         {
-                            ((XmlQuestBook)m_Item).Invalidate();
+                            book.Invalidate();
                         }
                         else
                         {
@@ -256,11 +256,11 @@ public class XmlSimpleGump : Gump
             AddImage(width + 3, 57, 1417); // quest icons
             AddImage(width + 12, 66, 5576);
 
-            AddButton(width - 31, height - 8, 2130, 2129, 3, GumpButtonType.Reply, 0); // Okay button
+            AddButton(width - 31, height - 8, 2130, 2129, 3); // Okay button
         }
         else
         {
-            AddButton(width + 70, 25, 0x138b, 0x138b, 0, GumpButtonType.Reply, 0); // closegump button
+            AddButton(width + 70, 25, 0x138b, 0x138b, 0); // closegump button
         }
 
 
@@ -277,11 +277,11 @@ public class XmlSimpleGump : Gump
 
         } else
         if (gumptype == 1)
-        {                                                                                  // Yes/no type gump
-            AddRadio(101, height - 45, 9721, 9724, true, 1);                             // accept/yes radio
-            AddRadio(101, height - 11, 9721, 9724, false, 2);                            // decline/no radio
-            AddHtmlLocalized(137, height - 41, 200, 30, 1049016, 0x7fff , false , false); // Yes
-            AddHtmlLocalized(137, height - 7, 200, 30, 1049017, 0x7fff , false , false);  // No
+        {                                                                 // Yes/no type gump
+            AddRadio(101, height - 45, 9721, 9724, true, 1);              // accept/yes radio
+            AddRadio(101, height - 11, 9721, 9724, false, 2);             // decline/no radio
+            AddHtmlLocalized(137, height - 41, 200, 30, 1049016, 0x7fff); // Yes
+            AddHtmlLocalized(137, height - 7, 200, 30, 1049017, 0x7fff);  // No
 
             LocalAddHtml(maintext, 105, 159, 299, 182, 0xEFEF5A, false, true);
         }
@@ -290,20 +290,20 @@ public class XmlSimpleGump : Gump
         { // reply type gump
             AddImageTiled(134, height - 7, 159, 23, 0x52);
             AddImageTiled(135, height - 6, 157, 21, 0xBBC);
-            AddHtmlLocalized(105, height - 7, 200, 30, 3002006, 0x7fff , false , false); // Say:
+            AddHtmlLocalized(105, height - 7, 200, 30, 3002006, 0x7fff); // Say:
             AddTextEntry(135, height - 7, 150, 21, 0, 99, null);
 
             LocalAddHtml(maintext, 105, 159, 299, 182, 0xEFEF5A, false, true);
         }
         else
         if (gumptype == 3)
-        {                                                                                  // Quest type gump
-            AddImage(97, 49, 9005);                                                      // quest ribbon
-            AddRadio(101, height - 45, 9721, 9724, true, 1);                             // accept/yes radio
-            AddRadio(101, height - 11, 9721, 9724, false, 2);                            // decline/no radio
-            AddHtmlLocalized(139, 59, 200, 30, 1046013, 0x7fff, false , false);          // Quest Offer
-            AddHtmlLocalized(137, height - 41, 200, 30, 1049011, 0x7fff , false , false); // I accept!
-            AddHtmlLocalized(137, height - 7, 200, 30, 1049012, 0x7fff , false , false);  // No thanks, I decline.
+        {                                                                 // Quest type gump
+            AddImage(97, 49, 9005);                                       // quest ribbon
+            AddRadio(101, height - 45, 9721, 9724, true, 1);              // accept/yes radio
+            AddRadio(101, height - 11, 9721, 9724, false, 2);             // decline/no radio
+            AddHtmlLocalized(139, 59, 200, 30, 1046013, 0x7fff);          // Quest Offer
+            AddHtmlLocalized(137, height - 41, 200, 30, 1049011, 0x7fff); // I accept!
+            AddHtmlLocalized(137, height - 7, 200, 30, 1049012, 0x7fff);  // No thanks, I decline.
 
             LocalAddHtml(maintext, 105, 159, 299, 182, 0xEFEF5A, false, true);
         }
@@ -316,7 +316,7 @@ public class XmlSimpleGump : Gump
             {
                 int y = 360 + i*40;
                 AddRadio(101, y, 9721, 9724, i==0 ? true: false, i); // accept/yes radio
-                AddHtml(137, y+4, 250, 40, Color(((GumpSelection)gumpSelections[i]).Selection, "FFFFFF"), false, false);
+                AddHtml(137, y+4, 250, 40, Color(((GumpSelection)gumpSelections[i]).Selection, "FFFFFF"));
             }
 
             LocalAddHtml(maintext, 105, 159, 299, 182, 0xEFEF5A, false, true);
@@ -377,7 +377,7 @@ public class XmlSimpleGump : Gump
                             int buttonid = 1000 + i;
 
                             // add the button
-                            AddButton(gx, gy, gumpid, gumpid, buttonid, GumpButtonType.Reply, 0);
+                            AddButton(gx, gy, gumpid, gumpid, buttonid);
                         }
                     }
                     else
@@ -759,9 +759,9 @@ public class XmlSimpleGump : Gump
             }
         }
         // get rid of any temporary gump keyword tokens
-        if (m_invoker is XmlSpawner)
+        if (m_invoker is XmlSpawner spawner)
         {
-            ((XmlSpawner)m_invoker).DeleteTag(m_keywordtag);
+            spawner.DeleteTag(m_keywordtag);
         }
     }
 }

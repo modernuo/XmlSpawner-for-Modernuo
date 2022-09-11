@@ -226,10 +226,10 @@ public class XmlSpawnerAddon : BaseAddon
                             if (type != null && type.IsSubclassOf(typeof(XmlAttachment)))
                             {
                                 object newo = XmlSpawner.CreateObject(type, attachstring, false);
-                                if (newo is XmlAttachment)
+                                if (newo is XmlAttachment attachment)
                                 {
                                     // add the attachment to the target
-                                    XmlAttach.AttachTo(newcomponent, (XmlAttachment)newo);
+                                    XmlAttach.AttachTo(newcomponent, attachment);
 
                                 }
                             }

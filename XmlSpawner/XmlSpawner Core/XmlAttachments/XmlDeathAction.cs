@@ -161,24 +161,21 @@ public class XmlDeathAction : XmlAttachment
                     status_str = "invalid type specification: " + arglist[0];
                 }
                 else
-                if (o is Mobile)
+                if (o is Mobile mobile)
                 {
-                    Mobile m = (Mobile)o;
-                    if (m is BaseCreature)
+                    if (mobile is BaseCreature creature)
                     {
-                        BaseCreature c = (BaseCreature)m;
-                        c.Home = loc; // Spawners location is the home point
+                        creature.Home = loc; // Spawners location is the home point
                     }
 
-                    m.Location = loc;
-                    m.Map = map;
+                    mobile.Location = loc;
+                    mobile.Map = map;
 
-                    BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, m, killer, corpse, out status_str);
+                    BaseXmlSpawner.ApplyObjectStringProperties(null, substitutedtypeName, mobile, killer, corpse, out status_str);
                 }
                 else
-                if (o is Item)
+                if (o is Item item)
                 {
-                    Item item = (Item)o;
                     BaseXmlSpawner.AddSpawnItem(null, corpse, TheSpawn, item, loc, map, killer, false, substitutedtypeName, out status_str);
                 }
             }

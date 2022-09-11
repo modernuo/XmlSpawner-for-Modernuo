@@ -368,7 +368,7 @@ public abstract class XmlAttachment : IXmlAttachment
 
     public void InvalidateParentProperties()
     {
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).InvalidateProperties();
         }
@@ -433,13 +433,13 @@ public abstract class XmlAttachment : IXmlAttachment
         // version 2
         writer.Write(m_AttachedBy);
         // version 1
-        if (OwnedBy is Item)
+        if (OwnedBy is Item item)
         {
             writer.Write(0);
             writer.Write((Item)OwnedBy);
         }
         else
-        if (OwnedBy is Mobile)
+        if (OwnedBy is Mobile mobile)
         {
             writer.Write(1);
             writer.Write((Mobile)OwnedBy);

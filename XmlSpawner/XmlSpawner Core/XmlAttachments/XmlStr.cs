@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace Server.Engines.XmlSpawner2;
 
@@ -42,7 +43,7 @@ public class XmlStr : XmlAttachment
         base.OnAttach();
 
         // apply the mod
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).AddStatMod(new StatMod(StatType.Str, "XmlStr" + Name, m_Value, m_Duration));
         }

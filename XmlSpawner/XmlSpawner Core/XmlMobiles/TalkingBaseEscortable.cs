@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Server.Items;
 using Server.ContextMenus;
 using EDI = Server.Mobiles.EscortDestinationInfo;
@@ -76,15 +77,14 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     {
         foreach (Mobile m in World.Mobiles.Values)
         {
-            if (m is TalkingBaseEscortable)
+            if (m is TalkingBaseEscortable creature)
             {
                 // reestablish the DialogAttachment assignment
                 XmlDialog xa = (XmlDialog)XmlAttach.FindAttachment(m, typeof(XmlDialog));
-                ((TalkingBaseCreature)m).DialogAttachment = xa;
+                creature.DialogAttachment = xa;
 
                 // initialize Destination after world load (now, regions are loaded)
-                TalkingBaseEscortable t = (TalkingBaseEscortable)m;
-                t.Destination = t.m_DestinationString;
+                creature.Destination = creature.m_DestinationString;
             }
         }
     }
@@ -200,9 +200,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             Say("I see you already have an escort.");
             return false;
         }
-        else if (m is PlayerMobile && ((PlayerMobile)m).LastEscortTime + m_EscortDelay >= DateTime.Now)
+        else if (m is PlayerMobile mobile && mobile.LastEscortTime + m_EscortDelay >= DateTime.Now)
         {
-            int minutes = (int)Math.Ceiling((((PlayerMobile)m).LastEscortTime + m_EscortDelay - DateTime.Now).TotalMinutes);
+            int minutes = (int)Math.Ceiling((mobile.LastEscortTime + m_EscortDelay - DateTime.Now).TotalMinutes);
 
             Say("You must rest {0} minute{1} before we set out on this journey.", minutes, minutes == 1 ? "" : "s");
             return false;
@@ -211,9 +211,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         {
             m_LastSeenEscorter = DateTime.Now;
 
-            if (m is PlayerMobile)
+            if (m is PlayerMobile playerMobile)
             {
-                ((PlayerMobile)m).LastEscortTime = DateTime.Now;
+                playerMobile.LastEscortTime = DateTime.Now;
             }
 
             Say("Lead on! Payment will be made when we arrive in {0}.", dest.Name == "Ocllo" && m.Map == Map.Trammel ? "Haven" : dest.Name );

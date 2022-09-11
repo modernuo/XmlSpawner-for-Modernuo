@@ -81,12 +81,12 @@ public class XmlHue : XmlAttachment
         base.OnDelete();
 
         // remove the mod
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).Hue = m_Originalhue;
         }
         else
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).Hue = m_Originalhue;
         }

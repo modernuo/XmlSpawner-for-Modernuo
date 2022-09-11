@@ -801,7 +801,7 @@ public class XmlAddGump : Gump
             AddLabel(25, y, 0x384, "RealTOD");
         }
 
-        AddButton(5, y, 0xD3, 0xD3, 306, GumpButtonType.Reply, 0);
+        AddButton(5, y, 0xD3, 0xD3, 306);
 
 
         // Sequentialspawn
@@ -891,20 +891,20 @@ public class XmlAddGump : Gump
         yinc = 23;
         y += yinc;
         // add the RestoreDefs button
-        AddButton(5, y, 0xFAE, 0xFAF, 117, GumpButtonType.Reply, 0);
+        AddButton(5, y, 0xFAE, 0xFAF, 117);
         AddLabel(35, y, 0x384, "Restore Defs");
 
         // add the RestoreDefs button
-        AddButton(125, y, 0xFAE, 0xFAF, 180, GumpButtonType.Reply, 0);
+        AddButton(125, y, 0xFAE, 0xFAF, 180);
         AddLabel(155, y, 0x384, "Options");
 
         y += yinc;
         // add the SaveDefs button
-        AddButton(5, y, 0xFAE, 0xFAF, 115, GumpButtonType.Reply, 0);
+        AddButton(5, y, 0xFAE, 0xFAF, 115);
         AddLabel(35, y, 0x384, "Save");
 
         // add the LoadDefs button
-        AddButton(65, y, 0xFAE, 0xFAF, 116, GumpButtonType.Reply, 0);
+        AddButton(65, y, 0xFAE, 0xFAF, 116);
         AddLabel(95, y, 0x384, "Load");
 
         // add the DefsExt entry
@@ -913,15 +913,15 @@ public class XmlAddGump : Gump
 
         y += yinc;
         // add the Add button
-        AddButton(5, y, 0xFAE, 0xFAF, 100, GumpButtonType.Reply, 0);
+        AddButton(5, y, 0xFAE, 0xFAF, 100);
         AddLabel(35, y, 0x384, "Add");
 
         // add the Goto button
-        AddButton(64, y, 0xFAE, 0xFAF, 1000, GumpButtonType.Reply, 0);
+        AddButton(64, y, 0xFAE, 0xFAF, 1000);
         AddLabel(94, y, 0x384, "Goto");
 
         // add the Delete button
-        AddButton(125, y, 0xFAE, 0xFAF, 156, GumpButtonType.Reply, 0);
+        AddButton(125, y, 0xFAE, 0xFAF, 156);
         AddLabel(155, y, 0x384, "Del");
 
         // add the Edit button
@@ -930,18 +930,18 @@ public class XmlAddGump : Gump
         // add gump extension button
         if (defs.ShowExtension)
         {
-            AddButton(480, y + 5, 0x15E3, 0x15E7, 200, GumpButtonType.Reply, 0);
+            AddButton(480, y + 5, 0x15E3, 0x15E7, 200);
         }
         else
         {
-            AddButton(180, y + 5, 0x15E1, 0x15E5, 200, GumpButtonType.Reply, 0);
+            AddButton(180, y + 5, 0x15E1, 0x15E5, 200);
         }
 
         if (defs.ShowExtension)
         {
             AddLabel(300, 5, 0x384, "Spawn Entries");
             // display the clear all toggle
-            AddButton(475, 5, 0xD2, 0xD3, 3999, GumpButtonType.Reply, 0);
+            AddButton(475, 5, 0xD2, 0xD3, 3999);
             // display the selection entries
             for (int i = 0; i < MaxEntries; i++)
             {
@@ -974,9 +974,9 @@ public class XmlAddGump : Gump
 
                 AddTextEntry(xpos + 208, ypos + 1, 110, 21, texthue, 1000 + i, namestr);
                 // display the selection button
-                AddButton(xpos + 320, ypos + 2, sel ? 0xD3 : 0xD2, sel ? 0xD2 : 0xD3, 4000 + i, GumpButtonType.Reply, 0);
+                AddButton(xpos + 320, ypos + 2, sel ? 0xD3 : 0xD2, sel ? 0xD2 : 0xD3, 4000 + i);
                 // display the info button
-                AddButton(xpos + 340, ypos + 2, 0x15E1, 0x15E5, 5000 + i, GumpButtonType.Reply, 0);
+                AddButton(xpos + 340, ypos + 2, 0x15E1, 0x15E5, 5000 + i);
             }
         }
     }
@@ -1740,9 +1740,9 @@ public class XmlAddGump : Gump
             AddLabel(20, 225, 33, "Delete Last Spawner?");
             AddRadio(35, 255, 9721, 0x86A, false, 1);                           // accept/yes radio
             AddRadio(135, 255, 9721, 0x86A, true, 2);                           // decline/no radio
-            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff, false, false);  // Yes
-            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff, false, false); // No
-            AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);         // Okay button
+            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);  // Yes
+            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff); // No
+            AddButton(80, 289, 2130, 2129, 3);         // Okay button
         }
 
         public override void OnResponse(NetState state, RelayInfo info)

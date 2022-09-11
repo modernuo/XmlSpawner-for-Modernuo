@@ -319,7 +319,7 @@ public class XmlCategorizedAddGump : Gump
 
         if (m_Category.Parent != null)
         {
-            AddButton(x + PrevOffsetX, y + PrevOffsetY, PrevButtonID1, PrevButtonID2, 1, GumpButtonType.Reply, 0);
+            AddButton(x + PrevOffsetX, y + PrevOffsetY, PrevButtonID1, PrevButtonID2, 1);
 
             if (PrevLabel)
             {
@@ -337,7 +337,7 @@ public class XmlCategorizedAddGump : Gump
         }
 
         AddHtml(x + TextOffsetX, y + (EntryHeight - 20) / 2, emptyWidth - TextOffsetX, EntryHeight,
-            $"<center>{m_Category.Caption}</center>", false, false);
+            $"<center>{m_Category.Caption}</center>");
 
         x += emptyWidth + OffsetSize;
 
@@ -352,7 +352,7 @@ public class XmlCategorizedAddGump : Gump
 
         if (page > 0)
         {
-            AddButton(x + PrevOffsetX, y + PrevOffsetY, PrevButtonID1, PrevButtonID2, 2, GumpButtonType.Reply, 0);
+            AddButton(x + PrevOffsetX, y + PrevOffsetY, PrevButtonID1, PrevButtonID2, 2);
 
             if (PrevLabel)
             {
@@ -394,7 +394,7 @@ public class XmlCategorizedAddGump : Gump
                 AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
             }
 
-            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, i + 4, GumpButtonType.Reply, 0);
+            AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, i + 4);
 
             if (node is XmlAddCAGObject obj)
             {

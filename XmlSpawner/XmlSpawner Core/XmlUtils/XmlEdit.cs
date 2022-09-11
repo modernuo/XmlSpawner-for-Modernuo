@@ -110,14 +110,14 @@ public class XmlEditDialogGump : Gump
             AddLabel(20, 210, 68, String.Format("Add an XmlDialog to target?"));
 
             string name = null;
-            if (targeted is Item)
+            if (targeted is Item item)
             {
-                name = ((Item)targeted).Name;
+                name = item.Name;
             }
             else
-            if (targeted is Mobile)
+            if (targeted is Mobile mobile)
             {
-                name = ((Mobile)targeted).Name;
+                name = mobile.Name;
             }
 
             if (name == null)
@@ -126,11 +126,11 @@ public class XmlEditDialogGump : Gump
             }
             AddLabel(20, 230, 0, $"{name}");
 
-            AddRadio(35, 255, 9721, 9724, false, 1);                             // accept/yes radio
-            AddRadio(135, 255, 9721, 9724, true, 2);                             // decline/no radio
-            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff , false , false);  // Yes
-            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff , false , false); // No
-            AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);          // Okay button
+            AddRadio(35, 255, 9721, 9724, false, 1);                    // accept/yes radio
+            AddRadio(135, 255, 9721, 9724, true, 2);                    // decline/no radio
+            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);        // Yes
+            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff);       // No
+            AddButton(80, 289, 2130, 2129, 3); // Okay button
 
         }
         public override void OnResponse(NetState state, RelayInfo info)
@@ -226,14 +226,14 @@ public class XmlEditDialogGump : Gump
         AddImageTiled(x, y, w, 21, 0x23F4);
         // get the name of the object this is attached to
 
-        if (m_Dialog.AttachedTo is Item)
+        if (m_Dialog.AttachedTo is Item item)
         {
-            Name = ((Item)m_Dialog.AttachedTo).Name;
+            Name = item.Name;
         }
         else
-        if (m_Dialog.AttachedTo is Mobile)
+        if (m_Dialog.AttachedTo is Mobile mobile)
         {
-            Name = ((Mobile)m_Dialog.AttachedTo).Name;
+            Name = mobile.Name;
         }
         if (Name == null && m_Dialog.AttachedTo != null)
         {
@@ -281,7 +281,7 @@ public class XmlEditDialogGump : Gump
         AddLabel(10, y, 0x384, "TrigOnCarried");
         AddImageTiled(x + lw, y, w, 21, 0xBBC);
         AddTextEntry(x+lw, y, w, 21, 0, 150, TruncateLabel(m_Dialog.TriggerOnCarried));
-        AddButton(720, y, 0xFAB, 0xFAD, 5005, GumpButtonType.Reply, 0);
+        AddButton(720, y, 0xFAB, 0xFAD, 5005);
 
         // add the notriggeroncarried
         y += 22;
@@ -291,7 +291,7 @@ public class XmlEditDialogGump : Gump
         AddLabel(x, y, 0x384, "NoTrigOnCarried");
         AddImageTiled(x+lw, y, w, 21, 0xBBC);
         AddTextEntry(x + lw, y, w, 21, 0, 151, TruncateLabel(m_Dialog.NoTriggerOnCarried));
-        AddButton(720, y, 0xFAB, 0xFAD, 5006, GumpButtonType.Reply, 0);
+        AddButton(720, y, 0xFAB, 0xFAD, 5006);
 
         y = 88;
         // column labels
@@ -306,7 +306,7 @@ public class XmlEditDialogGump : Gump
         AddLabel(664, y, 0x384, "Gump");
 
         // display the select-all-displayed toggle
-        AddButton(730, y, 0xD2, 0xD3, 3999, GumpButtonType.Reply, 0);
+        AddButton(730, y, 0xD2, 0xD3, 3999);
 
         y -= 10;
         for (int i = 0;  i < MaxEntries; i++)
@@ -362,7 +362,7 @@ public class XmlEditDialogGump : Gump
             x = 10;
             w = 35;
             // add the Edit button for each entry
-            AddButton(10, y + 22 * (i%MaxEntriesPerPage)  + 30, 0xFAE, 0xFAF, 1000+i, GumpButtonType.Reply, 0);
+            AddButton(10, y + 22 * (i%MaxEntriesPerPage)  + 30, 0xFAE, 0xFAF, 1000+i);
 
             x += w;
             w = 50;
@@ -413,7 +413,7 @@ public class XmlEditDialogGump : Gump
             AddLabelCropped(x, y + 22 * (i%MaxEntriesPerPage) + 31, w-5, 21, texthue, TruncateLabel(s.Gump));
 
             // display the selection button
-            AddButton(730, y + 22 * (i%MaxEntriesPerPage)  + 32, sel? 0xD3:0xD2, sel? 0xD2:0xD3, 4000+i, GumpButtonType.Reply, 0);
+            AddButton(730, y + 22 * (i%MaxEntriesPerPage)  + 32, sel? 0xD3:0xD2, sel? 0xD2:0xD3, 4000+i);
 
         }
 
@@ -511,14 +511,14 @@ public class XmlEditDialogGump : Gump
             AddLabel(10, y, 0x384, "Keywords");
             AddImageTiled(x, y, w, 21, 0xBBC);
             AddTextEntry(x+1, y, w, 21, 0, 101, sentry.Keywords);
-            AddButton(720, y, 0xFAB, 0xFAD, 5001, GumpButtonType.Reply, 0);
+            AddButton(720, y, 0xFAB, 0xFAD, 5001);
 
             y += 22;
             // add the text entry
             AddLabel(10, y, 0x384, "Text");
             AddImageTiled(x, y, w, 21, 0xBBC);
             AddTextEntry(x+1, y, w, 21, 0, 100, sentry.Text);
-            AddButton(720, y, 0xFAB, 0xFAD, 5000, GumpButtonType.Reply, 0);
+            AddButton(720, y, 0xFAB, 0xFAD, 5000);
 
 
             y += 22;
@@ -526,21 +526,21 @@ public class XmlEditDialogGump : Gump
             AddLabel(10, y, 0x384, "Condition");
             AddImageTiled(x, y, w, 21, 0xBBC);
             AddTextEntry(x+1, y, w, 21, 0, 102, sentry.Condition);
-            AddButton(720, y, 0xFAB, 0xFAD, 5002, GumpButtonType.Reply, 0);
+            AddButton(720, y, 0xFAB, 0xFAD, 5002);
 
             y += 22;
             // add the action string entry
             AddLabel(10, y, 0x384, "Action");
             AddImageTiled(x, y, w, 21, 0xBBC);
             AddTextEntry(x+1, y, w, 21, 0, 103, sentry.Action);
-            AddButton(720, y, 0xFAB, 0xFAD, 5003, GumpButtonType.Reply, 0);
+            AddButton(720, y, 0xFAB, 0xFAD, 5003);
 
             y += 22;
             // add the gump string entry
             AddLabel(10, y, 0x384, "Gump");
             AddImageTiled(x, y, w, 21, 0xBBC);
             AddTextEntry(x+1, y, w, 21, 0, 104, sentry.Gump);
-            AddButton(720, y, 0xFAB, 0xFAD, 5004, GumpButtonType.Reply, 0);
+            AddButton(720, y, 0xFAB, 0xFAD, 5004);
         }
 
         y = height - 50;
@@ -553,7 +553,7 @@ public class XmlEditDialogGump : Gump
         {
 
             // add the save entry
-            AddButton(185, y , 0xFA8, 0xFAA, 159, GumpButtonType.Reply, 0);
+            AddButton(185, y , 0xFA8, 0xFAA, 159);
             AddLabel(218, y , 0x384, "Save to file:");
             AddImageTiled(300, y , 180, 19, 0xBBC);
             AddTextEntry(300, y, 180, 19, 0, 300, SaveFilename);
@@ -575,25 +575,25 @@ public class XmlEditDialogGump : Gump
         // add run status display
         if (m_Dialog.Running)
         {
-            AddButton(10, y-5, 0x2A4E, 0x2A3A, 100, GumpButtonType.Reply, 0);
+            AddButton(10, y-5, 0x2A4E, 0x2A3A, 100);
             AddLabel(43, y, 0x384, "On");
         }
         else
         {
-            AddButton(10, y-5, 0x2A62, 0x2A3A, 100, GumpButtonType.Reply, 0);
+            AddButton(10, y-5, 0x2A62, 0x2A3A, 100);
             AddLabel(43, y, 0x384, "Off");
         }
 
         // add the Refresh/Sort button
-        AddButton(80, y, 0xFAB, 0xFAD, 700, GumpButtonType.Reply, 0);
+        AddButton(80, y, 0xFAB, 0xFAD, 700);
         AddLabel(113, y, 0x384, "Refresh");
 
         // add the Add button
-        AddButton(185, y, 0xFAB, 0xFAD, 155, GumpButtonType.Reply, 0);
+        AddButton(185, y, 0xFAB, 0xFAD, 155);
         AddLabel(218, y, 0x384, "Add");
 
         // add the Delete button
-        AddButton(255, y, 0xFB1, 0xFB3, 156, GumpButtonType.Reply, 0);
+        AddButton(255, y, 0xFB1, 0xFB3, 156);
         AddLabel(283, y, 0x384, "Delete");
 
         // add the page buttons
@@ -603,14 +603,14 @@ public class XmlEditDialogGump : Gump
         }
 
         // add the advance pageblock buttons
-        AddButton(510+25*(MaxEntries/MaxEntriesPerPage), y, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0); // block forward
-        AddButton(490, y, 0x15E3, 0x15E7, 202, GumpButtonType.Reply, 0); // block backward
+        AddButton(510+25*(MaxEntries/MaxEntriesPerPage), y, 0x15E1, 0x15E5, 201); // block forward
+        AddButton(490, y, 0x15E3, 0x15E7, 202); // block backward
 
         // add the displayfrom entry
         AddLabel(555, y, 0x384, "Display");
         AddImageTiled(595, y, 60, 21, 0xBBC);
         AddTextEntry(595, y, 60, 21, 0, 400, DisplayFrom.ToString());
-        AddButton(655, y, 0xFAB, 0xFAD, 9998, GumpButtonType.Reply, 0);
+        AddButton(655, y, 0xFAB, 0xFAD, 9998);
 
         //AddLabel(610, y, 0x384, "Select All");
         // display the select-all toggle
@@ -633,7 +633,7 @@ public class XmlEditDialogGump : Gump
     private class ListSorter : IComparer
     {
         private bool Dsort;
-        public ListSorter(bool descend) : base () => Dsort = descend;
+        public ListSorter(bool descend) => Dsort = descend;
 
         public int Compare(object x, object y)
         {
@@ -1364,11 +1364,11 @@ public class XmlEditDialogGump : Gump
             }
 
             AddLabel(20, 225, 33, $"Delete {count} entries?");
-            AddRadio(35, 255, 9721, 9724, false, 1);                             // accept/yes radio
-            AddRadio(135, 255, 9721, 9724, true, 2);                             // decline/no radio
-            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff , false , false);  // Yes
-            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff , false , false); // No
-            AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);          // Okay button
+            AddRadio(35, 255, 9721, 9724, false, 1);                    // accept/yes radio
+            AddRadio(135, 255, 9721, 9724, true, 2);                    // decline/no radio
+            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);        // Yes
+            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff);       // No
+            AddButton(80, 289, 2130, 2129, 3); // Okay button
 
         }
         public override void OnResponse(NetState state, RelayInfo info)

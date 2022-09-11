@@ -296,7 +296,7 @@ public class XmlMagicWord : XmlAttachment
         Effects.PlaySound(m, m.Map, 0x201);
 
         // display a message over the item it was attached to
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).PublicOverheadMessage(MessageType.Regular, 0x3B2, true, msgstr);
         }

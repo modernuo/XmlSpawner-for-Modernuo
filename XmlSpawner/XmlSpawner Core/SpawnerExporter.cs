@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using Server.Engines.Spawners;
 
 /*
 ** Sno's distro spawner importer/exporter
@@ -39,7 +40,7 @@ public class SpawnerExporter
             ListOptimized = true;
         }
 
-        public override void ExecuteList(CommandEventArgs e, ArrayList list)
+        public override void ExecuteList(CommandEventArgs e, List<object> list)
         {
             string filename = e.GetString(0);
 
@@ -118,7 +119,7 @@ public class SpawnerExporter
             xml.WriteStartElement("spawner");
 
             xml.WriteStartElement("count");
-            xml.WriteString(spawner.MaxCount.ToString());
+            xml.WriteString(spawner.Count.ToString());
             xml.WriteEndElement();
 
             xml.WriteStartElement("group");
@@ -146,7 +147,7 @@ public class SpawnerExporter
             xml.WriteEndElement();
 
             xml.WriteStartElement("creaturesname");
-            foreach (SpawnObject kvp in spawner.SpawnObjects)
+            foreach (XmlSpawner.SpawnObject kvp in spawner.SpawnObjects)
             {
                 xml.WriteStartElement("creaturename");
                 xml.WriteString(kvp.SpawnName);

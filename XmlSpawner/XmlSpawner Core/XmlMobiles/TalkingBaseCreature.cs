@@ -64,7 +64,7 @@ public class TalkingBaseCreature : BaseCreature
         if (EItemID > 0)
         {
             //SendOffsetTargetEffect(this, new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), EItemID, 10, EDuration, EHue, 0);
-            Effects.SendLocationEffect(new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), Map, EItemID, EDuration, EHue, 0);
+            Effects.SendLocationEffect(new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), Map, EItemID, EDuration, EHue);
 
             lasteffect = DateTime.Now;
 
@@ -73,9 +73,9 @@ public class TalkingBaseCreature : BaseCreature
 
     public static void SendOffsetTargetEffect(IEntity target, Point3D loc, int itemID, int speed, int duration, int hue, int renderMode)
     {
-        if (target is Mobile)
+        if (target is Mobile mobile)
         {
-            ((Mobile)target).ProcessDelta();
+            mobile.ProcessDelta();
         }
 
         Effects.SendPacket(loc, target.Map, new OffsetTargetEffect(target, loc, itemID, speed, duration, hue, renderMode));
@@ -853,10 +853,10 @@ public class TalkingBaseCreature : BaseCreature
         // reestablish the DialogAttachment assignment
         foreach(Mobile m in World.Mobiles.Values)
         {
-            if (m is TalkingBaseCreature)
+            if (m is TalkingBaseCreature creature)
             {
                 XmlDialog xa = XmlAttach.FindAttachment(m, typeof(XmlDialog)) as XmlDialog;
-                ((TalkingBaseCreature)m).DialogAttachment = xa;
+                creature.DialogAttachment = xa;
             }
         }
     }

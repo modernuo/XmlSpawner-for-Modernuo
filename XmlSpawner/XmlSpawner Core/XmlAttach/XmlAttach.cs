@@ -371,7 +371,7 @@ public class XmlAttach
         // clean up any unowned attachments
         foreach (XmlAttachment a in Values)
         {
-            if (a.OwnedBy == null || a.OwnedBy is Mobile && ((Mobile)a.OwnedBy).Deleted || a.OwnedBy is Item && ((Item)a.OwnedBy).Deleted)
+            if (a.OwnedBy == null || a.OwnedBy is Mobile mobile && mobile.Deleted || a.OwnedBy is Item item && item.Deleted)
             {
                 a.Delete();
             }
@@ -1929,14 +1929,14 @@ public class XmlAttach
         attachment.AttachedTo = o;
         attachment.OwnedBy = o;
 
-        if (from is Mobile)
+        if (from is Mobile mobile)
         {
-            attachment.SetAttachedBy(((Mobile)from).Name);
+            attachment.SetAttachedBy(mobile.Name);
         }
         else
-        if (from is Item)
+        if (from is Item item)
         {
-            attachment.SetAttachedBy(((Item)from).Name);
+            attachment.SetAttachedBy(item.Name);
         }
 
         // if this is being attached for the first time, then call the OnAttach method
@@ -1988,7 +1988,7 @@ public class XmlAttach
             return null;
         }
 
-        if (o is Item && ((Item)o).Deleted || o is Mobile && ((Mobile)o).Deleted)
+        if (o is Item item && item.Deleted || o is Mobile mobile && mobile.Deleted)
         {
             return null;
         }
@@ -2073,7 +2073,7 @@ public class XmlAttach
             return null;
         }
 
-        if (o is Item && ((Item)o).Deleted || o is Mobile && ((Mobile)o).Deleted)
+        if (o is Item item && item.Deleted || o is Mobile mobile && mobile.Deleted)
         {
             return null;
         }
@@ -2162,11 +2162,9 @@ public class XmlAttach
         for (int i = 0; i < keyarray.Length; i++)
         {
             object o = attachments[keyarray[i]];
-            if (o is XmlAttachment)
+            if (o is XmlAttachment attachment)
             {
-                XmlAttachment a = o as XmlAttachment;
-
-                if (a == null || a.Deleted)
+                if (attachment == null || attachment.Deleted)
                 {
                     attachments.Remove(keyarray[i]);
                 }
@@ -2208,7 +2206,7 @@ public class XmlAttach
 
         bool removeall = false;
 
-        if (o is Item && ((Item)o).Deleted || o is Mobile && ((Mobile)o).Deleted)
+        if (o is Item item && item.Deleted || o is Mobile mobile && mobile.Deleted)
         {
             removeall = true;
         }

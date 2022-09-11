@@ -42,11 +42,11 @@ public class XmlTitle : XmlAttachment
         {
             m_Title = value;
             // change the title
-            if (AttachedTo is Mobile)
+            if (AttachedTo is Mobile mobile)
             {
                 ((Mobile)AttachedTo).InvalidateProperties();
             }
-            if (AttachedTo is Item)
+            if (AttachedTo is Item item)
             {
                 ((Item)AttachedTo).InvalidateProperties();
             }
@@ -107,11 +107,11 @@ public class XmlTitle : XmlAttachment
         base.OnDelete();
 
         // remove the title when deleted
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).InvalidateProperties();
         }
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).InvalidateProperties();
         }
@@ -122,11 +122,11 @@ public class XmlTitle : XmlAttachment
         base.OnAttach();
 
         // apply the title immediately when attached
-        if (AttachedTo is Mobile)
+        if (AttachedTo is Mobile mobile)
         {
             ((Mobile)AttachedTo).InvalidateProperties();
         }
-        if (AttachedTo is Item)
+        if (AttachedTo is Item item)
         {
             ((Item)AttachedTo).InvalidateProperties();
         }

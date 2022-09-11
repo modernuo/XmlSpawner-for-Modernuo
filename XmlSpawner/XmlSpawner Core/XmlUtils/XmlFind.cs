@@ -10,6 +10,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Server.Engines.Spawners;
+using Server.Engines.Stealables;
 
 namespace Server.Mobiles;
 
@@ -399,7 +401,7 @@ public class XmlFindGump : Gump
                 return true;
             }
 
-            if (i is BoatMountItem || i is Misc.TreasuresOfTokunoPersistence || i is StealableArtifactsSpawner)
+            if (i is BoatMountItem || i is Misc.TreasuresOfTokunoPersistence || i is StealableArtifacts.StealableArtifactsSpawner)
             {
                 return true;
             }
@@ -630,7 +632,7 @@ public class XmlFindGump : Gump
                         else if (i is Spawner spawner1)
                         {
                             // search the entries of the spawner
-                            foreach (SpawnObject obj in spawner1.SpawnObjects)
+                            foreach (XmlSpawner.SpawnObject obj in spawner1.SpawnObjects)
                             {
                                 string so = obj.SpawnName;
 
@@ -991,18 +993,18 @@ public class XmlFindGump : Gump
         // ----------------
         int y = 5;
         // add the Sort button
-        AddButton(5, y, 0xFAB, 0xFAD, 700, GumpButtonType.Reply, 0);
+        AddButton(5, y, 0xFAB, 0xFAD, 700);
         AddLabel(38, y, 0x384, "Sort");
 
         // add the sort direction button
         if (Descendingsort)
         {
-            AddButton(75, y + 3, 0x15E2, 0x15E6, 701, GumpButtonType.Reply, 0);
+            AddButton(75, y + 3, 0x15E2, 0x15E6, 701);
             AddLabel(95, y, 0x384, "descend");
         }
         else
         {
-            AddButton(75, y + 3, 0x15E0, 0x15E4, 701, GumpButtonType.Reply, 0);
+            AddButton(75, y + 3, 0x15E0, 0x15E4, 701);
             AddLabel(95, y, 0x384, "ascend");
         }
         y += 22;
@@ -1033,7 +1035,7 @@ public class XmlFindGump : Gump
         // ----------------
         y = 85;
         // add the Search button
-        AddButton(5, y, 0xFA8, 0xFAA, 3, GumpButtonType.Reply, 0);
+        AddButton(5, y, 0xFA8, 0xFAA, 3);
         AddLabel(38, y, 0x384, "Search");
 
         y += 20;
@@ -1155,23 +1157,23 @@ public class XmlFindGump : Gump
 
         y = height - 25;
         // add the Return button
-        AddButton(72, y, 0xFAE, 0xFAF, 155, GumpButtonType.Reply, 0);
+        AddButton(72, y, 0xFAE, 0xFAF, 155);
         AddLabel(105, y, 0x384, "Return");
 
         y = height - 25;
         // add the Bring button
-        AddButton(5, y, 0xFAE, 0xFAF, 154, GumpButtonType.Reply, 0);
+        AddButton(5, y, 0xFAE, 0xFAF, 154);
         AddLabel(38, y, 0x384, "Bring");
 
 
         // add gump extension button
         if (m_ShowExtension)
         {
-            AddButton(720, y + 5, 0x15E3, 0x15E7, 200, GumpButtonType.Reply, 0);
+            AddButton(720, y + 5, 0x15E3, 0x15E7, 200);
         }
         else
         {
-            AddButton(150, y + 5, 0x15E1, 0x15E5, 200, GumpButtonType.Reply, 0);
+            AddButton(150, y + 5, 0x15E1, 0x15E5, 200);
         }
 
         if (m_ShowExtension)
@@ -1186,26 +1188,26 @@ public class XmlFindGump : Gump
             AddLabel(650, 5, 0x384, "Owner");
 
             // add the Delete button
-            AddButton(150, y, 0xFB1, 0xFB3, 156, GumpButtonType.Reply, 0);
+            AddButton(150, y, 0xFB1, 0xFB3, 156);
             AddLabel(183, height - 25, 0x384, "Delete");
 
             // add the Reset button
-            AddButton(230, y, 0xFA2, 0xFA3, 157, GumpButtonType.Reply, 0);
+            AddButton(230, y, 0xFA2, 0xFA3, 157);
             AddLabel(263, y, 0x384, "Reset");
 
             // add the Respawn button
-            AddButton(310, y, 0xFA8, 0xFAA, 158, GumpButtonType.Reply, 0);
+            AddButton(310, y, 0xFA8, 0xFAA, 158);
             AddLabel(343, y, 0x384, "Respawn");
 
             // add the xmlsave entry
-            AddButton(150, y - 25, 0xFA8, 0xFAA, 159, GumpButtonType.Reply, 0);
+            AddButton(150, y - 25, 0xFA8, 0xFAA, 159);
             AddLabel(183, y - 25, 0x384, "Save to file:");
 
             AddImageTiled(270, y - 25, 180, 19, 0xBBC);
             AddTextEntry(270, y - 25, 180, 19, 0, 300, SaveFilename);
 
             // add the commandstring entry
-            AddButton(470, y - 25, 0xFA8, 0xFAA, 160, GumpButtonType.Reply, 0);
+            AddButton(470, y - 25, 0xFA8, 0xFAA, 160);
             AddLabel(503, y - 25, 0x384, "Command:");
 
             AddImageTiled(560, y - 25, 180, 19, 0xBBC);
@@ -1220,14 +1222,14 @@ public class XmlFindGump : Gump
             }
 
             // add the advance pageblock buttons
-            AddButton(415 + 25 * (MaxEntries / MaxEntriesPerPage), height - 25, 0x15E1, 0x15E5, 201, GumpButtonType.Reply, 0); // block forward
-            AddButton(395, height - 25, 0x15E3, 0x15E7, 202, GumpButtonType.Reply, 0); // block backward
+            AddButton(415 + 25 * (MaxEntries / MaxEntriesPerPage), height - 25, 0x15E1, 0x15E5, 201); // block forward
+            AddButton(395, height - 25, 0x15E3, 0x15E7, 202); // block backward
 
             // add the displayfrom entry
             AddLabel(460, y, 0x384, "Display");
             AddImageTiled(500, y, 60, 21, 0xBBC);
             AddTextEntry(501, y, 60, 21, 0, 400, DisplayFrom.ToString());
-            AddButton(560, y, 0xFAB, 0xFAD, 9998, GumpButtonType.Reply, 0);
+            AddButton(560, y, 0xFAB, 0xFAD, 9998);
 
             // display the item list
             if (m_SearchList != null)
@@ -1249,11 +1251,11 @@ public class XmlFindGump : Gump
             }
 
             // display the select-all-displayed toggle
-            AddButton(730, 5, 0xD2, 0xD3, 3999, GumpButtonType.Reply, 0);
+            AddButton(730, 5, 0xD2, 0xD3, 3999);
 
             AddLabel(610, y, 0x384, "Select All");
             // display the select-all toggle
-            AddButton(670, y, SelectAll ? 0xD3 : 0xD2, SelectAll ? 0xD2 : 0xD3, 3998, GumpButtonType.Reply, 0);
+            AddButton(670, y, SelectAll ? 0xD3 : 0xD2, SelectAll ? 0xD2 : 0xD3, 3998);
 
             for (int i = 0; i < MaxEntries; i++)
             {
@@ -1280,18 +1282,18 @@ public class XmlFindGump : Gump
                 AddImageTiled(236, 22 * (i % MaxEntriesPerPage) + 31, 384, 21, 0xBBC);
 
                 // add the Goto button for each entry
-                AddButton(205, 22 * (i % MaxEntriesPerPage) + 30, 0xFAE, 0xFAF, 1000 + i, GumpButtonType.Reply, 0);
+                AddButton(205, 22 * (i % MaxEntriesPerPage) + 30, 0xFAE, 0xFAF, 1000 + i);
 
                 object o = e.Object;
 
                 // add the Gump button for spawner entries
                 if (o is XmlSpawner || o is Spawner)
                 {
-                    AddButton(145, 22 * (i % MaxEntriesPerPage) + 30, 0xFBD, 0xFBE, 2000 + i, GumpButtonType.Reply, 0);
+                    AddButton(145, 22 * (i % MaxEntriesPerPage) + 30, 0xFBD, 0xFBE, 2000 + i);
                 }
 
                 // add the Props button for each entry
-                AddButton(175, 22 * (i % MaxEntriesPerPage) + 30, 0xFAB, 0xFAD, 3000 + i, GumpButtonType.Reply, 0);
+                AddButton(175, 22 * (i % MaxEntriesPerPage) + 30, 0xFAB, 0xFAD, 3000 + i);
 
                 string namestr = string.Empty;
                 string typestr = string.Empty;
@@ -1396,7 +1398,7 @@ public class XmlFindGump : Gump
 
                 // display the selection button
 
-                AddButton(730, 22 * (i % MaxEntriesPerPage) + 32, e.Selected ? 0xD3 : 0xD2, e.Selected ? 0xD2 : 0xD3, 4000 + i, GumpButtonType.Reply, 0);
+                AddButton(730, 22 * (i % MaxEntriesPerPage) + 32, e.Selected ? 0xD3 : 0xD2, e.Selected ? 0xD2 : 0xD3, 4000 + i);
             }
         }
     }
@@ -2229,9 +2231,9 @@ public class XmlFindGump : Gump
             AddLabel(20, 225, 33, $"Bring {count} objects to you?");
             AddRadio(35, 255, 9721, 9724, false, 1);                            // accept/yes radio
             AddRadio(135, 255, 9721, 9724, true, 2);                            // decline/no radio
-            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff, false, false);  // Yes
-            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff, false, false); // No
-            AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);         // Okay button
+            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);  // Yes
+            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff); // No
+            AddButton(80, 289, 2130, 2129, 3);         // Okay button
 
         }
         public override void OnResponse(NetState state, RelayInfo info)
@@ -2314,9 +2316,9 @@ public class XmlFindGump : Gump
             AddLabel(20, 225, 33, $"Delete {count} objects?");
             AddRadio(35, 255, 9721, 9724, false, 1);                            // accept/yes radio
             AddRadio(135, 255, 9721, 9724, true, 2);                            // decline/no radio
-            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff, false, false);  // Yes
-            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff, false, false); // No
-            AddButton(80, 289, 2130, 2129, 3, GumpButtonType.Reply, 0);         // Okay button
+            AddHtmlLocalized(72, 255, 200, 30, 1049016, 0x7fff);  // Yes
+            AddHtmlLocalized(172, 255, 200, 30, 1049017, 0x7fff); // No
+            AddButton(80, 289, 2130, 2129, 3);         // Okay button
 
         }
         public override void OnResponse(NetState state, RelayInfo info)
