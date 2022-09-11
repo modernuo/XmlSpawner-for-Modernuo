@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xmlspawner", "XmlSpawner\Xmlspawner.csproj", "{39F6BDAF-C006-44E1-99DD-BB32F78A2775}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "ModernUO\Projects\Server\Server.csproj", "{546E5273-00EC-40B5-ACF6-339F0730EB80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UOContent", "ModernUO\Projects\UOContent\UOContent.csproj", "{FAF29FC6-7AE5-4683-BD13-01A43B46095A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39F6BDAF-C006-44E1-99DD-BB32F78A2775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F6BDAF-C006-44E1-99DD-BB32F78A2775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F6BDAF-C006-44E1-99DD-BB32F78A2775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F6BDAF-C006-44E1-99DD-BB32F78A2775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546E5273-00EC-40B5-ACF6-339F0730EB80}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{546E5273-00EC-40B5-ACF6-339F0730EB80}.Debug|Any CPU.Build.0 = Debug|x64
+		{546E5273-00EC-40B5-ACF6-339F0730EB80}.Release|Any CPU.ActiveCfg = Release|x64
+		{546E5273-00EC-40B5-ACF6-339F0730EB80}.Release|Any CPU.Build.0 = Release|x64
+		{FAF29FC6-7AE5-4683-BD13-01A43B46095A}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{FAF29FC6-7AE5-4683-BD13-01A43B46095A}.Debug|Any CPU.Build.0 = Debug|x64
+		{FAF29FC6-7AE5-4683-BD13-01A43B46095A}.Release|Any CPU.ActiveCfg = Release|x64
+		{FAF29FC6-7AE5-4683-BD13-01A43B46095A}.Release|Any CPU.Build.0 = Release|x64
+		{392FA635-0654-4C54-9D8E-BBADE003B202}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{392FA635-0654-4C54-9D8E-BBADE003B202}.Debug|Any CPU.Build.0 = Debug|x64
+		{392FA635-0654-4C54-9D8E-BBADE003B202}.Release|Any CPU.ActiveCfg = Release|x64
+		{392FA635-0654-4C54-9D8E-BBADE003B202}.Release|Any CPU.Build.0 = Release|x64
+		{F7064933-1692-4342-8D50-F9CE56957403}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{F7064933-1692-4342-8D50-F9CE56957403}.Debug|Any CPU.Build.0 = Debug|x64
+		{F7064933-1692-4342-8D50-F9CE56957403}.Release|Any CPU.ActiveCfg = Release|x64
+		{F7064933-1692-4342-8D50-F9CE56957403}.Release|Any CPU.Build.0 = Release|x64
+	EndGlobalSection
+EndGlobal

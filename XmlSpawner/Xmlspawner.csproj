@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModernUO\Projects\Server\Server.csproj" />
+    <ProjectReference Include="..\ModernUO\Projects\UOContent\UOContent.csproj" />
+  </ItemGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Analyze'">
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <CodeAnalysisRuleSet>.\Rules.ruleset</CodeAnalysisRuleSet>
+        <AnalysisLevel>latest</AnalysisLevel>
+    </PropertyGroup>
+</Project>

@@ -1,0 +1,259 @@
+using System;
+
+namespace Server.Engines.XmlSpawner2;
+
+public class XmlSound : XmlAttachment
+{
+    private int m_SoundValue = 500;                          // default sound
+    private string m_Word;                                   // no word activation by default
+    private TimeSpan m_Refractory = TimeSpan.FromSeconds(5); // 5 seconds default time between activations
+    private DateTime m_EndTime;
+    private int m_Charges;      // no charge limit
+    private int proximityrange = 5; // default movement activation from 5 tiles away
+
+    [CommandProperty(AccessLevel.GameMaster)]
+    public int Range
+    {
+        get => proximityrange;
+        set => proximityrange  = value;
+    }
+
+    [CommandProperty(AccessLevel.GameMaster)]
+    public int SoundValue
+    {
+        get => m_SoundValue;
+        set => m_SoundValue  = value;
+    }
+
+    [CommandProperty(AccessLevel.GameMaster)]
+    public string ActivationWord
+    {
+        get => m_Word;
+        set => m_Word  = value;
+    }
+
+    [CommandProperty(AccessLevel.GameMaster)]
+    public int Charges
+    {
+        get => m_Charges;
+        set => m_Charges  = value;
+    }
+
+    [CommandProperty(AccessLevel.GameMaster)]
+    public TimeSpan Refractory
+    {
+        get => m_Refractory;
+        set => m_Refractory  = value;
+    }
+
+    // These are the various ways in which the message attachment can be constructed.
+    // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
+    // Other overloads could be defined to handle other types of arguments
+
+    // a serial constructor is REQUIRED
+    public XmlSound(ASerial serial) : base(serial)
+    {
+    }
+
+    [Attachable]
+    public XmlSound()
+    {
+    }
+
+    [Attachable]
+    public XmlSound(int sound) => SoundValue = sound;
+
+    [Attachable]
+    public XmlSound(int sound, double refractory)
+    {
+        SoundValue = sound;
+        Refractory = TimeSpan.FromSeconds(refractory);
+    }
+
+    [Attachable]
+    public XmlSound(int sound, double refractory, string word)
+    {
+        ActivationWord = word;
+        SoundValue = sound;
+        Refractory = TimeSpan.FromSeconds(refractory);
+    }
+
+    [Attachable]
+    public XmlSound(int sound, double refractory, string word, int charges)
+    {
+        ActivationWord = word;
+        SoundValue = sound;
+        Refractory = TimeSpan.FromSeconds(refractory);
+        Charges = charges;
+    }
+
+    [Attachable]
+    public XmlSound(int sound, double refractory, int charges)
+    {
+        SoundValue = sound;
+        Refractory = TimeSpan.FromSeconds(refractory);
+        Charges = charges;
+    }
+
+    public override void Serialize(IGenericWriter writer)
+    {
+        base.Serialize(writer);
+
+        writer.Write(1);
+        // version 1
+        writer.Write(proximityrange);
+        // version 0
+        writer.Write(m_SoundValue);
+        writer.Write(m_Word);
+        writer.Write(m_Charges);
+        writer.Write(m_Refractory);
+        writer.Write(m_EndTime - DateTime.Now);
+    }
+
+    public override void Deserialize(IGenericReader reader)
+    {
+        base.Deserialize(reader);
+
+        int version = reader.ReadInt();
+        switch (version)
+        {
+            case 1:
+                {
+                    // version 1
+                    proximityrange = reader.ReadInt();
+                    goto case 0;
+                }
+            case 0:
+                {
+                    // version 0
+                    SoundValue = reader.ReadInt();
+                    ActivationWord = reader.ReadString();
+                    Charges = reader.ReadInt();
+                    Refractory = reader.ReadTimeSpan();
+                    TimeSpan remaining = reader.ReadTimeSpan();
+                    m_EndTime = DateTime.Now + remaining;
+                    break;
+                }
+        }
+    }
+
+    public override string OnIdentify(Mobile from)
+    {
+        if (from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
+
+        string msg = null;
+
+        if (Charges > 0)
+        {
+            msg = $"Sound #{SoundValue} : {Refractory.TotalSeconds} secs between uses - {Charges} charges left";
+        }
+        else
+        {
+            msg = $"Sound #{SoundValue} : {Refractory.TotalSeconds} secs between uses";
+        }
+
+        if (ActivationWord == null)
+        {
+            return msg;
+        }
+
+        return $"{msg} : trigger on '{ActivationWord}'";
+
+    }
+
+    public override bool HandlesOnSpeech => ActivationWord != null;
+
+    public override void OnSpeech(SpeechEventArgs e)
+    {
+        base.OnSpeech(e);
+
+        if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
+
+        if (e.Speech == ActivationWord)
+        {
+            OnTrigger(null, e.Mobile);
+        }
+    }
+
+    public override bool HandlesOnMovement => ActivationWord == null;
+
+    public override void OnMovement(MovementEventArgs e)
+    {
+        base.OnMovement(e);
+
+        if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
+
+        if (AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange(e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange))
+        {
+            OnTrigger(null, e.Mobile);
+        }
+    }
+
+
+    public override void OnTrigger(object activator, Mobile m)
+    {
+        if (m == null)
+        {
+            return;
+        }
+
+        if (DateTime.Now < m_EndTime)
+        {
+            return;
+        }
+
+
+        // play a sound
+        if (AttachedTo is Mobile mobile)
+        {
+            try
+            {
+                Effects.PlaySound(((Mobile)AttachedTo).Location, ((IEntity)AttachedTo).Map,  SoundValue);
+            }
+            catch{}
+        }
+        else
+        if (AttachedTo is Item)
+        {
+            Item i = AttachedTo as Item;
+
+            if (i.Parent == null)
+            {
+                try
+                {
+                    Effects.PlaySound(i.Location, i.Map,  SoundValue);
+                }
+                catch{}
+            }
+            else if (i.RootParent is IEntity)
+            {
+                try
+                {
+                    Effects.PlaySound(i.RootParent.Location, i.RootParent.Map,  SoundValue);
+                }
+                catch{}
+            }
+        }
+
+        Charges--;
+
+        // remove the attachment either after the charges run out or if refractory is zero, then it is one use only
+        if (Refractory == TimeSpan.Zero || Charges == 0)
+        {
+            Delete();
+        }
+        else
+        {
+            m_EndTime = DateTime.Now + Refractory;
+        }
+    }
+}
