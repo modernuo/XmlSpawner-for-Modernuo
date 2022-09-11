@@ -23,7 +23,9 @@ public class XmlQuestBookGump : Gump
         int index = 0;
 
         while ( page-- > 0 )
+        {
             index += GetCountForIndex( index );
+        }
 
         return index;
     }
@@ -44,7 +46,9 @@ public class XmlQuestBookGump : Gump
             add = 1;
 
             if ( slots + add > 10 )
+            {
                 break;
+            }
 
             slots += add;
 
@@ -61,7 +65,10 @@ public class XmlQuestBookGump : Gump
 
     public override void OnResponse( Network.NetState sender, RelayInfo info )
     {
-        if(info == null || m_From == null) return;
+        if(info == null || m_From == null)
+        {
+            return;
+        }
 
         switch ( info.ButtonID )
         {
@@ -73,14 +80,18 @@ public class XmlQuestBookGump : Gump
             case 2: // Previous page
                 {
                     if ( m_Page > 0 )
+                    {
                         m_From.SendGump( new XmlQuestBookGump( m_From, m_Book, m_Page - 1, m_List ) );
+                    }
 
                     return;
                 }
             case 3: // Next page
                 {
                     if ( GetIndexForPage( m_Page + 1 ) < m_List.Count )
+                    {
                         m_From.SendGump( new XmlQuestBookGump( m_From, m_Book, m_Page + 1, m_List ) );
+                    }
 
                     break;
                 }
@@ -93,7 +104,9 @@ public class XmlQuestBookGump : Gump
                         int index = info.ButtonID - 2000;
 
                         if ( index < 0 || index >= m_List.Count )
+                        {
                             break;
+                        }
 
                         if(m_List[index] is IXmlQuest)
                         {
@@ -112,7 +125,9 @@ public class XmlQuestBookGump : Gump
                         int index = info.ButtonID - 1000;
 
                         if ( index < 0 || index >= m_List.Count )
+                        {
                             break;
+                        }
 
                         // allow quests to be dropped from books that are either in the world or in the players backpack
                         if ( m_Book.IsChildOf( m_From.Backpack ) || m_Book.Parent == null)
@@ -156,7 +171,9 @@ public class XmlQuestBookGump : Gump
             Item [] questitems = book.FindItemsByType(typeof(IXmlQuest));
 
             if(questitems != null)
+            {
                 nquests = questitems.Length;
+            }
 
             list = new ArrayList( nquests );
 
@@ -181,7 +198,9 @@ public class XmlQuestBookGump : Gump
 			
         int xoffset = 0;
         if(m_Book.Locked)
+        {
             xoffset = 20;
+        }
 
         AddPage( 0 );
 
@@ -220,7 +239,9 @@ public class XmlQuestBookGump : Gump
 
         AddHtmlLocalized( 410 - xoffset, 416, 120, 20, 1011441, LabelColor, false, false ); // EXIT
         if(!m_Book.Locked)
+        {
             AddHtmlLocalized( 26, 64, 50, 32, 1062212, LabelColor, false, false ); // Drop
+        }
 
         tableIndex = 0;
 
@@ -248,7 +269,9 @@ public class XmlQuestBookGump : Gump
                 int y = 96 + tableIndex++ * 32;
 
                 if(!m_Book.Locked)
+                {
                     AddButton( 35, y + 2, 5602, 5606, 1000 + i, GumpButtonType.Reply, 0 ); // drop
+                }
 
                 AddButton( 60 - xoffset, y + 2, 0xFAB, 0xFAD, 2000 + i, GumpButtonType.Reply, 0 ); // open gump
 

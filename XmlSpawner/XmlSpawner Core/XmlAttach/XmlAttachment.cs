@@ -130,20 +130,23 @@ public abstract class XmlAttachment : IXmlAttachment
     // Public properties
     // ----------------------------------------------
     [CommandProperty(AccessLevel.GameMaster)]
-    public DateTime CreationTime { get { return m_CreationTime; } }
+    public DateTime CreationTime => m_CreationTime;
 
-    public bool Deleted { get { return m_Deleted; } }
+    public bool Deleted => m_Deleted;
 
-    public bool DoDelete { get { return false; } set { if (value == true)
+    public bool DoDelete { get => false;
+        set { if (value == true)
         {
             Delete();
         }
     } }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int SerialValue { get { return m_Serial.Value; } }
+    public int SerialValue => m_Serial.Value;
 
-    public ASerial Serial { get { return m_Serial; } set { m_Serial = value; } }
+    public ASerial Serial { get => m_Serial;
+        set => m_Serial = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan Expiration
@@ -171,31 +174,28 @@ public abstract class XmlAttachment : IXmlAttachment
         }
     }
 
-    public DateTime ExpirationEnd
-    {
-        get { return m_ExpirationEnd; }
-    }
+    public DateTime ExpirationEnd => m_ExpirationEnd;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual bool CanActivateInBackpack { get { return true; } }
+    public virtual bool CanActivateInBackpack => true;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual bool CanActivateEquipped { get { return true; } }
+    public virtual bool CanActivateEquipped => true;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual bool CanActivateInWorld { get { return true; } }
+    public virtual bool CanActivateInWorld => true;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual bool HandlesOnSpeech { get { return false; } }
+    public virtual bool HandlesOnSpeech => false;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual bool HandlesOnMovement { get { return false; } }
+    public virtual bool HandlesOnMovement => false;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual bool HandlesOnKill { get { return false; } }
+    public virtual bool HandlesOnKill => false;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual bool HandlesOnKilled { get { return false; } }
+    public virtual bool HandlesOnKilled => false;
 
     /*
     [CommandProperty( AccessLevel.GameMaster )]
@@ -203,20 +203,26 @@ public abstract class XmlAttachment : IXmlAttachment
     */
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual string Name { get { return m_Name; } set { m_Name = value; } }
+    public virtual string Name { get => m_Name;
+        set => m_Name = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual object Attached { get { return m_AttachedTo; } }
+    public virtual object Attached => m_AttachedTo;
 
-    public virtual object AttachedTo { get { return m_AttachedTo; } set { m_AttachedTo = value; } }
-
-    [CommandProperty(AccessLevel.GameMaster)]
-    public virtual string AttachedBy { get { return m_AttachedBy; } }
-
-    public virtual object OwnedBy { get { return m_OwnedBy; } set { m_OwnedBy = value; } }
+    public virtual object AttachedTo { get => m_AttachedTo;
+        set => m_AttachedTo = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public virtual object Owner { get { return m_OwnedBy; } }
+    public virtual string AttachedBy => m_AttachedBy;
+
+    public virtual object OwnedBy { get => m_OwnedBy;
+        set => m_OwnedBy = value;
+    }
+
+    [CommandProperty(AccessLevel.GameMaster)]
+    public virtual object Owner => m_OwnedBy;
 
     // ----------------------------------------------
     // Private methods
@@ -240,10 +246,8 @@ public abstract class XmlAttachment : IXmlAttachment
         private XmlAttachment m_Attachment;
 
         public AttachmentTimer(XmlAttachment attachment, TimeSpan delay)
-            : base(delay)
-        {
+            : base(delay) =>
             m_Attachment = attachment;
-        }
 
         protected override void OnTick()
         {
@@ -266,10 +270,7 @@ public abstract class XmlAttachment : IXmlAttachment
     }
 
     // needed for deserialization
-    public XmlAttachment(ASerial serial)
-    {
-        m_Serial = serial;
-    }
+    public XmlAttachment(ASerial serial) => m_Serial = serial;
 
     // ----------------------------------------------
     // Public methods
@@ -280,10 +281,7 @@ public abstract class XmlAttachment : IXmlAttachment
         XmlAttach.CleanUp();
     }
 
-    public virtual bool CanEquip(Mobile from)
-    {
-        return true;
-    }
+    public virtual bool CanEquip(Mobile from) => true;
 
     public virtual void OnEquip(Mobile from)
     {
@@ -316,15 +314,9 @@ public abstract class XmlAttachment : IXmlAttachment
     {
     }
 
-    public virtual bool BlockDefaultOnUse(Mobile from, object target)
-    {
-        return false;
-    }
+    public virtual bool BlockDefaultOnUse(Mobile from, object target) => false;
 
-    public virtual bool OnDragLift(Mobile from, Item item)
-    {
-        return true;
-    }
+    public virtual bool OnDragLift(Mobile from, Item item) => true;
 
     public void SetAttachedBy(string name)
     {
@@ -365,20 +357,11 @@ public abstract class XmlAttachment : IXmlAttachment
     {
     }
 
-    public virtual int OnArmorHit(Mobile attacker, Mobile defender, Item armor, BaseWeapon weapon, int damageGiven)
-    {
-        return 0;
-    }
+    public virtual int OnArmorHit(Mobile attacker, Mobile defender, Item armor, BaseWeapon weapon, int damageGiven) => 0;
 
-    public virtual string OnIdentify(Mobile from)
-    {
-        return null;
-    }
+    public virtual string OnIdentify(Mobile from) => null;
 
-    public virtual string DisplayedProperties(Mobile from)
-    {
-        return OnIdentify(from);
-    }
+    public virtual string DisplayedProperties(Mobile from) => OnIdentify(from);
 
 
     public virtual void AddProperties(ObjectPropertyList list)

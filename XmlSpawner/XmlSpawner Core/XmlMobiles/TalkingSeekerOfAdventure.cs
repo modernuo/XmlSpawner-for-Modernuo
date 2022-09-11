@@ -11,18 +11,12 @@ public class TalkingSeekerOfAdventure : TalkingBaseEscortable
         "Wrong"
     };
 
-    public override string[] GetPossibleDestinations()
-    {
-        return m_Dungeons;
-    }
+    public override string[] GetPossibleDestinations() => m_Dungeons;
 
-    [Constructable]
-    public TalkingSeekerOfAdventure()
-    {
-        Title = "the seeker of adventure";
-    }
+    [Constructible]
+    public TalkingSeekerOfAdventure() => Title = "the seeker of adventure";
 
-    public override bool ClickTitle{ get{ return false; } } // Do not display 'the seeker of adventure' when single-clicking
+    public override bool ClickTitle => false; // Do not display 'the seeker of adventure' when single-clicking
 
     private static int GetRandomHue()
     {
@@ -59,21 +53,31 @@ public class TalkingSeekerOfAdventure : TalkingBaseEscortable
     public override void InitOutfit()
     {
         if ( Female )
+        {
             AddItem( new FancyDress( GetRandomHue() ) );
+        }
         else
+        {
             AddItem( new FancyShirt( GetRandomHue() ) );
+        }
 
         int lowHue = GetRandomHue();
 
         AddItem( new ShortPants( lowHue ) );
 
         if ( Female )
+        {
             AddItem( new ThighBoots( lowHue ) );
+        }
         else
+        {
             AddItem( new Boots( lowHue ) );
+        }
 
         if ( !Female )
+        {
             AddItem( new BodySash( lowHue ) );
+        }
 
         AddItem( new Cloak( GetRandomHue() ) );
 

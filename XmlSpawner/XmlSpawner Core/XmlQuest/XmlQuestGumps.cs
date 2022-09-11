@@ -54,8 +54,11 @@ public class XmlConfirmDeleteGump : Gump
 		
     public override void OnResponse( NetState state, RelayInfo info )
     {
-        if(info == null || state == null || state.Mobile == null) return;
-            
+        if(info == null || state == null || state.Mobile == null)
+        {
+            return;
+        }
+
         int radiostate = -1;
         if(info.Switches.Length > 0)
         {
@@ -95,10 +98,7 @@ public class XmlConfirmDeleteGump : Gump
 
 public class XmlSimpleGump : Gump
 {
-    public static string Color( string text, string color )
-    {
-        return $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
-    }
+    public static string Color( string text, string color ) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
     private int m_gumptype;
     private object m_invoker;
     private BaseXmlSpawner.KeywordTag m_keywordtag;
@@ -120,7 +120,10 @@ public class XmlSimpleGump : Gump
 
     void LocalAddHtml(string text, int x, int y, int width, int height, int color, bool background, bool scrollbar)
     {
-        if (text == null) return;
+        if (text == null)
+        {
+            return;
+        }
 
         // check for cliloc specification
         if (text.StartsWith("#"))
@@ -161,8 +164,15 @@ public class XmlSimpleGump : Gump
             for(int i = 1;i<args.Length;i += 2)
             {
                 GumpSelection s = new GumpSelection("","");
-                if(i < args.Length) s.Selection = args[i].Trim();
-                if(i+1 < args.Length) s.Response = args[i+1].Trim();
+                if(i < args.Length)
+                {
+                    s.Selection = args[i].Trim();
+                }
+
+                if(i+1 < args.Length)
+                {
+                    s.Response = args[i+1].Trim();
+                }
 
                 gumpSelections.Add(s);
             }
@@ -598,8 +608,11 @@ public class XmlSimpleGump : Gump
 
     public override void OnResponse( NetState state, RelayInfo info )
     {
-        if(info == null || state == null || state.Mobile == null) return;
-            
+        if(info == null || state == null || state.Mobile == null)
+        {
+            return;
+        }
+
         Mobile from = state.Mobile;
 
 			
@@ -613,6 +626,7 @@ public class XmlSimpleGump : Gump
 
             } else
 
+            {
                 switch(m_gumptype)
                 {
                     case 0: // simple acknowledgement gump
@@ -742,9 +756,12 @@ public class XmlSimpleGump : Gump
                             break;
                         }
                 }
+            }
         }
         // get rid of any temporary gump keyword tokens
         if(m_invoker is XmlSpawner)
+        {
             ((XmlSpawner)m_invoker).DeleteTag(m_keywordtag);
+        }
     }
 }

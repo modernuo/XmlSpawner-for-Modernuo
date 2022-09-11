@@ -12,13 +12,19 @@ public class XmlLightning : XmlAttachment
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Damage { get{ return m_Damage; } set { m_Damage = value; } }
+    public int Damage { get => m_Damage;
+        set => m_Damage = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public TimeSpan Refractory { get { return m_Refractory; } set { m_Refractory  = value; } }
+    public TimeSpan Refractory { get => m_Refractory;
+        set => m_Refractory  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Range { get { return proximityrange; } set { proximityrange  = value; } }
+    public int Range { get => proximityrange;
+        set => proximityrange  = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -30,10 +36,7 @@ public class XmlLightning : XmlAttachment
     }
 
     [Attachable]
-    public XmlLightning(int damage)
-    {
-        m_Damage = damage;
-    }
+    public XmlLightning(int damage) => m_Damage = damage;
 
     [Attachable]
     public XmlLightning(int damage, double refractory)
@@ -58,12 +61,17 @@ public class XmlLightning : XmlAttachment
     public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
     {
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime) return;
+        if(DateTime.Now < m_EndTime)
+        {
+            return;
+        }
 
         int damage = 0;
 
         if(m_Damage > 0)
+        {
             damage = Utility.Random(m_Damage);
+        }
 
         if(defender != null && attacker != null && damage > 0)
         {
@@ -84,9 +92,13 @@ public class XmlLightning : XmlAttachment
         get
         {
             if(AttachedTo is Item && !((Item)AttachedTo).Movable)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 
@@ -96,14 +108,19 @@ public class XmlLightning : XmlAttachment
     {
         base.OnMovement(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
         }
         else
+        {
             return;
+        }
     }
 
     public override void Serialize( IGenericWriter writer )
@@ -162,20 +179,30 @@ public class XmlLightning : XmlAttachment
             return $"{msg} - {Refractory.TotalSeconds} secs between uses";
         }
         else
+        {
             return msg;
+        }
     }
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null ) return;
+        if(m == null )
+        {
+            return;
+        }
 
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime) return;
+        if(DateTime.Now < m_EndTime)
+        {
+            return;
+        }
 
         int damage = 0;
 
         if(m_Damage > 0)
+        {
             damage = Utility.Random(m_Damage);
+        }
 
         if(damage > 0)
         {

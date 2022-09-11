@@ -8,7 +8,9 @@ public class XmlHue : XmlAttachment
     private int m_Hue;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Hue { get{ return m_Hue; } set { m_Hue = value; } }
+    public int Hue { get => m_Hue;
+        set => m_Hue = value;
+    }
 
 
     // These are the various ways in which the message attachment can be constructed.
@@ -59,7 +61,10 @@ public class XmlHue : XmlAttachment
     {
         base.OnIdentify(from);
 
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if(Expiration > TimeSpan.Zero)
         {
@@ -106,7 +111,9 @@ public class XmlHue : XmlAttachment
             i.Hue = m_Hue;
         }
         else
+        {
             Delete();
+        }
     }
 
 }

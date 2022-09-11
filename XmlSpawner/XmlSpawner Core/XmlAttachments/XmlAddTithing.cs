@@ -8,7 +8,9 @@ public class XmlAddTithing : XmlAttachment
     private int m_DataValue; // default data
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Value { get{ return m_DataValue; } set { m_DataValue = value; } }
+    public int Value { get => m_DataValue;
+        set => m_DataValue = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -20,10 +22,7 @@ public class XmlAddTithing : XmlAttachment
     }
 
     [Attachable]
-    public XmlAddTithing( int value)
-    {
-        Value = value;
-    }
+    public XmlAddTithing( int value) => Value = value;
 
 
     public override void Serialize( IGenericWriter writer )
@@ -70,13 +69,16 @@ public class XmlAddTithing : XmlAttachment
 
     }
 
-    public override bool HandlesOnKilled { get { return true; } }
+    public override bool HandlesOnKilled => true;
 
     public override void OnKilled(Mobile killed, Mobile killer )
     {
         base.OnKilled(killed, killer);
 
-        if(killer == null) return;
+        if(killer == null)
+        {
+            return;
+        }
 
         killer.TithingPoints += Value;
 
@@ -84,10 +86,5 @@ public class XmlAddTithing : XmlAttachment
     }
 
 
-    public override string OnIdentify(Mobile from)
-    {
-
-        return $"{Value} TithingPoints";
-
-    }
+    public override string OnIdentify(Mobile from) => $"{Value} TithingPoints";
 }

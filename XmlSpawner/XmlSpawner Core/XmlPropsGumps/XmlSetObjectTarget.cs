@@ -41,9 +41,13 @@ public class XmlSetObjectTarget : Target
         try
         {
             if (m_Type == typeof(Type))
+            {
                 targeted = targeted.GetType();
+            }
             else if ((m_Type == typeof(BaseAddon) || m_Type.IsAssignableFrom(typeof(BaseAddon))) && targeted is AddonComponent component)
+            {
                 targeted = component.Addon;
+            }
 
             if (m_Type.IsInstanceOfType(targeted))
             {
@@ -64,8 +68,12 @@ public class XmlSetObjectTarget : Target
     protected override void OnTargetFinish(Mobile from)
     {
         if (m_Type == typeof(Type))
+        {
             from.SendGump(new XmlPropertiesGump(m_Mobile, m_Object, m_Stack, m_List, m_Page));
+        }
         else
+        {
             from.SendGump(new XmlSetObjectGump(m_Property, m_Mobile, m_Object, m_Stack, m_Type, m_Page, m_List));
+        }
     }
 }

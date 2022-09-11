@@ -8,7 +8,7 @@ namespace Server.Engines.XmlSpawner2;
 public class XmlSpawnerAddon : BaseAddon
 {
 
-    public override bool ShareHue { get { return false; } }
+    public override bool ShareHue => false;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public virtual int PartialVisibility
@@ -20,14 +20,20 @@ public class XmlSpawnerAddon : BaseAddon
             // go through the components
             for (int i = 0; i < Components.Count; i++)
             {
-                if (Components[i].Visible) nvisible++;
+                if (Components[i].Visible)
+                {
+                    nvisible++;
+                }
             }
 
             return (int)(100.0 * nvisible / Components.Count + 0.5);
         }
         set
         {
-            if (Components == null || Components.Count < 1) return;
+            if (Components == null || Components.Count < 1)
+            {
+                return;
+            }
 
             // assign visibility to the components based upon the percentage value
             int nvisible = value * (Components.Count - 1) / 100;
@@ -46,7 +52,10 @@ public class XmlSpawnerAddon : BaseAddon
     {
         status_str = null;
 
-        if (filename == null) return null;
+        if (filename == null)
+        {
+            return null;
+        }
 
         XmlSpawnerAddon newaddon = null;
 
@@ -123,7 +132,10 @@ public class XmlSpawnerAddon : BaseAddon
                     linenumber++;
 
                     // process the line
-                    if (line.Length == 0) continue;
+                    if (line.Length == 0)
+                    {
+                        continue;
+                    }
 
                     // first parse out the component specification from any optional attachment specifications
 
@@ -131,7 +143,10 @@ public class XmlSpawnerAddon : BaseAddon
 
                     // the component spec will always be first
 
-                    if (specs == null || specs.Length < 1) continue;
+                    if (specs == null || specs.Length < 1)
+                    {
+                        continue;
+                    }
 
                     string[] args = specs[0].Trim().Split(' ');
 
@@ -176,7 +191,9 @@ public class XmlSpawnerAddon : BaseAddon
                         newcomponent.Visible = visible == 1;
 
                         if (hue >= 0)
+                        {
                             newcomponent.Hue = hue;
+                        }
 
                         // add it to the addon
                         newaddon.AddComponent(newcomponent, x, y, z);
@@ -191,7 +208,10 @@ public class XmlSpawnerAddon : BaseAddon
                         for (int j = 1; j < specs.Length; j++)
                         {
 
-                            if (specs[j] == null) continue;
+                            if (specs[j] == null)
+                            {
+                                continue;
+                            }
 
                             string attachstring = specs[j].Trim();
 
@@ -235,13 +255,7 @@ public class XmlSpawnerAddon : BaseAddon
         }
     }
 
-    public override BaseAddonDeed Deed
-    {
-        get
-        {
-            return null;
-        }
-    }
+    public override BaseAddonDeed Deed => null;
 
     public XmlSpawnerAddon()
     {

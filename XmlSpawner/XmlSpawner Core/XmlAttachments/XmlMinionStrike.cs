@@ -14,13 +14,19 @@ public class XmlMinionStrike : XmlAttachment
     private ArrayList MinionList = new ArrayList();
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Chance { get{ return m_Chance; } set { m_Chance = value; } }
+    public int Chance { get => m_Chance;
+        set => m_Chance = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public TimeSpan Refractory { get { return m_Refractory; } set { m_Refractory  = value; } }
+    public TimeSpan Refractory { get => m_Refractory;
+        set => m_Refractory  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string Minion { get { return m_Minion; } set { m_Minion  = value; } }
+    public string Minion { get => m_Minion;
+        set => m_Minion  = value;
+    }
 
 
     // These are the various ways in which the message attachment can be constructed.
@@ -85,10 +91,15 @@ public class XmlMinionStrike : XmlAttachment
     {
 
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime) return;
+        if(DateTime.Now < m_EndTime)
+        {
+            return;
+        }
 
         if(m_Chance <= 0 || Utility.Random(100) > m_Chance)
+        {
             return;
+        }
 
         if(defender != null && attacker != null)
         {
@@ -120,9 +131,15 @@ public class XmlMinionStrike : XmlAttachment
             else
             {
                 if(o is Item)
+                {
                     ((Item)o).Delete();
+                }
+
                 if(o is Mobile)
+                {
                     ((Mobile)o).Delete();
+                }
+
                 // bad minion specification so delete the attachment
                 Delete();
             }
@@ -148,7 +165,9 @@ public class XmlMinionStrike : XmlAttachment
         foreach(BaseCreature b in MinionList)
         {
             if(b != null && !b.Deleted)
+            {
                 b.Delete();
+            }
         }
     }
 
@@ -164,8 +183,9 @@ public class XmlMinionStrike : XmlAttachment
         writer.Write(m_EndTime - DateTime.Now);
         writer.Write(MinionList.Count);
         foreach(BaseCreature b in MinionList)
+        {
             writer.Write(b);
-
+        }
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -205,6 +225,8 @@ public class XmlMinionStrike : XmlAttachment
             return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
         else
+        {
             return msg;
+        }
     }
 }

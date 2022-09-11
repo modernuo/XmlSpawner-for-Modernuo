@@ -31,10 +31,7 @@ public class BaseXmlSpawner
     private static readonly Type typeofParsable = typeof(ParsableAttribute);
     private static readonly Type typeofCustomEnum = typeof(CustomEnumAttribute);
 
-    private static bool IsParsable(Type t)
-    {
-        return t == typeofTimeSpan || t.IsDefined(typeofParsable, false);
-    }
+    private static bool IsParsable(Type t) => t == typeofTimeSpan || t.IsDefined(typeofParsable, false);
 
     private static readonly Type[] m_ParseTypes = { typeof(string) };
     private static readonly object[] m_ParseParams = new object[1];
@@ -56,41 +53,23 @@ public class BaseXmlSpawner
         typeof( long ), typeof( ulong ), typeof( Serial )
     };
 
-    public static bool IsNumeric(Type t)
-    {
-        return Array.IndexOf(m_NumericTypes, t) >= 0;
-    }
+    public static bool IsNumeric(Type t) => Array.IndexOf(m_NumericTypes, t) >= 0;
 
     private static readonly Type typeofType = typeof(Type);
 
-    private static bool IsType(Type t)
-    {
-        return t == typeofType;
-    }
+    private static bool IsType(Type t) => t == typeofType;
 
     private static readonly Type typeofChar = typeof(char);
 
-    private static bool IsChar(Type t)
-    {
-        return t == typeofChar;
-    }
+    private static bool IsChar(Type t) => t == typeofChar;
 
     private static readonly Type typeofString = typeof(string);
 
-    private static bool IsString(Type t)
-    {
-        return t == typeofString;
-    }
+    private static bool IsString(Type t) => t == typeofString;
 
-    private static bool IsEnum(Type t)
-    {
-        return t.IsEnum;
-    }
+    private static bool IsEnum(Type t) => t.IsEnum;
 
-    private static bool IsCustomEnum(Type t)
-    {
-        return t.IsDefined(typeofCustomEnum, false);
-    }
+    private static bool IsCustomEnum(Type t) => t.IsDefined(typeofCustomEnum, false);
 
     private enum typeKeyword
     {
@@ -139,31 +118,50 @@ public class BaseXmlSpawner
     #region Keywords
     public static bool IsValueKeyword(string str)
     {
-        if (string.IsNullOrEmpty(str) || !char.IsUpper(str[0])) return false;
+        if (string.IsNullOrEmpty(str) || !char.IsUpper(str[0]))
+        {
+            return false;
+        }
+
         return valueKeywordHash.ContainsKey(str);
     }
 
     public static bool IsValuemodKeyword(string str)
     {
-        if (string.IsNullOrEmpty(str) || !char.IsUpper(str[0])) return false;
+        if (string.IsNullOrEmpty(str) || !char.IsUpper(str[0]))
+        {
+            return false;
+        }
+
         return valuemodKeywordHash.ContainsKey(str);
     }
 
     public static bool IsTypeKeyword(string typeName)
     {
-        if (string.IsNullOrEmpty(typeName) || !char.IsUpper(typeName[0])) return false;
+        if (string.IsNullOrEmpty(typeName) || !char.IsUpper(typeName[0]))
+        {
+            return false;
+        }
+
         return typeKeywordHash.ContainsKey(typeName);
     }
 
     public static bool IsTypeOrItemKeyword(string typeName)
     {
-        if (string.IsNullOrEmpty(typeName) || !char.IsUpper(typeName[0])) return false;
+        if (string.IsNullOrEmpty(typeName) || !char.IsUpper(typeName[0]))
+        {
+            return false;
+        }
+
         return typeKeywordHash.ContainsKey(typeName);
     }
 
     public static void RemoveKeyword(string name)
     {
-        if (name == null) return;
+        if (name == null)
+        {
+            return;
+        }
 
         name = name.Trim().ToUpper();
 
@@ -227,9 +225,13 @@ public class BaseXmlSpawner
                 }
                 // calculate the serial index of the new tag by adding one to the last one if there is one, otherwise just reset to 0
                 if (spawner.m_KeywordTagList.Count > 0)
+                {
                     Serial = spawner.m_KeywordTagList[spawner.m_KeywordTagList.Count - 1].Serial + 1;
+                }
                 else
+                {
                     Serial = 0;
+                }
 
                 spawner.m_KeywordTagList.Add(this);
 
@@ -286,7 +288,9 @@ public class BaseXmlSpawner
             m_End = DateTime.UtcNow + delay;
 
             if (m_Timer != null)
+            {
                 m_Timer.Stop();
+            }
 
             m_Timer = new KeywordTimer(m_Spawner, this, delay, repeatdelay, condition, gotogroup);
             m_Timer.Start();
@@ -383,7 +387,9 @@ public class BaseXmlSpawner
                         {
                             // set the trigmob to the mob that originally triggered the wait keyword
                             if (m_Tag != null)
+                            {
                                 m_Spawner.TriggerMob = m_Tag.m_TrigMob;
+                            }
 
                             // spawn the subgroup
                             m_Spawner.SpawnSubGroup(m_Goto, 0);
@@ -429,7 +435,9 @@ public class BaseXmlSpawner
     public static string TagInfo(KeywordTag tag)
     {
         if (tag != null)
+        {
             return $"{tag.Typename} : type={tag.Type} cond={tag.m_Condition} go={tag.m_Goto} del={tag.m_Delay} end={tag.m_End}";
+        }
 
         return null;
     }
@@ -487,35 +495,41 @@ public class BaseXmlSpawner
         string toString;
 
         if (value == null)
+        {
             toString = "(-null-)";
+        }
         else if (IsNumeric(type))
+        {
             toString = string.Format("{0} (0x{0:X})", value);
+        }
         else if (IsChar(type))
+        {
             toString = string.Format("'{0}' ({1} [0x{1:X}])", value, (int)value);
+        }
         else if (IsString(type))
+        {
             toString = $"\"{value}\"";
+        }
         else
+        {
             toString = value.ToString();
+        }
 
         return $"{p.Name} = {toString}";
     }
 
-    public static bool IsItem(Type type)
-    {
-        return type != null && (type == typeof(Item) || type.IsSubclassOf(typeof(Item)));
-    }
+    public static bool IsItem(Type type) => type != null && (type == typeof(Item) || type.IsSubclassOf(typeof(Item)));
 
-    public static bool IsMobile(Type type)
-    {
-        return type != null && (type == typeof(Mobile) || type.IsSubclassOf(typeof(Mobile)));
-    }
+    public static bool IsMobile(Type type) => type != null && (type == typeof(Mobile) || type.IsSubclassOf(typeof(Mobile)));
 
     public static string ConstructFromString(PropertyInfo p, Type type, object obj, string value, ref object constructed)
     {
         object toSet;
 
         if (value == "(-null-)" && !type.IsValueType)
+        {
             value = null;
+        }
 
         if (IsEnum(type))
         {
@@ -534,14 +548,22 @@ public class BaseXmlSpawner
             {
                 MethodInfo info = p.PropertyType.GetMethod("Parse", new[] { typeof(string) });
                 if (info != null)
+                {
                     toSet = info.Invoke(null, new object[] { value });
+                }
                 else if (p.PropertyType == typeof(Enum) || p.PropertyType.IsSubclassOf(typeof(Enum)))
+                {
                     toSet = Enum.Parse(p.PropertyType, value, false);
+                }
                 else
+                {
                     toSet = null;
+                }
 
                 if (toSet == null)
+                {
                     return "That is not a valid custom enumeration member.";
+                }
             }
             catch
             {
@@ -555,7 +577,9 @@ public class BaseXmlSpawner
                 toSet = ScriptCompiler.FindTypeByName(value);
 
                 if (toSet == null)
+                {
                     return "No type with that name was found.";
+                }
             }
             catch
             {
@@ -655,12 +679,16 @@ public class BaseXmlSpawner
         string result = ConstructFromString(p, p.PropertyType, o, value, ref toSet);
 
         if (result != null)
+        {
             return result;
+        }
 
         try
         {
             if (shouldLog)
+            {
                 CommandLogging.LogChangeProperty(from, o, p.Name, value);
+            }
 
             if (ptype.IsPrimitive)
             {
@@ -758,7 +786,9 @@ public class BaseXmlSpawner
             if (plookup != null)
             {
                 if (!plookup.CanWrite)
+                {
                     return "Property is read only.";
+                }
 
                 string returnvalue = InternalSetValue(null, o, plookup, value, false, index);
 
@@ -772,7 +802,9 @@ public class BaseXmlSpawner
                 if (Insensitive.Equals(p.Name, propname))
                 {
                     if (!p.CanWrite)
+                    {
                         return "Property is read only.";
+                    }
 
                     string returnvalue = InternalSetValue(null, o, p, value, false, index);
 
@@ -838,7 +870,9 @@ public class BaseXmlSpawner
             if (plookup != null)
             {
                 if (!plookup.CanWrite)
+                {
                     return "Property is read only.";
+                }
 
                 if (plookup.PropertyType == typeof(Mobile))
                 {
@@ -856,7 +890,9 @@ public class BaseXmlSpawner
                 {
 
                     if (!p.CanWrite)
+                    {
                         return "Property is read only.";
+                    }
 
                     if (p.PropertyType == typeof(Mobile))
                     {
@@ -876,7 +912,10 @@ public class BaseXmlSpawner
     public static string GetPropertyValue(XmlSpawner spawner, object o, string name, out Type ptype)
     {
         ptype = null;
-        if (o == null || name == null) return null;
+        if (o == null || name == null)
+        {
+            return null;
+        }
 
         Type type = o.GetType();
         object po = null;
@@ -945,7 +984,9 @@ public class BaseXmlSpawner
             if (arrayvalue.Length > 0)
             {
                 if (!int.TryParse(arrayvalue[0], out index))
+                {
                     index = -1;
+                }
             }
         }
 
@@ -957,7 +998,9 @@ public class BaseXmlSpawner
             if (plookup != null)
             {
                 if (!plookup.CanRead)
+                {
                     return "Property is write only.";
+                }
 
                 ptype = plookup.PropertyType;
                 if (ptype.IsPrimitive)
@@ -988,7 +1031,9 @@ public class BaseXmlSpawner
                 if (Insensitive.Equals(p.Name, propname))
                 {
                     if (!p.CanRead)
+                    {
                         return "Property is write only.";
+                    }
 
                     ptype = p.PropertyType;
                     if (ptype.IsPrimitive)
@@ -1021,7 +1066,9 @@ public class BaseXmlSpawner
             if (plookup != null)
             {
                 if (!plookup.CanRead)
+                {
                     return "Property is write only.";
+                }
 
                 ptype = plookup.PropertyType;
 
@@ -1035,7 +1082,9 @@ public class BaseXmlSpawner
                 if (Insensitive.Equals(p.Name, propname))
                 {
                     if (!p.CanRead)
+                    {
                         return "Property is write only.";
+                    }
 
                     ptype = p.PropertyType;
 
@@ -1052,7 +1101,10 @@ public class BaseXmlSpawner
     {
         status_str = null;
 
-        if (str == null || str.Length <= 0 || o == null) return false;
+        if (str == null || str.Length <= 0 || o == null)
+        {
+            return false;
+        }
 
         // object strings will be of the form "object/modifier" where the modifier string is of the form "propname/value/propname/value/..."
         // some keywords do not have value arguments so the modifier could take the form "propname/propname/value/..."
@@ -1074,7 +1126,9 @@ public class BaseXmlSpawner
 
         // place the modifier section of the string in remainder
         if (arglist.Length > 1)
+        {
             remainder = arglist[1];
+        }
 
         bool no_error = true;
 
@@ -1119,7 +1173,9 @@ public class BaseXmlSpawner
                 {
 
                     if (value_keywordargs != null && value_keywordargs.Length > 0)
+                    {
                         value_keywordargs[value_keywordargs.Length - 1] = groupargstring;
+                    }
                 }
 
                 // this quick optimization can determine whether this is a regular prop/value assignment
@@ -1137,7 +1193,9 @@ public class BaseXmlSpawner
                             singlearglist = ParseLiteralTerminator(singlearglist[1]);
                             string lstr = singlearglist[0];
                             if (terminated && lstr[lstr.Length - 1] == '/')
+                            {
                                 lstr = lstr.Remove(lstr.Length - 1, 1);
+                            }
 
                             string result = SetPropertyValue(spawner, o, arglist[0], lstr.Remove(0, 1));
 
@@ -1166,7 +1224,11 @@ public class BaseXmlSpawner
                                 status_str = arglist[0] + " : " + result;
                                 no_error = false;
                             }
-                            if (arglist.Length < 3) break;
+                            if (arglist.Length < 3)
+                            {
+                                break;
+                            }
+
                             remainder = arglist[2];
                         }
                     }
@@ -1244,7 +1306,11 @@ public class BaseXmlSpawner
                                 status_str = "Invalid INC args : " + arglist[1];
                                 no_error = false;
                             }
-                            if (arglist.Length < 3) break;
+                            if (arglist.Length < 3)
+                            {
+                                break;
+                            }
+
                             remainder = arglist[2];
                         }
                         else if (kw == valuemodKeyword.MOB)
@@ -1280,7 +1346,11 @@ public class BaseXmlSpawner
                                 no_error = false;
                             }
 
-                            if (arglist.Length < 3) break;
+                            if (arglist.Length < 3)
+                            {
+                                break;
+                            }
+
                             remainder = arglist[2];
                         }
                         else if (kw == valuemodKeyword.TRIGMOB)
@@ -1292,7 +1362,11 @@ public class BaseXmlSpawner
                                 status_str = arglist[0] + " : " + result;
                                 no_error = false;
                             }
-                            if (arglist.Length < 3) break;
+                            if (arglist.Length < 3)
+                            {
+                                break;
+                            }
+
                             remainder = arglist[2];
                         }
                         else if (kw == valuemodKeyword.PLAYERSINRANGE)
@@ -1312,7 +1386,10 @@ public class BaseXmlSpawner
                                 IPooledEnumerable ie = ((Item)refobject).GetMobilesInRange(range);
                                 foreach (Mobile p in ie)
                                 {
-                                    if (p.Player && p.AccessLevel == AccessLevel.Player) nplayers++;
+                                    if (p.Player && p.AccessLevel == AccessLevel.Player)
+                                    {
+                                        nplayers++;
+                                    }
                                 }
                                 ie.Free();
                             }
@@ -1321,7 +1398,10 @@ public class BaseXmlSpawner
                                 IPooledEnumerable ie = ((Mobile)refobject).GetMobilesInRange(range);
                                 foreach (Mobile p in ie)
                                 {
-                                    if (p.Player && p.AccessLevel == AccessLevel.Player) nplayers++;
+                                    if (p.Player && p.AccessLevel == AccessLevel.Player)
+                                    {
+                                        nplayers++;
+                                    }
                                 }
                                 ie.Free();
                             }
@@ -1334,7 +1414,11 @@ public class BaseXmlSpawner
                                 status_str = arglist[0] + " : " + result;
                                 no_error = false;
                             }
-                            if (arglist.Length < 3) break;
+                            if (arglist.Length < 3)
+                            {
+                                break;
+                            }
+
                             remainder = arglist[2];
                         }
                     }
@@ -1347,7 +1431,9 @@ public class BaseXmlSpawner
                             singlearglist = ParseLiteralTerminator(singlearglist[1]);
                             string lstr = singlearglist[0];
                             if (terminated && lstr[lstr.Length - 1] == '/')
+                            {
                                 lstr = lstr.Remove(lstr.Length - 1, 1);
+                            }
 
                             string result = SetPropertyValue(spawner, o, arglist[0], lstr.Remove(0, 1));
                             // see if it was successful
@@ -1374,7 +1460,11 @@ public class BaseXmlSpawner
                                 status_str = arglist[0] + " : " + result;
                                 no_error = false;
                             }
-                            if (arglist.Length < 3) break;
+                            if (arglist.Length < 3)
+                            {
+                                break;
+                            }
+
                             remainder = arglist[2];
                         }
                     }
@@ -1416,11 +1506,17 @@ public class BaseXmlSpawner
 
     public static PropertyInfo LookupPropertyInfo(XmlSpawner spawner, Type type, string propname)
     {
-        if (spawner == null || type == null || propname == null) return null;
+        if (spawner == null || type == null || propname == null)
+        {
+            return null;
+        }
 
         // look up the info in the current list
 
-        if (spawner.PropertyInfoList == null) spawner.PropertyInfoList = new List<TypeInfo>();
+        if (spawner.PropertyInfoList == null)
+        {
+            spawner.PropertyInfoList = new List<TypeInfo>();
+        }
 
         PropertyInfo pinfo = null;
         TypeInfo tinfo = null;
@@ -1482,7 +1578,10 @@ public class BaseXmlSpawner
     {
         ptype = null;
 
-        if (valstr == null || valstr.Length <= 0) return null;
+        if (valstr == null || valstr.Length <= 0)
+        {
+            return null;
+        }
 
         string str = valstr.Trim();
 
@@ -1567,7 +1666,10 @@ public class BaseXmlSpawner
                 {
                     foreach (Mobile p in spawner.SpawnRegion.AllPlayers)
                     {
-                        if (p.AccessLevel <= spawner.TriggerAccessLevel) nplayers++;
+                        if (p.AccessLevel <= spawner.TriggerAccessLevel)
+                        {
+                            nplayers++;
+                        }
                     }
                 }
                 else if (o is Item)
@@ -1575,7 +1677,10 @@ public class BaseXmlSpawner
                     IPooledEnumerable ie = ((Item)o).GetMobilesInRange(range);
                     foreach (Mobile p in ie)
                     {
-                        if (p.Player && p.AccessLevel == AccessLevel.Player) nplayers++;
+                        if (p.Player && p.AccessLevel == AccessLevel.Player)
+                        {
+                            nplayers++;
+                        }
                     }
                     ie.Free();
                 }
@@ -1584,7 +1689,10 @@ public class BaseXmlSpawner
                     IPooledEnumerable ie = ((Mobile)o).GetMobilesInRange(range);
                     foreach (Mobile p in ie)
                     {
-                        if (p.Player && p.AccessLevel == AccessLevel.Player) nplayers++;
+                        if (p.Player && p.AccessLevel == AccessLevel.Player)
+                        {
+                            nplayers++;
+                        }
                     }
                     ie.Free();
                 }
@@ -1621,7 +1729,9 @@ public class BaseXmlSpawner
         // propname = value (hexvalue)
 
         if (str == null)
+        {
             return null;
+        }
 
         // find the separator
         string[] arglist = str.Split("=".ToCharArray(), 2);
@@ -1649,7 +1759,9 @@ public class BaseXmlSpawner
         status_str = null;
 
         if (o == null)
+        {
             return false;
+        }
 
         if (string.IsNullOrEmpty(testString))
         {
@@ -1697,7 +1809,10 @@ public class BaseXmlSpawner
     {
         status_str = null;
 
-        if (o == null || testString == null || testString.Length == 0) return false;
+        if (o == null || testString == null || testString.Length == 0)
+        {
+            return false;
+        }
 
         //get the prop name and test value
         // format will be prop=prop, or prop>prop, prop<prop, prop!prop
@@ -1745,7 +1860,9 @@ public class BaseXmlSpawner
 
         // does it have a valid operator?
         if (!hasequal && !hasgreaterthan && !haslessthan && !hasnotequals)
+        {
             return false;
+        }
 
         Type ptype1;
         Type ptype2;
@@ -1793,7 +1910,10 @@ public class BaseXmlSpawner
                 TimeSpan ts1, ts2;
                 if (TimeSpan.TryParse(value1, out ts1) && TimeSpan.TryParse(value2, out ts2))
                 {
-                    if (ts1 == ts2) return !invertreturn;
+                    if (ts1 == ts2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1805,7 +1925,10 @@ public class BaseXmlSpawner
                 TimeSpan ts1, ts2;
                 if (TimeSpan.TryParse(value1, out ts1) && TimeSpan.TryParse(value2, out ts2))
                 {
-                    if (ts1 != ts2) return !invertreturn;
+                    if (ts1 != ts2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1817,7 +1940,10 @@ public class BaseXmlSpawner
                 TimeSpan ts1, ts2;
                 if (TimeSpan.TryParse(value1, out ts1) && TimeSpan.TryParse(value2, out ts2))
                 {
-                    if (ts1 > ts2) return !invertreturn;
+                    if (ts1 > ts2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1829,7 +1955,10 @@ public class BaseXmlSpawner
                 TimeSpan ts1, ts2;
                 if (TimeSpan.TryParse(value1, out ts1) && TimeSpan.TryParse(value2, out ts2))
                 {
-                    if (ts1 < ts2) return !invertreturn;
+                    if (ts1 < ts2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1846,7 +1975,10 @@ public class BaseXmlSpawner
                 DateTime dt1, dt2;
                 if (DateTime.TryParse(value1, out dt1) && DateTime.TryParse(value2, out dt2))
                 {
-                    if (dt1 == dt2) return !invertreturn;
+                    if (dt1 == dt2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1858,7 +1990,10 @@ public class BaseXmlSpawner
                 DateTime dt1, dt2;
                 if (DateTime.TryParse(value1, out dt1) && DateTime.TryParse(value2, out dt2))
                 {
-                    if (dt1 != dt2) return !invertreturn;
+                    if (dt1 != dt2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1870,7 +2005,10 @@ public class BaseXmlSpawner
                 DateTime dt1, dt2;
                 if (DateTime.TryParse(value1, out dt1) && DateTime.TryParse(value2, out dt2))
                 {
-                    if (dt1 > dt2) return !invertreturn;
+                    if (dt1 > dt2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1882,7 +2020,10 @@ public class BaseXmlSpawner
                 DateTime dt1, dt2;
                 if (DateTime.TryParse(value1, out dt1) && DateTime.TryParse(value2, out dt2))
                 {
-                    if (dt1 < dt2) return !invertreturn;
+                    if (dt1 < dt2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -1896,7 +2037,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) == Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) == Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch
                 {
@@ -1907,7 +2051,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) != Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) != Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch
                 {
@@ -1918,7 +2065,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) > Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) > Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -1926,7 +2076,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) < Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) < Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -1937,7 +2090,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) == double.Parse(value2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) == double.Parse(value2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch
                 {
@@ -1948,7 +2104,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) != double.Parse(value2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) != double.Parse(value2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch
                 {
@@ -1959,7 +2118,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) > double.Parse(value2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) > double.Parse(value2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -1967,7 +2129,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (Convert.ToInt64(value1, base1) < double.Parse(value2)) return !invertreturn;
+                    if (Convert.ToInt64(value1, base1) < double.Parse(value2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -1978,7 +2143,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (double.Parse(value1) == Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (double.Parse(value1) == Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch
                 {
@@ -1989,7 +2157,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (double.Parse(value1) != Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (double.Parse(value1) != Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch
                 {
@@ -2000,7 +2171,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (double.Parse(value1) > Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (double.Parse(value1) > Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -2008,7 +2182,10 @@ public class BaseXmlSpawner
             {
                 try
                 {
-                    if (double.Parse(value1) < Convert.ToInt64(value2, base2)) return !invertreturn;
+                    if (double.Parse(value1) < Convert.ToInt64(value2, base2))
+                    {
+                        return !invertreturn;
+                    }
                 }
                 catch { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -2022,7 +2199,9 @@ public class BaseXmlSpawner
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
                     if (val1 == val2)
+                    {
                         return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -2034,7 +2213,9 @@ public class BaseXmlSpawner
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
                     if (val1 != val2)
+                    {
                         return !invertreturn;
+                    }
                 }
                 else
                 {
@@ -2046,7 +2227,9 @@ public class BaseXmlSpawner
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
                     if (val1 > val2)
+                    {
                         return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -2055,7 +2238,9 @@ public class BaseXmlSpawner
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
                     if (val1 < val2)
+                    {
                         return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid int comparison : {0}" + testString; }
             }
@@ -2067,7 +2252,10 @@ public class BaseXmlSpawner
             {
                 if (bool.TryParse(value1, out val1) && bool.TryParse(value2, out val2))
                 {
-                    if (val1 == val2) return !invertreturn;
+                    if (val1 == val2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid bool comparison : {0}" + testString; }
             }
@@ -2075,7 +2263,10 @@ public class BaseXmlSpawner
             {
                 if (bool.TryParse(value1, out val1) && bool.TryParse(value2, out val2))
                 {
-                    if (val1 != val2) return !invertreturn;
+                    if (val1 != val2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid bool comparison : {0}" + testString; }
             }
@@ -2088,7 +2279,10 @@ public class BaseXmlSpawner
             {
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
-                    if (val1 == val2) return !invertreturn;
+                    if (val1 == val2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid double comparison : {0}" + testString; }
             }
@@ -2096,7 +2290,10 @@ public class BaseXmlSpawner
             {
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
-                    if (val1 != val2) return !invertreturn;
+                    if (val1 != val2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid double comparison : {0}" + testString; }
             }
@@ -2104,7 +2301,10 @@ public class BaseXmlSpawner
             {
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
-                    if (val1 > val2) return !invertreturn;
+                    if (val1 > val2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid double comparison : {0}" + testString; }
             }
@@ -2112,7 +2312,10 @@ public class BaseXmlSpawner
             {
                 if (double.TryParse(value1, NumberStyles.Any, CultureInfo.InvariantCulture, out val1) && double.TryParse(value2, NumberStyles.Any, CultureInfo.InvariantCulture, out val2))
                 {
-                    if (val1 < val2) return !invertreturn;
+                    if (val1 < val2)
+                    {
+                        return !invertreturn;
+                    }
                 }
                 else { status_str = "invalid double comparison : {0}" + testString; }
             }
@@ -2122,12 +2325,18 @@ public class BaseXmlSpawner
             // by default just do a string comparison
             if (hasequal)
             {
-                if (value1 == value2) return !invertreturn;
+                if (value1 == value2)
+                {
+                    return !invertreturn;
+                }
             }
             else
             if (hasnotequals)
             {
-                if (value1 != value2) return !invertreturn;
+                if (value1 != value2)
+                {
+                    return !invertreturn;
+                }
             }
         }
         return invertreturn;
@@ -2136,10 +2345,7 @@ public class BaseXmlSpawner
 
     #region Search object methods
     #region XMLQuest Required
-    public static Item SearchMobileForItem(Mobile m, string targetName, string typeStr, bool searchbank)
-    {
-        return SearchMobileForItem(m, targetName, typeStr, searchbank, false);
-    }
+    public static Item SearchMobileForItem(Mobile m, string targetName, string typeStr, bool searchbank) => SearchMobileForItem(m, targetName, typeStr, searchbank, false);
 
 
     public static Item SearchMobileForItem(Mobile m, string targetName, string typeStr, bool searchbank, bool equippedonly)
@@ -2155,7 +2361,10 @@ public class BaseXmlSpawner
                 Item item = packlist[i];
 
                 // dont search bank boxes
-                if (item is BankBox && !searchbank && !equippedonly) continue;
+                if (item is BankBox && !searchbank && !equippedonly)
+                {
+                    continue;
+                }
 
                 // recursively search containers
                 if (item != null && !item.Deleted)
@@ -2164,7 +2373,10 @@ public class BaseXmlSpawner
                     {
                         Item itemTarget = SearchPackForItem((Container)item, targetName, typeStr);
 
-                        if (itemTarget != null) return itemTarget;
+                        if (itemTarget != null)
+                        {
+                            return itemTarget;
+                        }
                     }
                     // test the item name against the trigger string
                     // if a typestring has been specified then check against that as well
@@ -2188,7 +2400,10 @@ public class BaseXmlSpawner
                 {
                     Item itemTarget = SearchPackForItem((Container)held, targetName, typeStr);
 
-                    if (itemTarget != null) return itemTarget;
+                    if (itemTarget != null)
+                    {
+                        return itemTarget;
+                    }
                 }
                 // test the item name against the trigger string
                 if (CheckNameMatch(targetName, held.Name))
@@ -2228,7 +2443,10 @@ public class BaseXmlSpawner
                     {
                         Item itemTarget = SearchPackForItem((Container)item, targetName, typestr);
 
-                        if (itemTarget != null) return itemTarget;
+                        if (itemTarget != null)
+                        {
+                            return itemTarget;
+                        }
                     }
                     // test the item name against the trigger string
                     if (CheckNameMatch(targetName, item.Name))
@@ -2244,16 +2462,18 @@ public class BaseXmlSpawner
         }
         return null;
     }
-    private static bool CheckNameMatch(string targetname, string name)
-    {
+    private static bool CheckNameMatch(string targetname, string name) =>
         // a "*" targetname will match anything
         // a null or empty targetname will match a null name
         // otherwise the strings must match
-        return targetname == "*" || name == targetname || targetname != null && targetname.Length == 0 && name == null;
-    }
+        targetname == "*" || name == targetname || targetname != null && targetname.Length == 0 && name == null;
+
     public static bool CheckType(object o, string typename)
     {
-        if (typename == null || o == null) return false;
+        if (typename == null || o == null)
+        {
+            return false;
+        }
 
         // test the type
         Type objecttype = o.GetType();
@@ -2277,7 +2497,10 @@ public class BaseXmlSpawner
     }
     public static bool CheckForCarried(Mobile m, string objectivestr)
     {
-        if (m == null || objectivestr == null) return true;
+        if (m == null || objectivestr == null)
+        {
+            return true;
+        }
 
         // parse the objective string that might be of the form 'obj &| obj &| obj ...'
         string[] arglist = ParseString(objectivestr, 2, "&|");
@@ -2319,7 +2542,10 @@ public class BaseXmlSpawner
     public static bool SingleCheckForCarried(Mobile m, string objectivestr)
     {
 
-        if (m == null || objectivestr == null) return false;
+        if (m == null || objectivestr == null)
+        {
+            return false;
+        }
 
         bool has_valid_item = false;
 
@@ -2346,12 +2572,18 @@ public class BaseXmlSpawner
                 }
                 // try to find the attachment on the mob
                 if (XmlAttach.FindAttachmentOnMobile(m, atype, aname) != null)
+                {
                     return true;
+                }
                 else
+                {
                     return false;
+                }
             }
             else
+            {
                 return false;
+            }
         }
 
         bool equippedonly = false;
@@ -2410,27 +2642,47 @@ public class BaseXmlSpawner
                                 {
                                     case 1:
                                         {
-                                            if (!token.Completed1) has_valid_item = false;
+                                            if (!token.Completed1)
+                                            {
+                                                has_valid_item = false;
+                                            }
+
                                             break;
                                         }
                                     case 2:
                                         {
-                                            if (!token.Completed2) has_valid_item = false;
+                                            if (!token.Completed2)
+                                            {
+                                                has_valid_item = false;
+                                            }
+
                                             break;
                                         }
                                     case 3:
                                         {
-                                            if (!token.Completed3) has_valid_item = false;
+                                            if (!token.Completed3)
+                                            {
+                                                has_valid_item = false;
+                                            }
+
                                             break;
                                         }
                                     case 4:
                                         {
-                                            if (!token.Completed4) has_valid_item = false;
+                                            if (!token.Completed4)
+                                            {
+                                                has_valid_item = false;
+                                            }
+
                                             break;
                                         }
                                     case 5:
                                         {
-                                            if (!token.Completed5) has_valid_item = false;
+                                            if (!token.Completed5)
+                                            {
+                                                has_valid_item = false;
+                                            }
+
                                             break;
                                         }
                                 }
@@ -2440,21 +2692,28 @@ public class BaseXmlSpawner
                     }
                     else
                         // if an objective list has not been specified then just a valid item is enough
+                    {
                         has_valid_item = true;
+                    }
                 }
             }
             else
             {
                 // is the equippedonly flag set?  If so then see if the item is equipped
                 if (equippedonly && testitem.Parent == m || !equippedonly)
+                {
                     has_valid_item = true;
+                }
             }
         }
         return has_valid_item;
     }
     public static bool CheckForNotCarried(Mobile m, string objectivestr)
     {
-        if (m == null || objectivestr == null) return true;
+        if (m == null || objectivestr == null)
+        {
+            return true;
+        }
 
         // parse the objective string that might be of the form 'obj &| obj &| obj ...'
         string[] arglist = ParseString(objectivestr, 2, "&|");
@@ -2506,7 +2765,10 @@ public class BaseXmlSpawner
     public static bool SingleCheckForNotCarried(Mobile m, string objectivestr)
     {
 
-        if (m == null || objectivestr == null) return true;
+        if (m == null || objectivestr == null)
+        {
+            return true;
+        }
 
         bool has_no_such_item = true;
 
@@ -2533,12 +2795,18 @@ public class BaseXmlSpawner
 
                 // try to find the attachment on the mob
                 if (XmlAttach.FindAttachmentOnMobile(m, atype, aname) != null)
+                {
                     return false;
+                }
                 else
+                {
                     return true;
+                }
             }
             else
+            {
                 return true;
+            }
         }
 
         bool equippedonly = false;
@@ -2597,27 +2865,47 @@ public class BaseXmlSpawner
                             {
                                 case 1:
                                     {
-                                        if (token.Completed1) has_no_such_item = false;
+                                        if (token.Completed1)
+                                        {
+                                            has_no_such_item = false;
+                                        }
+
                                         break;
                                     }
                                 case 2:
                                     {
-                                        if (token.Completed2) has_no_such_item = false;
+                                        if (token.Completed2)
+                                        {
+                                            has_no_such_item = false;
+                                        }
+
                                         break;
                                     }
                                 case 3:
                                     {
-                                        if (token.Completed3) has_no_such_item = false;
+                                        if (token.Completed3)
+                                        {
+                                            has_no_such_item = false;
+                                        }
+
                                         break;
                                     }
                                 case 4:
                                     {
-                                        if (token.Completed4) has_no_such_item = false;
+                                        if (token.Completed4)
+                                        {
+                                            has_no_such_item = false;
+                                        }
+
                                         break;
                                     }
                                 case 5:
                                     {
-                                        if (token.Completed5) has_no_such_item = false;
+                                        if (token.Completed5)
+                                        {
+                                            has_no_such_item = false;
+                                        }
+
                                         break;
                                     }
                             }
@@ -2626,13 +2914,17 @@ public class BaseXmlSpawner
                     }
                 }
                 else
+                {
                     has_no_such_item = false;
+                }
             }
             else
             {
                 // is the equippedonly flag set?  If so then see if the item is equipped
                 if (equippedonly && testitem.Parent == m || !equippedonly)
+                {
                     has_no_such_item = false;
+                }
             }
         }
         return has_no_such_item;
@@ -2640,7 +2932,10 @@ public class BaseXmlSpawner
     #endregion
     public static Item FindItemByName(XmlSpawner fromspawner, string name, string typestr)
     {
-        if (name == null) return null;
+        if (name == null)
+        {
+            return null;
+        }
 
         int count = 0;
 
@@ -2689,13 +2984,19 @@ public class BaseXmlSpawner
 
     public static Mobile FindMobileByName(XmlSpawner fromspawner, string name, string typestr)
     {
-        if (name == null) return null;
+        if (name == null)
+        {
+            return null;
+        }
 
         int count = 0;
 
         Mobile foundmobile = FindInRecentMobileSearchList(fromspawner, name, typestr);
 
-        if (foundmobile != null) return foundmobile;
+        if (foundmobile != null)
+        {
+            return foundmobile;
+        }
 
         Type targettype = null;
         if (typestr != null)
@@ -2732,7 +3033,9 @@ public class BaseXmlSpawner
     public static XmlSpawner FindSpawnerByName(XmlSpawner fromspawner, string name)
     {
         if (name == null)
+        {
             return null;
+        }
 
         if (name.StartsWith("0x"))
         {
@@ -2748,7 +3051,10 @@ public class BaseXmlSpawner
         // do a quick search through the recent search list to see if it is there
         XmlSpawner foundspawner = FindInRecentSpawnerSearchList(fromspawner, name);
 
-        if (foundspawner != null) return foundspawner;
+        if (foundspawner != null)
+        {
+            return foundspawner;
+        }
 
         int count = 0;
 
@@ -2783,7 +3089,10 @@ public class BaseXmlSpawner
 
     public static void AddToRecentSpawnerSearchList(XmlSpawner spawner, XmlSpawner target)
     {
-        if (spawner == null || target == null) return;
+        if (spawner == null || target == null)
+        {
+            return;
+        }
 
         if (spawner.RecentSpawnerSearchList == null)
         {
@@ -2800,7 +3109,10 @@ public class BaseXmlSpawner
 
     public static XmlSpawner FindInRecentSpawnerSearchList(XmlSpawner spawner, string name)
     {
-        if (spawner == null || name == null || spawner.RecentSpawnerSearchList == null) return null;
+        if (spawner == null || name == null || spawner.RecentSpawnerSearchList == null)
+        {
+            return null;
+        }
 
         List<XmlSpawner> deletelist = null;
         XmlSpawner foundspawner = null;
@@ -2811,7 +3123,10 @@ public class BaseXmlSpawner
             {
                 // clean it up
                 if (deletelist == null)
+                {
                     deletelist = new List<XmlSpawner>();
+                }
+
                 deletelist.Add(s);
             }
             else
@@ -2825,7 +3140,9 @@ public class BaseXmlSpawner
         if (deletelist != null)
         {
             foreach (XmlSpawner i in deletelist)
+            {
                 spawner.RecentSpawnerSearchList.Remove(i);
+            }
         }
 
         return foundspawner;
@@ -2833,7 +3150,10 @@ public class BaseXmlSpawner
 
     public static void AddToRecentItemSearchList(XmlSpawner spawner, Item target)
     {
-        if (spawner == null || target == null) return;
+        if (spawner == null || target == null)
+        {
+            return;
+        }
 
         if (spawner.RecentItemSearchList == null)
         {
@@ -2851,7 +3171,10 @@ public class BaseXmlSpawner
 
     public static Item FindInRecentItemSearchList(XmlSpawner spawner, string name, string typestr)
     {
-        if (spawner == null || name == null || spawner.RecentItemSearchList == null) return null;
+        if (spawner == null || name == null || spawner.RecentItemSearchList == null)
+        {
+            return null;
+        }
 
         List<Item> deletelist = null;
         Item founditem = null;
@@ -2868,7 +3191,10 @@ public class BaseXmlSpawner
             {
                 // clean it up
                 if (deletelist == null)
+                {
                     deletelist = new List<Item>();
+                }
+
                 deletelist.Add(item);
             }
             else
@@ -2886,7 +3212,9 @@ public class BaseXmlSpawner
         if (deletelist != null)
         {
             foreach (Item i in deletelist)
+            {
                 spawner.RecentItemSearchList.Remove(i);
+            }
         }
 
         return founditem;
@@ -2894,7 +3222,10 @@ public class BaseXmlSpawner
 
     public static void AddToRecentMobileSearchList(XmlSpawner spawner, Mobile target)
     {
-        if (spawner == null || target == null) return;
+        if (spawner == null || target == null)
+        {
+            return;
+        }
 
         if (spawner.RecentMobileSearchList == null)
         {
@@ -2912,7 +3243,10 @@ public class BaseXmlSpawner
 
     public static Mobile FindInRecentMobileSearchList(XmlSpawner spawner, string name, string typestr)
     {
-        if (spawner == null || name == null || spawner.RecentMobileSearchList == null) return null;
+        if (spawner == null || name == null || spawner.RecentMobileSearchList == null)
+        {
+            return null;
+        }
 
         List<Mobile> deletelist = null;
         Mobile foundmobile = null;
@@ -2929,7 +3263,10 @@ public class BaseXmlSpawner
             {
                 // clean it up
                 if (deletelist == null)
+                {
                     deletelist = new List<Mobile>();
+                }
+
                 deletelist.Add(m);
             }
             else
@@ -2948,7 +3285,9 @@ public class BaseXmlSpawner
         if (deletelist != null)
         {
             foreach (Mobile i in deletelist)
+            {
                 spawner.RecentMobileSearchList.Remove(i);
+            }
         }
 
         return foundmobile;
@@ -3006,7 +3345,10 @@ public class BaseXmlSpawner
             sb.Append(value);
 
             // continue processing the rest of the string
-            if (endindex + startindex + 2 >= remaining.Length) break;
+            if (endindex + startindex + 2 >= remaining.Length)
+            {
+                break;
+            }
 
             remaining = remaining.Substring(endindex + startindex + 2, remaining.Length - endindex - startindex - 2);
         }
@@ -3041,7 +3383,9 @@ public class BaseXmlSpawner
             string[] typeargs = null;
             int argstart = 0;
             if (!string.IsNullOrEmpty(itemtypestring))
+            {
                 argstart = itemtypestring.IndexOf(",") + 1;
+            }
 
             if (argstart > 1 && argstart < itemtypestring.Length)
             {
@@ -3063,8 +3407,15 @@ public class BaseXmlSpawner
         for (int i = 0; i < str.Length; i++)
         {
             // walk through the string until a matching close delimstr is found
-            if (str[i] == opendelim) nopen++;
-            if (str[i] == closedelim) nclose++;
+            if (str[i] == opendelim)
+            {
+                nopen++;
+            }
+
+            if (str[i] == closedelim)
+            {
+                nclose++;
+            }
 
             if (nopen == nclose)
             {
@@ -3089,7 +3440,10 @@ public class BaseXmlSpawner
 
     public static string[] ParseString(string str, int nitems, string delimstr)
     {
-        if (str == null || delimstr == null) return null;
+        if (str == null || delimstr == null)
+        {
+            return null;
+        }
 
         char[] delims = delimstr.ToCharArray();
         str = str.Trim();
@@ -3100,7 +3454,11 @@ public class BaseXmlSpawner
 
     public static string[] ParseSlashArgs(string str, int nitems)
     {
-        if (str == null) return null;
+        if (str == null)
+        {
+            return null;
+        }
+
         str = str.Trim();
 
 
@@ -3163,7 +3521,11 @@ public class BaseXmlSpawner
 
     public static string[] ParseCommaArgs(string str, int nitems)
     {
-        if (str == null) return null;
+        if (str == null)
+        {
+            return null;
+        }
+
         str = str.Trim();
 
         string[] args = str.Split(commadelim, nitems);
@@ -3172,7 +3534,11 @@ public class BaseXmlSpawner
 
     public static string[] ParseLiteralTerminator(string str)
     {
-        if (str == null) return null;
+        if (str == null)
+        {
+            return null;
+        }
+
         str = str.Trim();
 
         string[] args = str.Split(literalend, 2);
@@ -3181,7 +3547,11 @@ public class BaseXmlSpawner
 
     public static string[] ParseSemicolonArgs(string str, int nitems)
     {
-        if (str == null) return null;
+        if (str == null)
+        {
+            return null;
+        }
+
         str = str.Trim();
 
         string[] args = str.Split(semicolondelim, nitems);
@@ -3190,7 +3560,10 @@ public class BaseXmlSpawner
 
     public static string[] SplitString(string str, string separator)
     {
-        if (str == null || separator == null) return null;
+        if (str == null || separator == null)
+        {
+            return null;
+        }
 
         int lastindex = 0;
         List<string> strargs = new List<string>();
@@ -3242,7 +3615,10 @@ public class BaseXmlSpawner
         List<XmlSpawner.SpawnPositionInfo> spawnpositioning, string propertyString, bool smartspawn, out string status_str)
     {
         status_str = null;
-        if (item == null || theSpawn == null) return;
+        if (item == null || theSpawn == null)
+        {
+            return;
+        }
 
         // add the item to the spawned list
         theSpawn.SpawnedObjects.Add(item);
@@ -3277,10 +3653,13 @@ public class BaseXmlSpawner
                     // this will distribute multiple items around the spawn point, and allow precise
                     // placement of single spawns at the spawn point
                     if (spawner.SpawnRange > 0)
+                    {
                         c.DropItem(item);
+                    }
                     else
+                    {
                         c.AddItem(item);
-
+                    }
                 }
                 else
                 {
@@ -3334,17 +3713,18 @@ public class BaseXmlSpawner
     }
 
     public static bool SpawnTypeKeyword(object invoker, XmlSpawner.SpawnObject TheSpawn, string typeName, string substitutedtypeName,
-        Mobile triggermob, Map map, out string status_str)
-    {
-        return SpawnTypeKeyword(invoker, TheSpawn, typeName, substitutedtypeName,
+        Mobile triggermob, Map map, out string status_str) =>
+        SpawnTypeKeyword(invoker, TheSpawn, typeName, substitutedtypeName,
             triggermob, map, out status_str, 0);
-    }
 
     public static bool SpawnTypeKeyword(object invoker, XmlSpawner.SpawnObject TheSpawn, string typeName, string substitutedtypeName, Mobile triggermob, Map map, out string status_str, byte loops)
     {
         status_str = null;
 
-        if (typeName == null || TheSpawn == null || substitutedtypeName == null) return false;
+        if (typeName == null || TheSpawn == null || substitutedtypeName == null)
+        {
+            return false;
+        }
 
         XmlSpawner spawner = invoker as XmlSpawner;
 
@@ -3382,7 +3762,9 @@ public class BaseXmlSpawner
                                 }
                                 catch { }
                                 if (serial >= 0)
+                                {
                                     setitem = World.FindEntity(new Serial(serial));
+                                }
                             }
                             else
                             {
@@ -3437,7 +3819,9 @@ public class BaseXmlSpawner
                                 targetspawner = FindSpawnerByName(spawner, spawnerstr);
                             }
                             if (!int.TryParse(subgroupstr, out subgroup))
+                            {
                                 subgroup = -1;
+                            }
                         }
                         if (subgroup == -1)
                         {
@@ -3488,7 +3872,9 @@ public class BaseXmlSpawner
                                 targetspawner = FindSpawnerByName(spawner, spawnerstr);
                             }
                             if (!int.TryParse(subgroupstr, out subgroup))
+                            {
                                 subgroup = -1;
+                            }
                         }
                         if (subgroup == -1)
                         {
@@ -3615,7 +4001,10 @@ public class BaseXmlSpawner
     public static List<Item> GetItems(Region r)
     {
         List<Item> list = new List<Item>();
-        if (r == null) return list;
+        if (r == null)
+        {
+            return list;
+        }
 
         Sector[] sectors = r.Sectors;
 
@@ -3628,7 +4017,9 @@ public class BaseXmlSpawner
                 foreach (Item item in sector.Items)
                 {
                     if (Region.Find(item.Location, item.Map).IsPartOf(r))
+                    {
                         list.Add(item);
+                    }
                 }
             }
         }

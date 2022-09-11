@@ -10,8 +10,8 @@ public class XmlWeaponAbility : XmlAttachment
 
     public WeaponAbility WeaponAbility
     {
-        get { return m_Ability;  }
-        set { m_Ability = value;  }
+        get => m_Ability;
+        set => m_Ability = value;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
@@ -60,10 +60,7 @@ public class XmlWeaponAbility : XmlAttachment
     }
 
     [Attachable]
-    public XmlWeaponAbility(string weaponability)
-    {
-        Ability = weaponability;
-    }
+    public XmlWeaponAbility(string weaponability) => Ability = weaponability;
 
     [Attachable]
     public XmlWeaponAbility(string name, string weaponability)
@@ -101,7 +98,10 @@ public class XmlWeaponAbility : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if(Expiration > TimeSpan.Zero)
         {

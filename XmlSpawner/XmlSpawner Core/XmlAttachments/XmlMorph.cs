@@ -13,19 +13,27 @@ public class XmlMorph : XmlAttachment
     private DateTime m_MorphEnd;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int MorphID { get { return m_MorphID; } set { m_MorphID  = value; } }
+    public int MorphID { get => m_MorphID;
+        set => m_MorphID  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public TimeSpan Duration { get { return m_Duration; } set { m_Duration  = value; } }
+    public TimeSpan Duration { get => m_Duration;
+        set => m_Duration  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public DateTime MorphEnd { get { return m_MorphEnd; }  }
+    public DateTime MorphEnd => m_MorphEnd;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string ActivationWord { get { return m_Word; } set { m_Word  = value; } }
+    public string ActivationWord { get => m_Word;
+        set => m_Word  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Range { get { return proximityrange; } set { proximityrange  = value; } }
+    public int Range { get => proximityrange;
+        set => proximityrange  = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -37,10 +45,7 @@ public class XmlMorph : XmlAttachment
     }
 
     [Attachable]
-    public XmlMorph(int morphID)
-    {
-        m_MorphID = morphID;
-    }
+    public XmlMorph(int morphID) => m_MorphID = morphID;
 
     [Attachable]
     public XmlMorph(int morphID, double duration)
@@ -102,7 +107,10 @@ public class XmlMorph : XmlAttachment
                     TimeSpan remaining = reader.ReadTimeSpan();
 
                     if(remaining > TimeSpan.Zero)
+                    {
                         DoTimer(remaining);
+                    }
+
                     break;
                 }
         }
@@ -112,7 +120,10 @@ public class XmlMorph : XmlAttachment
     {
         base.OnIdentify(from);
 
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         string msg = null;
 
@@ -151,16 +162,22 @@ public class XmlMorph : XmlAttachment
         }
     }
 
-    public override bool HandlesOnSpeech { get { return ActivationWord != null; } }
+    public override bool HandlesOnSpeech => ActivationWord != null;
 
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         // dont respond to other players speech if this is attached to a mob
-        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile) return;
+        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile)
+        {
+            return;
+        }
 
         if(e.Speech == ActivationWord)
         {
@@ -168,20 +185,25 @@ public class XmlMorph : XmlAttachment
         }
     }
 
-    public override bool HandlesOnMovement { get { return ActivationWord == null; } }
+    public override bool HandlesOnMovement => ActivationWord == null;
 
     public override void OnMovement(MovementEventArgs e )
     {
         base.OnMovement(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
         }
         else
+        {
             return;
+        }
     }
 
     public override void OnAttach()
@@ -217,7 +239,9 @@ public class XmlMorph : XmlAttachment
         m_MorphEnd = DateTime.Now + delay;
 
         if ( m_MorphTimer != null )
+        {
             m_MorphTimer.Stop();
+        }
 
         m_MorphTimer = new MorphTimer( this, delay);
         m_MorphTimer.Start();
@@ -243,7 +267,10 @@ public class XmlMorph : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null ) return;
+        if(m == null )
+        {
+            return;
+        }
 
         // if attached to an item then morph and then reset after duration
         // note that OriginalID will be -1 if the target is not already morphed

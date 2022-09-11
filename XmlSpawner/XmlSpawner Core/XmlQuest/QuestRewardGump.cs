@@ -74,10 +74,16 @@ public class QuestRewardGump : Gump
             int y = 50;
             for(int i = 0; i < Rewards.Count; i++)
             {
-                if(i/maxItemsPerPage != viewpage) continue;
+                if(i/maxItemsPerPage != viewpage)
+                {
+                    continue;
+                }
 
                 XmlQuestPointsRewards r = Rewards[i] as XmlQuestPointsRewards;
-                if(r == null) continue;
+                if(r == null)
+                {
+                    continue;
+                }
 
                 y += y_inc;
 
@@ -103,7 +109,9 @@ public class QuestRewardGump : Gump
 
                 // display the item
                 if(r.ItemID > 0)
+                {
                     AddItem(x_creditoffset+60, y, r.ItemID);
+                }
 
                 // display the min points requirement
                 AddLabel( x_pointsoffset, y+3, texthue, r.MinPoints.ToString() );
@@ -113,7 +121,10 @@ public class QuestRewardGump : Gump
 
     public override void OnResponse( NetState state, RelayInfo info )
     {
-        if(info == null || state == null || state.Mobile == null || Rewards == null) return;
+        if(info == null || state == null || state.Mobile == null || Rewards == null)
+        {
+            return;
+        }
 
         Mobile from = state.Mobile;
 
@@ -124,7 +135,9 @@ public class QuestRewardGump : Gump
                     // page up
                     int nitems = 0;
                     if(Rewards != null)
+                    {
                         nitems = Rewards.Count;
+                    }
 
                     int page = viewpage+1;
                     if(page > nitems/maxItemsPerPage)

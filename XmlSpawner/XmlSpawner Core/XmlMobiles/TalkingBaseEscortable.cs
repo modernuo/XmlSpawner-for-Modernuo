@@ -16,7 +16,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     private DateTime m_DeleteTime;
     private Timer m_DeleteTimer;
 
-    public override bool Commandable{ get{ return false; } } // Our master cannot boss us around!
+    public override bool Commandable => false; // Our master cannot boss us around!
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string Destination
@@ -24,20 +24,30 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         get
         {
             if (m_Destination == null)
+            {
                 return null;
+            }
             else
+            {
                 return m_Destination.Name;
+            }
         }
         set{
             m_DestinationString = value;
             m_Destination = EDI.Find( value );
 
             // if the destination cant be found in the current EDI list then try to add it
-            if(value == null || value.Length <= 0) return;
+            if(value == null || value.Length <= 0)
+            {
+                return;
+            }
+
             if(m_Destination == null)
             {
                 if (Region.Regions.Count == 0) // after world load, before region load
+                {
                     return;
+                }
 
                 foreach (Region region in Region.Regions)
                 {
@@ -78,12 +88,12 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             }
         }
     }
-    [Constructable]
+    [Constructible]
     public TalkingBaseEscortable()  : this (-1)
     {
     }
 
-    [Constructable]
+    [Constructible]
     public TalkingBaseEscortable(int gender) : base( AIType.AI_Melee, FightMode.Aggressor, 22, 1, 0.2, 1.0 )
     {
         InitBody(gender);
@@ -141,7 +151,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         EDI dest = GetDestination();
 
         if ( dest == null || !m.Alive )
+        {
             return false;
+        }
 
         Mobile escorter = GetEscorter();
 
@@ -161,10 +173,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
 
     private static Hashtable m_EscortTable = new Hashtable();
 
-    public static Hashtable EscortTable
-    {
-        get{ return m_EscortTable; }
-    }
+    public static Hashtable EscortTable => m_EscortTable;
 
     private static TimeSpan m_EscortDelay = TimeSpan.FromMinutes( 5.0 );
 
@@ -173,12 +182,16 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         EDI dest = GetDestination();
 
         if ( dest == null )
+        {
             return false;
+        }
 
         Mobile escorter = GetEscorter();
 
         if ( escorter != null || !m.Alive )
+        {
             return false;
+        }
 
         TalkingBaseEscortable escortable = (TalkingBaseEscortable)m_EscortTable[m];
 
@@ -199,7 +212,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             m_LastSeenEscorter = DateTime.Now;
 
             if ( m is PlayerMobile )
+            {
                 ((PlayerMobile)m).LastEscortTime = DateTime.Now;
+            }
 
             Say( "Lead on! Payment will be made when we arrive in {0}.", dest.Name == "Ocllo" && m.Map == Map.Trammel ? "Haven" : dest.Name  );
             m_EscortTable[m] = this;
@@ -213,7 +228,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     public override bool HandlesOnSpeech( Mobile from )
     {
         if ( from.InRange( Location, 3 ) )
+        {
             return true;
+        }
 
         return base.HandlesOnSpeech( from );
     }
@@ -227,16 +244,22 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         if ( dest != null && !e.Handled && e.Mobile.InRange( Location, 3 ) )
         {
             if ( e.HasKeyword( 0x1D ) ) // *destination*
+            {
                 e.Handled = SayDestinationTo( e.Mobile );
+            }
             else if ( e.HasKeyword( 0x1E ) ) // *i will take thee*
+            {
                 e.Handled = AcceptEscorter( e.Mobile );
+            }
         }
     }
 
     public override void OnAfterDelete()
     {
         if ( m_DeleteTimer != null )
+        {
             m_DeleteTimer.Stop();
+        }
 
         m_DeleteTimer = null;
 
@@ -252,7 +275,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     protected override bool OnMove( Direction d )
     {
         if ( !base.OnMove( d ) )
+        {
             return false;
+        }
 
         CheckAtDestination();
 
@@ -267,7 +292,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     public virtual void StartFollow( Mobile escorter )
     {
         if ( escorter == null )
+        {
             return;
+        }
 
         ActiveSpeed = 0.1;
         PassiveSpeed = 0.2;
@@ -294,12 +321,16 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     public virtual Mobile GetEscorter()
     {
         if ( !Controlled )
+        {
             return null;
+        }
 
         Mobile master = ControlMaster;
 
         if ( master == null )
+        {
             return null;
+        }
 
         if ( master.Deleted || master.Map != Map || !master.InRange( Location, 30 ) || !master.Alive )
         {
@@ -326,7 +357,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         }
 
         if ( ControlOrder != OrderType.Follow )
+        {
             StartFollow( master );
+        }
 
         m_LastSeenEscorter = DateTime.Now;
         return master;
@@ -335,7 +368,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     public virtual void BeginDelete()
     {
         if ( m_DeleteTimer != null )
+        {
             m_DeleteTimer.Stop();
+        }
 
         m_DeleteTime = DateTime.Now + TimeSpan.FromSeconds( 30.0 );
 
@@ -348,12 +383,16 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         EDI dest = GetDestination();
 
         if ( dest == null )
+        {
             return false;
+        }
 
         Mobile escorter = GetEscorter();
 
         if ( escorter == null )
+        {
             return false;
+        }
 
         if ( dest.Contains( Location ) )
         {
@@ -367,12 +406,16 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             Container cont = escorter.Backpack;
 
             if ( cont == null )
+            {
                 cont = escorter.BankBox;
+            }
 
             Gold gold = new Gold( 500, 1000 );
 
             if ( cont == null || !cont.TryDropItem( escorter, gold, false ) )
+            {
                 gold.MoveToWorld( escorter.Location, escorter.Map );
+            }
 
             Misc.Titles.AwardFame( escorter, 10, true );
 
@@ -395,9 +438,13 @@ public class TalkingBaseEscortable : TalkingBaseCreature
                 else if ( VirtueHelper.Award( pm, VirtueName.Compassion, 1, ref gainedPath ) )
                 {
                     if ( gainedPath )
+                    {
                         pm.SendLocalizedMessage( 1053005 ); // You have achieved a path in compassion!
+                    }
                     else
+                    {
                         pm.SendLocalizedMessage( 1053002 ); // You have gained in compassion.
+                    }
 
                     pm.NextCompassionDay = DateTime.Now + TimeSpan.FromDays( 1.0 ); // in one day CompassionGains gets reset to 0
                     ++pm.CompassionGains;
@@ -436,12 +483,16 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         writer.Write( dest != null );
 
         if ( dest != null )
+        {
             writer.Write( dest.Name );
+        }
 
         writer.Write( m_DeleteTimer != null );
 
         if ( m_DeleteTimer != null )
+        {
             writer.WriteDeltaTime( m_DeleteTime );
+        }
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -451,7 +502,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         int version = reader.ReadInt();
 
         if ( reader.ReadBool() )
+        {
             m_DestinationString = reader.ReadString(); // NOTE: We cannot EDI.Find here, regions have not yet been loaded :-(
+        }
 
         if ( reader.ReadBool() )
         {
@@ -461,10 +514,7 @@ public class TalkingBaseEscortable : TalkingBaseCreature
         }
     }
 
-    public override bool CanBeRenamedBy( Mobile from )
-    {
-        return from.AccessLevel >= AccessLevel.GameMaster;
-    }
+    public override bool CanBeRenamedBy( Mobile from ) => from.AccessLevel >= AccessLevel.GameMaster;
 
     public override void AddCustomContextEntries(Mobile from, List<ContextMenuEntry> list)
     {
@@ -475,26 +525,31 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             Mobile escorter = GetEscorter();
 
             if ( escorter == null || escorter == from )
+            {
                 list.Add( new AskTalkingDestinationEntry( this, from ) );
+            }
 
             if ( escorter == null )
+            {
                 list.Add( new AcceptTalkingEscortEntry( this, from ) );
+            }
             else if ( escorter == from )
+            {
                 list.Add( new AbandonTalkingEscortEntry( this, from ) );
+            }
         }
 
         base.AddCustomContextEntries( from, list );
     }
 
-    public virtual string[] GetPossibleDestinations()
-    {
-        return m_TownNames;
-    }
+    public virtual string[] GetPossibleDestinations() => m_TownNames;
 
     public virtual string PickRandomDestination()
     {
         if ( Map.Felucca.Regions.Count == 0 || Map == null || Map == Map.Internal || Location == Point3D.Zero )
+        {
             return null; // Not yet fully initialized
+        }
 
         string[] possible = GetPossibleDestinations();
         string picked = null;
@@ -505,7 +560,9 @@ public class TalkingBaseEscortable : TalkingBaseCreature
             EDI test = EDI.Find( picked );
 
             if ( test != null && test.Contains( Location ) )
+            {
                 picked = null;
+            }
         }
 
         return picked;
@@ -514,13 +571,19 @@ public class TalkingBaseEscortable : TalkingBaseCreature
     public EDI GetDestination()
     {
         if ( m_DestinationString == null && m_DeleteTimer == null )
+        {
             m_DestinationString = PickRandomDestination();
+        }
 
         if ( m_Destination != null && m_Destination.Name == m_DestinationString )
+        {
             return m_Destination;
+        }
 
         if ( Map.Felucca.Regions.Count > 0 )
+        {
             return m_Destination = EDI.Find( m_DestinationString );
+        }
 
         return m_Destination = null;
     }

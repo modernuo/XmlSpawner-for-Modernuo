@@ -17,7 +17,7 @@ public class SimpleNote : Item
     private int m_TextColor = 0x3e8;
     private int m_TitleColor = 0xef0000; // cyan 0xf70000, black 0x3e8, brown 0xef0000 darkblue 0x7fff
 
-    [Constructable]
+    [Constructible]
     public SimpleNote() : base( 0x14EE )
     {
         Name = "A note";
@@ -31,39 +31,43 @@ public class SimpleNote : Item
     [CommandProperty( AccessLevel.GameMaster )]
     public string NoteString
     {
-        get{ return m_NoteString; }
+        get => m_NoteString;
         set { m_NoteString = value; InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string TitleString
     {
-        get{ return m_TitleString; }
+        get => m_TitleString;
         set { m_TitleString = value; InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int Size
     {
-        get{ return m_size; }
+        get => m_size;
         set
         {
             m_size = value;
-            if(m_size < 1) m_size = 1;
+            if(m_size < 1)
+            {
+                m_size = 1;
+            }
+
             InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int TextColor
     {
-        get{ return m_TextColor; }
+        get => m_TextColor;
         set { m_TextColor = value; InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int TitleColor
     {
-        get{ return m_TitleColor; }
+        get => m_TitleColor;
         set { m_TitleColor = value; InvalidateProperties();}
     }
 
@@ -110,10 +114,7 @@ public class SimpleNoteGump : Gump
 {
     private SimpleNote m_Note;
 
-    public static string HtmlFormat( string text, int color )
-    {
-        return $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
-    }
+    public static string HtmlFormat( string text, int color ) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
 
     public SimpleNoteGump( SimpleNote note ) : base( 0, 0 )
     {

@@ -17,10 +17,15 @@ public class EscortDestinationInfo
     public static EscortDestinationInfo Find(string name)
     {
         if (String.IsNullOrEmpty(name))
+        {
             return null;
+        }
+
         Region reg = null;
         foreach (var r in Region.Regions.Where(r => r.Name == name))
+        {
             reg = r;
+        }
 
         return new EscortDestinationInfo(name,reg);
     }

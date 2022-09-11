@@ -81,7 +81,9 @@ public class XmlPropertiesGump : Gump
 #if (NEWTIMERS)
                     m_Stack = new Stack<PropertiesGump.StackEntry>();
 #else
+            {
                 m_Stack = new Stack();
+            }
 #endif
 
             m_Stack.Push(parent);
@@ -111,14 +113,20 @@ public class XmlPropertiesGump : Gump
         int count = m_List.Count - page * EntryCount;
 
         if (count < 0)
+        {
             count = 0;
+        }
         else if (count > EntryCount)
+        {
             count = EntryCount;
+        }
 
         int lastIndex = page * EntryCount + count - 1;
 
         if (lastIndex >= 0 && lastIndex < m_List.Count && m_List[lastIndex] == null)
+        {
             --count;
+        }
 
         int totalHeight = OffsetSize + (EntryHeight + OffsetSize) * (ColumnEntryCount + 1);
 
@@ -131,14 +139,20 @@ public class XmlPropertiesGump : Gump
         int y = BorderSize;
 
         if (m_Object is Item item)
+        {
             AddLabelCropped(x + TextOffsetX, y, TypeWidth - TextOffsetX, EntryHeight, TextHue, item.Name);
+        }
+
         int propcount = 0;
         for (int i = 0, index = page * EntryCount; i <= count && index < m_List.Count; ++i, ++index)
         {
             // do the multi column display
             int column = propcount / ColumnEntryCount;
             if (propcount % ColumnEntryCount == 0)
+            {
                 y = BorderSize;
+            }
+
             x = BorderSize + OffsetSize + column * (ValueWidth + NameWidth + OffsetSize * 2 + SetOffsetX + SetWidth);
             y += EntryHeight + OffsetSize;
 
@@ -179,12 +193,16 @@ public class XmlPropertiesGump : Gump
                 x += ValueWidth + OffsetSize;
 
                 if (SetGumpID != 0)
+                {
                     AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
+                }
 
                 CPA cpa = GetCPA(prop);
 
                 if (prop.CanWrite && cpa != null && m_Mobile.AccessLevel >= cpa.WriteLevel)
+                {
                     AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, i + 3, GumpButtonType.Reply, 0);
+                }
             }
         }
     }
@@ -227,14 +245,18 @@ public class XmlPropertiesGump : Gump
             case 1: // Previous
                 {
                     if (m_Page > 0)
+                    {
                         from.SendGump(new XmlPropertiesGump(from, m_Object, m_Stack, m_List, m_Page - 1));
+                    }
 
                     break;
                 }
             case 2: // Next
                 {
                     if ((m_Page + 1) * EntryCount < m_List.Count)
+                    {
                         from.SendGump(new XmlPropertiesGump(from, m_Object, m_Stack, m_List, m_Page + 1));
+                    }
 
                     break;
                 }
@@ -247,37 +269,63 @@ public class XmlPropertiesGump : Gump
                         PropertyInfo prop = m_List[index] as PropertyInfo;
 
                         if (prop == null)
+                        {
                             return;
+                        }
 
                         CPA attr = GetCPA(prop);
 
                         if (!prop.CanWrite || attr == null || from.AccessLevel < attr.WriteLevel)
+                        {
                             return;
+                        }
 
                         Type type = prop.PropertyType;
 
                         if (IsType(type, typeofMobile) || IsType(type, typeofItem))
+                        {
                             from.SendGump(new XmlSetObjectGump(prop, from, m_Object, m_Stack, type, m_Page, m_List));
+                        }
                         else if (IsType(type, typeofType))
+                        {
                             from.Target = new XmlSetObjectTarget(prop, from, m_Object, m_Stack, type, m_Page, m_List);
+                        }
                         else if (IsType(type, typeofPoint3D))
+                        {
                             from.SendGump(new XmlSetPoint3DGump(prop, from, m_Object, m_Stack, m_Page, m_List));
+                        }
                         else if (IsType(type, typeofPoint2D))
+                        {
                             from.SendGump(new XmlSetPoint2DGump(prop, from, m_Object, m_Stack, m_Page, m_List));
+                        }
                         else if (IsType(type, typeofTimeSpan))
+                        {
                             from.SendGump(new XmlSetTimeSpanGump(prop, from, m_Object, m_Stack, m_Page, m_List));
+                        }
                         else if (IsCustomEnum(type))
+                        {
                             from.SendGump(new XmlSetCustomEnumGump(prop, from, m_Object, m_Stack, m_Page, m_List, GetCustomEnumNames(type)));
+                        }
                         else if (IsType(type, typeofEnum))
+                        {
                             from.SendGump(new XmlSetListOptionGump(prop, from, m_Object, m_Stack, m_Page, m_List, Enum.GetNames(type), GetObjects(Enum.GetValues(type))));
+                        }
                         else if (IsType(type, typeofBool))
+                        {
                             from.SendGump(new XmlSetListOptionGump(prop, from, m_Object, m_Stack, m_Page, m_List, m_BoolNames, m_BoolValues));
+                        }
                         else if (IsType(type, typeofString) || IsType(type, typeofReal) || IsType(type, typeofNumeric))
+                        {
                             from.SendGump(new XmlSetGump(prop, from, m_Object, m_Stack, m_Page, m_List));
+                        }
                         else if (IsType(type, typeofPoison))
+                        {
                             from.SendGump(new XmlSetListOptionGump(prop, from, m_Object, m_Stack, m_Page, m_List, m_PoisonNames, m_PoisonValues));
+                        }
                         else if (IsType(type, typeofMap))
+                        {
                             from.SendGump(new XmlSetListOptionGump(prop, from, m_Object, m_Stack, m_Page, m_List, Map.GetMapNames(), Map.GetMapValues()));
+                        }
                         else if (IsType(type, typeofSkills) && m_Object is Mobile mobile)
                         {
                             from.SendGump(new XmlPropertiesGump(from, mobile, m_Stack, m_List, m_Page));
@@ -308,27 +356,30 @@ public class XmlPropertiesGump : Gump
         object[] list = new object[a.Length];
 
         for (int i = 0; i < list.Length; ++i)
+        {
             list[i] = a.GetValue(i);
+        }
 
         return list;
     }
 
-    private static bool IsCustomEnum(Type type)
-    {
-        return type.IsDefined(typeofCustomEnum, false);
-    }
+    private static bool IsCustomEnum(Type type) => type.IsDefined(typeofCustomEnum, false);
 
     private static string[] GetCustomEnumNames(Type type)
     {
         object[] attrs = type.GetCustomAttributes(typeofCustomEnum, false);
 
         if (attrs.Length == 0)
+        {
             return new string[0];
+        }
 
         CustomEnumAttribute ce = attrs[0] as CustomEnumAttribute;
 
         if (ce == null)
+        {
             return new string[0];
+        }
 
         return ce.Names;
     }
@@ -340,16 +391,17 @@ public class XmlPropertiesGump : Gump
         return objs.Length > 0;
     }
 
-    private static bool IsType(Type type, Type check)
-    {
-        return type == check || type.IsSubclassOf(check);
-    }
+    private static bool IsType(Type type, Type check) => type == check || type.IsSubclassOf(check);
 
     private static bool IsType(Type type, Type[] check)
     {
         for (int i = 0; i < check.Length; ++i)
+        {
             if (IsType(type, check[i]))
+            {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -388,10 +440,7 @@ public class XmlPropertiesGump : Gump
         typeof( ulong )
     };
 
-    private string ValueToString(PropertyInfo prop)
-    {
-        return ValueToString(m_Object, prop);
-    }
+    private string ValueToString(PropertyInfo prop) => ValueToString(m_Object, prop);
 
     public static string ValueToString(object obj, PropertyInfo prop)
     {
@@ -487,10 +536,14 @@ public class XmlPropertiesGump : Gump
             ArrayList groupList = (ArrayList)de.Value;
 
             if (!HasAttribute((Type)de.Key, typeofNoSort, false))
+            {
                 groupList.Sort(PropertySorter.Instance);
+            }
 
             if (i != 0)
+            {
                 list.Add(null);
+            }
 
             list.Add(de.Key);
             list.AddRange(groupList);
@@ -507,7 +560,9 @@ public class XmlPropertiesGump : Gump
         object[] attrs = prop.GetCustomAttributes(typeofCPA, false);
 
         if (attrs.Length > 0)
+        {
             return attrs[0] as CPA;
+        }
 
         return null;
     }
@@ -533,18 +588,26 @@ public class XmlPropertiesGump : Gump
                         Type baseType = type.BaseType;
 
                         if (baseType == null || baseType == typeofObject)
+                        {
                             break;
+                        }
 
                         if (baseType.GetProperty(prop.Name, prop.PropertyType) != null)
+                        {
                             type = baseType;
+                        }
                         else
+                        {
                             break;
+                        }
                     }
 
                     ArrayList list = (ArrayList)groups[type];
 
                     if (list == null)
+                    {
                         groups[type] = list = new ArrayList();
+                    }
 
                     list.Add(prop);
                 }
@@ -605,17 +668,27 @@ public class XmlPropertiesGump : Gump
         public int Compare(object x, object y)
         {
             if (x == null && y == null)
+            {
                 return 0;
+            }
+
             if (x == null)
+            {
                 return -1;
+            }
+
             if (y == null)
+            {
                 return 1;
+            }
 
             PropertyInfo a = x as PropertyInfo;
             PropertyInfo b = y as PropertyInfo;
 
             if (a == null || b == null)
+            {
                 throw new ArgumentException();
+            }
 
             return a.Name.CompareTo(b.Name);
         }
@@ -625,10 +698,7 @@ public class XmlPropertiesGump : Gump
     {
         private readonly Type m_Start;
 
-        public GroupComparer(Type start)
-        {
-            m_Start = start;
-        }
+        public GroupComparer(Type start) => m_Start = start;
 
         private static readonly Type typeofObject = typeof(object);
 
@@ -639,7 +709,9 @@ public class XmlPropertiesGump : Gump
             int dist;
 
             for (dist = 0; current != null && current != typeofObject && current != type; ++dist)
+            {
                 current = current.BaseType;
+            }
 
             return dist;
         }
@@ -647,14 +719,24 @@ public class XmlPropertiesGump : Gump
         public int Compare(object x, object y)
         {
             if (x == null && y == null)
+            {
                 return 0;
+            }
+
             if (x == null)
+            {
                 return -1;
+            }
+
             if (y == null)
+            {
                 return 1;
+            }
 
             if (!(x is DictionaryEntry) || !(y is DictionaryEntry))
+            {
                 throw new ArgumentException();
+            }
 
             DictionaryEntry de1 = (DictionaryEntry)x;
             DictionaryEntry de2 = (DictionaryEntry)y;

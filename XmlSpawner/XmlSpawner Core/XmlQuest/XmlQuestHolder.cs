@@ -119,9 +119,14 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         writer.Write(m_NextRepeatable);
         // version 1
         if (m_RewardAttachment != null)
+        {
             writer.Write(m_RewardAttachment.Serial.Value);
+        }
         else
+        {
             writer.Write(0);
+        }
+
         // version 0
         writer.Write(m_ReturnContainer);
         writer.Write(m_RewardItem);
@@ -293,7 +298,10 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
     private void UnHideRewards()
     {
-        if (m_RewardItem == null) return;
+        if (m_RewardItem == null)
+        {
+            return;
+        }
 
         Item tmpitem = null;
 
@@ -336,14 +344,21 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     public override bool CheckItemUse(Mobile from, Item item)
     {
         if (!(item is Container))
+        {
             return false;
+        }
         else
+        {
             return base.CheckItemUse(from, item);
+        }
     }
 
     public override void DisplayTo(Mobile to)
     {
-        if (to == null) return;
+        if (to == null)
+        {
+            return;
+        }
 
         // add the reward item back into the container list for display
         UnHideRewards();
@@ -356,7 +371,9 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         List<Item> items = Items;
 
         for (int i = 0; i < items.Count; ++i)
+        {
             to.Send(items[i].OPLPacket);
+        }
 
         // move the reward item out of container to protect it from use
         HideRewards();
@@ -384,31 +401,34 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
     public override bool CheckHold(Mobile m, Item item, bool message, bool checkItems, bool checkWeight,int plusItems, int plusWeight)
     {
-        if (m.AccessLevel == AccessLevel.Player) return false;
+        if (m.AccessLevel == AccessLevel.Player)
+        {
+            return false;
+        }
 
         return base.CheckHold(m, item, message, checkItems, plusItems, plusWeight);
     }
 
     public override bool TryDropItem(Mobile from, Item dropped, bool sendFullMessage)
     {
-        if (from.AccessLevel == AccessLevel.Player) return false;
+        if (from.AccessLevel == AccessLevel.Player)
+        {
+            return false;
+        }
 
         return base.TryDropItem(from, dropped, sendFullMessage);
     }
 
-    public override bool OnDragDrop(Mobile from, Item dropped)
-    {
-        return false;
-    }
+    public override bool OnDragDrop(Mobile from, Item dropped) => false;
 
-    public override bool OnDragDropInto(Mobile from, Item item, Point3D p)
-    {
-        return false;
-    }
+    public override bool OnDragDropInto(Mobile from, Item item, Point3D p) => false;
 
     public override bool CheckTarget(Mobile from, Targeting.Target targ, object targeted)
     {
-        if (from.AccessLevel == AccessLevel.Player) return false;
+        if (from.AccessLevel == AccessLevel.Player)
+        {
+            return false;
+        }
 
         return true;
     }
@@ -418,7 +438,10 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     {
         //base.OnDoubleClick(from);
 
-        if (!(from is PlayerMobile)) return;
+        if (!(from is PlayerMobile))
+        {
+            return;
+        }
 
         if (PlayerMade && from == Creator && from == Owner)
         {
@@ -515,7 +538,9 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
                 // first owner will become creator by default
                 if (Creator == null)
+                {
                     Creator = Owner;
+                }
 
                 LootType = LootType.Blessed;
 
@@ -567,44 +592,46 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     }
 
     private ArrayList m_Journal;
-    public ArrayList Journal { get { return m_Journal; } set { m_Journal = value; } }
+    public ArrayList Journal { get => m_Journal;
+        set => m_Journal = value;
+    }
     private static char[] colondelim = new char[1] { ':' };
 
     public string EchoAddJournalEntry
     {
-        set
-        {
+        set =>
             // notify and echo journal text
             VerboseAddJournalEntry(value, true, true);
-        }
     }
 
     public string NotifyAddJournalEntry
     {
-        set
-        {
+        set =>
             // notify
             VerboseAddJournalEntry(value, true, false);
-        }
     }
 
     public string AddJournalEntry
     {
-        set
-        {
+        set =>
             // silent
             VerboseAddJournalEntry(value, false, false);
-        }
     }
 
     private void VerboseAddJournalEntry(string entrystring, bool notify, bool echo)
     {
-        if (entrystring == null) return;
+        if (entrystring == null)
+        {
+            return;
+        }
 
         // parse the value
         string[] args = entrystring.Split(colondelim, 2);
 
-        if (args == null) return;
+        if (args == null)
+        {
+            return;
+        }
 
         string entryID = null;
         string entryText = null;
@@ -613,7 +640,10 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             entryID = args[0].Trim();
         }
 
-        if (entryID == null || entryID.Length == 0) return;
+        if (entryID == null || entryID.Length == 0)
+        {
+            return;
+        }
 
         if (args.Length > 1)
         {
@@ -621,7 +651,10 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         }
 
         // allocate a new journal if none exists
-        if (m_Journal == null) m_Journal = new ArrayList();
+        if (m_Journal == null)
+        {
+            m_Journal = new ArrayList();
+        }
 
         // go through the existing journal to find a matching ID
         XmlQuest.JournalEntry foundEntry = null;
@@ -855,8 +888,8 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public PlayerMobile Owner
     {
-        get { return m_Owner; }
-        set { m_Owner = value; }
+        get => m_Owner;
+        set => m_Owner = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -883,62 +916,66 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public PlayerMobile Creator
     {
-        get { return m_Creator; }
-        set { m_Creator = value; }
+        get => m_Creator;
+        set => m_Creator = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public int Difficulty
     {
-        get { return m_QuestDifficulty; }
-        set { m_QuestDifficulty = value; }
+        get => m_QuestDifficulty;
+        set => m_QuestDifficulty = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Status
     {
-        get { return m_status_str; }
-        set { m_status_str = value; }
+        get => m_status_str;
+        set => m_status_str = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string NoteString
     {
-        get { return m_NoteString; }
-        set { m_NoteString = value; }
+        get => m_NoteString;
+        set => m_NoteString = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool AutoReward
     {
-        get { return m_AutoReward; }
-        set { m_AutoReward = value; }
+        get => m_AutoReward;
+        set => m_AutoReward = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool CanSeeReward
     {
-        get { return m_CanSeeReward; }
-        set { m_CanSeeReward = value; }
+        get => m_CanSeeReward;
+        set => m_CanSeeReward = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool PlayerMade
     {
-        get { return m_PlayerMade; }
-        set { m_PlayerMade = value; }
+        get => m_PlayerMade;
+        set => m_PlayerMade = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Container ReturnContainer
     {
-        get { return m_ReturnContainer; }
-        set { m_ReturnContainer = value; }
+        get => m_ReturnContainer;
+        set => m_ReturnContainer = value;
     }
 
     private void PackItemsMovable(Container pack, bool canmove)
     {
-        if (pack == null) return;
+        if (pack == null)
+        {
+            return;
+        }
+
         UnHideRewards();
         Item[] itemlist = pack.FindItemsByType(typeof(Item), true);
         if (itemlist != null)
@@ -963,7 +1000,10 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
             // if the reward item is not set, and the reward string is specified, then use the reward string to construct and assign the
             // reward item
             // dont allow player made quests to use the rewardstring creation feature
-            if (m_RewardAttachment != null && m_RewardAttachment.Deleted) m_RewardAttachment = null;
+            if (m_RewardAttachment != null && m_RewardAttachment.Deleted)
+            {
+                m_RewardAttachment = null;
+            }
 
             if ((m_RewardAttachment == null || m_RewardAttachment.Deleted) &&
                 m_AttachmentString != null && !PlayerMade)
@@ -1056,146 +1096,150 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public string TitleString
     {
-        get { return m_TitleString; }
+        get => m_TitleString;
         set { m_TitleString = value; InvalidateProperties(); }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string RewardString
     {
-        get { return m_RewardString; }
-        set { m_RewardString = value; }
+        get => m_RewardString;
+        set => m_RewardString = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string AttachmentString
     {
-        get { return m_AttachmentString; }
-        set { m_AttachmentString = value; }
+        get => m_AttachmentString;
+        set => m_AttachmentString = value;
     }
 
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string ConfigFile
     {
-        get { return m_ConfigFile; }
-        set { m_ConfigFile = value; }
+        get => m_ConfigFile;
+        set => m_ConfigFile = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public bool LoadConfig
     {
-        get { return false; }
-        set { if (value == true) LoadXmlConfig(ConfigFile); }
+        get => false;
+        set { if (value == true)
+            {
+                LoadXmlConfig(ConfigFile);
+            }
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool PartyEnabled
     {
-        get { return m_PartyEnabled; }
-        set { m_PartyEnabled = value; }
+        get => m_PartyEnabled;
+        set => m_PartyEnabled = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int PartyRange
     {
-        get { return m_PartyRange; }
-        set { m_PartyRange = value; }
+        get => m_PartyRange;
+        set => m_PartyRange = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string State1
     {
-        get { return m_State1; }
-        set { m_State1 = value; }
+        get => m_State1;
+        set => m_State1 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string State2
     {
-        get { return m_State2; }
-        set { m_State2 = value; }
+        get => m_State2;
+        set => m_State2 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string State3
     {
-        get { return m_State3; }
-        set { m_State3 = value; }
+        get => m_State3;
+        set => m_State3 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string State4
     {
-        get { return m_State4; }
-        set { m_State4 = value; }
+        get => m_State4;
+        set => m_State4 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string State5
     {
-        get { return m_State5; }
-        set { m_State5 = value; }
+        get => m_State5;
+        set => m_State5 = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Description1
     {
-        get { return m_Description1; }
-        set { m_Description1 = value; }
+        get => m_Description1;
+        set => m_Description1 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Description2
     {
-        get { return m_Description2; }
-        set { m_Description2 = value; }
+        get => m_Description2;
+        set => m_Description2 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Description3
     {
-        get { return m_Description3; }
-        set { m_Description3 = value; }
+        get => m_Description3;
+        set => m_Description3 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Description4
     {
-        get { return m_Description4; }
-        set { m_Description4 = value; }
+        get => m_Description4;
+        set => m_Description4 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Description5
     {
-        get { return m_Description5; }
-        set { m_Description5 = value; }
+        get => m_Description5;
+        set => m_Description5 = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Objective1
     {
-        get { return m_Objective1; }
-        set { m_Objective1 = value; }
+        get => m_Objective1;
+        set => m_Objective1 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Objective2
     {
-        get { return m_Objective2; }
-        set { m_Objective2 = value; }
+        get => m_Objective2;
+        set => m_Objective2 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Objective3
     {
-        get { return m_Objective3; }
-        set { m_Objective3 = value; }
+        get => m_Objective3;
+        set => m_Objective3 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Objective4
     {
-        get { return m_Objective4; }
-        set { m_Objective4 = value; }
+        get => m_Objective4;
+        set => m_Objective4 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Objective5
     {
-        get { return m_Objective5; }
-        set { m_Objective5 = value; }
+        get => m_Objective5;
+        set => m_Objective5 = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Completed1
     {
-        get { return m_Completed1; }
+        get => m_Completed1;
         set
         {
             m_Completed1 = value;
@@ -1205,7 +1249,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Completed2
     {
-        get { return m_Completed2; }
+        get => m_Completed2;
         set
         {
             m_Completed2 = value;
@@ -1215,7 +1259,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Completed3
     {
-        get { return m_Completed3; }
+        get => m_Completed3;
         set
         {
             m_Completed3 = value;
@@ -1225,7 +1269,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Completed4
     {
-        get { return m_Completed4; }
+        get => m_Completed4;
         set
         {
             m_Completed4 = value;
@@ -1235,7 +1279,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Completed5
     {
-        get { return m_Completed5; }
+        get => m_Completed5;
         set
         {
             m_Completed5 = value;
@@ -1246,17 +1290,14 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
     [CommandProperty(AccessLevel.GameMaster)]
     public DateTime TimeCreated
     {
-        get { return m_TimeCreated; }
-        set { m_TimeCreated = value; }
+        get => m_TimeCreated;
+        set => m_TimeCreated = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public double Expiration
     {
-        get
-        {
-            return m_ExpirationDuration;
-        }
+        get => m_ExpirationDuration;
         set
         {
             // cap the max value at 100 years
@@ -1305,34 +1346,24 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 return true;
             }
             else
+            {
                 return false;
+            }
         }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public virtual bool Repeatable
     {
-        get
-        {
-            return m_Repeatable;
-        }
-        set
-        {
-            m_Repeatable = value;
-        }
+        get => m_Repeatable;
+        set => m_Repeatable = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public virtual TimeSpan NextRepeatable
     {
-        get
-        {
-            return m_NextRepeatable;
-        }
-        set
-        {
-            m_NextRepeatable = value;
-        }
+        get => m_NextRepeatable;
+        set => m_NextRepeatable = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -1342,7 +1373,9 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
         {
             // look for a quest attachment with the current quest name
             if (XmlAttach.FindAttachment(Owner, typeof(XmlQuestAttachment), Name) == null)
+            {
                 return false;
+            }
 
             return true;
 
@@ -1415,7 +1448,9 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 return false;
             }
             else
+            {
                 return true;
+            }
         }
     }
 
@@ -1431,16 +1466,17 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
                 (Completed4 || Objective4 == null || Objective4.Length == 0) &&
                 (Completed5 || Objective5 == null || Objective5.Length == 0)
                )
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 
-    public Container Pack
-    {
-        get { return this; }
-    }
+    public Container Pack => this;
 
     // this is the handler for skill use
     // not yet implemented, just a hook for now
@@ -1475,8 +1511,7 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
     }
 
-    public bool HandlesOnSkillUse { get { return IsValid && m_SkillTrigger != null && m_SkillTrigger.Length > 0; } }
-
+    public bool HandlesOnSkillUse => IsValid && m_SkillTrigger != null && m_SkillTrigger.Length > 0;
 
 
     private void CheckOwnerFlag()
@@ -1573,7 +1608,11 @@ public abstract class XmlQuestHolder : Container, IXmlQuest
 
     public void LoadXmlConfig(string filename)
     {
-        if (filename == null || filename.Length <= 0) return;
+        if (filename == null || filename.Length <= 0)
+        {
+            return;
+        }
+
         // Check if the file exists
         if (File.Exists(filename) == true)
         {

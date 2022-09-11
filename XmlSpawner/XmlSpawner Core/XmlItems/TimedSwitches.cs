@@ -22,11 +22,8 @@ public class XmlLatch : Item
 
 
 
-    [Constructable]
-    public XmlLatch() : base( 0x1BBF )
-    {
-        Movable = false;
-    }
+    [Constructible]
+    public XmlLatch() : base( 0x1BBF ) => Movable = false;
 
     public XmlLatch(int itemID) : base( itemID )
     {
@@ -40,7 +37,7 @@ public class XmlLatch : Item
     [CommandProperty( AccessLevel.GameMaster )]
     public TimeSpan MinDelay
     {
-        get { return m_MinDelay; }
+        get => m_MinDelay;
         set
         {
             m_MinDelay = value;
@@ -50,7 +47,7 @@ public class XmlLatch : Item
     [CommandProperty( AccessLevel.GameMaster )]
     public TimeSpan MaxDelay
     {
-        get { return m_MaxDelay; }
+        get => m_MaxDelay;
         set
         {
             m_MaxDelay = value;
@@ -63,9 +60,13 @@ public class XmlLatch : Item
         get
         {
             if ( m_Timer != null && m_Timer.Running )
+            {
                 return m_End - DateTime.Now;
+            }
             else
+            {
                 return TimeSpan.FromSeconds( 0 );
+            }
         }
         set
         {
@@ -77,19 +78,22 @@ public class XmlLatch : Item
     [CommandProperty( AccessLevel.GameMaster )]
     public virtual int ResetState
     {
-        get{ return m_ResetState; }
+        get => m_ResetState;
         set
         {
             m_ResetState = value;
             if ( m_Timer != null && m_Timer.Running )
+            {
                 m_Timer.Stop();
+            }
+
             InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public virtual int State
     {
-        get{ return m_State; }
+        get => m_State;
         set
         {
             m_State = value;
@@ -100,10 +104,14 @@ public class XmlLatch : Item
     public void StartTimer()
     {
         if(m_State != m_ResetState && (m_MinDelay > TimeSpan.Zero || m_MaxDelay > TimeSpan.Zero))
+        {
             DoTimer();
+        }
         else
         if ( m_Timer != null && m_Timer.Running )
+        {
             m_Timer.Stop();
+        }
     }
 
     public virtual void OnReset()
@@ -129,7 +137,9 @@ public class XmlLatch : Item
         m_End = DateTime.Now + delay;
 
         if ( m_Timer != null )
+        {
             m_Timer.Stop();
+        }
 
         m_Timer = new InternalTimer( this, delay );
         m_Timer.Start();
@@ -165,7 +175,9 @@ public class XmlLatch : Item
         bool running = m_Timer != null && m_Timer.Running;
         writer.Write( running );
         if ( m_Timer != null && m_Timer.Running )
+        {
             writer.Write( m_End - DateTime.Now );
+        }
     }
 
     public override void Deserialize( IGenericReader reader )
@@ -216,18 +228,18 @@ public class TimedLever : XmlLatch, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
     {
-        set { m_Disabled = value; }
-        get { return m_Disabled; }
+        set => m_Disabled = value;
+        get => m_Disabled;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Link
     {
-        set { m_LinkedItem = value; }
-        get { return m_LinkedItem; }
+        set => m_LinkedItem = value;
+        get => m_LinkedItem;
     }
 
-    [Constructable]
+    [Constructible]
     public TimedLever() : base( 0x108C )
     {
         Name = "A lever";
@@ -242,7 +254,7 @@ public class TimedLever : XmlLatch, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public override int State
     {
-        get { return base.State; }
+        get => base.State;
         set
         {
             // prevent infinite recursion
@@ -259,13 +271,27 @@ public class TimedLever : XmlLatch, ILinkable
 
     public void Activate(Mobile from, int state, ArrayList links)
     {
-        if (Disabled) return;
+        if (Disabled)
+        {
+            return;
+        }
 
         string status_str = null;
 
-        if (state < 0) state = 0;
-        if (state > 1 && m_LeverType == leverType.Two_State) state = 1;
-        if (state > 2) state = 2;
+        if (state < 0)
+        {
+            state = 0;
+        }
+
+        if (state > 1 && m_LeverType == leverType.Two_State)
+        {
+            state = 1;
+        }
+
+        if (state > 2)
+        {
+            state = 2;
+        }
 
         // assign the latch state and start the timer
         base.State = state;
@@ -324,7 +350,7 @@ public class TimedLever : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public int LeverSound
     {
-        get{ return m_LeverSound; }
+        get => m_LeverSound;
         set
         {
             m_LeverSound = value;
@@ -334,7 +360,7 @@ public class TimedLever : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public leverType LeverType
     {
-        get{ return m_LeverType; }
+        get => m_LeverType;
         set
         {
             m_LeverType = value; State = 0;
@@ -344,57 +370,81 @@ public class TimedLever : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     new public virtual Direction Direction
     {
-        get{ return base.Direction; }
+        get => base.Direction;
         set { base.Direction = value; SetLeverStatic();InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target0Item
     {
-        get{ return m_TargetItem0; }
+        get => m_TargetItem0;
         set { m_TargetItem0 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0Property
     {
-        get{ return m_TargetProperty0; }
+        get => m_TargetProperty0;
         set { m_TargetProperty0 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0ItemName
-    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted) return m_TargetItem0.Name;  else return null;}      }
+    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        {
+            return m_TargetItem0.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }      }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target1Item
     {
-        get{ return m_TargetItem1; }
+        get => m_TargetItem1;
         set { m_TargetItem1 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1Property
     {
-        get{ return m_TargetProperty1; }
+        get => m_TargetProperty1;
         set { m_TargetProperty1 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1ItemName
-    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted) return m_TargetItem1.Name; else return null;}      }
+    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        {
+            return m_TargetItem1.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }      }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target2Item
     {
-        get{ return m_TargetItem2; }
+        get => m_TargetItem2;
         set { m_TargetItem2 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target2Property
     {
-        get{ return m_TargetProperty2; }
+        get => m_TargetProperty2;
         set { m_TargetProperty2 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target2ItemName
-    {      	get{  if(m_TargetItem2 != null && !m_TargetItem2.Deleted) return m_TargetItem2.Name; else return null;}      }
+    {      	get{  if(m_TargetItem2 != null && !m_TargetItem2.Deleted)
+        {
+            return m_TargetItem2.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }      }
 
     public override void Serialize( IGenericWriter writer )
     {
@@ -473,9 +523,14 @@ public class TimedLever : XmlLatch, ILinkable
             case Direction.Up:
                 {
                     if(m_LeverType == leverType.Two_State)
+                    {
                         ItemID = 0x108c+ State*2;
+                    }
                     else
+                    {
                         ItemID = 0x108c+ State;
+                    }
+
                     break;
                 }
             case Direction.East:
@@ -484,9 +539,14 @@ public class TimedLever : XmlLatch, ILinkable
             case Direction.Down:
                 {
                     if(m_LeverType == leverType.Two_State)
+                    {
                         ItemID = 0x1093+ State*2;
+                    }
                     else
+                    {
                         ItemID = 0x1093+ State;
+                    }
+
                     break;
                 }
             default:
@@ -499,7 +559,10 @@ public class TimedLever : XmlLatch, ILinkable
 
     public override void OnDoubleClick( Mobile from )
     {
-        if(from == null || Disabled) return;
+        if(from == null || Disabled)
+        {
+            return;
+        }
 
         if ( !from.InRange( GetWorldLocation(), 2 ) || !from.InLOS(this))
         {
@@ -508,8 +571,15 @@ public class TimedLever : XmlLatch, ILinkable
         }
         // animate and change state
         int newstate = State+1;
-        if(newstate > 1 && m_LeverType == leverType.Two_State) newstate = 0;
-        if(newstate > 2) newstate = 0;
+        if(newstate > 1 && m_LeverType == leverType.Two_State)
+        {
+            newstate = 0;
+        }
+
+        if(newstate > 2)
+        {
+            newstate = 0;
+        }
 
         // carry out the switch actions
         Activate(from, newstate, null);
@@ -532,18 +602,18 @@ public class TimedSwitch : XmlLatch, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
     {
-        set { m_Disabled = value; }
-        get { return m_Disabled; }
+        set => m_Disabled = value;
+        get => m_Disabled;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Link
     {
-        set { m_LinkedItem = value; }
-        get { return m_LinkedItem; }
+        set => m_LinkedItem = value;
+        get => m_LinkedItem;
     }
 
-    [Constructable]
+    [Constructible]
     public TimedSwitch() : base( 0x108F )
     {
         Name = "A switch";
@@ -557,7 +627,7 @@ public class TimedSwitch : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public override int State
     {
-        get { return base.State; }
+        get => base.State;
         set
         {
             // prevent infinite recursion
@@ -574,12 +644,22 @@ public class TimedSwitch : XmlLatch, ILinkable
 
     public void Activate(Mobile from, int state, ArrayList links)
     {
-        if (Disabled) return;
+        if (Disabled)
+        {
+            return;
+        }
 
         string status_str = null;
 
-        if (state < 0) state = 0;
-        if (state > 1) state = 1;
+        if (state < 0)
+        {
+            state = 0;
+        }
+
+        if (state > 1)
+        {
+            state = 1;
+        }
 
         // assign the latch state and start the timer
         base.State = state;
@@ -635,7 +715,7 @@ public class TimedSwitch : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public int SwitchSound
     {
-        get{ return m_SwitchSound; }
+        get => m_SwitchSound;
         set
         {
             m_SwitchSound = value;
@@ -645,41 +725,57 @@ public class TimedSwitch : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     new public virtual Direction Direction
     {
-        get{ return base.Direction; }
+        get => base.Direction;
         set { base.Direction = value; SetSwitchStatic();InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target0Item
     {
-        get{ return m_TargetItem0; }
+        get => m_TargetItem0;
         set { m_TargetItem0 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0Property
     {
-        get{ return m_TargetProperty0; }
+        get => m_TargetProperty0;
         set { m_TargetProperty0 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0ItemName
-    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted) return m_TargetItem0.Name; else return null;}      }
+    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        {
+            return m_TargetItem0.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }      }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target1Item
     {
-        get{ return m_TargetItem1; }
+        get => m_TargetItem1;
         set { m_TargetItem1 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1Property
     {
-        get{ return m_TargetProperty1; }
+        get => m_TargetProperty1;
         set { m_TargetProperty1 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1ItemName
-    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted) return m_TargetItem1.Name; else return null;}      }
+    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        {
+            return m_TargetItem1.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }      }
 
 
     public override void Serialize( IGenericWriter writer )
@@ -763,7 +859,10 @@ public class TimedSwitch : XmlLatch, ILinkable
 
     public override void OnDoubleClick( Mobile from )
     {
-        if(from == null || Disabled) return;
+        if(from == null || Disabled)
+        {
+            return;
+        }
 
         if ( !from.InRange( GetWorldLocation(), 2 ) || !from.InLOS(this))
         {
@@ -772,7 +871,10 @@ public class TimedSwitch : XmlLatch, ILinkable
         }
         // animate and change state
         int newstate = State+1;
-        if(newstate > 1) newstate = 0;
+        if(newstate > 1)
+        {
+            newstate = 0;
+        }
 
         // carry out the switch actions
         Activate(from, newstate, null);
@@ -801,32 +903,32 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
     {
-        set { m_Disabled = value; }
-        get { return m_Disabled; }
+        set => m_Disabled = value;
+        get => m_Disabled;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool NoDoubleClick
     {
-        set { m_NoDoubleClick = value; }
-        get { return m_NoDoubleClick; }
+        set => m_NoDoubleClick = value;
+        get => m_NoDoubleClick;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Point3D Offset
     {
-        set { m_Offset = value; }
-        get { return m_Offset; }
+        set => m_Offset = value;
+        get => m_Offset;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Link
     {
-        set { m_LinkedItem = value; }
-        get { return m_LinkedItem; }
+        set => m_LinkedItem = value;
+        get => m_LinkedItem;
     }
 
-    [Constructable]
+    [Constructible]
     public TimedSwitchableItem() : base( 0x108F )
     {
         Name = "A switchable item";
@@ -840,7 +942,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public override int State
     {
-        get { return base.State; }
+        get => base.State;
         set
         {
             // prevent infinite recursion
@@ -858,12 +960,22 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
 
     public void Activate(Mobile from, int state, ArrayList links)
     {
-        if (Disabled) return;
+        if (Disabled)
+        {
+            return;
+        }
 
         string status_str = null;
 
-        if (state < 0) state = 0;
-        if (state > 1) state = 1;
+        if (state < 0)
+        {
+            state = 0;
+        }
+
+        if (state > 1)
+        {
+            state = 1;
+        }
 
         if (base.State != state)
         {
@@ -923,7 +1035,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public int ItemID0
     {
-        get{ return m_ItemID0; }
+        get => m_ItemID0;
         set
         {
             m_ItemID0 = value;
@@ -936,7 +1048,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public int ItemID1
     {
-        get{ return m_ItemID1; }
+        get => m_ItemID1;
         set
         {
             m_ItemID1 = value;
@@ -948,7 +1060,7 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public int SwitchSound
     {
-        get{ return m_SwitchSound; }
+        get => m_SwitchSound;
         set
         {
             m_SwitchSound = value;
@@ -958,34 +1070,50 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target0Item
     {
-        get{ return m_TargetItem0; }
+        get => m_TargetItem0;
         set { m_TargetItem0 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0Property
     {
-        get{ return m_TargetProperty0; }
+        get => m_TargetProperty0;
         set { m_TargetProperty0 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0ItemName
-    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted) return m_TargetItem0.Name; else return null;}      }
+    {      	get{  if(m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        {
+            return m_TargetItem0.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }      }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target1Item
     {
-        get{ return m_TargetItem1; }
+        get => m_TargetItem1;
         set { m_TargetItem1 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1Property
     {
-        get{ return m_TargetProperty1; }
+        get => m_TargetProperty1;
         set { m_TargetProperty1 = value;InvalidateProperties();}
     }
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1ItemName
-    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted) return m_TargetItem1.Name; else return null;}      }
+    {      	get{  if(m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        {
+            return m_TargetItem1.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }      }
 
 
     public override void Serialize( IGenericWriter writer )
@@ -1094,7 +1222,10 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
 
     public override void OnDoubleClick( Mobile from )
     {
-        if(from == null || Disabled || NoDoubleClick) return;
+        if(from == null || Disabled || NoDoubleClick)
+        {
+            return;
+        }
 
         if ( !from.InRange( GetWorldLocation(), 2 ) || !from.InLOS(this))
         {
@@ -1103,7 +1234,10 @@ public class TimedSwitchableItem : XmlLatch, ILinkable
         }
         // animate and change state
         int newstate = State+1;
-        if(newstate > 1) newstate = 0;
+        if(newstate > 1)
+        {
+            newstate = 0;
+        }
 
         // carry out the switch actions
         Activate(from, newstate, null);

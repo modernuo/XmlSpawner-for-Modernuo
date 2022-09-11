@@ -13,7 +13,9 @@ public class XmlSpawnerSkillCheck
         Skill skill = from.Skills[skillName];
 
         if ( skill == null )
+        {
             return false;
+        }
 
         // call the default skillcheck handler
         bool success = SkillCheck.Mobile_SkillCheckLocation(  from,  skillName,  minSkill,  maxSkill );
@@ -29,7 +31,9 @@ public class XmlSpawnerSkillCheck
         Skill skill = from.Skills[skillName];
 
         if ( skill == null )
+        {
             return false;
+        }
 
         // call the default skillcheck handler
         bool success = SkillCheck.Mobile_SkillCheckDirectLocation(  from,  skillName,  chance );
@@ -45,7 +49,9 @@ public class XmlSpawnerSkillCheck
         Skill skill = from.Skills[skillName];
 
         if ( skill == null )
+        {
             return false;
+        }
 
         // call the default skillcheck handler
         bool success = SkillCheck.Mobile_SkillCheckTarget(  from,  skillName,  target,  minSkill,  maxSkill );
@@ -61,7 +67,9 @@ public class XmlSpawnerSkillCheck
         Skill skill = from.Skills[skillName];
 
         if ( skill == null )
+        {
             return false;
+        }
 
         // call the default skillcheck handler
         bool success = SkillCheck.Mobile_SkillCheckDirectTarget(  from,  skillName,  target,  chance );
@@ -91,34 +99,51 @@ public class XmlSpawnerSkillCheck
         // primary function that returns the list of objects (spawners) that are associated with a given skillname by map
         public static ArrayList TriggerList(SkillName index, Map map)
         {
-            if(map == null || map == Map.Internal) return null;
+            if(map == null || map == Map.Internal)
+            {
+                return null;
+            }
 
             ArrayList[] maplist;
 
             // get the list for the specified map
 
             if(map == Map.Felucca)
+            {
                 maplist = m_FeluccaSkillList;
+            }
             else
             if(map == Map.Ilshenar)
+            {
                 maplist = m_IlshenarSkillList;
+            }
             else
             if(map == Map.Malas)
+            {
                 maplist = m_MalasSkillList;
+            }
             else
             if(map == Map.Trammel)
+            {
                 maplist = m_TrammelSkillList;
+            }
             else
             if(map == Map.Tokuno)
+            {
                 maplist = m_TokunoSkillList;
+            }
             else
+            {
                 return null;
+            }
 
             // is it one of the standard 52 skills
             if((int)index >= 0 && (int)index < MaxSkills)
             {
                 if(maplist[(int)index] == null)
+                {
                     maplist[(int)index] = new ArrayList();
+                }
 
                 return maplist[(int)index];
             }
@@ -127,7 +152,9 @@ public class XmlSpawnerSkillCheck
                 // additional skills being registered but it will support them if they are
             {
                 if(maplist[MaxSkills] == null)
+                {
                     maplist[MaxSkills] = new ArrayList();
+                }
 
                 return maplist[MaxSkills];
             }
@@ -137,14 +164,20 @@ public class XmlSpawnerSkillCheck
 
     public static void RegisterSkillTrigger( object o, SkillName s, Map map)
     {
-        if(o == null || s == RegisteredSkill.Invalid) return;
+        if(o == null || s == RegisteredSkill.Invalid)
+        {
+            return;
+        }
 
         // go through the list and if the spawner is not on it yet, then add it
         bool found = false;
             
         ArrayList skilllist = RegisteredSkill.TriggerList(s, map);
 
-        if(skilllist == null) return;
+        if(skilllist == null)
+        {
+            return;
+        }
 
         foreach(RegisteredSkill rs in skilllist)
         {
@@ -170,7 +203,10 @@ public class XmlSpawnerSkillCheck
         
     public static void UnRegisterSkillTrigger( object o, SkillName s, Map map, bool all)
     {
-        if(o == null || s == RegisteredSkill.Invalid) return;
+        if(o == null || s == RegisteredSkill.Invalid)
+        {
+            return;
+        }
 
         // go through the list and if the spawner is on it regardless of the skill registered, then remove it
         if(all)
@@ -179,7 +215,10 @@ public class XmlSpawnerSkillCheck
             {
                 ArrayList skilllist = RegisteredSkill.TriggerList((SkillName)i, map);
             
-                if(skilllist == null) return;
+                if(skilllist == null)
+                {
+                    return;
+                }
 
                 foreach(RegisteredSkill rs in skilllist)
                 {
@@ -195,7 +234,10 @@ public class XmlSpawnerSkillCheck
         {
             ArrayList skilllist = RegisteredSkill.TriggerList(s, map);
             
-            if(skilllist == null) return;
+            if(skilllist == null)
+            {
+                return;
+            }
 
             // if the all flag is not set then just remove the spawner from the list for the specified skill
             foreach(RegisteredSkill rs in skilllist)
@@ -213,8 +255,11 @@ public class XmlSpawnerSkillCheck
     // determines whether  XmlSpawner, XmlAttachment, or XmlQuest OnSkillUse methods should be invoked.
     public static void CheckSkillUse( Mobile m, Skill skill, bool success)
     {
-        if(!(m is PlayerMobile) || skill == null) return;
-            
+        if(!(m is PlayerMobile) || skill == null)
+        {
+            return;
+        }
+
         /*
         // first check for any attachments that might support OnSkillUse
         ArrayList list = XmlAttach.FindAttachments(m);
@@ -233,7 +278,10 @@ public class XmlSpawnerSkillCheck
         // then check for registered skills
         ArrayList skilllist = RegisteredSkill.TriggerList(skill.SkillName, m.Map);
 
-        if(skilllist == null) return;
+        if(skilllist == null)
+        {
+            return;
+        }
 
         // determine whether there are any registered objects for this skill
         foreach(RegisteredSkill rs in skilllist)

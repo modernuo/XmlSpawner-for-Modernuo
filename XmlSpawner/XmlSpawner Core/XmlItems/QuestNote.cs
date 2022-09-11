@@ -23,7 +23,7 @@ namespace Server.Items;
 public class QuestNote : XmlQuestToken
 {
 
-    [Constructable]
+    [Constructible]
     public QuestNote() : base( 0x14EE )
     {
         Name = "A quest note";
@@ -102,7 +102,7 @@ public class OriginalQuestNote : XmlQuestToken
     private int m_TextColor = 0x3e8;
     private int m_TitleColor = 0xef0000; // cyan 0xf70000, black 0x3e8, brown 0xef0000 darkblue 0x7fff
 
-    [Constructable]
+    [Constructible]
     public OriginalQuestNote() : base( 0x14EE )
     {
         Name = "A quest note";
@@ -117,11 +117,14 @@ public class OriginalQuestNote : XmlQuestToken
     [CommandProperty( AccessLevel.GameMaster )]
     public int Size
     {
-        get{ return m_size; }
+        get => m_size;
         set
         {
             m_size = value;
-            if(m_size < 1) m_size = 1;
+            if(m_size < 1)
+            {
+                m_size = 1;
+            }
             //InvalidateProperties();
         }
     }
@@ -129,23 +132,17 @@ public class OriginalQuestNote : XmlQuestToken
     [CommandProperty( AccessLevel.GameMaster )]
     public int TextColor
     {
-        get{ return m_TextColor; }
-        set
-        {
-            m_TextColor = value;
-            //InvalidateProperties();
-        }
+        get => m_TextColor;
+        set => m_TextColor = value;
+        //InvalidateProperties();
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int TitleColor
     {
-        get{ return m_TitleColor; }
-        set
-        {
-            m_TitleColor = value;
-            //InvalidateProperties();
-        }
+        get => m_TitleColor;
+        set => m_TitleColor = value;
+        //InvalidateProperties();
     }
 
     public override void Serialize( IGenericWriter writer )
@@ -201,10 +198,7 @@ public class QuestNoteGump : Gump
 {
     private OriginalQuestNote m_Note;
 
-    public static string HtmlFormat( string text, int color )
-    {
-        return $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
-    }
+    public static string HtmlFormat( string text, int color ) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
 
     public QuestNoteGump( OriginalQuestNote note ) : base( 0, 0 )
     {

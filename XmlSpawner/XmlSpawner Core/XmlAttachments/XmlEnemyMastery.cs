@@ -11,15 +11,19 @@ public class XmlEnemyMastery : XmlAttachment
     private Type m_EnemyType;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Chance { get{ return m_Chance; } set { m_Chance = value; } }
+    public int Chance { get => m_Chance;
+        set => m_Chance = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int PercentIncrease { get{ return m_PercentIncrease; } set { m_PercentIncrease = value; } }
+    public int PercentIncrease { get => m_PercentIncrease;
+        set => m_PercentIncrease = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string Enemy
     {
-        get { return m_Enemy; }
+        get => m_Enemy;
         set
         {
             m_Enemy  = value;
@@ -39,10 +43,7 @@ public class XmlEnemyMastery : XmlAttachment
     }
 
     [Attachable]
-    public XmlEnemyMastery(string enemy)
-    {
-        Enemy = enemy;
-    }
+    public XmlEnemyMastery(string enemy) => Enemy = enemy;
 
     [Attachable]
     public XmlEnemyMastery(string enemy,int increase )
@@ -87,7 +88,9 @@ public class XmlEnemyMastery : XmlAttachment
     public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
     {
         if(m_Chance <= 0 || Utility.Random(100) > m_Chance)
+        {
             return;
+        }
 
         if(defender != null && attacker != null && m_EnemyType != null)
         {

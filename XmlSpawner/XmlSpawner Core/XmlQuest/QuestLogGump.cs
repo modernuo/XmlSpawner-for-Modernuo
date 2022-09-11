@@ -24,7 +24,9 @@ public class QuestLogGump : Gump
         int index = 0;
 
         while ( page-- > 0 )
+        {
             index += GetCountForIndex( index );
+        }
 
         return index;
     }
@@ -45,7 +47,9 @@ public class QuestLogGump : Gump
             add = 1;
 
             if ( slots + add > 10 )
+            {
                 break;
+            }
 
             slots += add;
 
@@ -62,7 +66,10 @@ public class QuestLogGump : Gump
 
     public override void OnResponse( Network.NetState sender, RelayInfo info )
     {
-        if(info == null || m_From == null) return;
+        if(info == null || m_From == null)
+        {
+            return;
+        }
 
         switch ( info.ButtonID )
         {
@@ -74,14 +81,18 @@ public class QuestLogGump : Gump
             case 2: // Previous page
                 {
                     if ( m_Page > 0 )
+                    {
                         m_From.SendGump( new QuestLogGump( m_From, m_Page - 1, m_List ) );
+                    }
 
                     return;
                 }
             case 3: // Next page
                 {
                     if ( GetIndexForPage( m_Page + 1 ) < m_List.Count )
+                    {
                         m_From.SendGump( new QuestLogGump( m_From, m_Page + 1, m_List ) );
+                    }
 
                     break;
                 }
@@ -104,7 +115,9 @@ public class QuestLogGump : Gump
                         int index = info.ButtonID - 2000;
 
                         if ( index < 0 || index >= m_List.Count )
+                        {
                             break;
+                        }
 
                         if(m_List[index] is IXmlQuest)
                         {
@@ -126,7 +139,10 @@ public class QuestLogGump : Gump
 
     public QuestLogGump( Mobile from, int page, ArrayList list ) : base( 12, 24 )
     {
-        if(from == null) return;
+        if(from == null)
+        {
+            return;
+        }
 
         from.CloseGump( typeof( QuestLogGump ) );
 
@@ -152,7 +168,9 @@ public class QuestLogGump : Gump
                     for ( int i = 0; i < packquestitems.Length; ++i )
                     {
                         if(packquestitems[i] != null && !packquestitems[i].Deleted && !(packquestitems[i].Parent is XmlQuestBook))
+                        {
                             list.Add( packquestitems[i] );
+                        }
                     }
                 }
 

@@ -18,7 +18,7 @@ public class XmlQuestMaker : Item
     }
 
 
-    [Constructable]
+    [Constructible]
     public XmlQuestMaker() : base(0xED4)
     {
         Name = "XmlQuestMaker";
@@ -46,7 +46,10 @@ public class XmlQuestMaker : Item
     {
         base.OnDoubleClick(from);
 
-        if(!(from is PlayerMobile)) return;
+        if(!(from is PlayerMobile))
+        {
+            return;
+        }
 
         // make a quest note
         QuestHolder newquest = new QuestHolder();

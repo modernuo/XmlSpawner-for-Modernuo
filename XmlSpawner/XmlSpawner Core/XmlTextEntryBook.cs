@@ -41,7 +41,11 @@ namespace Server.Items
                     {
                         // make each line 25 chars long
                         int length = text.Length - current;
-                        if (length > 20) length = 20;
+                        if (length > 20)
+                        {
+                            length = 20;
+                        }
+
                         lines[i] = text.Substring(current, length);
                         current += length;
                     }
@@ -53,7 +57,10 @@ namespace Server.Items
                 }
 
                 if (pagenum >= PagesCount)
+                {
                     return;
+                }
+
                 Pages[pagenum].Lines = lines;
                 pagenum++;
             }
@@ -61,10 +68,12 @@ namespace Server.Items
             for (int j = pagenum; j < PagesCount; j++)
             {
                 if (Pages[j].Lines.Length > 0)
+                {
                     for (int i = 0; i < Pages[j].Lines.Length; i++)
                     {
                         Pages[j].Lines[i] = string.Empty;
                     }
+                }
             }
         }
 
@@ -91,14 +100,14 @@ namespace Server.Items
         [CommandProperty(AccessLevel.GameMaster)]
         public string Title
         {
-            get { return m_Title; }
+            get => m_Title;
             set { m_Title = value; InvalidateProperties(); }
         }
 
         [CommandProperty(AccessLevel.GameMaster)]
         public string Author
         {
-            get { return m_Author; }
+            get => m_Author;
             set { m_Author = value; InvalidateProperties(); }
         }
 
@@ -110,7 +119,7 @@ namespace Server.Items
 
         public BookPageInfo[] Pages { get; }
 
-        [Constructable]
+        [Constructible]
         public BaseEntryBook(int itemID, string title, string author, int pageCount, bool writable) : base(itemID)
         {
             m_Title = title;
@@ -119,7 +128,9 @@ namespace Server.Items
             Writable = writable;
 
             for (int i = 0; i < Pages.Length; ++i)
+            {
                 Pages[i] = new BookPageInfo();
+            }
         }
 
         public BaseEntryBook(Serial serial) : base(serial)

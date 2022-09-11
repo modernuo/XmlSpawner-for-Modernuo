@@ -22,7 +22,7 @@ public class SimpleTileTrap : Item
     private Item m_TargetItem1 = null;
     private string m_TargetProperty1 = null;
 
-    [Constructable]
+    [Constructible]
     public SimpleTileTrap() : base( 7107 )
     {
         Name = "A tile trap";
@@ -37,7 +37,7 @@ public class SimpleTileTrap : Item
     [CommandProperty( AccessLevel.GameMaster )]
     public int SwitchSound
     {
-        get{ return m_SwitchSound; }
+        get => m_SwitchSound;
         set
         {
             m_SwitchSound = value;
@@ -49,39 +49,55 @@ public class SimpleTileTrap : Item
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target0Item
     {
-        get{ return m_TargetItem0; }
+        get => m_TargetItem0;
         set { m_TargetItem0 = value;InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0Property
     {
-        get{ return m_TargetProperty0; }
+        get => m_TargetProperty0;
         set { m_TargetProperty0 = value;InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target0ItemName
-    {         get{ if(m_TargetItem0 != null && !m_TargetItem0.Deleted) return m_TargetItem0.Name; else return null;}     }
+    {         get{ if(m_TargetItem0 != null && !m_TargetItem0.Deleted)
+        {
+            return m_TargetItem0.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }     }
 
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item Target1Item
     {
-        get{ return m_TargetItem1; }
+        get => m_TargetItem1;
         set { m_TargetItem1 = value;InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1Property
     {
-        get{ return m_TargetProperty1; }
+        get => m_TargetProperty1;
         set { m_TargetProperty1 = value;InvalidateProperties();}
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public string Target1ItemName
-    {         get{ if(m_TargetItem1 != null && !m_TargetItem1.Deleted) return m_TargetItem1.Name; else return null;}     }
+    {         get{ if(m_TargetItem1 != null && !m_TargetItem1.Deleted)
+        {
+            return m_TargetItem1.Name;
+        }
+        else
+        {
+            return null;
+        }
+    }     }
 
 
     public override void Serialize( IGenericWriter writer )
@@ -117,34 +133,35 @@ public class SimpleTileTrap : Item
         }
     }
 
-    public bool CheckRange( Point3D loc, Point3D oldLoc, int range )
-    {
-        return CheckRange( loc, range ) && !CheckRange( oldLoc, range );
-    }
+    public bool CheckRange( Point3D loc, Point3D oldLoc, int range ) => CheckRange( loc, range ) && !CheckRange( oldLoc, range );
 
-    public bool CheckRange( Point3D loc, int range )
-    {
-        return Z + 8 >= loc.Z && loc.Z + 16 > Z
-                              && Utility.InRange( GetWorldLocation(), loc, range );
-    }
+    public bool CheckRange( Point3D loc, int range ) =>
+        Z + 8 >= loc.Z && loc.Z + 16 > Z
+                       && Utility.InRange( GetWorldLocation(), loc, range );
 
 
-    public override bool HandlesOnMovement{ get{ return true; } } // Tell the core that we implement OnMovement
+    public override bool HandlesOnMovement => true; // Tell the core that we implement OnMovement
 
     public override void OnMovement( Mobile m, Point3D oldLocation )
     {
         base.OnMovement( m, oldLocation );
 
         if ( m.Location == oldLocation )
+        {
             return;
+        }
 
 
         if( m.Player && m.AccessLevel == AccessLevel.Player )
         {
             if ( CheckRange( m.Location, oldLocation, 0 ) )
+            {
                 OnEnter( m );
+            }
             else if ( oldLocation == Location )
+            {
                 OnExit( m );
+            }
         }
     }
 

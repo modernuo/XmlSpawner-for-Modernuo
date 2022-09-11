@@ -30,10 +30,7 @@ public class XmlAnimate : XmlAttachment
     }
 
     [Attachable]
-    public XmlAnimate(int animation)
-    {
-        AnimationValue = animation;
-    }
+    public XmlAnimate(int animation) => AnimationValue = animation;
 
     [Attachable]
     public XmlAnimate(int animation, double refractory)
@@ -72,190 +69,106 @@ public class XmlAnimate : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public int ProximityRange
     {
-        get
-        {
-            return m_ProximityRange;
-        }
-        set
-        {
-            m_ProximityRange = value;
-        }
+        get => m_ProximityRange;
+        set => m_ProximityRange = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int FrameCount
     {
-        get
-        {
-            return m_FrameCount;
-        }
-        set
-        {
-            m_FrameCount = value;
-        }
+        get => m_FrameCount;
+        set => m_FrameCount = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int RepeatCount
     {
-        get
-        {
-            return m_RepeatCount;
-        }
-        set
-        {
-            m_RepeatCount = value;
-        }
+        get => m_RepeatCount;
+        set => m_RepeatCount = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int AnimationDelay
     {
-        get
-        {
-            return m_AnimationDelay;
-        }
-        set
-        {
-            m_AnimationDelay = value;
-        }
+        get => m_AnimationDelay;
+        set => m_AnimationDelay = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Repeat
     {
-        get
-        {
-            return m_Repeat;
-        }
-        set
-        {
-            m_Repeat = value;
-        }
+        get => m_Repeat;
+        set => m_Repeat = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Forward
     {
-        get
-        {
-            return m_Forward;
-        }
-        set
-        {
-            m_Forward = value;
-        }
+        get => m_Forward;
+        set => m_Forward = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int AnimationValue
     {
-        get
-        {
-            return m_AnimationValue;
-        }
-        set
-        {
-            m_AnimationValue = value;
-        }
+        get => m_AnimationValue;
+        set => m_AnimationValue = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string ActivationWord
     {
-        get
-        {
-            return m_ActivationWord;
-        }
-        set
-        {
-            m_ActivationWord = value;
-        }
+        get => m_ActivationWord;
+        set => m_ActivationWord = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan Refractory
     {
-        get
-        {
-            return m_Refractory;
-        }
-        set
-        {
-            m_Refractory = value;
-        }
+        get => m_Refractory;
+        set => m_Refractory = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int LoopCount
     {
-        get
-        {
-            return m_LoopCount;
-        }
-        set
-        {
-            m_LoopCount = value;
-        }
+        get => m_LoopCount;
+        set => m_LoopCount = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int LoopDelay
     {
-        get
-        {
-            return m_LoopDelay;
-        }
-        set
-        {
-            m_LoopDelay = value;
-        }
+        get => m_LoopDelay;
+        set => m_LoopDelay = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public int CurrentCount
     {
-        get
-        {
-            return m_CurrentCount;
-        }
-        set
-        {
-            m_CurrentCount = value;
-        }
+        get => m_CurrentCount;
+        set => m_CurrentCount = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public bool DoAnimate
     {
-        get
-        {
-            return false;
-        }
+        get => false;
         set
         {
             if (value == true)
+            {
                 OnTrigger(null, null);
+            }
         }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public bool DoReset
     {
-        get
-        {
-            return false;
-        }
+        get => false;
         set
         {
             if (value == true)
+            {
                 Reset();
+            }
         }
     }
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-    public override bool HandlesOnSpeech
-    {
-        get
-        {
-            return ActivationWord != null;
-        }
-    }
-    public override bool HandlesOnMovement
-    {
-        get
-        {
-            return ProximityRange >= 0 && ActivationWord == null;
-        }
-    }
+    public override bool HandlesOnSpeech => ActivationWord != null;
+
+    public override bool HandlesOnMovement => ProximityRange >= 0 && ActivationWord == null;
+
     public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
@@ -315,7 +228,9 @@ public class XmlAnimate : XmlAttachment
     public override string OnIdentify(Mobile from)
     {
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
+        {
             return null;
+        }
 
         string msg =
             $"Animation #{AnimationValue},{FrameCount} : {Refractory.TotalSeconds} secs between uses";
@@ -335,7 +250,9 @@ public class XmlAnimate : XmlAttachment
         base.OnSpeech(e);
 
         if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
             return;
+        }
 
         if (e.Speech == ActivationWord)
         {
@@ -348,14 +265,18 @@ public class XmlAnimate : XmlAttachment
         base.OnMovement(e);
 
         if (e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
             return;
+        }
 
         if (AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange(e.Mobile.Location, ((Item)AttachedTo).Location, ProximityRange))
         {
             OnTrigger(null, e.Mobile);
         }
         else
+        {
             return;
+        }
     }
 
     public override void OnAttach()
@@ -372,7 +293,9 @@ public class XmlAnimate : XmlAttachment
     public void Reset()
     {
         if (m_Timer != null)
+        {
             m_Timer.Stop();
+        }
 
         CurrentCount = 0;
         m_EndTime = DateTime.UtcNow;
@@ -399,7 +322,9 @@ public class XmlAnimate : XmlAttachment
     public override void OnTrigger(object activator, Mobile m)
     {
         if (DateTime.UtcNow < m_EndTime)
+        {
             return;
+        }
 
         if (LoopCount > 0)
         {
@@ -416,7 +341,9 @@ public class XmlAnimate : XmlAttachment
     private void DoTimer(TimeSpan delay)
     {
         if (m_Timer != null)
+        {
             m_Timer.Stop();
+        }
 
         m_Timer = new LoopTimer(this, delay);
         m_Timer.Start();
@@ -440,7 +367,9 @@ public class XmlAnimate : XmlAttachment
                 m_attachment.Animate();
 
                 if (m_attachment.CurrentCount <= 0)
+                {
                     Stop();
+                }
             }
             else
             {

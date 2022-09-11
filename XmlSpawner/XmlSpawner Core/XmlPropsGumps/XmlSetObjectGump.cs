@@ -82,7 +82,9 @@ public class XmlSetObjectGump : Gump
         x += EntryWidth + OffsetSize;
 
         if (SetGumpID != 0)
+        {
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
+        }
 
         x = BorderSize + OffsetSize;
         y += EntryHeight + OffsetSize;
@@ -92,7 +94,9 @@ public class XmlSetObjectGump : Gump
         x += EntryWidth + OffsetSize;
 
         if (SetGumpID != 0)
+        {
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
+        }
 
         AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 1, GumpButtonType.Reply, 0);
 
@@ -104,7 +108,9 @@ public class XmlSetObjectGump : Gump
         x += EntryWidth + OffsetSize;
 
         if (SetGumpID != 0)
+        {
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
+        }
 
         AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 2, GumpButtonType.Reply, 0);
 
@@ -116,7 +122,9 @@ public class XmlSetObjectGump : Gump
         x += EntryWidth + OffsetSize;
 
         if (SetGumpID != 0)
+        {
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
+        }
 
         AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 3, GumpButtonType.Reply, 0);
 
@@ -128,7 +136,9 @@ public class XmlSetObjectGump : Gump
         x += EntryWidth + OffsetSize;
 
         if (SetGumpID != 0)
+        {
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
+        }
 
         AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, 4, GumpButtonType.Reply, 0);
     }
@@ -261,11 +271,17 @@ public class XmlSetObjectGump : Gump
                     object obj = m_Property.GetValue(m_Object, null);
 
                     if (obj == null)
+                    {
                         m_Mobile.SendMessage("The property is null and so you cannot view its properties.");
+                    }
                     else if (!BaseCommand.IsAccessible(m_Mobile, obj))
+                    {
                         m_Mobile.SendMessage("You may not view their properties.");
+                    }
                     else
+                    {
                         viewProps = obj;
+                    }
 
                     break;
                 }
@@ -290,9 +306,13 @@ public class XmlSetObjectGump : Gump
         }
 
         if (shouldSend)
+        {
             m_Mobile.SendGump(new XmlSetObjectGump(m_Property, m_Mobile, m_Object, m_Stack, m_Type, m_Page, m_List));
+        }
 
         if (viewProps != null)
+        {
             m_Mobile.SendGump(new XmlPropertiesGump(m_Mobile, viewProps));
+        }
     }
 }

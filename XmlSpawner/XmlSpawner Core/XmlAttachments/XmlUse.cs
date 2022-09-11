@@ -27,55 +27,89 @@ public class XmlUse : XmlAttachment
 
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool TargetingEnabled { get { return m_TargetingEnabled; } set { m_TargetingEnabled = value; } }
+    public bool TargetingEnabled { get => m_TargetingEnabled;
+        set => m_TargetingEnabled = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool AllowCarried { get { return m_AllowCarried; } set { m_AllowCarried = value; } }
+    public bool AllowCarried { get => m_AllowCarried;
+        set => m_AllowCarried = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool RequireLOS { get { return m_RequireLOS; } set { m_RequireLOS = value; } }
+    public bool RequireLOS { get => m_RequireLOS;
+        set => m_RequireLOS = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int MaxRange { get { return m_MaxRange; } set { m_MaxRange = value; } }
+    public int MaxRange { get => m_MaxRange;
+        set => m_MaxRange = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int MaxTargetRange { get { return m_MaxTargetRange; } set { m_MaxTargetRange = value; } }
+    public int MaxTargetRange { get => m_MaxTargetRange;
+        set => m_MaxTargetRange = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int NUses { get { return m_NUses; } set { m_NUses = value; } }
+    public int NUses { get => m_NUses;
+        set => m_NUses = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int MaxUses { get { return m_MaxUses; } set { m_MaxUses = value; } }
+    public int MaxUses { get => m_MaxUses;
+        set => m_MaxUses = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan Refractory { get { return m_Refractory; } set { m_Refractory = value; } }
+    public TimeSpan Refractory { get => m_Refractory;
+        set => m_Refractory = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool BlockDefaultUse { get { return m_BlockDefaultUse; } set { m_BlockDefaultUse = value; } }
+    public bool BlockDefaultUse { get => m_BlockDefaultUse;
+        set => m_BlockDefaultUse = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Condition { get { return m_Condition; } set { m_Condition = value; } }
+    public string Condition { get => m_Condition;
+        set => m_Condition = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string TargetCondition { get { return m_TargetCondition; } set { m_TargetCondition = value; } }
+    public string TargetCondition { get => m_TargetCondition;
+        set => m_TargetCondition = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string TargetingAction { get { return m_TargetingAction; } set { m_TargetingAction = value; } }
+    public string TargetingAction { get => m_TargetingAction;
+        set => m_TargetingAction = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string TargetFailureAction { get { return m_TargetFailureAction; } set { m_TargetFailureAction = value; } }
+    public string TargetFailureAction { get => m_TargetFailureAction;
+        set => m_TargetFailureAction = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string SuccessAction { get { return m_SuccessAction; } set { m_SuccessAction = value; } }
+    public string SuccessAction { get => m_SuccessAction;
+        set => m_SuccessAction = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string FailureAction { get { return m_FailureAction; } set { m_FailureAction = value; } }
+    public string FailureAction { get => m_FailureAction;
+        set => m_FailureAction = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string RefractoryAction { get { return m_RefractoryAction; } set { m_RefractoryAction = value; } }
+    public string RefractoryAction { get => m_RefractoryAction;
+        set => m_RefractoryAction = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string MaxUsesAction { get { return m_MaxUsesAction; } set { m_MaxUsesAction = value; } }
+    public string MaxUsesAction { get => m_MaxUsesAction;
+        set => m_MaxUsesAction = value;
+    }
 
     public XmlUse(ASerial serial)
         : base(serial)
@@ -87,10 +121,7 @@ public class XmlUse : XmlAttachment
     }
 
     [Attachable]
-    public XmlUse(int maxuses)
-    {
-        MaxUses = maxuses;
-    }
+    public XmlUse(int maxuses) => MaxUses = maxuses;
 
     [Attachable]
     public XmlUse(int maxuses, double refractory)
@@ -176,7 +207,10 @@ public class XmlUse : XmlAttachment
 
     public void ExecuteActions(Mobile mob, object target, string actions)
     {
-        if (actions == null || actions.Length <= 0) return;
+        if (actions == null || actions.Length <= 0)
+        {
+            return;
+        }
         // execute any action associated with it
         // allow for multiple action strings on a single line separated by a semicolon
 
@@ -191,7 +225,10 @@ public class XmlUse : XmlAttachment
 
     private void ExecuteAction(Mobile mob, object target, string action)
     {
-        if (action == null || action.Length <= 0) return;
+        if (action == null || action.Length <= 0)
+        {
+            return;
+        }
 
         string status_str = null;
         XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
@@ -317,12 +354,18 @@ public class XmlUse : XmlAttachment
     // return true to allow use
     private bool CheckRange(Mobile from, object target)
     {
-        if (from == null || !(target is IEntity) || MaxRange < 0) return false;
+        if (from == null || !(target is IEntity) || MaxRange < 0)
+        {
+            return false;
+        }
 
         Map map = ((IEntity)target).Map;
         Point3D loc = ((IEntity)target).Location;
 
-        if (map != from.Map) return false;
+        if (map != from.Map)
+        {
+            return false;
+        }
 
         // check for allowed use in pack
         if (target is Item)
@@ -356,7 +399,10 @@ public class XmlUse : XmlAttachment
         get
         {
             // is there a use limit?
-            if (MaxUses > 0 && NUses >= MaxUses) return false;
+            if (MaxUses > 0 && NUses >= MaxUses)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -368,7 +414,10 @@ public class XmlUse : XmlAttachment
         {
             // is there a refractory limit?
             // if it is still refractory then return
-            if (Refractory > TimeSpan.Zero && DateTime.Now < m_EndTime) return false;
+            if (Refractory > TimeSpan.Zero && DateTime.Now < m_EndTime)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -376,7 +425,10 @@ public class XmlUse : XmlAttachment
 
     public void OutOfRange(Mobile from)
     {
-        if (from == null) return;
+        if (from == null)
+        {
+            return;
+        }
 
         from.SendLocalizedMessage(500446); // That is too far away.
     }
@@ -395,7 +447,10 @@ public class XmlUse : XmlAttachment
         }
         protected override void OnTarget(Mobile from, object targeted)
         {
-            if (from == null || targeted == null || m_xa == null) return;
+            if (from == null || targeted == null || m_xa == null)
+            {
+                return;
+            }
 
             // success
             if (m_xa.CheckTargetCondition(from, targeted))
@@ -415,7 +470,10 @@ public class XmlUse : XmlAttachment
 
     private void TryToTarget(Mobile from, object target, XmlUse xa)
     {
-        if (from == null) return;
+        if (from == null)
+        {
+            return;
+        }
 
         ExecuteActions(from, target, TargetingAction);
 
@@ -467,10 +525,7 @@ public class XmlUse : XmlAttachment
     }
 
     // disable the default use of the target
-    public override bool BlockDefaultOnUse(Mobile from, object target)
-    {
-        return BlockDefaultUse || !(CheckRange(from, target) && CheckCondition(from, target) && CheckMaxUses && CheckRefractory);
-    }
+    public override bool BlockDefaultOnUse(Mobile from, object target) => BlockDefaultUse || !(CheckRange(from, target) && CheckCondition(from, target) && CheckMaxUses && CheckRefractory);
 
     // this is called when the attachment is on the user
     public override void OnUser(object target)
@@ -488,7 +543,10 @@ public class XmlUse : XmlAttachment
         object target = AttachedTo;
 
         // if a target tries to use itself, then ignore it, it will be handled by OnUser
-        if (target == from) return;
+        if (target == from)
+        {
+            return;
+        }
 
         TryToUse(from, target);
     }

@@ -7,7 +7,9 @@ public class XmlValue : XmlAttachment
     private int m_DataValue;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Value { get{ return m_DataValue; } set { m_DataValue = value; } }
+    public int Value { get => m_DataValue;
+        set => m_DataValue = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -55,7 +57,10 @@ public class XmlValue : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if(Expiration > TimeSpan.Zero)
         {

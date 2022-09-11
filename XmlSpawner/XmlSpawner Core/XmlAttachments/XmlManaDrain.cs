@@ -11,13 +11,19 @@ public class XmlManaDrain : XmlAttachment
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Drain { get{ return m_Drain; } set { m_Drain = value; } }
+    public int Drain { get => m_Drain;
+        set => m_Drain = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Range { get { return proximityrange; } set { proximityrange  = value; } }
+    public int Range { get => proximityrange;
+        set => proximityrange  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public TimeSpan Refractory { get { return m_Refractory; } set { m_Refractory  = value; } }
+    public TimeSpan Refractory { get => m_Refractory;
+        set => m_Refractory  = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -29,10 +35,7 @@ public class XmlManaDrain : XmlAttachment
     }
 
     [Attachable]
-    public XmlManaDrain(int drain)
-    {
-        m_Drain = drain;
-    }
+    public XmlManaDrain(int drain) => m_Drain = drain;
 
     [Attachable]
     public XmlManaDrain(int drain, double refractory)
@@ -57,38 +60,55 @@ public class XmlManaDrain : XmlAttachment
     public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
     {
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime) return;
+        if(DateTime.Now < m_EndTime)
+        {
+            return;
+        }
 
         int drain = 0;
 
         if(m_Drain > 0)
+        {
             drain = Utility.Random(m_Drain);
+        }
 
         if(defender != null && attacker != null && drain > 0)
         {
             defender.Mana -= drain;
-            if(defender.Mana < 0) defender.Mana = 0;
+            if(defender.Mana < 0)
+            {
+                defender.Mana = 0;
+            }
+
             attacker.Mana += drain;
-            if(attacker.Mana < 0) attacker.Mana = 0;
+            if(attacker.Mana < 0)
+            {
+                attacker.Mana = 0;
+            }
 
             m_EndTime = DateTime.Now + Refractory;
         }
     }
 
-    public override bool HandlesOnMovement { get { return true; } }
+    public override bool HandlesOnMovement => true;
 
     public override void OnMovement(MovementEventArgs e )
     {
         base.OnMovement(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
             OnTrigger(null, e.Mobile);
         }
         else
+        {
             return;
+        }
     }
 
     public override void Serialize( IGenericWriter writer )
@@ -148,7 +168,9 @@ public class XmlManaDrain : XmlAttachment
             return $"{msg} : {Refractory.TotalSeconds} secs between uses";
         }
         else
+        {
             return msg;
+        }
     }
 
     public override void OnAttach()
@@ -159,29 +181,43 @@ public class XmlManaDrain : XmlAttachment
         if(AttachedTo is Mobile)
         {
             if(m_Drain > 0)
+            {
                 ((Mobile)AttachedTo).SendMessage("You have been granted the power of Mana Drain!");
+            }
             else
+            {
                 ((Mobile)AttachedTo).SendMessage("You have been cursed with Mana Drain!");
+            }
         }
     }
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null ) return;
+        if(m == null )
+        {
+            return;
+        }
 
         // if it is still refractory then return
-        if(DateTime.Now < m_EndTime) return;
+        if(DateTime.Now < m_EndTime)
+        {
+            return;
+        }
 
         int drain = 0;
 
         if(m_Drain > 0)
+        {
             drain = Utility.Random(m_Drain);
+        }
 
         if(drain > 0)
         {
             m.Mana -= drain;
-            if(m.Mana < 0) m.Mana = 0;
-
+            if(m.Mana < 0)
+            {
+                m.Mana = 0;
+            }
         }
 
         m_EndTime = DateTime.Now + Refractory;

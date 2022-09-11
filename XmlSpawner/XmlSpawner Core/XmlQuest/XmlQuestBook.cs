@@ -13,16 +13,13 @@ namespace Server.Items;
 public class PlayerQuestBoard : XmlQuestBook
 {
 
-    public override bool IsDecoContainer
-    {
-        get { return false; }
-    }
+    public override bool IsDecoContainer => false;
 
     public PlayerQuestBoard( Serial serial ) : base( serial )
     {
     }
 
-    [Constructable]
+    [Constructible]
     public PlayerQuestBoard() : base( 0x1e5e )
     {
         Movable = false;
@@ -55,14 +52,14 @@ public class XmlQuestBook : Container
 
     [CommandProperty( AccessLevel.GameMaster )]
     public PlayerMobile Owner
-    {   get{ return m_Owner; }
-        set { m_Owner = value; }
+    {   get => m_Owner;
+        set => m_Owner = value;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public bool Locked
-    {   get{ return m_Locked; }
-        set { m_Locked = value; }
+    {   get => m_Locked;
+        set => m_Locked = value;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
@@ -71,15 +68,19 @@ public class XmlQuestBook : Container
             Item [] questitems = FindItemsByType(typeof(IXmlQuest));
 
             if(questitems == null || questitems.Length <= 0)
+            {
                 return false;
+            }
 
             for ( int i = 0; i < questitems.Length; ++i )
             {
                 IXmlQuest q = questitems[i] as IXmlQuest;
 
                 // check completion and validity status of all quests held in the book
-                if(q == null || q.Deleted || !q.IsValid || !q.IsCompleted) return false;
-
+                if(q == null || q.Deleted || !q.IsValid || !q.IsCompleted)
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -91,13 +92,10 @@ public class XmlQuestBook : Container
     {
     }
 
-    [Constructable]
-    public XmlQuestBook(int itemid) : this( )
-    {
-        ItemID = itemid;
-    }
+    [Constructible]
+    public XmlQuestBook(int itemid) : this( ) => ItemID = itemid;
 
-    [Constructable]
+    [Constructible]
     public XmlQuestBook() : base( 0x2259 )
     {
         //LootType = LootType.Blessed;
@@ -107,7 +105,10 @@ public class XmlQuestBook : Container
 
     public override void OnDoubleClick( Mobile from )
     {
-        if(!(from is PlayerMobile)) return;
+        if(!(from is PlayerMobile))
+        {
+            return;
+        }
 
         if(from.AccessLevel >= AccessLevel.GameMaster)
         {

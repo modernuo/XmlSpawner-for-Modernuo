@@ -23,36 +23,19 @@ public class XmlAddFaction : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public int Value
     {
-        get
-        {
-            return m_DataValue;
-        }
-        set
-        {
-            m_DataValue = value;
-        }
+        get => m_DataValue;
+        set => m_DataValue = value;
     }
     public string FactionType
     {
-        get
-        {
-            return m_GroupName;
-        }
-        set
-        {
-            m_GroupName = value;
-        }
+        get => m_GroupName;
+        set => m_GroupName = value;
     }
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-    public override bool HandlesOnKilled
-    {
-        get
-        {
-            return true;
-        }
-    }
+    public override bool HandlesOnKilled => true;
+
     public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
@@ -124,7 +107,9 @@ public class XmlAddFaction : XmlAttachment
         base.OnKill(killed, killer);
 
         if (killer == null)
+        {
             return;
+        }
 
         XmlMobFactions.GroupTypes g = XmlMobFactions.GroupTypes.End_Unused;
         try
@@ -152,8 +137,5 @@ public class XmlAddFaction : XmlAttachment
         }
     }
 
-    public override string OnIdentify(Mobile from)
-    {
-        return $"{Value} {FactionType} Faction";
-    }
+    public override string OnIdentify(Mobile from) => $"{Value} {FactionType} Faction";
 }

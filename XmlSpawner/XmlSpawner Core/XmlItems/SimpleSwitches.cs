@@ -40,18 +40,18 @@ public class SimpleLever : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
     {
-        set { m_Disabled = value; }
-        get { return m_Disabled; }
+        set => m_Disabled = value;
+        get => m_Disabled;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Link
     {
-        set { m_LinkedItem = value; }
-        get { return m_LinkedItem; }
+        set => m_LinkedItem = value;
+        get => m_LinkedItem;
     }
 
-    [Constructable]
+    [Constructible]
     public SimpleLever()
         : base(0x108C)
     {
@@ -67,7 +67,7 @@ public class SimpleLever : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public int LeverState
     {
-        get { return m_LeverState; }
+        get => m_LeverState;
         set
         {
             // prevent infinite recursion
@@ -85,7 +85,7 @@ public class SimpleLever : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public int LeverSound
     {
-        get { return m_LeverSound; }
+        get => m_LeverSound;
         set
         {
             m_LeverSound = value;
@@ -96,7 +96,7 @@ public class SimpleLever : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public leverType LeverType
     {
-        get { return m_LeverType; }
+        get => m_LeverType;
         set
         {
             m_LeverType = value; LeverState = 0;
@@ -107,7 +107,7 @@ public class SimpleLever : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     new public virtual Direction Direction
     {
-        get { return base.Direction; }
+        get => base.Direction;
         set {
             base.Direction = value;
             SetLeverStatic();
@@ -118,13 +118,13 @@ public class SimpleLever : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target0Item
     {
-        get { return m_TargetItem0; }
+        get => m_TargetItem0;
         set { m_TargetItem0 = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0Property
     {
-        get { return m_TargetProperty0; }
+        get => m_TargetProperty0;
         set { m_TargetProperty0 = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -133,22 +133,26 @@ public class SimpleLever : Item, ILinkable
         get
         {
             if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+            {
                 return m_TargetItem0.Name;
+            }
             else
+            {
                 return null;
+            }
         }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
     {
-        get { return m_TargetItem1; }
+        get => m_TargetItem1;
         set { m_TargetItem1 = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1Property
     {
-        get { return m_TargetProperty1; }
+        get => m_TargetProperty1;
         set { m_TargetProperty1 = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
@@ -157,24 +161,28 @@ public class SimpleLever : Item, ILinkable
         get
         {
             if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+            {
                 return
                     m_TargetItem1.Name;
+            }
             else
+            {
                 return null;
+            }
         }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target2Item
     {
-        get { return m_TargetItem2; }
+        get => m_TargetItem2;
         set { m_TargetItem2 = value; InvalidateProperties(); }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target2Property
     {
-        get { return m_TargetProperty2; }
+        get => m_TargetProperty2;
         set { m_TargetProperty2 = value; InvalidateProperties(); }
     }
 
@@ -184,9 +192,13 @@ public class SimpleLever : Item, ILinkable
         get
         {
             if (m_TargetItem2 != null && !m_TargetItem2.Deleted)
+            {
                 return m_TargetItem2.Name;
+            }
             else
+            {
                 return null;
+            }
         }
     }
 
@@ -267,9 +279,14 @@ public class SimpleLever : Item, ILinkable
             case Direction.Up:
                 {
                     if (m_LeverType == leverType.Two_State)
+                    {
                         ItemID = 0x108c + m_LeverState * 2;
+                    }
                     else
+                    {
                         ItemID = 0x108c + m_LeverState;
+                    }
+
                     break;
                 }
             case Direction.East:
@@ -278,9 +295,14 @@ public class SimpleLever : Item, ILinkable
             case Direction.Down:
                 {
                     if (m_LeverType == leverType.Two_State)
+                    {
                         ItemID = 0x1093 + m_LeverState * 2;
+                    }
                     else
+                    {
                         ItemID = 0x1093 + m_LeverState;
+                    }
+
                     break;
                 }
             default:
@@ -292,16 +314,30 @@ public class SimpleLever : Item, ILinkable
 
     public void Activate(Mobile from, int state, ArrayList links)
     {
-        if (Disabled) return;
+        if (Disabled)
+        {
+            return;
+        }
 
         string status_str = null;
 
         // assign the lever state
         m_LeverState = state;
 
-        if (m_LeverState < 0) m_LeverState = 0;
-        if (m_LeverState > 1 && m_LeverType == leverType.Two_State) m_LeverState = 1;
-        if (m_LeverState > 2) m_LeverState = 2;
+        if (m_LeverState < 0)
+        {
+            m_LeverState = 0;
+        }
+
+        if (m_LeverState > 1 && m_LeverType == leverType.Two_State)
+        {
+            m_LeverState = 1;
+        }
+
+        if (m_LeverState > 2)
+        {
+            m_LeverState = 2;
+        }
 
         // update the graphic
         SetLeverStatic();
@@ -356,7 +392,10 @@ public class SimpleLever : Item, ILinkable
 
     public override void OnDoubleClick(Mobile from)
     {
-        if (from == null || Disabled) return;
+        if (from == null || Disabled)
+        {
+            return;
+        }
 
         if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
         {
@@ -367,8 +406,15 @@ public class SimpleLever : Item, ILinkable
         // change the switch state
         m_LeverState = m_LeverState + 1;
 
-        if (m_LeverState > 1 && m_LeverType == leverType.Two_State) m_LeverState = 0;
-        if (m_LeverState > 2) m_LeverState = 0;
+        if (m_LeverState > 1 && m_LeverType == leverType.Two_State)
+        {
+            m_LeverState = 0;
+        }
+
+        if (m_LeverState > 2)
+        {
+            m_LeverState = 0;
+        }
 
         // carry out the switch actions
         Activate(from, m_LeverState, null);
@@ -393,15 +439,15 @@ public class SimpleSwitch : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Disabled
     {
-        set { m_Disabled = value; }
-        get { return m_Disabled; }
+        set => m_Disabled = value;
+        get => m_Disabled;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Link
     {
-        set { m_LinkedItem = value; }
-        get { return m_LinkedItem; }
+        set => m_LinkedItem = value;
+        get => m_LinkedItem;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -419,10 +465,10 @@ public class SimpleSwitch : Item, ILinkable
 
             InvalidateProperties();
         }
-        get { return m_SwitchState; }
+        get => m_SwitchState;
     }
 
-    [Constructable]
+    [Constructible]
     public SimpleSwitch()
         : base(0x108F)
     {
@@ -438,7 +484,7 @@ public class SimpleSwitch : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public int SwitchSound
     {
-        get { return m_SwitchSound; }
+        get => m_SwitchSound;
         set
         {
             m_SwitchSound = value;
@@ -449,7 +495,7 @@ public class SimpleSwitch : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     new public virtual Direction Direction
     {
-        get { return base.Direction; }
+        get => base.Direction;
         set
         {
             base.Direction = value;
@@ -461,7 +507,7 @@ public class SimpleSwitch : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target0Item
     {
-        get { return m_TargetItem0; }
+        get => m_TargetItem0;
         set
         {
             m_TargetItem0 = value;
@@ -472,7 +518,7 @@ public class SimpleSwitch : Item, ILinkable
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target0Property
     {
-        get { return m_TargetProperty0; }
+        get => m_TargetProperty0;
         set
         {
             m_TargetProperty0 = value;
@@ -486,22 +532,26 @@ public class SimpleSwitch : Item, ILinkable
         get
         {
             if (m_TargetItem0 != null && !m_TargetItem0.Deleted)
+            {
                 return m_TargetItem0.Name;
+            }
             else
+            {
                 return null;
+            }
         }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Target1Item
     {
-        get { return m_TargetItem1; }
+        get => m_TargetItem1;
         set { m_TargetItem1 = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Target1Property
     {
-        get { return m_TargetProperty1; }
+        get => m_TargetProperty1;
         set
         {
             m_TargetProperty1 = value;
@@ -514,9 +564,13 @@ public class SimpleSwitch : Item, ILinkable
         get
         {
             if (m_TargetItem1 != null && !m_TargetItem1.Deleted)
+            {
                 return m_TargetItem1.Name;
+            }
             else
+            {
                 return null;
+            }
         }
     }
 
@@ -600,15 +654,25 @@ public class SimpleSwitch : Item, ILinkable
 
     public void Activate(Mobile from, int state, ArrayList links)
     {
-        if (Disabled) return;
+        if (Disabled)
+        {
+            return;
+        }
 
         string status_str = null;
 
         // assign the switch state
         m_SwitchState = state;
 
-        if (m_SwitchState < 0) m_SwitchState = 0;
-        if (m_SwitchState > 1) m_SwitchState = 1;
+        if (m_SwitchState < 0)
+        {
+            m_SwitchState = 0;
+        }
+
+        if (m_SwitchState > 1)
+        {
+            m_SwitchState = 1;
+        }
 
         // update the graphic
         SetSwitchStatic();
@@ -659,7 +723,10 @@ public class SimpleSwitch : Item, ILinkable
 
     public override void OnDoubleClick(Mobile from)
     {
-        if (from == null || Disabled) return;
+        if (from == null || Disabled)
+        {
+            return;
+        }
 
         if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
         {
@@ -670,7 +737,10 @@ public class SimpleSwitch : Item, ILinkable
         // change the switch state
         m_SwitchState = m_SwitchState + 1;
 
-        if (m_SwitchState > 1) m_SwitchState = 0;
+        if (m_SwitchState > 1)
+        {
+            m_SwitchState = 0;
+        }
 
         // activate the switch
         Activate(from, m_SwitchState, null);
@@ -700,7 +770,7 @@ public class CombinationLock : Item
     private string m_TargetProperty = null;
     private int m_CombinationSound = 940;
 
-    [Constructable]
+    [Constructible]
     public CombinationLock()
         : base(0x1BBF)
     {
@@ -715,15 +785,31 @@ public class CombinationLock : Item
 
     public int SetDigit(int value)
     {
-        if (value < 0) return 0;
-        if (value > 9) return 9;
+        if (value < 0)
+        {
+            return 0;
+        }
+
+        if (value > 9)
+        {
+            return 9;
+        }
+
         return value;
     }
 
     public int CheckDigit(object o, string property)
     {
-        if (o == null) return 0;
-        if (property == null || property.Length <= 0) return 0;
+        if (o == null)
+        {
+            return 0;
+        }
+
+        if (property == null || property.Length <= 0)
+        {
+            return 0;
+        }
+
         Type ptype;
         int ival = -1;
         string testvalue;
@@ -738,13 +824,19 @@ public class CombinationLock : Item
                 return 1; // true
             }
             else
+            {
                 return 0; // false
+            }
         }
         // otherwise get the value of the property requested
         string result = BaseXmlSpawner.GetPropertyValue(null, o, property, out ptype);
 
         string[] arglist = BaseXmlSpawner.ParseString(result, 2, "=");
-        if (arglist.Length < 2) return -1;
+        if (arglist.Length < 2)
+        {
+            return -1;
+        }
+
         string[] arglist2 = BaseXmlSpawner.ParseString(arglist[1], 2, " ");
         if (arglist2.Length > 0)
         {
@@ -771,12 +863,20 @@ public class CombinationLock : Item
     [CommandProperty(AccessLevel.GameMaster)]
     public int Combination
     {
-        get { return m_Combination; }
+        get => m_Combination;
         set
         {
             m_Combination = value;
-            if (m_Combination < 0) m_Combination = 0;
-            if (m_Combination > 99999999) m_Combination = 99999999;
+            if (m_Combination < 0)
+            {
+                m_Combination = 0;
+            }
+
+            if (m_Combination > 99999999)
+            {
+                m_Combination = 99999999;
+            }
+
             InvalidateProperties();
         }
     }
@@ -784,151 +884,151 @@ public class CombinationLock : Item
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit0Object
     {
-        get { return m_Digit0Object; }
+        get => m_Digit0Object;
         set { m_Digit0Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit0Property
     {
-        get { return m_Digit0Property; }
+        get => m_Digit0Property;
         set { m_Digit0Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit0
-    { get { return CheckDigit(m_Digit0Object, m_Digit0Property); } }
+    public int Digit0 => CheckDigit(m_Digit0Object, m_Digit0Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit1Object
     {
-        get { return m_Digit1Object; }
+        get => m_Digit1Object;
         set { m_Digit1Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit1Property
     {
-        get { return m_Digit1Property; }
+        get => m_Digit1Property;
         set { m_Digit1Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit1
-    { get { return CheckDigit(m_Digit1Object, m_Digit1Property); } }
+    public int Digit1 => CheckDigit(m_Digit1Object, m_Digit1Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit2Object
     {
-        get { return m_Digit2Object; }
+        get => m_Digit2Object;
         set { m_Digit2Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit2Property
     {
-        get { return m_Digit2Property; }
+        get => m_Digit2Property;
         set { m_Digit2Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit2
-    { get { return CheckDigit(m_Digit2Object, m_Digit2Property); } }
+    public int Digit2 => CheckDigit(m_Digit2Object, m_Digit2Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit3Object
     {
-        get { return m_Digit3Object; }
+        get => m_Digit3Object;
         set { m_Digit3Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit3Property
     {
-        get { return m_Digit3Property; }
+        get => m_Digit3Property;
         set { m_Digit3Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit3
-    { get { return CheckDigit(m_Digit3Object, m_Digit3Property); } }
+    public int Digit3 => CheckDigit(m_Digit3Object, m_Digit3Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit4Object
     {
-        get { return m_Digit4Object; }
+        get => m_Digit4Object;
         set { m_Digit4Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit4Property
     {
-        get { return m_Digit4Property; }
+        get => m_Digit4Property;
         set { m_Digit4Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit4
-    { get { return CheckDigit(m_Digit4Object, m_Digit4Property); } }
+    public int Digit4 => CheckDigit(m_Digit4Object, m_Digit4Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit5Object
     {
-        get { return m_Digit5Object; }
+        get => m_Digit5Object;
         set { m_Digit5Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit5Property
     {
-        get { return m_Digit5Property; }
+        get => m_Digit5Property;
         set { m_Digit5Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit5
-    { get { return CheckDigit(m_Digit5Object, m_Digit5Property); } }
+    public int Digit5 => CheckDigit(m_Digit5Object, m_Digit5Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit6Object
     {
-        get { return m_Digit6Object; }
+        get => m_Digit6Object;
         set { m_Digit6Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit6Property
     {
-        get { return m_Digit6Property; }
+        get => m_Digit6Property;
         set { m_Digit6Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit6
-    { get { return CheckDigit(m_Digit6Object, m_Digit6Property); } }
+    public int Digit6 => CheckDigit(m_Digit6Object, m_Digit6Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item Digit7Object
     {
-        get { return m_Digit7Object; }
+        get => m_Digit7Object;
         set { m_Digit7Object = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string Digit7Property
     {
-        get { return m_Digit7Property; }
+        get => m_Digit7Property;
         set { m_Digit7Property = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Digit7
-    { get { return CheckDigit(m_Digit7Object, m_Digit7Property); } }
+    public int Digit7 => CheckDigit(m_Digit7Object, m_Digit7Property);
 
     [CommandProperty(AccessLevel.GameMaster)]
     public Item TargetItem
     {
-        get { return m_TargetItem; }
+        get => m_TargetItem;
         set { m_TargetItem = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string TargetProperty
     {
-        get { return m_TargetProperty; }
+        get => m_TargetProperty;
         set { m_TargetProperty = value; InvalidateProperties(); }
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string TargetItemName
-    { get { if (m_TargetItem != null && !m_TargetItem.Deleted) return m_TargetItem.Name; else return null; } }
+    { get { if (m_TargetItem != null && !m_TargetItem.Deleted)
+        {
+            return m_TargetItem.Name;
+        }
+        else
+        {
+            return null;
+        }
+    } }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public int CombinationSound
     {
-        get { return m_CombinationSound; }
+        get => m_CombinationSound;
         set
         {
             m_CombinationSound = value;
@@ -937,10 +1037,8 @@ public class CombinationLock : Item
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public bool Matched
-    {
-        get { return m_Combination == CurrentValue; }
-    }
+    public bool Matched => m_Combination == CurrentValue;
+
     [CommandProperty(AccessLevel.GameMaster)]
 
     public int CurrentValue
@@ -1019,7 +1117,10 @@ public class CombinationLock : Item
 
     public override void OnDoubleClick(Mobile from)
     {
-        if (from == null) return;
+        if (from == null)
+        {
+            return;
+        }
 
         if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
         {

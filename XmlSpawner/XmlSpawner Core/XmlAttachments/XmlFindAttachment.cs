@@ -26,14 +26,19 @@ public class XmlFindAttachment : XmlAttachment
     {
         val-=1;
         if(val<m_FindGumps.Length)
+        {
             return m_FindGumps[val];
+        }
+
         return null;
     }
 
     public override void OnAttach()
     {
         if(!(AttachedTo is PlayerMobile))
+        {
             Delete();
+        }
     }
 
     //Non si può salvare il risultato, che sarebbe inattendibile dopo un riavvio, comunque

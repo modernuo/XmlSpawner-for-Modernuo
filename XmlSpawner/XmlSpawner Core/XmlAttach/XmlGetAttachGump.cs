@@ -150,11 +150,8 @@ public class XmlGetAttGump : Gump
     {
         private CommandEventArgs m_e;
 
-        public GetAttachTarget( CommandEventArgs e) :  base ( 30, false, TargetFlags.None )
-        {
-            m_e = e;
+        public GetAttachTarget( CommandEventArgs e) :  base ( 30, false, TargetFlags.None ) => m_e = e;
 
-        }
         protected override void OnTarget( Mobile from, object targeted )
         {
             if(from == null || targeted == null)
@@ -427,10 +424,8 @@ public class XmlGetAttGump : Gump
     private class ListTypeSorter : IComparer
     {
         private bool Dsort;
-        public ListTypeSorter(bool descend) : base ()
-        {
-            Dsort = descend;
-        }
+        public ListTypeSorter(bool descend) : base () => Dsort = descend;
+
         public int Compare( object x, object y )
         {
             string xstr=null;
@@ -467,10 +462,8 @@ public class XmlGetAttGump : Gump
     {
         private bool Dsort;
 
-        public ListNameSorter(bool descend) : base ()
-        {
-            Dsort = descend;
-        }
+        public ListNameSorter(bool descend) : base () => Dsort = descend;
+
         public int Compare( object x, object y )
         {
             string xstr=null;

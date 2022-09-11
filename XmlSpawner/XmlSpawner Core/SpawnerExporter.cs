@@ -51,7 +51,9 @@ public class SpawnerExporter
                 {
                     Spawner spawner = (Spawner)list[i];
                     if (!spawner.Deleted && spawner.Map != Map.Internal && spawner.Parent == null)
+                    {
                         spawners.Add(spawner);
+                    }
                 }
             }
 
@@ -63,7 +65,9 @@ public class SpawnerExporter
         public override bool ValidateArgs(BaseCommandImplementor impl, CommandEventArgs e)
         {
             if (e.Arguments.Length >= 1)
+            {
                 return true;
+            }
 
             e.Mobile.SendMessage("Usage: " + Usage);
             return false;
@@ -72,10 +76,14 @@ public class SpawnerExporter
         private void ExportSpawners(ArrayList spawners, string filename)
         {
             if (spawners.Count == 0)
+            {
                 return;
+            }
 
             if (!Directory.Exists("Saves/Spawners"))
+            {
                 Directory.CreateDirectory("Saves/Spawners");
+            }
 
             string filePath = Path.Combine("Saves/Spawners", filename);
 
@@ -95,7 +103,9 @@ public class SpawnerExporter
                 xml.WriteAttributeString("count", spawners.Count.ToString());
 
                 foreach (Spawner spawner in spawners)
+                {
                     ExportSpawner(spawner, xml);
+                }
 
                 xml.WriteEndElement();
 
@@ -210,7 +220,9 @@ public class SpawnerExporter
     private static string GetText(XmlNode node, string defaultValue)
     {
         if (node == null)
+        {
             return defaultValue;
+        }
 
         return node.InnerText;
     }
@@ -235,7 +247,9 @@ public class SpawnerExporter
 
         Spawner spawner = new Spawner(count, minDelay, maxDelay, team, homeRange, creaturesName);
         if (walkingRange >= 0)
+        {
             spawner.WalkingRange = walkingRange;
+        }
 
         spawner.Name = name;
         spawner.MoveToWorld(location, map);
@@ -256,7 +270,9 @@ public class SpawnerExporter
             foreach (XmlElement ele in node.GetElementsByTagName("creaturename"))
             {
                 if (ele != null)
+                {
                     names.Add(ele.InnerText);
+                }
             }
         }
 

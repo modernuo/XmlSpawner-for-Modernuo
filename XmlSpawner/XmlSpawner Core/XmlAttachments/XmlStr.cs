@@ -8,7 +8,9 @@ public class XmlStr : XmlAttachment
     private int m_Value = 10;                                 // default value of 10
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int Value { get { return m_Value; } set { m_Value = value; } }
+    public int Value { get => m_Value;
+        set => m_Value = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.  
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -26,10 +28,7 @@ public class XmlStr : XmlAttachment
     }
 
     [Attachable]
-    public XmlStr(int value)
-    {
-        m_Value = value;
-    }
+    public XmlStr(int value) => m_Value = value;
 
     [Attachable]
     public XmlStr(int value, double duration)

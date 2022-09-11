@@ -37,10 +37,7 @@ public class XmlTitle : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public string Title
     {
-        get
-        {
-            return m_Title;
-        }
+        get => m_Title;
         set
         {
             m_Title = value;
@@ -66,7 +63,9 @@ public class XmlTitle : XmlAttachment
             foreach (XmlTitle t in alist)
             {
                 if (t == null || t.Deleted)
+                {
                     continue;
+                }
 
                 if (hastitle)
                 {
@@ -76,7 +75,9 @@ public class XmlTitle : XmlAttachment
                 hastitle = true;
             }
             if (hastitle)
+            {
                 list.Add(1070722, "<BASEFONT COLOR=#E6CC80>{0}<BASEFONT COLOR=#FFFFFF>", titlestring);
+            }
         }
     }
 
@@ -134,7 +135,9 @@ public class XmlTitle : XmlAttachment
     public override string OnIdentify(Mobile from)
     {
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
+        {
             return null;
+        }
 
         if (Expiration > TimeSpan.Zero)
         {

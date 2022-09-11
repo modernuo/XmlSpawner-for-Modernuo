@@ -40,10 +40,7 @@ public class XmlSpawnTime : XmlAttachment
             }
             return m_MinDelay;
         }
-        set
-        {
-            m_MinDelay = value;
-        }
+        set => m_MinDelay = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan MaxDelay
@@ -60,18 +57,10 @@ public class XmlSpawnTime : XmlAttachment
 
             return m_MaxDelay;
         }
-        set
-        {
-            m_MaxDelay = value;
-        }
+        set => m_MaxDelay = value;
     }
-    public override bool HandlesOnKilled
-    {
-        get
-        {
-            return true;
-        }
-    }
+    public override bool HandlesOnKilled => true;
+
     private XmlSpawner MySpawner
     {
         get
@@ -95,7 +84,9 @@ public class XmlSpawnTime : XmlAttachment
     public static void ResetXmlSpawnTime(Mobile killed)
     {
         if (killed == null)
+        {
             return;
+        }
 
         // set the spawner's NextSpawn time based on min/maxdelay
         XmlSpawner spawner = killed.Spawner as XmlSpawner;
@@ -143,7 +134,9 @@ public class XmlSpawnTime : XmlAttachment
         base.OnKilled(killed, killer);
 
         if (killed == null)
+        {
             return;
+        }
 
         // set the spawner's NextSpawn time based on min/maxdelay
         XmlSpawner spawner = MySpawner;

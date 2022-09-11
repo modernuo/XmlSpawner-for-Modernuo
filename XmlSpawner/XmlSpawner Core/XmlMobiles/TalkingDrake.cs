@@ -3,7 +3,7 @@ namespace Server.Mobiles;
 [CorpseName( "a drake corpse" )]
 public class TalkingDrake : TalkingBaseCreature
 {
-    [Constructable]
+    [Constructible]
     public TalkingDrake () : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
     {
         Name = "a drake";
@@ -48,13 +48,13 @@ public class TalkingDrake : TalkingBaseCreature
     }
 
     //public override bool HasBreath{ get{ return true; } } // fire breath enabled
-    public override int TreasureMapLevel{ get{ return 2; } }
-    public override int Meat{ get{ return 10; } }
-    public override int Hides{ get{ return 20; } }
-    public override HideType HideType{ get{ return HideType.Horned; } }
-    public override int Scales{ get{ return 2; } }
-    public override ScaleType ScaleType{ get{ return Body == 60 ? ScaleType.Yellow : ScaleType.Red; } }
-    public override FoodType FavoriteFood{ get{ return FoodType.Meat | FoodType.Fish; } }
+    public override int TreasureMapLevel => 2;
+    public override int Meat => 10;
+    public override int Hides => 20;
+    public override HideType HideType => HideType.Horned;
+    public override int Scales => 2;
+    public override ScaleType ScaleType => Body == 60 ? ScaleType.Yellow : ScaleType.Red;
+    public override FoodType FavoriteFood => FoodType.Meat | FoodType.Fish;
 
     public TalkingDrake( Serial serial ) : base( serial )
     {

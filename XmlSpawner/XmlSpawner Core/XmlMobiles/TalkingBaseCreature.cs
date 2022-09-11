@@ -22,7 +22,9 @@ public class TalkingBaseCreature : BaseCreature
     private XmlDialog m_DialogAttachment;
 
 
-    public XmlDialog DialogAttachment {get { return m_DialogAttachment; } set {m_DialogAttachment = value; }}
+    public XmlDialog DialogAttachment {get => m_DialogAttachment;
+        set => m_DialogAttachment = value;
+    }
 
     private DateTime lasteffect;
     private int m_EItemID = 0; // 0 = disable, 14202 = sparkle, 6251 = round stone, 7885 = light pyramid
@@ -32,40 +34,29 @@ public class TalkingBaseCreature : BaseCreature
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int EItemID {
-        get{ return m_EItemID; }
-        set {
-            m_EItemID = value;
-        }
+        get => m_EItemID;
+        set => m_EItemID = value;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Point3D EOffset
     {
-        get{ return m_Offset; }
-        set
-        {
-            m_Offset = value;
-        }
+        get => m_Offset;
+        set => m_Offset = value;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int EDuration
     {
-        get{ return m_Duration; }
-        set
-        {
-            m_Duration = value;
-        }
+        get => m_Duration;
+        set => m_Duration = value;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int EHue
     {
-        get{ return m_EHue; }
-        set
-        {
-            m_EHue = value;
-        }
+        get => m_EHue;
+        set => m_EHue = value;
     }
     public void DisplayHighlight()
     {
@@ -82,7 +73,9 @@ public class TalkingBaseCreature : BaseCreature
     public static void SendOffsetTargetEffect( IEntity target, Point3D loc, int itemID, int speed, int duration, int hue, int renderMode )
     {
         if ( target is Mobile )
+        {
             ((Mobile)target).ProcessDelta();
+        }
 
         Effects.SendPacket( loc, target.Map, new OffsetTargetEffect( target, loc, itemID, speed, duration, hue, renderMode ) );
     }
@@ -117,7 +110,9 @@ public class TalkingBaseCreature : BaseCreature
     private string m_TalkText;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string TalkText {get{ return m_TalkText; } set { m_TalkText = value; }}
+    public string TalkText {get => m_TalkText;
+        set => m_TalkText = value;
+    }
 
     // properties below are modified to access the equivalent XmlDialog properties
     // this is largely for backward compatibility, but it does also add some convenience
@@ -127,14 +122,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.ActivePlayer;
+            }
             else
+            {
                 return null;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.ActivePlayer = value;
+            }
         }
     }
 
@@ -143,14 +144,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.SpeechEntries;
+            }
             else
+            {
                 return null;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.SpeechEntries = value;
+            }
         }
     }
 
@@ -168,51 +175,20 @@ public class TalkingBaseCreature : BaseCreature
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public TimeSpan RealTOD
-    {
-        get
-        {
-            return DateTime.Now.TimeOfDay;
-        }
-    }
+    public TimeSpan RealTOD => DateTime.Now.TimeOfDay;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int RealDay
-    {
-        get
-        {
-            return DateTime.Now.Day;
-        }
-    }
+    public int RealDay => DateTime.Now.Day;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int RealMonth
-    {
-        get
-        {
-            return DateTime.Now.Month;
-        }
-    }
+    public int RealMonth => DateTime.Now.Month;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public DayOfWeek RealDayOfWeek
-    {
-        get
-        {
-            return DateTime.Now.DayOfWeek;
-        }
-    }
+    public DayOfWeek RealDayOfWeek => DateTime.Now.DayOfWeek;
 
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public MoonPhase MoonPhase
-    {
-        get
-        {
-            return Clock.GetMoonPhase( Map, Location.X, Location.Y );
-        }
-
-    }
+    public MoonPhase MoonPhase => Clock.GetMoonPhase( Map, Location.X, Location.Y );
 
     [CommandProperty( AccessLevel.GameMaster )]
     public AccessLevel TriggerAccessLevel
@@ -220,14 +196,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.TriggerAccessLevel;
+            }
             else
+            {
                 return AccessLevel.Player;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.TriggerAccessLevel = value;
+            }
         }
     }
 
@@ -237,28 +219,33 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.LastInteraction;
+            }
             else
+            {
                 return DateTime.MinValue;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.LastInteraction = value;
+            }
         }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public bool DoReset
     {
-        get
-        {
-            return false;
-        }
+        get => false;
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.DoReset = value;
+            }
         }
     }
 
@@ -268,14 +255,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.IsActive;
+            }
             else
+            {
                 return false;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.IsActive = value;
+            }
         }
     }
 
@@ -285,14 +278,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.AllowGhostTrig;
+            }
             else
+            {
                 return false;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.AllowGhostTrig = value;
+            }
         }
     }
 
@@ -302,15 +301,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.Running;
+            }
             else
+            {
                 return false;
-
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.Running = value;
+            }
         }
     }
 
@@ -320,14 +324,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.ResetTime;
+            }
             else
+            {
                 return TimeSpan.Zero;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.ResetTime = value;
+            }
         }
     }
 
@@ -337,14 +347,20 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.SpeechPace;
+            }
             else
+            {
                 return 0;
+            }
         }
         set
         {
             if(DialogAttachment != null)
+            {
                 DialogAttachment.SpeechPace = value;
+            }
         }
 
     }
@@ -359,12 +375,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.Keywords;
             }
             else
+            {
                 return null;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.Keywords = value;
+            }
         }
     }
 
@@ -378,12 +398,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.Action;
             }
             else
+            {
                 return null;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.Action = value;
+            }
         }
     }
 
@@ -397,12 +421,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.Condition;
             }
             else
+            {
                 return null;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.Condition = value;
+            }
         }
 
     }
@@ -417,12 +445,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.Text;
             }
             else
+            {
                 return null;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.Text = value;
+            }
         }
     }
 
@@ -438,12 +470,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.DependsOn;
             }
             else
+            {
                 return "-1";
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.DependsOn = value;
+            }
         }
 
     }
@@ -458,12 +494,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.LockConversation;
             }
             else
+            {
                 return false;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.LockConversation = value;
+            }
         }
 
     }
@@ -479,12 +519,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.SpeechStyle;
             }
             else
+            {
                 return MessageType.Regular;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.SpeechStyle = value;
+            }
         }
 
     }
@@ -499,12 +543,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.AllowNPCTrigger;
             }
             else
+            {
                 return false;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.AllowNPCTrigger = value;
+            }
         }
 
     }
@@ -521,12 +569,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.Pause;
             }
             else
+            {
                 return -1;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.Pause = value;
+            }
         }
     }
 
@@ -540,12 +592,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.PrePause;
             }
             else
+            {
                 return -1;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.PrePause = value;
+            }
         }
     }
 
@@ -559,12 +615,16 @@ public class TalkingBaseCreature : BaseCreature
                 return DialogAttachment.CurrentEntry.ID;
             }
             else
+            {
                 return -1;
+            }
         }
         set
         {
             if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
+            {
                 DialogAttachment.CurrentEntry.ID = value;
+            }
         }
     }
 
@@ -574,9 +634,13 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.EntryNumber;
+            }
             else
+            {
                 return -1;
+            }
         }
         set
         {
@@ -593,9 +657,13 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.ProximityRange;
+            }
             else
+            {
                 return -1;
+            }
         }
         set
         {
@@ -612,9 +680,13 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.ConfigFile;
+            }
             else
+            {
                 return null;
+            }
         }
         set
         {
@@ -628,18 +700,24 @@ public class TalkingBaseCreature : BaseCreature
     [CommandProperty( AccessLevel.GameMaster )]
     public  bool LoadConfig
     {
-        get{return false;}
-        set{ if(value == true && DialogAttachment != null) DialogAttachment.DoLoadNPC(null,ConfigFile);}
+        get => false;
+        set{ if(value == true && DialogAttachment != null)
+            {
+                DialogAttachment.DoLoadNPC(null,ConfigFile);
+            }
+        }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public  bool SaveConfig
     {
-        get{return false;}
+        get => false;
         set
         {
             if(value == true && DialogAttachment != null)
+            {
                 DialogAttachment.DoSaveNPC(null,ConfigFile, false);
+            }
         }
     }
 
@@ -649,9 +727,13 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.TriggerOnCarried;
+            }
             else
+            {
                 return null;
+            }
         }
         set
         {
@@ -668,9 +750,13 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.NoTriggerOnCarried;
+            }
             else
+            {
                 return null;
+            }
         }
         set
         {
@@ -687,9 +773,13 @@ public class TalkingBaseCreature : BaseCreature
         get
         {
             if(DialogAttachment != null)
+            {
                 return DialogAttachment.CurrentEntry;
+            }
             else
+            {
                 return null;
+            }
         }
         set
         {
@@ -701,29 +791,23 @@ public class TalkingBaseCreature : BaseCreature
 
     }
 
-    public override bool OnDragDrop( Mobile from, Item item)
-    {
+    public override bool OnDragDrop( Mobile from, Item item) => XmlQuest.RegisterGive(from, this, item);
 
-        return XmlQuest.RegisterGive(from, this, item);
-
-        //return base.OnDragDrop(from, item);
-    }
-
+    //return base.OnDragDrop(from, item);
     private class TalkEntry : ContextMenuEntry
     {
         private TalkingBaseCreature m_NPC;
 
-        public TalkEntry( TalkingBaseCreature npc ) : base( 6146 )
-        {
-            m_NPC = npc;
-        }
+        public TalkEntry( TalkingBaseCreature npc ) : base( 6146 ) => m_NPC = npc;
 
         public override void OnClick()
         {
             Mobile from = Owner.From;
 
             if ( m_NPC == null || m_NPC.Deleted || !from.CheckAlive() || m_NPC.DialogAttachment == null )
+            {
                 return;
+            }
 
             // process the talk text
             //m_NPC.DialogAttachment.ProcessSpeech(from, m_NPC.TalkText);
@@ -944,7 +1028,9 @@ public class TalkingBaseCreature : BaseCreature
                         Mobile trigmob = reader.ReadEntity<Mobile>();
                         TimeSpan delay = reader.ReadTimeSpan();
                         if(DialogAttachment != null)
+                        {
                             DialogAttachment.DoTimer(delay,trigmob);
+                        }
                     }
                     break;
                 }

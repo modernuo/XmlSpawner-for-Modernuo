@@ -9,10 +9,7 @@ namespace Server.Gumps;
 
 public class XmlQuestStatusGump : Gump
 {
-    public static string Color(string text, string color)
-    {
-        return $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
-    }
+    public static string Color(string text, string color) => $"<BASEFONT COLOR=#{color}>{text}</BASEFONT>";
 
 
     public void DisplayQuestStatus(int x, int y, string objectivestr, string statestr, bool status, string descriptionstr)
@@ -36,6 +33,7 @@ public class XmlQuestStatusGump : Gump
             bool checkprop;
 
             if (arglist.Length > 0)
+            {
                 switch (arglist[0])
                 {
                     case "GIVE":
@@ -64,7 +62,10 @@ public class XmlQuestStatusGump : Gump
 
                             XmlQuest.CheckArgList(arglist, 3, null, out typestr, out targetcount, out checkprop, out status_str);
 
-                            if (typestr != null) type = typestr;
+                            if (typestr != null)
+                            {
+                                type = typestr;
+                            }
 
                             foundgive = true;
                             break;
@@ -95,7 +96,10 @@ public class XmlQuestStatusGump : Gump
 
                             XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
 
-                            if (typestr != null) type = typestr;
+                            if (typestr != null)
+                            {
+                                type = typestr;
+                            }
 
                             foundkill = true;
                             break;
@@ -126,7 +130,10 @@ public class XmlQuestStatusGump : Gump
 
                             XmlQuest.CheckArgList(arglist, 2, null, out typestr, out targetcount, out checkprop, out status_str);
 
-                            if (typestr != null) type = typestr;
+                            if (typestr != null)
+                            {
+                                type = typestr;
+                            }
 
                             foundcollect = true;
                             break;
@@ -142,6 +149,7 @@ public class XmlQuestStatusGump : Gump
                             break;
                         }
                 }
+            }
 
             if (foundkill)
             {
@@ -155,21 +163,31 @@ public class XmlQuestStatusGump : Gump
 
                 int remaining = targetcount - killed;
 
-                if (remaining < 0) remaining = 0;
+                if (remaining < 0)
+                {
+                    remaining = 0;
+                }
 
                 // report the kill task objective status
                 if (descriptionstr != null)
+                {
                     text = $"{descriptionstr} ({remaining} left)";
+                }
                 else
                 {
                     if (name != null)
                     {
-                        if (type == null) type = "mob";
+                        if (type == null)
+                        {
+                            type = "mob";
+                        }
 
                         text = $"Kill {targetcount} {type}(s) named {name} ({remaining} left)";
                     }
                     else
+                    {
                         text = $"Kill {targetcount} {type}(s) ({remaining} left)";
+                    }
                 }
             }
             else
@@ -185,13 +203,20 @@ public class XmlQuestStatusGump : Gump
 
                 int remaining = targetcount - escorted;
 
-                if (remaining < 0) remaining = 0;
+                if (remaining < 0)
+                {
+                    remaining = 0;
+                }
 
                 // report the escort task objective status
                 if (descriptionstr != null)
+                {
                     text = descriptionstr;
+                }
                 else
+                {
                     text = $"Escort {name}";
+                }
             }
             else
             if (foundcollect)
@@ -206,21 +231,31 @@ public class XmlQuestStatusGump : Gump
 
                 int remaining = targetcount - collected;
 
-                if (remaining < 0) remaining = 0;
+                if (remaining < 0)
+                {
+                    remaining = 0;
+                }
 
                 // report the collect task objective status
                 if (descriptionstr != null)
+                {
                     text = $"{descriptionstr} ({remaining} left)";
+                }
                 else
                 {
                     if (name != null)
                     {
-                        if (type == null) type = "mob";
+                        if (type == null)
+                        {
+                            type = "mob";
+                        }
 
                         text = $"Collect {targetcount} {type}(s) named {name} ({remaining} left)";
                     }
                     else
+                    {
                         text = $"Collect {targetcount} {type}(s) ({remaining} left)";
+                    }
                 }
             }
             else
@@ -237,21 +272,31 @@ public class XmlQuestStatusGump : Gump
 
                 int remaining = targetcount - collected;
 
-                if (remaining < 0) remaining = 0;
+                if (remaining < 0)
+                {
+                    remaining = 0;
+                }
 
                 // report the collect task objective status
                 if (descriptionstr != null)
+                {
                     text = $"{descriptionstr} ({remaining} left)";
+                }
                 else
                 {
                     if (name != null)
                     {
-                        if (type == null) type = "item";
+                        if (type == null)
+                        {
+                            type = "item";
+                        }
 
                         text = $"Give {targetcount} {type}(s) named {name} to {mobname} ({remaining} left)";
                     }
                     else
+                    {
                         text = $"Give {targetcount} {type}(s) to {mobname} ({remaining} left)";
+                    }
                 }
             }
             else
@@ -503,7 +548,10 @@ public class XmlQuestStatusGump : Gump
     public override void OnResponse(NetState state, RelayInfo info)
     {
         if (info == null || state == null || state.Mobile == null || state.Mobile.Deleted || m_questitem == null || m_questitem.Deleted)
+        {
             return;
+        }
+
         switch (info.ButtonID)
         {
             case 700:
@@ -524,7 +572,9 @@ public class XmlQuestStatusGump : Gump
                     {
                         // show the contents of the xmlquest pack
                         if (m_questitem.Pack != null)
+                        {
                             m_questitem.Pack.DisplayTo(state.Mobile);
+                        }
                     }
                     // identify the reward attachment
                     if (m_questitem.RewardAttachment != null)
@@ -573,7 +623,9 @@ public class XmlQuestStatusGump : Gump
             : base(X, Y)
         {
             if (questitem == null || questitem.Deleted)
+            {
                 return;
+            }
 
             m_questitem = questitem;
             m_gumptitle = gumptitle;
@@ -636,10 +688,16 @@ public class XmlQuestStatusGump : Gump
 
         public override void OnResponse(NetState state, RelayInfo info)
         {
-            if (info == null || state == null || state.Mobile == null) return;
+            if (info == null || state == null || state.Mobile == null)
+            {
+                return;
+            }
 
             if (m_questitem == null || m_questitem.Deleted)
+            {
                 return;
+            }
+
             bool update_entry = false;
             //bool edit_entry = false;
             switch (info.ButtonID)

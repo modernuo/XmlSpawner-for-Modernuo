@@ -16,10 +16,7 @@ public class XmlRestrictEquip : XmlAttachment
     }
 
     [Attachable]
-    public XmlRestrictEquip()
-    {
-        Test = String.Empty;
-    }
+    public XmlRestrictEquip() => Test = String.Empty;
 
     [Attachable]
     public XmlRestrictEquip(string name)
@@ -46,34 +43,19 @@ public class XmlRestrictEquip : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public string Test
     {
-        get
-        {
-            return m_TestValue;
-        }
-        set
-        {
-            m_TestValue = value;
-        }
+        get => m_TestValue;
+        set => m_TestValue = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string FailMsg
     {
-        get
-        {
-            return m_FailMsg;
-        }
-        set
-        {
-            m_FailMsg = value;
-        }
+        get => m_FailMsg;
+        set => m_FailMsg = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string PropertyListString
     {
-        get
-        {
-            return m_PropertyListString;
-        }
+        get => m_PropertyListString;
         set
         {
             m_PropertyListString = value;
@@ -86,7 +68,9 @@ public class XmlRestrictEquip : XmlAttachment
     public override bool CanEquip(Mobile from)
     {
         if (from == null)
+        {
             return false;
+        }
 
         bool allowequip = true;
 
@@ -139,15 +123,14 @@ public class XmlRestrictEquip : XmlAttachment
         }
     }
 
-    public override string DisplayedProperties(Mobile from)
-    {
-        return PropertyListString;
-    }
+    public override string DisplayedProperties(Mobile from) => PropertyListString;
 
     public override string OnIdentify(Mobile from)
     {
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
+        {
             return null;
+        }
 
         if (Expiration > TimeSpan.Zero)
         {

@@ -17,19 +17,29 @@ public class XmlSkill : XmlAttachment
 
     [CommandProperty( AccessLevel.GameMaster )]
     // this property can be set allowing individual items to determine whether they must be identified for the mod to be activatable
-    public bool RequireIdentification { get { return m_RequireIdentification; } set {m_RequireIdentification = value; } }
+    public bool RequireIdentification { get => m_RequireIdentification;
+        set => m_RequireIdentification = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Value { get { return m_Value; } set { m_Value  = value; } }
+    public int Value { get => m_Value;
+        set => m_Value  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public SkillName Skill { get { return m_Skill; } set { m_Skill  = value; } }
+    public SkillName Skill { get => m_Skill;
+        set => m_Skill  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public TimeSpan Duration { get { return m_Duration; } set { m_Duration  = value; } }
+    public TimeSpan Duration { get => m_Duration;
+        set => m_Duration  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string ActivationWord { get { return m_Word; } set { m_Word  = value; } }
+    public string ActivationWord { get => m_Word;
+        set => m_Word  = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword
@@ -137,16 +147,22 @@ public class XmlSkill : XmlAttachment
     }
 
 
-    public override bool HandlesOnSpeech { get { return true; } }
+    public override bool HandlesOnSpeech => true;
 
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         // dont respond to other players speech if this is attached to a mob
-        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile) return;
+        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile)
+        {
+            return;
+        }
 
         if(e.Speech == m_Word)
         {
@@ -176,7 +192,10 @@ public class XmlSkill : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null || RequireIdentification && !m_Identified) return;
+        if(m == null || RequireIdentification && !m_Identified)
+        {
+            return;
+        }
 
         if((AttachedTo is BaseArmor || AttachedTo is BaseWeapon) && ((Item)AttachedTo).Layer != Layer.Invalid)
         {

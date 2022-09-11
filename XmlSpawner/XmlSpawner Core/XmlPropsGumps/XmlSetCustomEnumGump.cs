@@ -31,9 +31,13 @@ public class XmlSetCustomEnumGump : XmlSetListOptionGump
                 CommandLogging.LogChangeProperty(m_Mobile, m_Object, m_Property.Name, m_Names[index]);
 
                 if (info != null)
+                {
                     m_Property.SetValue(m_Object, info.Invoke(null, new object[] { m_Names[index] }), null);
+                }
                 else if (m_Property.PropertyType == typeof(Enum) || m_Property.PropertyType.IsSubclassOf(typeof(Enum)))
+                {
                     m_Property.SetValue(m_Object, Enum.Parse(m_Property.PropertyType, m_Names[index], false), null);
+                }
             }
             catch
             {

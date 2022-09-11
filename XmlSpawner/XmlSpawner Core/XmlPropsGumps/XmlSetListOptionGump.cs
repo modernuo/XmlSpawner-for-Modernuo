@@ -95,7 +95,9 @@ public class XmlSetListOptionGump : Gump
             int count = names.Length - start;
 
             if (count > EntryCount)
+            {
                 count = EntryCount;
+            }
 
             int totalHeight = OffsetSize + (count + 2) * (EntryHeight + OffsetSize);
             int backHeight = BorderSize + totalHeight + BorderSize;
@@ -117,25 +119,33 @@ public class XmlSetListOptionGump : Gump
                 AddButton(x + PrevOffsetX, y + PrevOffsetY, PrevButtonID1, PrevButtonID2, 0, GumpButtonType.Page, page - 1);
 
                 if (PrevLabel)
+                {
                     AddLabel(x + PrevLabelOffsetX, y + PrevLabelOffsetY, TextHue, "Previous");
+                }
             }
 
             x += PrevWidth + OffsetSize;
 
             if (!OldStyle)
+            {
                 AddImageTiled(x - (OldStyle ? OffsetSize : 0), y, emptyWidth + (OldStyle ? OffsetSize * 2 : 0), EntryHeight, HeaderGumpID);
+            }
 
             x += emptyWidth + OffsetSize;
 
             if (!OldStyle)
+            {
                 AddImageTiled(x, y, NextWidth, EntryHeight, HeaderGumpID);
+            }
 
             if (page < pages)
             {
                 AddButton(x + NextOffsetX, y + NextOffsetY, NextButtonID1, NextButtonID2, 0, GumpButtonType.Page, page + 1);
 
                 if (NextLabel)
+                {
                     AddLabel(x + NextLabelOffsetX, y + NextLabelOffsetY, TextHue, "Next");
+                }
             }
 
 
@@ -143,7 +153,9 @@ public class XmlSetListOptionGump : Gump
             AddRect(0, prop.Name, 0);
 
             for (int i = 0; i < count; ++i)
+            {
                 AddRect(i + 1, names[index], ++index);
+            }
         }
     }
 
@@ -158,10 +170,14 @@ public class XmlSetListOptionGump : Gump
         x += EntryWidth + OffsetSize;
 
         if (SetGumpID != 0)
+        {
             AddImageTiled(x, y, SetWidth, EntryHeight, SetGumpID);
+        }
 
         if (button != 0)
+        {
             AddButton(x + SetOffsetX, y + SetOffsetY, SetButtonID1, SetButtonID2, button, GumpButtonType.Reply, 0);
+        }
     }
 
     public override void OnResponse(NetState sender, RelayInfo info)

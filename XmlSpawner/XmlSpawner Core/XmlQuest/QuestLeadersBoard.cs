@@ -10,7 +10,7 @@ public class QuestLeadersBoard : Item
     {
     }
 
-    [Constructable]
+    [Constructible]
     public QuestLeadersBoard() : base( 0x1e5e )
     {
         Movable = false;

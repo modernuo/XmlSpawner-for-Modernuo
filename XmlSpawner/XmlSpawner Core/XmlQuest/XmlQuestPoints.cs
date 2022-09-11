@@ -21,25 +21,39 @@ public class XmlQuestPoints : XmlAttachment
     public string nameFilter;
 
 
-    public ArrayList QuestList { get{ return m_QuestList; } set { m_QuestList = value; }}
+    public ArrayList QuestList { get => m_QuestList;
+        set => m_QuestList = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Rank { get{ return m_Rank; } set { m_Rank = value; } }
+    public int Rank { get => m_Rank;
+        set => m_Rank = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int DeltaRank { get{ return m_DeltaRank; } set { m_DeltaRank = value; } }
+    public int DeltaRank { get => m_DeltaRank;
+        set => m_DeltaRank = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public DateTime WhenRanked { get{ return m_WhenRanked; } set { m_WhenRanked = value; } }
+    public DateTime WhenRanked { get => m_WhenRanked;
+        set => m_WhenRanked = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Points { get{ return m_Points; } set { m_Points = value; } }
+    public int Points { get => m_Points;
+        set => m_Points = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Credits { get{ return m_Credits; } set { m_Credits = value; } }
+    public int Credits { get => m_Credits;
+        set => m_Credits = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int QuestsCompleted { get{ return m_Completed; } set { m_Completed = value; } }
+    public int QuestsCompleted { get => m_Completed;
+        set => m_Completed = value;
+    }
 
     public class QuestEntry
     {
@@ -107,15 +121,24 @@ public class XmlQuestPoints : XmlAttachment
 
         public static void AddQuestEntry(Mobile m, IXmlQuest quest)
         {
-            if(m == null || quest == null) return;
+            if(m == null || quest == null)
+            {
+                return;
+            }
 
             // get the XmlQuestPoints attachment from the mobile
             XmlQuestPoints p = (XmlQuestPoints)XmlAttach.FindAttachment(m, typeof(XmlQuestPoints));
 
-            if(p == null) return;
+            if(p == null)
+            {
+                return;
+            }
 
             // look through the list of quests and see if it is one that has already been done
-            if(p.QuestList == null) p.QuestList = new ArrayList();
+            if(p.QuestList == null)
+            {
+                p.QuestList = new ArrayList();
+            }
 
             bool found = false;
             foreach(QuestEntry e in p.QuestList)
@@ -165,7 +188,10 @@ public class XmlQuestPoints : XmlAttachment
     [Description( "Displays the players quest points and ranking" )]
     public static void CheckQuestPoints_OnCommand( CommandEventArgs e )
     {
-        if(e == null || e.Mobile == null) return;
+        if(e == null || e.Mobile == null)
+        {
+            return;
+        }
 
         string msg = null;
 
@@ -176,7 +202,9 @@ public class XmlQuestPoints : XmlAttachment
         }
 
         if(msg != null)
+        {
             e.Mobile.SendMessage(msg);
+        }
     }
 
 
@@ -185,7 +213,10 @@ public class XmlQuestPoints : XmlAttachment
     [Description( "Displays players quest history" )]
     public static void QuestLog_OnCommand( CommandEventArgs e )
     {
-        if(e == null || e.Mobile == null) return;
+        if(e == null || e.Mobile == null)
+        {
+            return;
+        }
 
         e.Mobile.CloseGump<QuestLogGump>();
         e.Mobile.SendGump(new QuestLogGump(e.Mobile));
@@ -194,7 +225,10 @@ public class XmlQuestPoints : XmlAttachment
 
     public static void GiveQuestPoints(Mobile from, IXmlQuest quest)
     {
-        if(from == null || quest == null) return;
+        if(from == null || quest == null)
+        {
+            return;
+        }
 
         // find the XmlQuestPoints attachment
 
@@ -256,7 +290,10 @@ public class XmlQuestPoints : XmlAttachment
 
     public static bool HasCredits(Mobile m, int credits)
     {
-        if(m == null || m.Deleted) return false;
+        if(m == null || m.Deleted)
+        {
+            return false;
+        }
 
         XmlQuestPoints p = (XmlQuestPoints)XmlAttach.FindAttachment(m, typeof(XmlQuestPoints));
 
@@ -273,7 +310,10 @@ public class XmlQuestPoints : XmlAttachment
 
     public static bool TakeCredits(Mobile m, int credits)
     {
-        if(m == null || m.Deleted) return false;
+        if(m == null || m.Deleted)
+        {
+            return false;
+        }
 
         XmlQuestPoints p = (XmlQuestPoints)XmlAttach.FindAttachment(m, typeof(XmlQuestPoints));
 
@@ -319,10 +359,13 @@ public class XmlQuestPoints : XmlAttachment
 
         // need this in order to rebuild the rankings on deser
         if(AttachedTo is Mobile)
+        {
             writer.Write(AttachedTo as Mobile);
+        }
         else
+        {
             writer.Write((Mobile)null);
-
+        }
     }
 
     public override void Deserialize(IGenericReader reader)
@@ -372,9 +415,5 @@ public class XmlQuestPoints : XmlAttachment
         }
     }
 
-    public override string OnIdentify(Mobile from)
-    {
-        return
-            $"Quest Points Status:\nTotal Quest Points = {Points}\nTotal Quests Completed = {QuestsCompleted}\nQuest Credits Available = {Credits}";
-    }
+    public override string OnIdentify(Mobile from) => $"Quest Points Status:\nTotal Quest Points = {Points}\nTotal Quests Completed = {QuestsCompleted}\nQuest Credits Available = {Credits}";
 }

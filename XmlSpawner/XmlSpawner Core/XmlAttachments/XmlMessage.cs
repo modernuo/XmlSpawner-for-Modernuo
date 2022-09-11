@@ -13,19 +13,29 @@ public class XmlMessage : XmlAttachment
     private int proximityrange = 5; // default movement activation from 5 tiles away
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string Message { get { return m_MessageStr; } set { m_MessageStr  = value; } }
+    public string Message { get => m_MessageStr;
+        set => m_MessageStr  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Range { get { return proximityrange; } set { proximityrange  = value; } }
+    public int Range { get => proximityrange;
+        set => proximityrange  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string ActivationWord { get { return m_Word; } set { m_Word  = value; } }
+    public string ActivationWord { get => m_Word;
+        set => m_Word  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Charges { get { return m_Charges; } set { m_Charges  = value; } }
+    public int Charges { get => m_Charges;
+        set => m_Charges  = value;
+    }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public TimeSpan Refractory { get { return m_Refractory; } set { m_Refractory  = value; } }
+    public TimeSpan Refractory { get => m_Refractory;
+        set => m_Refractory  = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -37,10 +47,7 @@ public class XmlMessage : XmlAttachment
     }
 
     [Attachable]
-    public XmlMessage(string msg)
-    {
-        Message = msg;
-    }
+    public XmlMessage(string msg) => Message = msg;
 
     [Attachable]
     public XmlMessage(string msg, double refractory)
@@ -110,7 +117,10 @@ public class XmlMessage : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         string msg = null;
 
@@ -134,13 +144,16 @@ public class XmlMessage : XmlAttachment
 
     }
 
-    public override bool HandlesOnSpeech { get { return ActivationWord != null; } }
+    public override bool HandlesOnSpeech => ActivationWord != null;
 
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         if(e.Speech == ActivationWord)
         {
@@ -148,13 +161,16 @@ public class XmlMessage : XmlAttachment
         }
     }
 
-    public override bool HandlesOnMovement { get { return ActivationWord == null; } }
+    public override bool HandlesOnMovement => ActivationWord == null;
 
     public override void OnMovement(MovementEventArgs e )
     {
         base.OnMovement(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         if(AttachedTo is Item && ((Item)AttachedTo).Parent == null && Utility.InRange( e.Mobile.Location, ((Item)AttachedTo).Location, proximityrange ))
         {
@@ -166,15 +182,23 @@ public class XmlMessage : XmlAttachment
             OnTrigger(null, e.Mobile);
         }
         else
+        {
             return;
+        }
     }
 
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null ) return;
+        if(m == null )
+        {
+            return;
+        }
 
-        if(DateTime.Now < m_EndTime) return;
+        if(DateTime.Now < m_EndTime)
+        {
+            return;
+        }
 
 
         // display a message over the item it was attached to

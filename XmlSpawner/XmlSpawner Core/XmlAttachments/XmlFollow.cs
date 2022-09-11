@@ -15,10 +15,7 @@ namespace Server.Engines.XmlSpawner2
         }
 
         [Attachable]
-        public XmlFollow(int distance)
-        {
-            Distance = distance;
-        }
+        public XmlFollow(int distance) => Distance = distance;
 
         [Attachable]
         public XmlFollow(int distance, double expiresin)
@@ -30,10 +27,7 @@ namespace Server.Engines.XmlSpawner2
         [CommandProperty(AccessLevel.GameMaster)]
         public int Distance
         {
-            get
-            {
-                return m_DataValue;
-            }
+            get => m_DataValue;
             set
             {
                 m_DataValue = value;
@@ -100,7 +94,9 @@ namespace Server.Engines.XmlSpawner2
         public override string OnIdentify(Mobile from)
         {
             if (from == null || from.IsPlayer() || !(AttachedTo is BaseCreature))
+            {
                 return null;
+            }
 
             BaseCreature b = AttachedTo as BaseCreature;
 

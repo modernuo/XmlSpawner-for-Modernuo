@@ -134,8 +134,12 @@ public abstract class XmlQuest
         private string m_EntryID;
         private string m_EntryText;
 
-        public string EntryID { get { return m_EntryID; } set { m_EntryID = value; } }
-        public string EntryText { get { return m_EntryText; } set { m_EntryText = value; } }
+        public string EntryID { get => m_EntryID;
+            set => m_EntryID = value;
+        }
+        public string EntryText { get => m_EntryText;
+            set => m_EntryText = value;
+        }
 
         public JournalEntry(string ID, string text)
         {
@@ -149,10 +153,9 @@ public abstract class XmlQuest
         IXmlQuest m_quest;
 
         public GetCollectTarget(IXmlQuest quest)
-            : base(30, false, TargetFlags.None)
-        {
+            : base(30, false, TargetFlags.None) =>
             m_quest = quest;
-        }
+
         protected override void OnTarget(Mobile from, object targeted)
         {
             if (targeted is Item && m_quest != null && !m_quest.Deleted)
@@ -166,7 +169,11 @@ public abstract class XmlQuest
 
     public static void QuestButton(QuestGumpRequestArgs e)
     {
-        if (e == null || e.Mobile == null) return;
+        if (e == null || e.Mobile == null)
+        {
+            return;
+        }
+
         Mobile from = e.Mobile;
 
         from.CloseGump<QuestLogGump>();
@@ -180,7 +187,11 @@ public abstract class XmlQuest
 
     public static void QuestButton(NetState state, IEntity e, EncodedReader reader)
     {
-        if (state == null || state.Mobile == null) return;
+        if (state == null || state.Mobile == null)
+        {
+            return;
+        }
+
         Mobile from = state.Mobile;
 
         from.CloseGump<QuestLogGump>();
@@ -194,7 +205,10 @@ public abstract class XmlQuest
     // this just brings up the normal quest objectives gump
     public static void NormalQuestButton(PlayerMobile from)
     {
-        if (from == null || from.Quest == null) return;
+        if (from == null || from.Quest == null)
+        {
+            return;
+        }
 
         from.Quest.ShowQuestLog();
     }
@@ -222,7 +236,10 @@ public abstract class XmlQuest
 
     private static void ReturnCollected(IXmlQuest quest, Item item)
     {
-        if (item == null) return;
+        if (item == null)
+        {
+            return;
+        }
 
         // if this was player made, then return the item to the creator
         // dont allow players to return items to themselves.  This prevents possible exploits where quests are used as
@@ -252,7 +269,10 @@ public abstract class XmlQuest
 
     private static void TakeGiven(Mobile to, IXmlQuest quest, Item item)
     {
-        if (item == null) return;
+        if (item == null)
+        {
+            return;
+        }
 
         XmlSaveItem si = (XmlSaveItem)XmlAttach.FindAttachment(to, typeof(XmlSaveItem), "Given");
 
@@ -275,7 +295,10 @@ public abstract class XmlQuest
     {
         status_str = null;
 
-        if (action == null || action.Length <= 0 || from == null) return null;
+        if (action == null || action.Length <= 0 || from == null)
+        {
+            return null;
+        }
 
         XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
@@ -348,13 +371,22 @@ public abstract class XmlQuest
     public static ArrayList FindXmlQuest(PlayerMobile from)
     {
 
-        if (from == null || from.Deleted) return null;
+        if (from == null || from.Deleted)
+        {
+            return null;
+        }
 
-        if (from.Backpack == null) return null;
+        if (from.Backpack == null)
+        {
+            return null;
+        }
 
         List<Item> packlist = from.Backpack.Items;
 
-        if (packlist == null) return null;
+        if (packlist == null)
+        {
+            return null;
+        }
 
         ArrayList itemlist = new ArrayList();
 
@@ -478,7 +510,10 @@ public abstract class XmlQuest
 
     public static void Collect(Mobile m, Item target, IXmlQuest quest)
     {
-        if (quest == null || !quest.IsValid || m != quest.Owner) return;
+        if (quest == null || !quest.IsValid || m != quest.Owner)
+        {
+            return;
+        }
 
         // check to see what was dropped onto this
         if (target != null && !target.Deleted)
@@ -542,7 +577,10 @@ public abstract class XmlQuest
         // format for the objective string will be COLLECT,itemtype[,count][,proptest] or COLLECTNAMED,itemname[,itemtype][,count][,proptest]
         newstatestr = statestr;
         collectstatus = false;
-        if (objectivestr == null) return false;
+        if (objectivestr == null)
+        {
+            return false;
+        }
 
         string[] arglist = BaseXmlSpawner.ParseString(objectivestr, 5, ",");
         int targetcount = 1;
@@ -554,7 +592,10 @@ public abstract class XmlQuest
 
         CheckArgList(arglist, 2, item, out typestr, out targetcount, out checkprop, out status_str);
 
-        if (status_str != null) quest.Status = status_str;
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
 
         if (arglist.Length > 1)
         {
@@ -644,13 +685,18 @@ public abstract class XmlQuest
         }
         else
             // not a collect task
+        {
             return false;
+        }
     }
 
     public static bool ApplyGiven(Mobile mob, Item target, IXmlQuest quest)
     {
 
-        if (mob == null) return false;
+        if (mob == null)
+        {
+            return false;
+        }
 
         // check the quest objectives for special GIVE keywords
         string newstatestr;
@@ -716,7 +762,10 @@ public abstract class XmlQuest
     public static bool Give(Mobile from, Mobile to, Item target, IXmlQuest quest)
     {
 
-        if (quest == null || !quest.IsValid) return false;
+        if (quest == null || !quest.IsValid)
+        {
+            return false;
+        }
 
         bool found = false;
 
@@ -817,9 +866,15 @@ public abstract class XmlQuest
         // format for the objective string will be GIVE,mobname,itemtype[,count][,proptest] or GIVENAMED,mobname,itemname[,type][,count][,proptest]
         newstatestr = statestr;
         givestatus = false;
-        if (objectivestr == null) return false;
+        if (objectivestr == null)
+        {
+            return false;
+        }
 
-        if (mob == null || mob.Name == null) return false;
+        if (mob == null || mob.Name == null)
+        {
+            return false;
+        }
 
         string[] arglist = BaseXmlSpawner.ParseString(objectivestr, 6, ",");
         int targetcount = 1;
@@ -830,12 +885,18 @@ public abstract class XmlQuest
 
         CheckArgList(arglist, 3, item, out typestr, out targetcount, out checkprop, out status_str);
 
-        if (status_str != null) quest.Status = status_str;
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
 
         if (arglist.Length > 1)
         {
             // the name of the mob must match the specified mobname
-            if (mob.Name != arglist[1]) return false;
+            if (mob.Name != arglist[1])
+            {
+                return false;
+            }
         }
 
 
@@ -937,7 +998,10 @@ public abstract class XmlQuest
     {
         newstatestr = statestr;
         killstatus = false;
-        if (objectivestr == null) return false;
+        if (objectivestr == null)
+        {
+            return false;
+        }
 
         // format for the objective string will be KILL,mobtype[,count][,proptest] or KILLNAMED,mobname[,type][,count][,proptest]
         string[] arglist = BaseXmlSpawner.ParseString(objectivestr, 5, ",");
@@ -950,7 +1014,10 @@ public abstract class XmlQuest
 
         CheckArgList(arglist, 2, m_killed, out typestr, out targetcount, out checkprop, out status_str);
 
-        if (status_str != null) quest.Status = status_str;
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
 
         if (arglist.Length > 1)
         {
@@ -1000,12 +1067,17 @@ public abstract class XmlQuest
         }
         else
             // not a kill task
+        {
             return false;
+        }
     }
 
     public static void ApplyKilled(Mobile m_killed, Mobile m_killer, IXmlQuest quest)
     {
-        if (quest == null || !quest.IsValid) return;
+        if (quest == null || !quest.IsValid)
+        {
+            return;
+        }
 
         string newstatestr;
         bool killstatus = false;
@@ -1044,12 +1116,18 @@ public abstract class XmlQuest
 
     public static void CheckKilled(Mobile m_killed, Mobile m_killer, Mobile member)
     {
-        if (!(member is PlayerMobile)) return;
+        if (!(member is PlayerMobile))
+        {
+            return;
+        }
 
         // search the player for IXmlQuest objects
         ArrayList mobitems = FindXmlQuest(member as PlayerMobile);
 
-        if (mobitems == null) return;
+        if (mobitems == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < mobitems.Count; i++)
         {
@@ -1063,7 +1141,9 @@ public abstract class XmlQuest
                     if (member != null && !member.Deleted)
                     {
                         if (quest.PartyRange < 0 || Utility.InRange(m_killer.Location, member.Location, quest.PartyRange))
+                        {
                             ApplyKilled(m_killed, member, quest);
+                        }
                     }
                 }
                 else if (member != null && !member.Deleted && member == m_killer && quest != null && !quest.Deleted)
@@ -1117,7 +1197,11 @@ public abstract class XmlQuest
     {
         newstatestr = statestr;
         escortstatus = false;
-        if (objectivestr == null) return false;
+        if (objectivestr == null)
+        {
+            return false;
+        }
+
         // format for the objective string will be ESCORT[,mobname][,proptest]
         string[] arglist = BaseXmlSpawner.ParseString(objectivestr, 3, ",");
 
@@ -1125,7 +1209,9 @@ public abstract class XmlQuest
         {
             // is it an escort task?
             if (arglist[0] != "ESCORT")
+            {
                 return false;
+            }
         }
         else
         {
@@ -1144,7 +1230,10 @@ public abstract class XmlQuest
             checkprop = BaseXmlSpawner.CheckPropertyString(null, m_escorted, arglist[2], out status_str);
         }
 
-        if (status_str != null) quest.Status = status_str;
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
 
         if (arglist.Length > 1)
         {
@@ -1191,12 +1280,17 @@ public abstract class XmlQuest
         }
         else
             // not an escort task
+        {
             return false;
+        }
     }
 
     public static void ApplyEscorted(Mobile m_escorted, Mobile m_escorter, IXmlQuest quest)
     {
-        if (quest == null || !quest.IsValid) return;
+        if (quest == null || !quest.IsValid)
+        {
+            return;
+        }
 
         string newstatestr;
         bool escortstatus = false;
@@ -1235,12 +1329,18 @@ public abstract class XmlQuest
 
     public static void CheckEscorted(Mobile m_escorted, Mobile m_escorter, Mobile member)
     {
-        if (!(member is PlayerMobile)) return;
+        if (!(member is PlayerMobile))
+        {
+            return;
+        }
 
         // search the player for IXmlQuest objects
         ArrayList mobitems = FindXmlQuest(member as PlayerMobile);
 
-        if (mobitems == null) return;
+        if (mobitems == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < mobitems.Count; i++)
         {
@@ -1302,7 +1402,10 @@ public abstract class XmlQuest
     public static void RegisterMove(PlayerMobile m_player)
     {
 
-        if (m_player == null || m_player.Map == null) return;
+        if (m_player == null || m_player.Map == null)
+        {
+            return;
+        }
 
         // check for any attachments that might support the OnMove method
         //XmlAttach.CheckOnMove(m_player);
@@ -1325,7 +1428,10 @@ public abstract class XmlQuest
         newstatestr = statestr;
         visitstatus = false;
 
-        if (objectivestr == null) return false;
+        if (objectivestr == null)
+        {
+            return false;
+        }
 
         // format for the objective string will be VISIT,x,y,range[,duration]
         string[] arglist = BaseXmlSpawner.ParseString(objectivestr, 5, ",");
@@ -1336,7 +1442,10 @@ public abstract class XmlQuest
 
         string status_str = null;
 
-        if (status_str != null) quest.Status = status_str;
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
 
         if (arglist.Length > 3)
         {
@@ -1420,12 +1529,17 @@ public abstract class XmlQuest
         }
         else
             // not a visitation task
+        {
             return false;
+        }
     }
 
     public static void ApplyVisited(PlayerMobile m_player, IXmlQuest quest)
     {
-        if (quest == null || !quest.IsValid) return;
+        if (quest == null || !quest.IsValid)
+        {
+            return;
+        }
 
         string newstatestr;
         bool visitstatus = false;
@@ -1468,7 +1582,10 @@ public abstract class XmlQuest
         // search the player for IXmlQuest objects
         ArrayList mobitems = FindXmlQuest(m_player);
 
-        if (mobitems == null) return;
+        if (mobitems == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < mobitems.Count; i++)
         {
@@ -1582,15 +1699,33 @@ public abstract class XmlQuest
 
         // go through each objective and test the args
         VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective1, 6, ","), out status_str);
-        if (status_str != null) quest.Status = status_str;
-        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective2, 6, ","), out status_str);
-        if (status_str != null) quest.Status = status_str;
-        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective3, 6, ","), out status_str);
-        if (status_str != null) quest.Status = status_str;
-        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective4, 6, ","), out status_str);
-        if (status_str != null) quest.Status = status_str;
-        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective5, 6, ","), out status_str);
-        if (status_str != null) quest.Status = status_str;
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
 
+        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective2, 6, ","), out status_str);
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
+
+        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective3, 6, ","), out status_str);
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
+
+        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective4, 6, ","), out status_str);
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
+
+        VerifyObjective(BaseXmlSpawner.ParseString(quest.Objective5, 6, ","), out status_str);
+        if (status_str != null)
+        {
+            quest.Status = status_str;
+        }
     }
 }

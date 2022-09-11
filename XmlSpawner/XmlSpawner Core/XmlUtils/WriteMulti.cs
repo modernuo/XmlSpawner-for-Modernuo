@@ -33,7 +33,10 @@ public class WriteMulti
     [Description("Creates a multi text file from the objects within the targeted area.  The min/max z range can also be specified.")]
     public static void WriteMulti_OnCommand(CommandEventArgs e)
     {
-        if (e == null || e.Mobile == null) return;
+        if (e == null || e.Mobile == null)
+        {
+            return;
+        }
 
         if (e.Mobile.AccessLevel < XmlSpawner.DiskAccessLevel)
         {

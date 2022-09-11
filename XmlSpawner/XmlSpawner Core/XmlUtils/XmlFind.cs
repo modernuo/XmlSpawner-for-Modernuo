@@ -32,7 +32,10 @@ public class XmlFindGump : Gump
         public void XmlFindThreadMain()
         {
 
-            if (m_From == null) return;
+            if (m_From == null)
+            {
+                return;
+            }
 
             string status_str;
 
@@ -79,10 +82,7 @@ public class XmlFindGump : Gump
         public bool Selected;
         public object Object;
 
-        public SearchEntry(object o)
-        {
-            Object = o;
-        }
+        public SearchEntry(object o) => Object = o;
     }
 
     public class SearchCriteria
@@ -182,10 +182,17 @@ public class XmlFindGump : Gump
 
     private static bool TestRange(object o, int range, Map currentmap, Point3D currentloc)
     {
-        if (range < 0) return true;
+        if (range < 0)
+        {
+            return true;
+        }
+
         if (o is Item item)
         {
-            if (item.Map != currentmap) return false;
+            if (item.Map != currentmap)
+            {
+                return false;
+            }
 
             // is the item in a container?
             // if so, then check the range of the parent rather than the item
@@ -208,7 +215,11 @@ public class XmlFindGump : Gump
         }
         if (o is Mobile mob)
         {
-            if (mob.Map != currentmap) return false;
+            if (mob.Map != currentmap)
+            {
+                return false;
+            }
+
             return Utility.InRange(currentloc, mob.Location, range);
 
         }
@@ -218,7 +229,9 @@ public class XmlFindGump : Gump
     private static bool TestRegion(object o, string regionname)
     {
         if (regionname == null)
+        {
             return false;
+        }
 
         if (o is Item item)
         {
@@ -241,7 +254,9 @@ public class XmlFindGump : Gump
             Region r = Region.Regions.FirstOrDefault(reg => reg.Map == item.Map && !string.IsNullOrEmpty(reg.Name) && string.Equals(reg.Name, regionname, StringComparison.CurrentCultureIgnoreCase));
 
             if (r == null)
+            {
                 return false;
+            }
 
             return r.Contains(loc);
         }
@@ -250,7 +265,11 @@ public class XmlFindGump : Gump
         {
             Region r = Region.Regions.FirstOrDefault(reg => reg.Map == mob.Map && !string.IsNullOrEmpty(reg.Name) && string.Equals(reg.Name, regionname, StringComparison.CurrentCultureIgnoreCase));
 
-            if (r == null) return false;
+            if (r == null)
+            {
+                return false;
+            }
+
             return r.Contains(mob.Location);
 
         }
@@ -260,19 +279,28 @@ public class XmlFindGump : Gump
 
     private static bool TestAge(object o, double age, bool direction)
     {
-        if (age <= 0) return true;
+        if (age <= 0)
+        {
+            return true;
+        }
 
         if (o is Mobile mob)
         {
             if (direction)
             {
                 // true means allow only mobs greater than the age
-                if (DateTime.UtcNow - mob.CreationTime > TimeSpan.FromHours(age)) return true;
+                if (DateTime.UtcNow - mob.CreationTime > TimeSpan.FromHours(age))
+                {
+                    return true;
+                }
             }
             else
             {
                 // false means allow only mobs less than the age
-                if (DateTime.UtcNow - mob.CreationTime < TimeSpan.FromHours(age)) return true;
+                if (DateTime.UtcNow - mob.CreationTime < TimeSpan.FromHours(age))
+                {
+                    return true;
+                }
             }
         }
 
@@ -302,13 +330,17 @@ public class XmlFindGump : Gump
             foreach (RelocatedEntity relEntity in house.RelocatedEntities)
             {
                 if (relEntity.Entity is Item)
+                {
                     ignoreList.Add(relEntity.Entity);
+                }
             }
 
             foreach (VendorInventory inventory in house.VendorInventories)
             {
                 foreach (Item subItem in inventory.Items)
+                {
                     ignoreList.Add(subItem);
+                }
             }
         }
     }
@@ -325,20 +357,29 @@ public class XmlFindGump : Gump
                 m is EffectMobile ||
                 m is BaseCreature creature && creature.IsStabled ||
                 m is PlayerVendor && BaseHouse.AllHouses.Any(x => x.InternalizedVendors.Contains(m)))
+            {
                 return true;
+            }
         }
         else if (o is Item i)
         {
             // note, in order to test for a vendors display container that contains valid internal map items
             if (i.Map != Map.Internal || i.Parent != null || i is Fists || i is MountItem || i is EffectItem || i.HeldBy != null ||
                 i is MovingCrate || i is SpawnPersistence || GenericBuyInfo.IsDisplayCache(i) || i.GetType().DeclaringType == typeof(GenericBuyInfo))
+            {
                 return true;
+            }
 
             // boat stuffs
             if (i is Static && i.Name != null && (i.Name.ToLower() == "weapon pad" || i.Name.ToLower() == "deck"))
+            {
                 return true;
+            }
+
             if (i is GalleonHold || i is MooringLine || i is HoldItem || i is BaseDockedBoat || i is Rudder || i is RudderHandle || i is ShipWheel || i is BaseBoat || i is Plank || i is TillerMan || i is Hold || i is IShipCannon || i is DeckItem || i is WeaponPad)
+            {
                 return true;
+            }
 
             // Ignores shadowguard addons that are internalized while not in use
             if (i is AddonComponent component)
@@ -347,18 +388,26 @@ public class XmlFindGump : Gump
 
                 if (addon != null && (addon is ArmoryAddon || addon is BarAddon || addon is BelfryAddon || addon is ShadowguardFountainAddon || addon is OrchardAddon
                                       || addon is CastleAddon))
+                {
                     return true;
+                }
             }
 
             if (i is BaseAddon && (i is ArmoryAddon || i is BarAddon || i is BelfryAddon || i is ShadowguardFountainAddon || i is OrchardAddon
                                    || i is CastleAddon))
+            {
                 return true;
+            }
 
             if (i is BoatMountItem || i is Misc.TreasuresOfTokunoPersistence || i is StealableArtifactsSpawner)
+            {
                 return true;
+            }
 
             if (i is ArisenController)
+            {
                 return true;
+            }
         }
 
         return false;
@@ -427,7 +476,10 @@ public class XmlFindGump : Gump
                 bool hasvalidhidden = false;
 
 
-                if (i == null || i.Deleted) continue;
+                if (i == null || i.Deleted)
+                {
+                    continue;
+                }
 
                 // this will deal with items that are not on the internal map but hold valid internal items
                 if (criteria.Dohidevalidint && i.Map != Map.Internal && i.Map != null)
@@ -450,21 +502,29 @@ public class XmlFindGump : Gump
                 }
 
                 if (!hasmap)
+                {
                     continue;
+                }
 
                 // check for type
                 if (criteria.Dosearchtype && (i.GetType().IsSubclassOf(targetType) || i.GetType() == targetType))
                 {
                     hastype = true;
                 }
-                if (criteria.Dosearchtype && !hastype) continue;
+                if (criteria.Dosearchtype && !hastype)
+                {
+                    continue;
+                }
 
                 // check for name
                 if (criteria.Dosearchname && i.Name != null && criteria.Searchname != null && i.Name.ToLower().IndexOf(criteria.Searchname.ToLower()) >= 0)
                 {
                     hasname = true;
                 }
-                if (criteria.Dosearchname && !hasname) continue;
+                if (criteria.Dosearchname && !hasname)
+                {
+                    continue;
+                }
 
                 // check for valid internal map items
                 if (criteria.Dohidevalidint && TestValidInternal(i))
@@ -474,21 +534,30 @@ public class XmlFindGump : Gump
                     // this will deal with items that are on the internal map and hold valid internal items
                     IgnoreManagedInternal(i, ref ignoreList);
                 }
-                if (criteria.Dohidevalidint && hasvalidhidden) continue;
+                if (criteria.Dohidevalidint && hasvalidhidden)
+                {
+                    continue;
+                }
 
                 // check for range
                 if (criteria.Dosearchrange && TestRange(i, criteria.Searchrange, criteria.Currentmap, criteria.Currentloc))
                 {
                     hasrange = true;
                 }
-                if (criteria.Dosearchrange && !hasrange) continue;
+                if (criteria.Dosearchrange && !hasrange)
+                {
+                    continue;
+                }
 
                 // check for region
                 if (criteria.Dosearchregion && TestRegion(i, criteria.Searchregion))
                 {
                     hasregion = true;
                 }
-                if (criteria.Dosearchregion && !hasregion) continue;
+                if (criteria.Dosearchregion && !hasregion)
+                {
+                    continue;
+                }
 
                 // check for condition
                 if (criteria.Dosearchcondition && criteria.Searchcondition != null)
@@ -496,7 +565,10 @@ public class XmlFindGump : Gump
                     // check the property test
                     hascondition = BaseXmlSpawner.CheckPropertyString(null, i, criteria.Searchcondition, out status_str);
                 }
-                if (criteria.Dosearchcondition && !hascondition) continue;
+                if (criteria.Dosearchcondition && !hascondition)
+                {
+                    continue;
+                }
 
                 // check for entry
                 if (criteria.Dosearchspawnentry)
@@ -596,7 +668,9 @@ public class XmlFindGump : Gump
                 }
 
                 if (criteria.Dosearchspawnentry && !hasentry)
+                {
                     continue;
+                }
 
                 if (criteria.Dosearcherr && i is XmlSpawner hasSpawn && hasSpawn.status_str != null)
                 {
@@ -604,7 +678,9 @@ public class XmlFindGump : Gump
                 }
 
                 if (criteria.Dosearcherr && !hasspawnerr)
+                {
                     continue;
+                }
 
                 // satisfied all conditions so add it
                 newarray.Add(new SearchEntry(i));
@@ -639,7 +715,10 @@ public class XmlFindGump : Gump
                     bool hasage = false;
                     bool hasvalidhidden = false;
 
-                    if (i == null || i.Deleted) continue;
+                    if (i == null || i.Deleted)
+                    {
+                        continue;
+                    }
 
                     // check for map
                     if (i.Map == Map.Felucca && criteria.Dosearchfel || i.Map == Map.Trammel && criteria.Dosearchtram ||
@@ -655,49 +734,70 @@ public class XmlFindGump : Gump
                         hasmap = true;
                     }
 
-                    if (!hasmap) continue;
+                    if (!hasmap)
+                    {
+                        continue;
+                    }
 
                     // check for range
                     if (criteria.Dosearchrange && TestRange(i, criteria.Searchrange, criteria.Currentmap, criteria.Currentloc))
                     {
                         hasrange = true;
                     }
-                    if (criteria.Dosearchrange && !hasrange) continue;
+                    if (criteria.Dosearchrange && !hasrange)
+                    {
+                        continue;
+                    }
 
                     // check for region
                     if (criteria.Dosearchregion && TestRegion(i, criteria.Searchregion))
                     {
                         hasregion = true;
                     }
-                    if (criteria.Dosearchregion && !hasregion) continue;
+                    if (criteria.Dosearchregion && !hasregion)
+                    {
+                        continue;
+                    }
 
                     // check for valid internal map mobiles
                     if (criteria.Dohidevalidint && TestValidInternal(i))
                     {
                         hasvalidhidden = true;
                     }
-                    if (criteria.Dohidevalidint && hasvalidhidden) continue;
+                    if (criteria.Dohidevalidint && hasvalidhidden)
+                    {
+                        continue;
+                    }
 
                     // check for age
                     if (criteria.Dosearchage && TestAge(i, criteria.Searchage, criteria.Searchagedirection))
                     {
                         hasage = true;
                     }
-                    if (criteria.Dosearchage && !hasage) continue;
+                    if (criteria.Dosearchage && !hasage)
+                    {
+                        continue;
+                    }
 
                     // check for type
                     if (criteria.Dosearchtype && (i.GetType().IsSubclassOf(targetType) || i.GetType() == targetType))
                     {
                         hastype = true;
                     }
-                    if (criteria.Dosearchtype && !hastype) continue;
+                    if (criteria.Dosearchtype && !hastype)
+                    {
+                        continue;
+                    }
 
                     // check for name
                     if (criteria.Dosearchname && i.Name != null && criteria.Searchname != null && i.Name.ToLower().IndexOf(criteria.Searchname.ToLower()) >= 0)
                     {
                         hasname = true;
                     }
-                    if (criteria.Dosearchname && !hasname) continue;
+                    if (criteria.Dosearchname && !hasname)
+                    {
+                        continue;
+                    }
 
                     // check for condition
                     if (criteria.Dosearchcondition && criteria.Searchcondition != null)
@@ -705,7 +805,10 @@ public class XmlFindGump : Gump
                         // check the property test
                         hascondition = BaseXmlSpawner.CheckPropertyString(null, i, criteria.Searchcondition, out status_str);
                     }
-                    if (criteria.Dosearchcondition && !hascondition) continue;
+                    if (criteria.Dosearchcondition && !hascondition)
+                    {
+                        continue;
+                    }
 
                     // passed all conditions so add it to the list
 
@@ -740,14 +843,18 @@ public class XmlFindGump : Gump
     public static void XmlFind_OnCommand(CommandEventArgs e)
     {
         if (e?.Mobile == null)
+        {
             return;
+        }
 
         Account acct = e.Mobile.Account as Account;
         int x = 0;
         int y = 0;
         XmlSpawnerDefaults.DefaultEntry defs = null;
         if (acct != null)
+        {
             defs = XmlSpawnerDefaults.GetDefaults(acct.ToString(), e.Mobile.Name);
+        }
 
         if (defs != null)
         {
@@ -1133,7 +1240,10 @@ public class XmlFindGump : Gump
                 int count = 0;
                 foreach (SearchEntry e in m_SearchList)
                 {
-                    if (e.Selected) count++;
+                    if (e.Selected)
+                    {
+                        count++;
+                    }
                 }
                 AddLabel(600, y - 50, 33, $"Selected {count}");
             }
@@ -1148,7 +1258,10 @@ public class XmlFindGump : Gump
             for (int i = 0; i < MaxEntries; i++)
             {
                 int index = i + DisplayFrom;
-                if (m_SearchList == null || index >= m_SearchList.Count) break;
+                if (m_SearchList == null || index >= m_SearchList.Count)
+                {
+                    break;
+                }
 
                 SearchEntry e = (SearchEntry)m_SearchList[index];
 
@@ -1222,11 +1335,14 @@ public class XmlFindGump : Gump
                     }
 
                     if (item.Deleted)
+                    {
                         mapstr = "Deleted";
+                    }
                     else
                     if (item.Map != null)
+                    {
                         mapstr = item.Map.ToString();
-
+                    }
                 }
                 else
                 if (o is Mobile)
@@ -1242,16 +1358,25 @@ public class XmlFindGump : Gump
                     }
                     locstr = mob.Location.ToString();
                     if (mob.Deleted)
+                    {
                         mapstr = "Deleted";
+                    }
                     else
                     if (mob.Map != null)
+                    {
                         mapstr = mob.Map.ToString();
-
+                    }
                 }
 
-                if (e.Selected) texthue = 33;
+                if (e.Selected)
+                {
+                    texthue = 33;
+                }
 
-                if (i == Selected) texthue = 68;
+                if (i == Selected)
+                {
+                    texthue = 68;
+                }
 
                 // display the name
                 AddLabelCropped(248, 22 * (i % MaxEntriesPerPage) + 31, 110, 21, texthue, namestr ?? string.Empty);
@@ -1278,7 +1403,10 @@ public class XmlFindGump : Gump
 
     private void DoGoTo(int index)
     {
-        if (m_From == null || m_From.Deleted) return;
+        if (m_From == null || m_From.Deleted)
+        {
+            return;
+        }
 
         if (m_SearchList != null && index < m_SearchList.Count)
         {
@@ -1306,7 +1434,9 @@ public class XmlFindGump : Gump
                     itemloc = item.Location;
                 }
                 if (item.Deleted || item.Map == null || item.Map == Map.Internal)
+                {
                     return;
+                }
 
                 m_From.Location = itemloc;
                 m_From.Map = item.Map;
@@ -1314,7 +1444,11 @@ public class XmlFindGump : Gump
 
             else if (o is Mobile mob)
             {
-                if (mob.Deleted || mob.Map == null || mob.Map == Map.Internal) return;
+                if (mob.Deleted || mob.Map == null || mob.Map == Map.Internal)
+                {
+                    return;
+                }
+
                 m_From.Location = mob.Location;
                 m_From.Map = mob.Map;
             }
@@ -1324,7 +1458,9 @@ public class XmlFindGump : Gump
     private void DoShowGump(int index)
     {
         if (m_From == null || m_From.Deleted)
+        {
             return;
+        }
 
         if (m_SearchList != null && index < m_SearchList.Count)
         {
@@ -1333,14 +1469,18 @@ public class XmlFindGump : Gump
             {
                 // dont open anything with a null map null item or deleted
                 if (x1.Deleted || x1.Map == null || x1.Map == Map.Internal)
+                {
                     return;
+                }
 
                 x1.OnDoubleClick(m_From);
             }
             else if (o is Spawner x2)
             {
                 if (x2.Deleted || x2.Map == null || x2.Map == Map.Internal)
+                {
                     return;
+                }
 
                 x2.OnDoubleClick(m_From);
             }
@@ -1349,7 +1489,10 @@ public class XmlFindGump : Gump
 
     private void DoShowProps(int index)
     {
-        if (m_From == null || m_From.Deleted) return;
+        if (m_From == null || m_From.Deleted)
+        {
+            return;
+        }
 
         if (m_SearchList != null && index < m_SearchList.Count)
         {
@@ -1357,14 +1500,18 @@ public class XmlFindGump : Gump
             if (o is Item x1)
             {
                 if (x1.Deleted)
+                {
                     return;
+                }
 
                 m_From.SendGump(new PropertiesGump(m_From, x1));
             }
             else if (o is Mobile x2)
             {
                 if (x2.Deleted)
+                {
                     return;
+                }
 
                 m_From.SendGump(new PropertiesGump(m_From, x2));
             }
@@ -1402,10 +1549,7 @@ public class XmlFindGump : Gump
     {
         private readonly bool Dsort;
 
-        public ListTypeSorter(bool descend)
-        {
-            Dsort = descend;
-        }
+        public ListTypeSorter(bool descend) => Dsort = descend;
 
         public int Compare(object e1, object e2)
         {
@@ -1425,10 +1569,7 @@ public class XmlFindGump : Gump
     {
         private readonly bool Dsort;
 
-        public ListNameSorter(bool descend)
-        {
-            Dsort = descend;
-        }
+        public ListNameSorter(bool descend) => Dsort = descend;
 
         public int Compare(object e1, object e2)
         {
@@ -1448,10 +1589,7 @@ public class XmlFindGump : Gump
     {
         private readonly bool Dsort;
 
-        public ListMapSorter(bool descend)
-        {
-            Dsort = descend;
-        }
+        public ListMapSorter(bool descend) => Dsort = descend;
 
         public int Compare(object e1, object e2)
         {
@@ -1481,26 +1619,46 @@ public class XmlFindGump : Gump
         public int Compare(object e1, object e2)
         {
             if (From == null || From.Deleted)
+            {
                 return 0;
+            }
 
             IEntity entity1 = (e1 as SearchEntry)?.Object as IEntity;
             IEntity entity2 = (e2 as SearchEntry)?.Object as IEntity;
 
             if (entity1 == null && entity2 == null)
+            {
                 return 0;
+            }
             else if (entity1 == null)
+            {
                 return Dsort ? 1 : -1;
+            }
             else if (entity2 == null)
+            {
                 return Dsort ? -1 : 1;
+            }
 
             if (entity1.Map != From.Map && entity2.Map != From.Map)
+            {
                 return 0;
+            }
 
-            if (entity1.Map == From.Map && entity2.Map != From.Map) return Dsort ? 1 : -1;
-            if (entity1.Map != From.Map && entity2.Map == From.Map) return Dsort ? -1 : 1;
+            if (entity1.Map == From.Map && entity2.Map != From.Map)
+            {
+                return Dsort ? 1 : -1;
+            }
+
+            if (entity1.Map != From.Map && entity2.Map == From.Map)
+            {
+                return Dsort ? -1 : 1;
+            }
 
             if (Dsort)
+            {
                 return From.GetDistanceToSqrt(entity2.Location).CompareTo(From.GetDistanceToSqrt(entity1.Location));
+            }
+
             return From.GetDistanceToSqrt(entity1.Location).CompareTo(From.GetDistanceToSqrt(entity2.Location));
         }
     }
@@ -1509,10 +1667,7 @@ public class XmlFindGump : Gump
     {
         private readonly bool Dsort;
 
-        public ListSelectSorter(bool descend)
-        {
-            Dsort = descend;
-        }
+        public ListSelectSorter(bool descend) => Dsort = descend;
 
         public int Compare(object e1, object e2)
         {
@@ -1520,10 +1675,14 @@ public class XmlFindGump : Gump
             int y = 0;
 
             if (e1 is SearchEntry entry)
+            {
                 x = entry.Selected ? 1 : 0;
+            }
 
             if (e2 is SearchEntry searchEntry)
+            {
                 y = searchEntry.Selected ? 1 : 0;
+            }
 
             if (Dsort)
             {
@@ -1543,7 +1702,10 @@ public class XmlFindGump : Gump
 
     private void ResetList()
     {
-        if (m_SearchList == null) return;
+        if (m_SearchList == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < m_SearchList.Count; i++)
         {
@@ -1563,7 +1725,10 @@ public class XmlFindGump : Gump
 
     private void RespawnList()
     {
-        if (m_SearchList == null) return;
+        if (m_SearchList == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < m_SearchList.Count; i++)
         {
@@ -1583,7 +1748,10 @@ public class XmlFindGump : Gump
 
     private void SaveList(Mobile from, string filename)
     {
-        if (m_SearchList == null) return;
+        if (m_SearchList == null)
+        {
+            return;
+        }
 
         string dirname;
         if (System.IO.Directory.Exists(XmlSpawner.XmlSpawnDir) && filename != null && !filename.StartsWith("/") && !filename.StartsWith("\\"))
@@ -1621,7 +1789,10 @@ public class XmlFindGump : Gump
 
     private void ExecuteCommand(Mobile from, string command)
     {
-        if (m_SearchList == null) return;
+        if (m_SearchList == null)
+        {
+            return;
+        }
 
         ArrayList executelist = new ArrayList();
 
@@ -1649,7 +1820,9 @@ public class XmlFindGump : Gump
             {
                 string[] cargs = new string[args.Length - 1];
                 for (int i = 0; i < args.Length - 1; i++)
+                {
                     cargs[i] = args[i + 1];
+                }
 
                 CommandEventArgs e = new CommandEventArgs(from, args[0], command, cargs);
 
@@ -1663,7 +1836,9 @@ public class XmlFindGump : Gump
                         // execute the command on the objects in the list
 
                         if (executelist.Count > 20)
+                        {
                             CommandLogging.Enabled = false;
+                        }
 
                         c.ExecuteList(e, executelist);
 
@@ -1684,7 +1859,10 @@ public class XmlFindGump : Gump
 
     public override void OnResponse(NetState state, RelayInfo info)
     {
-        if (info == null || state?.Mobile == null || m_SearchCriteria == null) return;
+        if (info == null || state?.Mobile == null || m_SearchCriteria == null)
+        {
+            return;
+        }
 
         int radiostate = -1;
         if (info.Switches.Length > 0)
@@ -1712,23 +1890,33 @@ public class XmlFindGump : Gump
 
         tr = info.GetTextEntry(101); // type info
         if (tr != null)
+        {
             m_SearchCriteria.Searchtype = tr.Text;
+        }
 
         tr = info.GetTextEntry(102); // name info
         if (tr != null)
+        {
             m_SearchCriteria.Searchname = tr.Text;
+        }
 
         tr = info.GetTextEntry(103); // entry info
         if (tr != null)
+        {
             m_SearchCriteria.Searchspawnentry = tr.Text;
+        }
 
         tr = info.GetTextEntry(104); // condition info
         if (tr != null)
+        {
             m_SearchCriteria.Searchcondition = tr.Text;
+        }
 
         tr = info.GetTextEntry(106); // region info
         if (tr != null)
+        {
             m_SearchCriteria.Searchregion = tr.Text;
+        }
 
 
         tr = info.GetTextEntry(400); // displayfrom info
@@ -1739,11 +1927,15 @@ public class XmlFindGump : Gump
 
         tr = info.GetTextEntry(300); // savefilename info
         if (tr != null)
+        {
             SaveFilename = tr.Text;
+        }
 
         tr = info.GetTextEntry(301); // commandstring info
         if (tr != null)
+        {
             CommandString = tr.Text;
+        }
 
 
         // check all of the check boxes
@@ -1870,7 +2062,11 @@ public class XmlFindGump : Gump
                 {
 
                     DisplayFrom -= MaxEntries;
-                    if (DisplayFrom < 0) DisplayFrom = 0;
+                    if (DisplayFrom < 0)
+                    {
+                        DisplayFrom = 0;
+                    }
+
                     // clear any selection
                     Selected = -1;
                     break;
@@ -2023,7 +2219,10 @@ public class XmlFindGump : Gump
             {
                 for (int i = 0; i < SearchList.Count; i++)
                 {
-                    if (((SearchEntry)SearchList[i]).Selected) count++;
+                    if (((SearchEntry)SearchList[i]).Selected)
+                    {
+                        count++;
+                    }
                 }
             }
 
@@ -2037,7 +2236,10 @@ public class XmlFindGump : Gump
         }
         public override void OnResponse(NetState state, RelayInfo info)
         {
-            if (info == null || state?.Mobile == null) return;
+            if (info == null || state?.Mobile == null)
+            {
+                return;
+            }
 
             int radiostate = -1;
 
@@ -2102,7 +2304,10 @@ public class XmlFindGump : Gump
             {
                 for (int i = 0; i < SearchList.Count; i++)
                 {
-                    if (((SearchEntry)SearchList[i]).Selected) count++;
+                    if (((SearchEntry)SearchList[i]).Selected)
+                    {
+                        count++;
+                    }
                 }
             }
 
@@ -2116,7 +2321,10 @@ public class XmlFindGump : Gump
         }
         public override void OnResponse(NetState state, RelayInfo info)
         {
-            if (info == null || state?.Mobile == null) return;
+            if (info == null || state?.Mobile == null)
+            {
+                return;
+            }
 
             int radiostate = -1;
             if (info.Switches.Length > 0)

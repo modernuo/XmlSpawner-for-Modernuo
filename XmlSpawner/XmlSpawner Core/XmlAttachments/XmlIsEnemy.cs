@@ -12,10 +12,7 @@ public class XmlIsEnemy : XmlAttachment
     }
 
     [Attachable]
-    public XmlIsEnemy()
-    {
-        Test = String.Empty;
-    }
+    public XmlIsEnemy() => Test = String.Empty;
 
     [Attachable]
     public XmlIsEnemy(string name)
@@ -42,19 +39,15 @@ public class XmlIsEnemy : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public string Test
     {
-        get
-        {
-            return m_TestString;
-        }
-        set
-        {
-            m_TestString = value;
-        }
+        get => m_TestString;
+        set => m_TestString = value;
     }
     public bool IsEnemy(Mobile from)
     {
         if (from == null)
+        {
             return false;
+        }
 
         bool isenemy = false;
 
@@ -96,7 +89,9 @@ public class XmlIsEnemy : XmlAttachment
     public override string OnIdentify(Mobile from)
     {
         if (from == null || from.AccessLevel < AccessLevel.Counselor)
+        {
             return null;
+        }
 
         if (Expiration > TimeSpan.Zero)
         {

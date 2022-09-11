@@ -25,8 +25,8 @@ public class XmlQuestPointsRewards
 
     private static ArrayList    PointsRewardList = new ArrayList();
         
-    public static ArrayList RewardsList { get { return PointsRewardList; } }
-        
+    public static ArrayList RewardsList => PointsRewardList;
+
     public XmlQuestPointsRewards(int minpoints, Type reward, string name, int cost, int id, object[] args)
     {
         RewardType = reward;

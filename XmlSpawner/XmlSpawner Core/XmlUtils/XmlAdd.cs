@@ -99,14 +99,21 @@ public class XmlSpawnerDefaults
             AccountName = account
         };
         if (DefaultEntryList == null)
+        {
             DefaultEntryList = new ArrayList();
+        }
+
         DefaultEntryList.Add(newentry);
         return newentry;
     }
 
     public static void RestoreDefs(DefaultEntry defs)
     {
-        if (defs == null) return;
+        if (defs == null)
+        {
+            return;
+        }
+
         defs.MinDelay = TimeSpan.FromMinutes(5);
         defs.MaxDelay = TimeSpan.FromMinutes(10);
         defs.RefractMin = TimeSpan.FromMinutes(0);
@@ -149,8 +156,15 @@ public class XmlSpawnerDefaults
         defs.AutoNumber = false;
         defs.AutoNumberValue = 0;
 
-        if (defs.SelectionList != null) Array.Clear(defs.SelectionList, 0, defs.SelectionList.Length);
-        if (defs.NameList != null) Array.Clear(defs.NameList, 0, defs.NameList.Length);
+        if (defs.SelectionList != null)
+        {
+            Array.Clear(defs.SelectionList, 0, defs.SelectionList.Length);
+        }
+
+        if (defs.NameList != null)
+        {
+            Array.Clear(defs.NameList, 0, defs.NameList.Length);
+        }
     }
 }
 
@@ -169,7 +183,10 @@ public class XmlAddGump : Gump
     private string NameListToString()
     {
         if (defs.NameList == null || defs.NameList.Length == 0)
+        {
             return "0";
+        }
+
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         sb.AppendFormat("{0}", defs.NameList.Length);
         for (int i = 0; i < defs.NameList.Length; i++)
@@ -182,7 +199,10 @@ public class XmlAddGump : Gump
     private string SelectionListToString()
     {
         if (defs.SelectionList == null || defs.SelectionList.Length == 0)
+        {
             return "0";
+        }
+
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         sb.AppendFormat("{0}", defs.SelectionList.Length);
         for (int i = 0; i < defs.SelectionList.Length; i++)
@@ -198,7 +218,11 @@ public class XmlAddGump : Gump
         string[] tmplist = namelist.Split(':');
         for (int i = 1; i < tmplist.Length; i++)
         {
-            if (i - 1 >= newlist.Length) break;
+            if (i - 1 >= newlist.Length)
+            {
+                break;
+            }
+
             newlist[i - 1] = tmplist[i];
         }
         return newlist;
@@ -210,18 +234,29 @@ public class XmlAddGump : Gump
         string[] tmplist = selectionlist.Split(':');
         for (int i = 1; i < tmplist.Length; i++)
         {
-            if (i - 1 >= newlist.Length) break;
+            if (i - 1 >= newlist.Length)
+            {
+                break;
+            }
+
             if (tmplist[i] == "1")
+            {
                 newlist[i - 1] = true;
+            }
             else
+            {
                 newlist[i - 1] = false;
+            }
         }
         return newlist;
     }
 
     private void DoSaveDefs(Mobile from, string filename)
     {
-        if (filename == null || filename.Length <= 0) return;
+        if (filename == null || filename.Length <= 0)
+        {
+            return;
+        }
 
         // Create the data set
         DataSet ds = new DataSet(DefsDataSetName);
@@ -342,18 +377,26 @@ public class XmlAddGump : Gump
         if (file_error)
         {
             if (from != null && !from.Deleted)
+            {
                 from.SendMessage("Error trying to save to file {0}", dirname);
+            }
+
             return;
         }
 
         if (from != null && !from.Deleted)
+        {
             from.SendMessage("Saved defs to file {0}", dirname);
-
+        }
     }
 
     private void DoLoadDefs(Mobile from, string filename)
     {
-        if (filename == null || filename.Length <= 0) return;
+        if (filename == null || filename.Length <= 0)
+        {
+            return;
+        }
+
         string dirname;
         if (Directory.Exists(DefsDir))
         {
@@ -403,7 +446,10 @@ public class XmlAddGump : Gump
             if (fileerror)
             {
                 if (from != null && !from.Deleted)
+                {
                     from.SendMessage(33, "Error reading defs file {0}", dirname);
+                }
+
                 return;
             }
 
@@ -465,9 +511,15 @@ public class XmlAddGump : Gump
                     catch (Exception e) { Diagnostics.ExceptionLogging.LogException(e); }
                     if (todmode != null)
                     {
-                        if (todmode == "Realtime") defs.TODMode = XmlSpawner.TODModeType.Realtime;
+                        if (todmode == "Realtime")
+                        {
+                            defs.TODMode = XmlSpawner.TODModeType.Realtime;
+                        }
                         else
-                        if (todmode == "Gametime") defs.TODMode = XmlSpawner.TODModeType.Gametime;
+                        if (todmode == "Gametime")
+                        {
+                            defs.TODMode = XmlSpawner.TODModeType.Gametime;
+                        }
                     }
 
                     double duration = defs.Duration.TotalMinutes;
@@ -537,14 +589,18 @@ public class XmlAddGump : Gump
                     catch (Exception e) { Diagnostics.ExceptionLogging.LogException(e); }
 
                     if (from != null && !from.Deleted)
+                    {
                         from.SendMessage("Loaded defs from file {0}", dirname);
+                    }
                 }
             }
         }
         else
         {
             if (from != null && !from.Deleted)
+            {
                 from.SendMessage(33, "File not found: {0}", dirname);
+            }
         }
     }
 
@@ -562,7 +618,10 @@ public class XmlAddGump : Gump
         int y = 0;
         XmlSpawnerDefaults.DefaultEntry defs = null;
         if (acct != null)
+        {
             defs = XmlSpawnerDefaults.GetDefaults(acct.ToString(), e.Mobile.Name);
+        }
+
         if (defs != null)
         {
             x = defs.AddGumpX;
@@ -594,7 +653,10 @@ public class XmlAddGump : Gump
 
     public XmlAddGump(Mobile from, Point3D startloc, Map startmap, bool firststart, bool extension, int gumpx, int gumpy) : base(gumpx, gumpy)
     {
-        if (from == null || from.Deleted) return;
+        if (from == null || from.Deleted)
+        {
+            return;
+        }
 
         defs = null;
 
@@ -603,9 +665,14 @@ public class XmlAddGump : Gump
         // read the text entries for default values
         Account acct = from.Account as Account;
         if (acct != null)
+        {
             defs = XmlSpawnerDefaults.GetDefaults(acct.ToString(), from.Name);
+        }
 
-        if (defs == null) return;
+        if (defs == null)
+        {
+            return;
+        }
 
         if (firststart)
         {
@@ -626,7 +693,9 @@ public class XmlAddGump : Gump
             defs.SelectionList = new bool[MaxEntries];
         }
         if (defs.NameList == null)
+        {
             defs.NameList = new string[MaxEntries];
+        }
 
 
         // prepare the page
@@ -723,10 +792,15 @@ public class XmlAddGump : Gump
         y += yinc;
         // TOD
         if (defs.TODMode == XmlSpawner.TODModeType.Gametime)
+        {
             AddLabel(25, y, 0x384, "GameTOD");
+        }
         else
         if (defs.TODMode == XmlSpawner.TODModeType.Realtime)
+        {
             AddLabel(25, y, 0x384, "RealTOD");
+        }
+
         AddButton(5, y, 0xD3, 0xD3, 306, GumpButtonType.Reply, 0);
 
 
@@ -888,11 +962,15 @@ public class XmlAddGump : Gump
 
                 int texthue = 0;
                 if (sel)
+                {
                     texthue = 68;
+                }
 
                 string namestr = null;
                 if (defs.NameList != null && i < defs.NameList.Length)
+                {
                     namestr = defs.NameList[i];
+                }
 
                 AddTextEntry(xpos + 208, ypos + 1, 110, 21, texthue, 1000 + i, namestr);
                 // display the selection button
@@ -906,10 +984,14 @@ public class XmlAddGump : Gump
     private void DoGoTo(Item x)
     {
         if (m_From == null || m_From.Deleted)
+        {
             return;
+        }
 
         if (x == null || x.Deleted || x.Map == null)
+        {
             return;
+        }
 
         Point3D itemloc;
 
@@ -934,15 +1016,31 @@ public class XmlAddGump : Gump
 
     private void DoShowProps(IEntity x)
     {
-        if (m_From == null || m_From.Deleted) return;
-        if (x == null || x.Deleted || x.Map == null) return;
+        if (m_From == null || m_From.Deleted)
+        {
+            return;
+        }
+
+        if (x == null || x.Deleted || x.Map == null)
+        {
+            return;
+        }
+
         m_From.SendGump(new PropertiesGump(m_From, x));
     }
 
     private static void DoShowGump(Mobile from, Item x)
     {
-        if (from == null || from.Deleted) return;
-        if (x == null || x.Deleted || x.Map == null || x.Map == Map.Internal) return;
+        if (from == null || from.Deleted)
+        {
+            return;
+        }
+
+        if (x == null || x.Deleted || x.Map == null || x.Map == Map.Internal)
+        {
+            return;
+        }
+
         x.OnDoubleClick(from);
     }
 
@@ -953,16 +1051,24 @@ public class XmlAddGump : Gump
 
     public static void Refresh(Mobile from, bool ignoreupdate)
     {
-        if (from == null) return;
+        if (from == null)
+        {
+            return;
+        }
 
         // read the text entries for default values
         XmlSpawnerDefaults.DefaultEntry defs = null;
 
         Account acct = from.Account as Account;
         if (acct != null)
+        {
             defs = XmlSpawnerDefaults.GetDefaults(acct.ToString(), from.Name);
+        }
 
-        if (defs == null) return;
+        if (defs == null)
+        {
+            return;
+        }
 
         int x = defs.AddGumpX;
         int y = defs.AddGumpY;
@@ -988,23 +1094,33 @@ public class XmlAddGump : Gump
         public PlaceSpawnerTarget(NetState state) : base(30, true, TargetFlags.None)
         {
             if (state?.Mobile == null)
+            {
                 return;
+            }
 
             // read the text entries for default values
             defs = null;
 
             Account acct = state.Mobile.Account as Account;
             if (acct != null)
+            {
                 defs = XmlSpawnerDefaults.GetDefaults(acct.ToString(), state.Mobile.Name);
+            }
 
-            if (defs == null) return;
+            if (defs == null)
+            {
+                return;
+            }
 
             m_state = state;
         }
 
         protected override void OnTarget(Mobile from, object targeted)
         {
-            if (from == null) return;
+            if (from == null)
+            {
+                return;
+            }
 
             // assign it a unique id
             Guid SpawnId = Guid.NewGuid();
@@ -1051,7 +1167,9 @@ public class XmlAddGump : Gump
                     return;
                 }
                 if (p is Item item)
+                {
                     p = item.GetWorldTop();
+                }
 
                 spawner.MoveToWorld(new Point3D(p), from.Map);
             }
@@ -1071,7 +1189,9 @@ public class XmlAddGump : Gump
 
             if (defs.AutoNumber)
                 // bump the autonumber
+            {
                 defs.AutoNumberValue++;
+            }
 
             //from.CloseGump<XmlAddGump>();
             Refresh(m_state.Mobile, true);
@@ -1084,7 +1204,9 @@ public class XmlAddGump : Gump
     public override void OnResponse(NetState state, RelayInfo info)
     {
         if (info == null || state?.Mobile == null)
+        {
             return;
+        }
 
         // read the text entries for default values
         XmlSpawnerDefaults.DefaultEntry defaults = XmlSpawnerDefaults.GetDefaults(state.Account.ToString(), state.Mobile.Name);
@@ -1138,7 +1260,11 @@ public class XmlAddGump : Gump
         if (tr != null)
         {
             string txt = tr.Text;
-            if (txt != null && txt.Length == 0) txt = null;
+            if (txt != null && txt.Length == 0)
+            {
+                txt = null;
+            }
+
             defaults.SpeechTrigger = txt;
         }
 
@@ -1193,18 +1319,26 @@ public class XmlAddGump : Gump
 
         tr = info.GetTextEntry(114); // Spawner name
         if (tr != null)
+        {
             defaults.SpawnerName = tr.Text;
+        }
 
         // DefsExt entry
         tr = info.GetTextEntry(115); // save def str
         if (tr != null)
+        {
             defaults.DefsExt = tr.Text;
+        }
 
         tr = info.GetTextEntry(117); // trigger on carried
         if (tr != null)
         {
             string txt = tr.Text;
-            if (txt != null && txt.Length == 0) txt = null;
+            if (txt != null && txt.Length == 0)
+            {
+                txt = null;
+            }
+
             defaults.TriggerOnCarried = txt;
         }
 
@@ -1212,7 +1346,11 @@ public class XmlAddGump : Gump
         if (tr != null)
         {
             string txt = tr.Text;
-            if (txt != null && txt.Length == 0) txt = null;
+            if (txt != null && txt.Length == 0)
+            {
+                txt = null;
+            }
+
             defaults.NoTriggerOnCarried = txt;
         }
 
@@ -1220,7 +1358,11 @@ public class XmlAddGump : Gump
         if (tr != null)
         {
             string txt = tr.Text;
-            if (txt != null && txt.Length == 0) txt = null;
+            if (txt != null && txt.Length == 0)
+            {
+                txt = null;
+            }
+
             defaults.ProximityMsg = txt;
         }
 
@@ -1228,7 +1370,11 @@ public class XmlAddGump : Gump
         if (tr != null)
         {
             string txt = tr.Text;
-            if (txt != null && txt.Length == 0) txt = null;
+            if (txt != null && txt.Length == 0)
+            {
+                txt = null;
+            }
+
             defaults.PlayerTriggerProp = txt;
         }
 
@@ -1243,7 +1389,11 @@ public class XmlAddGump : Gump
         if (tr != null)
         {
             string txt = tr.Text;
-            if (txt != null && txt.Length == 0) txt = null;
+            if (txt != null && txt.Length == 0)
+            {
+                txt = null;
+            }
+
             defaults.TriggerObjectProp = txt;
         }
 
@@ -1258,7 +1408,11 @@ public class XmlAddGump : Gump
         if (tr != null)
         {
             string txt = tr.Text;
-            if (txt != null && txt.Length == 0) txt = null;
+            if (txt != null && txt.Length == 0)
+            {
+                txt = null;
+            }
+
             defaults.SkillTrigger = txt;
         }
 
@@ -1271,6 +1425,7 @@ public class XmlAddGump : Gump
 
         // fill the NameList from the text entries
         if (defaults.ShowExtension)
+        {
             for (int i = 0; i < MaxEntries; i++)
             {
                 tr = info.GetTextEntry(1000 + i);
@@ -1279,6 +1434,7 @@ public class XmlAddGump : Gump
                     defaults.NameList[i] = tr.Text;
                 }
             }
+        }
 
         defaults.Group = info.IsSwitched(304);
         defaults.HomeRangeIsRelative = info.IsSwitched(305);
@@ -1344,7 +1500,11 @@ public class XmlAddGump : Gump
                 }
             case 156: // Delete last spawner
                 {
-                    if (defaults.LastSpawner == null || defaults.LastSpawner.Deleted) break;
+                    if (defaults.LastSpawner == null || defaults.LastSpawner.Deleted)
+                    {
+                        break;
+                    }
+
                     Refresh(state.Mobile);
                     state.Mobile.SendGump(new XmlAddConfirmDeleteGump(defaults.LastSpawner));
                     return;
@@ -1352,13 +1512,19 @@ public class XmlAddGump : Gump
             case 157: // Reset last spawner
                 {
                     if (defaults.LastSpawner != null && !defaults.LastSpawner.Deleted)
+                    {
                         defaults.LastSpawner.DoReset = true;
+                    }
+
                     break;
                 }
             case 158: // Respawn last spawner
                 {
                     if (defaults.LastSpawner != null && !defaults.LastSpawner.Deleted)
+                    {
                         defaults.LastSpawner.DoRespawn = true;
+                    }
+
                     break;
                 }
             case 180: // Set Options
@@ -1398,7 +1564,11 @@ public class XmlAddGump : Gump
             case 3999: // clear selections
                 {
                     // clear the selections
-                    if (defaults.SelectionList != null) Array.Clear(defaults.SelectionList, 0, defaults.SelectionList.Length);
+                    if (defaults.SelectionList != null)
+                    {
+                        Array.Clear(defaults.SelectionList, 0, defaults.SelectionList.Length);
+                    }
+
                     break;
                 }
             case 9998: // refresh the gump
@@ -1463,7 +1633,10 @@ public class XmlAddGump : Gump
                 defs = XmlSpawnerDefaults.GetDefaults(acct.ToString(), from.Name);
             }
 
-            if (defs == null) return;
+            if (defs == null)
+            {
+                return;
+            }
 
             Closable = true;
             Dragable = true;
@@ -1501,11 +1674,17 @@ public class XmlAddGump : Gump
 
         public override void OnResponse(NetState state, RelayInfo info)
         {
-            if (info == null || state?.Mobile == null) return;
+            if (info == null || state?.Mobile == null)
+            {
+                return;
+            }
 
             // read the text entries for default values
             XmlSpawnerDefaults.DefaultEntry defs = XmlSpawnerDefaults.GetDefaults(state.Account.ToString(), state.Mobile.Name);
-            if (defs == null) return;
+            if (defs == null)
+            {
+                return;
+            }
 
             TextRelay tr = info.GetTextEntry(100); // AddGumpX
             if (tr?.Text != null && tr.Text.Length > 0)
@@ -1568,7 +1747,10 @@ public class XmlAddGump : Gump
 
         public override void OnResponse(NetState state, RelayInfo info)
         {
-            if (info == null || state?.Mobile == null) return;
+            if (info == null || state?.Mobile == null)
+            {
+                return;
+            }
 
             int radiostate = -1;
             if (info.Switches.Length > 0)

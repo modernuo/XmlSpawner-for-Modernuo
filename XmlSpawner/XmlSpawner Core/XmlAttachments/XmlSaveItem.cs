@@ -7,7 +7,7 @@ public class XmlSaveItem : XmlAttachment
 {
     private class SaveItemPack : Container
     {
-        public override int MaxWeight { get { return 0; }}
+        public override int MaxWeight => 0;
 
         public SaveItemPack() : base( 0x9B2 )
         {
@@ -37,10 +37,7 @@ public class XmlSaveItem : XmlAttachment
     private Mobile m_WasOwnedBy;
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public Container Container
-    {
-        get { return m_Container; }
-    }
+    public Container Container => m_Container;
 
     [CommandProperty( AccessLevel.GameMaster )]
     public Item SavedItem
@@ -84,7 +81,7 @@ public class XmlSaveItem : XmlAttachment
     [CommandProperty( AccessLevel.GameMaster )]
     public bool RestoreItem
     {
-        get{ return false; }
+        get => false;
         set
         {
             if(value == true && SavedItem != null && AttachedTo is IEntity && ((IEntity)AttachedTo).Map != Map.Internal && ((IEntity)AttachedTo).Map != null)
@@ -113,11 +110,16 @@ public class XmlSaveItem : XmlAttachment
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public Mobile WasOwnedBy { get{ return m_WasOwnedBy; } set { m_WasOwnedBy = value; } }
+    public Mobile WasOwnedBy { get => m_WasOwnedBy;
+        set => m_WasOwnedBy = value;
+    }
 
     private void AddToContainer(Item item)
     {
-        if(item == null) return;
+        if(item == null)
+        {
+            return;
+        }
 
         if(m_Container == null)
         {
@@ -149,16 +151,10 @@ public class XmlSaveItem : XmlAttachment
     }
 
     [Attachable]
-    public XmlSaveItem()
-    {
-        m_Container = new SaveItemPack();
-    }
+    public XmlSaveItem() => m_Container = new SaveItemPack();
 
     [Attachable]
-    public XmlSaveItem(string name)
-    {
-        Name = name;
-    }
+    public XmlSaveItem(string name) => Name = name;
 
 
     public XmlSaveItem(string name, Item saveditem)
@@ -228,7 +224,10 @@ public class XmlSaveItem : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if(Expiration > TimeSpan.Zero)
         {

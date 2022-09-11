@@ -20,10 +20,7 @@ public class XmlFreeze : XmlAttachment
     }
 
     [Attachable]
-    public XmlFreeze(double seconds)
-    {
-        Expiration = TimeSpan.FromSeconds(seconds);
-    }
+    public XmlFreeze(double seconds) => Expiration = TimeSpan.FromSeconds(seconds);
 
     public override void Serialize( IGenericWriter writer )
     {
@@ -43,7 +40,10 @@ public class XmlFreeze : XmlAttachment
     {
         base.OnIdentify(from);
 
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if(Expiration > TimeSpan.Zero)
         {
@@ -77,7 +77,9 @@ public class XmlFreeze : XmlAttachment
             ((Mobile)AttachedTo).ProcessDelta();
         }
         else
+        {
             Delete();
+        }
     }
 
 }

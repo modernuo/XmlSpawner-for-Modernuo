@@ -9,10 +9,14 @@ public class XmlDeathAction : XmlAttachment
     private string m_Condition; // condition string
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Action { get { return m_Action; } set { m_Action = value; } }
+    public string Action { get => m_Action;
+        set => m_Action = value;
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public string Condition { get { return m_Condition; } set { m_Condition = value; } }
+    public string Condition { get => m_Condition;
+        set => m_Condition = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -25,10 +29,7 @@ public class XmlDeathAction : XmlAttachment
     }
 
     [Attachable]
-    public XmlDeathAction(string action)
-    {
-        Action = action;
-    }
+    public XmlDeathAction(string action) => Action = action;
 
     [Attachable]
     public XmlDeathAction()
@@ -81,13 +82,16 @@ public class XmlDeathAction : XmlAttachment
 
     }
 
-    public override bool HandlesOnKilled { get { return true; } }
+    public override bool HandlesOnKilled => true;
 
     public override void OnKilled(Mobile killed, Mobile killer)
     {
         base.OnKilled(killed, killer);
 
-        if (killed == null) return;
+        if (killed == null)
+        {
+            return;
+        }
 
         // now check for any conditions as well
         // check for any condition that must be met for this entry to be processed
@@ -106,7 +110,10 @@ public class XmlDeathAction : XmlAttachment
 
     private void ExecuteDeathActions(Item corpse, Mobile killer, string actions)
     {
-        if (actions == null || actions.Length <= 0) return;
+        if (actions == null || actions.Length <= 0)
+        {
+            return;
+        }
         // execute any action associated with it
         // allow for multiple action strings on a single line separated by a semicolon
 
@@ -121,7 +128,10 @@ public class XmlDeathAction : XmlAttachment
 
     private static void ExecuteDeathAction(Item corpse, Mobile killer, string action)
     {
-        if (action == null || action.Length <= 0 || corpse == null) return;
+        if (action == null || action.Length <= 0 || corpse == null)
+        {
+            return;
+        }
 
         string status_str = null;
         XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);

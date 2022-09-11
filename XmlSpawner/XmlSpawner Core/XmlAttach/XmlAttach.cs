@@ -27,12 +27,9 @@ public class ASerial
 
     private int m_SerialValue;
 
-    public int Value { get { return m_SerialValue; } }
+    public int Value => m_SerialValue;
 
-    public ASerial(int serial)
-    {
-        m_SerialValue = serial;
-    }
+    public ASerial(int serial) => m_SerialValue = serial;
 
     private static int m_GlobalSerialValue;
 
@@ -87,10 +84,7 @@ public class XmlAttach
 
     private static Type m_AttachableType = typeof(Attachable);
 
-    public static bool IsAttachable(ConstructorInfo ctor)
-    {
-        return ctor.IsDefined(m_AttachableType, false);
-    }
+    public static bool IsAttachable(ConstructorInfo ctor) => ctor.IsDefined(m_AttachableType, false);
 
 
     public static void HashSerial(ASerial key, object o)
@@ -1865,20 +1859,11 @@ public class XmlAttach
         }
     }
 
-    public static bool AttachTo(object o, XmlAttachment attachment)
-    {
-        return AttachTo(null, o, attachment, true);
-    }
+    public static bool AttachTo(object o, XmlAttachment attachment) => AttachTo(null, o, attachment, true);
 
-    public static bool AttachTo(object from, object o, XmlAttachment attachment)
-    {
-        return AttachTo(from, o, attachment, true);
-    }
+    public static bool AttachTo(object from, object o, XmlAttachment attachment) => AttachTo(from, o, attachment, true);
 
-    public static bool AttachTo(object o, XmlAttachment attachment, bool first)
-    {
-        return AttachTo(null, o, attachment, first);
-    }
+    public static bool AttachTo(object o, XmlAttachment attachment, bool first) => AttachTo(null, o, attachment, first);
 
     private static bool AttachTo(object from, object o, XmlAttachment attachment, bool first)
     {
@@ -1968,15 +1953,9 @@ public class XmlAttach
         return !attachment.Deleted;
     }
 
-    public static ArrayList FindAttachments(object o)
-    {
-        return FindAttachments(o, null, null);
-    }
+    public static ArrayList FindAttachments(object o) => FindAttachments(o, null, null);
 
-    public static ArrayList FindAttachments(object o, Type type)
-    {
-        return FindAttachments(o, type, null);
-    }
+    public static ArrayList FindAttachments(object o, Type type) => FindAttachments(o, type, null);
 
     public static ArrayList FindAttachments(object o, Type type, string name)
     {
@@ -1993,25 +1972,13 @@ public class XmlAttach
         return FindAttachments(attachments, o, type, name);
     }
 
-    public static ArrayList FindAttachments(Hashtable attachments, object o)
-    {
-        return FindAttachments(attachments, o, null, null, false);
-    }
+    public static ArrayList FindAttachments(Hashtable attachments, object o) => FindAttachments(attachments, o, null, null, false);
 
-    public static ArrayList FindAttachments(Hashtable attachments, object o, bool original)
-    {
-        return FindAttachments(attachments, o, null, null, original);
-    }
+    public static ArrayList FindAttachments(Hashtable attachments, object o, bool original) => FindAttachments(attachments, o, null, null, original);
 
-    public static ArrayList FindAttachments(Hashtable attachments, object o, Type type)
-    {
-        return FindAttachments(attachments, o, type, null, false);
-    }
+    public static ArrayList FindAttachments(Hashtable attachments, object o, Type type) => FindAttachments(attachments, o, type, null, false);
 
-    public static ArrayList FindAttachments(Hashtable attachments, object o, Type type, string name)
-    {
-        return FindAttachments(attachments, o, type, name, false);
-    }
+    public static ArrayList FindAttachments(Hashtable attachments, object o, Type type, string name) => FindAttachments(attachments, o, type, name, false);
 
 
     public static ArrayList FindAttachments(Hashtable attachments, object o, Type type, string name, bool original)
@@ -2076,15 +2043,9 @@ public class XmlAttach
         }
     }
 
-    public static XmlAttachment FindAttachment(object o)
-    {
-        return FindAttachment(o, null, null);
-    }
+    public static XmlAttachment FindAttachment(object o) => FindAttachment(o, null, null);
 
-    public static XmlAttachment FindAttachment(object o, Type type)
-    {
-        return FindAttachment(o, type, null);
-    }
+    public static XmlAttachment FindAttachment(object o, Type type) => FindAttachment(o, type, null);
 
     public static XmlAttachment FindAttachment(object o, Type type, string name)
     {
@@ -2101,15 +2062,9 @@ public class XmlAttach
         return FindAttachment(attachments, o, type, name);
     }
 
-    public static XmlAttachment FindAttachment(Hashtable attachments, object o)
-    {
-        return FindAttachment(attachments, o, null, null);
-    }
+    public static XmlAttachment FindAttachment(Hashtable attachments, object o) => FindAttachment(attachments, o, null, null);
 
-    public static XmlAttachment FindAttachment(Hashtable attachments, object o, Type type)
-    {
-        return FindAttachment(attachments, o, type, null);
-    }
+    public static XmlAttachment FindAttachment(Hashtable attachments, object o, Type type) => FindAttachment(attachments, o, type, null);
 
     public static XmlAttachment FindAttachment(Hashtable attachments, object o, Type type, string name)
     {

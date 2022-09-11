@@ -5,7 +5,7 @@ namespace Server.Engines.XmlSpawner2;
 public class QuestLeadersStone: Item
 {
 
-    [Constructable]
+    [Constructible]
     public QuestLeadersStone() : base( 0xED4)
     {
         Movable = false;

@@ -8,7 +8,9 @@ public class XmlInt : XmlAttachment
     private int m_Value = 10;                                 // default value of 10
         
     [CommandProperty( AccessLevel.GameMaster )]
-    public int Value { get { return m_Value; } set { m_Value  = value; } }
+    public int Value { get => m_Value;
+        set => m_Value  = value;
+    }
 
 
     // These are the various ways in which the message attachment can be constructed.  
@@ -26,11 +28,8 @@ public class XmlInt : XmlAttachment
     }
 
     [Attachable]
-    public XmlInt(int value)
-    {
-        m_Value = value;
-    }
-        
+    public XmlInt(int value) => m_Value = value;
+
     [Attachable]
     public XmlInt(int value, double duration)
     {

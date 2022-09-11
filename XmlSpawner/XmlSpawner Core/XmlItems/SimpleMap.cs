@@ -8,8 +8,8 @@ public class SimpleMap : MapItem
     public int CurrentPin
     {
         // get/set the index (one-based) of the pin that will be referred to by PinLocation
-        get{ return m_PinIndex; }
-        set{ m_PinIndex = value;}
+        get => m_PinIndex;
+        set => m_PinIndex = value;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
@@ -86,15 +86,19 @@ public class SimpleMap : MapItem
     [CommandProperty( AccessLevel.GameMaster )]
     public bool ClearAllPins
     {
-        get { return false; }
-        set { if(value == true) ClearPins(); }
+        get => false;
+        set { if(value == true)
+            {
+                ClearPins();
+            }
+        }
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
     public int PinRemove
     {
-        set { RemovePin(value); }
-        get { return 0; }
+        set => RemovePin(value);
+        get => 0;
     }
 
     [CommandProperty( AccessLevel.GameMaster )]
@@ -108,17 +112,17 @@ public class SimpleMap : MapItem
                 OnDoubleClick(value);
             }
         }
-        get { return null; }
+        get => null;
     }
 
 
-    [Constructable]
+    [Constructible]
     public SimpleMap()
     {
         SetDisplay( 0, 0, 5119, 4095, 400, 400 );
     }
 
-    public override int LabelNumber{ get{ return 1025355; } } // map
+    public override int LabelNumber => 1025355; // map
 
     public SimpleMap( Serial serial ) : base( serial )
     {

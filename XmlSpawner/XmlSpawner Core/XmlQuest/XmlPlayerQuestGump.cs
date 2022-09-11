@@ -16,70 +16,109 @@ public class XmlPlayerQuestGump : Gump
 
     public override void OnResponse( Network.NetState sender, RelayInfo info )
     {
-        if(info == null || sender == null || sender.Mobile == null) return;
+        if(info == null || sender == null || sender.Mobile == null)
+        {
+            return;
+        }
 
         // read the text entries for the search criteria
         TextRelay tr = info.GetTextEntry( 100 ); // quest name
         if(tr != null)
+        {
             m_QuestItem.Name = tr.Text.Trim();
+        }
 
         tr = info.GetTextEntry( 102 ); // title
         if(tr != null)
+        {
             m_QuestItem.TitleString  = tr.Text.Trim();
+        }
 
         tr = info.GetTextEntry( 103 ); // notestring
         if(tr != null)
+        {
             m_QuestItem.NoteString = tr.Text;
+        }
 
         tr = info.GetTextEntry( 200 ); // objectives
         if(tr != null)
+        {
             m_QuestItem.Objective1 = tr.Text.Trim();
+        }
 
         tr = info.GetTextEntry( 201 );
         if(tr != null)
+        {
             m_QuestItem.Objective2 = tr.Text.Trim();
+        }
 
         tr = info.GetTextEntry( 202 );
         if(tr != null)
+        {
             m_QuestItem.Objective3 = tr.Text.Trim();
+        }
 
         tr = info.GetTextEntry( 203 );
         if (tr != null)
+        {
             m_QuestItem.Objective4 = tr.Text.Trim();
+        }
 
         tr = info.GetTextEntry( 204 );
         if(tr != null)
+        {
             m_QuestItem.Objective5 = tr.Text.Trim();
+        }
 
         tr = info.GetTextEntry( 205 );
         if(tr != null && tr.Text != null && tr.Text.Length > 0) // descriptions
+        {
             m_QuestItem.Description1 = tr.Text.Trim();
+        }
         else
+        {
             m_QuestItem.Description1 = null;
+        }
 
         tr = info.GetTextEntry( 206 );
         if(tr != null && tr.Text != null && tr.Text.Length > 0)
+        {
             m_QuestItem.Description2 = tr.Text.Trim();
+        }
         else
+        {
             m_QuestItem.Description2 = null;
+        }
 
         tr = info.GetTextEntry( 207 );
         if(tr != null && tr.Text != null && tr.Text.Length > 0)
+        {
             m_QuestItem.Description3 = tr.Text.Trim();
+        }
         else
+        {
             m_QuestItem.Description3 = null;
+        }
 
         tr = info.GetTextEntry( 208 );
         if(tr != null && tr.Text != null && tr.Text.Length > 0)
+        {
             m_QuestItem.Description4 = tr.Text.Trim();
+        }
         else
+        {
             m_QuestItem.Description4 = null;
+        }
 
         tr = info.GetTextEntry( 209 );
         if(tr != null && tr.Text != null && tr.Text.Length > 0)
+        {
             m_QuestItem.Description5 = tr.Text.Trim();
+        }
         else
+        {
             m_QuestItem.Description5 = null;
+        }
 
         tr = info.GetTextEntry( 210 ); // expiration
         if(tr != null && tr.Text != null && tr.Text.Length > 0){
@@ -121,7 +160,10 @@ public class XmlPlayerQuestGump : Gump
 
         from.CloseGump( typeof( XmlPlayerQuestGump ) );
 
-        if(from == null || from.Deleted || questitem == null || questitem.Deleted) return;
+        if(from == null || from.Deleted || questitem == null || questitem.Deleted)
+        {
+            return;
+        }
 
         m_From = from;
         m_QuestItem = questitem;
@@ -242,15 +284,14 @@ public class XmlPlayerQuestGump : Gump
     {
         IXmlQuest m_QuestItem;
 
-        public RewardTarget(IXmlQuest questitem) :  base ( 30, true, TargetFlags.None )
-        {
-            m_QuestItem = questitem;
-
-        }
+        public RewardTarget(IXmlQuest questitem) :  base ( 30, true, TargetFlags.None ) => m_QuestItem = questitem;
 
         protected override void OnTarget( Mobile from, object targeted )
         {
-            if(m_QuestItem == null || m_QuestItem.Deleted) return;
+            if(m_QuestItem == null || m_QuestItem.Deleted)
+            {
+                return;
+            }
 
             // first check to see if you are too far from the return container.  This is to avoid exploits involving targeting a container
             // then using the return reward feature as a free transport of items back to that container
@@ -303,15 +344,14 @@ public class XmlPlayerQuestGump : Gump
     {
         IXmlQuest m_QuestItem;
 
-        public ReturnTarget(IXmlQuest questitem) :  base ( 30, true, TargetFlags.None )
-        {
-            m_QuestItem = questitem;
-
-        }
+        public ReturnTarget(IXmlQuest questitem) :  base ( 30, true, TargetFlags.None ) => m_QuestItem = questitem;
 
         protected override void OnTarget( Mobile from, object targeted )
         {
-            if(m_QuestItem == null || m_QuestItem.Deleted) return;
+            if(m_QuestItem == null || m_QuestItem.Deleted)
+            {
+                return;
+            }
 
             // try to add the item as the reward item
             if(m_QuestItem.PlayerMade && from != null && !from.Deleted && from is PlayerMobile && 

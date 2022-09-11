@@ -3,7 +3,7 @@ namespace Server.Items;
 public class SingleUseSwitch : SimpleSwitch
 {
 
-    [Constructable]
+    [Constructible]
     public SingleUseSwitch()
     {
     }
@@ -15,7 +15,10 @@ public class SingleUseSwitch : SimpleSwitch
 
     public override void OnDoubleClick(Mobile from)
     {
-        if (from == null || Disabled) return;
+        if (from == null || Disabled)
+        {
+            return;
+        }
 
         if (!from.InRange(GetWorldLocation(), 2) || !from.InLOS(this))
         {

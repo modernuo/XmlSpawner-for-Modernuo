@@ -2,10 +2,7 @@ namespace Server.Items;
 
 public abstract class BaseRewardScroll : Item
 {
-    public override double DefaultWeight
-    {
-        get { return 0.0; }
-    }
+    public override double DefaultWeight => 0.0;
 
     public BaseRewardScroll() : base( 0x2D51 ){}
 
@@ -18,7 +15,7 @@ public abstract class BaseRewardScroll : Item
 
 public class RewardScrollDeed : Item
 {
-    [Constructable]
+    [Constructible]
     public RewardScrollDeed() : this( 1 )
     {
         ItemID = 5360;
@@ -34,7 +31,7 @@ public class RewardScrollDeed : Item
         Delete();
     }
 
-    [Constructable]
+    [Constructible]
     public RewardScrollDeed( int amount )
     {
     }
@@ -60,7 +57,7 @@ public class RewardScrollDeed : Item
 
 public class RewardScroll : BaseRewardScroll
 {
-    [Constructable]
+    [Constructible]
     public RewardScroll()
     {
         Stackable = true;

@@ -7,7 +7,9 @@ public class XmlQuestAttachment : XmlAttachment
     private DateTime m_DataValue;
 
 
-    public DateTime Date { get { return m_DataValue; } set { m_DataValue = value; } }
+    public DateTime Date { get => m_DataValue;
+        set => m_DataValue = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -66,7 +68,10 @@ public class XmlQuestAttachment : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if (from.AccessLevel == AccessLevel.Player) return null;
+        if (from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if (Expiration > TimeSpan.Zero)
         {

@@ -7,12 +7,12 @@ namespace Server.Mobiles;
 public class XmlQuestNPC : TalkingBaseCreature
 {
 
-    [Constructable]
+    [Constructible]
     public XmlQuestNPC() : this(-1)
     {
     }
 
-    [Constructable]
+    [Constructible]
     public XmlQuestNPC(int gender) : base( AIType.AI_Melee, FightMode.None, 10, 1, 0.8, 3.0 )
     {
         SetStr( 10, 30 );

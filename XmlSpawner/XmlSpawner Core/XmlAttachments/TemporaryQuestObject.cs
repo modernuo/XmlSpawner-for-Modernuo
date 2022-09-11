@@ -14,8 +14,8 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
     [CommandProperty( AccessLevel.GameMaster )]
     public Mobile QuestOwner
     {
-        get {return m_QuestOwner;}
-        set {m_QuestOwner = value;}
+        get => m_QuestOwner;
+        set => m_QuestOwner = value;
     }
 
     // These are the various ways in which the message attachment can be constructed.
@@ -28,10 +28,7 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
     }
 
     [Attachable]
-    public TemporaryQuestObject(string questname)
-    {
-        Name = questname;
-    }
+    public TemporaryQuestObject(string questname) => Name = questname;
 
     [Attachable]
     public TemporaryQuestObject(string questname, double expiresin)
@@ -98,7 +95,10 @@ public class TemporaryQuestObject : XmlAttachment, ITemporaryQuestAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if(Expiration > TimeSpan.Zero)
         {

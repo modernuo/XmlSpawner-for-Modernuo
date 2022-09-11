@@ -7,7 +7,9 @@ public class XmlData : XmlAttachment
     private string m_DataValue = null; // default data
 
     [CommandProperty( AccessLevel.GameMaster )]
-    public string Data { get{ return m_DataValue; } set { m_DataValue = value; } }
+    public string Data { get => m_DataValue;
+        set => m_DataValue = value;
+    }
 
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
@@ -62,7 +64,10 @@ public class XmlData : XmlAttachment
 
     public override string OnIdentify(Mobile from)
     {
-        if(from == null || from.AccessLevel == AccessLevel.Player) return null;
+        if(from == null || from.AccessLevel == AccessLevel.Player)
+        {
+            return null;
+        }
 
         if(Expiration > TimeSpan.Zero)
         {

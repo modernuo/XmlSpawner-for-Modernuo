@@ -37,22 +37,29 @@ public class XmlDialog : XmlAttachment
 
         public int SpeechHue
         {
-            get { return m_SpeechHue; }
+            get => m_SpeechHue;
             set
             {
                 // dont allow invalid hues
                 m_SpeechHue = value;
-                if (m_SpeechHue > 37852) m_SpeechHue = 37852;
+                if (m_SpeechHue > 37852)
+                {
+                    m_SpeechHue = 37852;
+                }
             }
         }
 
         public int ID
         {
-            get { return m_ID; }
+            get => m_ID;
             set
             {
                 // dont allow ID modification of entry 0
-                if (EntryNumber == 0) return;
+                if (EntryNumber == 0)
+                {
+                    return;
+                }
+
                 m_ID = value;
             }
         }
@@ -91,26 +98,20 @@ public class XmlDialog : XmlAttachment
 
     public string ResponseString
     {
-        get { return m_ResponseString; }
-        set { m_ResponseString = value; }
+        get => m_ResponseString;
+        set => m_ResponseString = value;
     }
 
     public ArrayList SpeechEntries
     {
-        get
-        {
-            return m_SpeechEntries;
-        }
-        set
-        {
-            m_SpeechEntries = value;
-        }
+        get => m_SpeechEntries;
+        set => m_SpeechEntries = value;
     }
 
     public Mobile ActivePlayer
     {
-        get { return m_ActivePlayer; }
-        set { m_ActivePlayer = value; }
+        get => m_ActivePlayer;
+        set => m_ActivePlayer = value;
     }
 
 
@@ -128,17 +129,16 @@ public class XmlDialog : XmlAttachment
     }
 
     [Attachable]
-    public XmlDialog()
-    {
-        EntryNumber = 0;
-    }
+    public XmlDialog() => EntryNumber = 0;
 
     public void DeleteTextEntryBook()
     {
         if (m_TextEntryBook != null)
         {
             foreach (Item s in m_TextEntryBook)
+            {
                 s.Delete();
+            }
 
             m_TextEntryBook = null;
         }
@@ -146,7 +146,11 @@ public class XmlDialog : XmlAttachment
 
     private SpeechEntry GetEntry(int entryid)
     {
-        if (entryid < 0) return null;
+        if (entryid < 0)
+        {
+            return null;
+        }
+
         if (m_SpeechEntries == null)
         {
             m_SpeechEntries = new ArrayList();
@@ -155,7 +159,9 @@ public class XmlDialog : XmlAttachment
         foreach (SpeechEntry s in m_SpeechEntries)
         {
             if (s.EntryNumber == entryid)
+            {
                 return s;
+            }
         }
         // didnt find it so make a new entry
         SpeechEntry newentry = new SpeechEntry();
@@ -167,7 +173,10 @@ public class XmlDialog : XmlAttachment
 
     private bool ValidMovementTrig(Mobile m)
     {
-        if (m == null || m.Deleted) return false;
+        if (m == null || m.Deleted)
+        {
+            return false;
+        }
 
         return m is PlayerMobile && m.AccessLevel <= TriggerAccessLevel &&
                (!m.Body.IsGhost && !m_AllowGhostTriggering || m.Body.IsGhost && m_AllowGhostTriggering);
@@ -175,7 +184,10 @@ public class XmlDialog : XmlAttachment
 
     private bool ValidSpeechTrig(Mobile m)
     {
-        if (m == null || m.Deleted) return false;
+        if (m == null || m.Deleted)
+        {
+            return false;
+        }
 
         bool allownpctrigger = false;
         if (CurrentEntry != null)
@@ -191,50 +203,35 @@ public class XmlDialog : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public AccessLevel TriggerAccessLevel
     {
-        get
-        {
-            return m_TriggerAccessLevel;
-        }
-        set
-        {
-            m_TriggerAccessLevel = value;
-        }
+        get => m_TriggerAccessLevel;
+        set => m_TriggerAccessLevel = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public DateTime LastInteraction
     {
-        get
-        {
-            return m_LastInteraction;
-        }
-        set
-        {
-            m_LastInteraction = value;
-        }
+        get => m_LastInteraction;
+        set => m_LastInteraction = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool DoReset
     {
-        get { return false; }
+        get => false;
         set
         {
-            if (value) Reset();
+            if (value)
+            {
+                Reset();
+            }
         }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool IsActive
     {
-        get
-        {
-            return m_IsActive;
-        }
-        set
-        {
-            m_IsActive = value;
-        }
+        get => m_IsActive;
+        set => m_IsActive = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -268,40 +265,16 @@ public class XmlDialog : XmlAttachment
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public TimeSpan RealTOD
-    {
-        get
-        {
-            return DateTime.Now.TimeOfDay;
-        }
-    }
+    public TimeSpan RealTOD => DateTime.Now.TimeOfDay;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int RealDay
-    {
-        get
-        {
-            return DateTime.Now.Day;
-        }
-    }
+    public int RealDay => DateTime.Now.Day;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public int RealMonth
-    {
-        get
-        {
-            return DateTime.Now.Month;
-        }
-    }
+    public int RealMonth => DateTime.Now.Month;
 
     [CommandProperty(AccessLevel.GameMaster)]
-    public DayOfWeek RealDayOfWeek
-    {
-        get
-        {
-            return DateTime.Now.DayOfWeek;
-        }
-    }
+    public DayOfWeek RealDayOfWeek => DateTime.Now.DayOfWeek;
 
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -333,32 +306,29 @@ public class XmlDialog : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public bool AllowGhostTrig
     {
-        get { return m_AllowGhostTriggering; }
-        set
-        {
-            m_AllowGhostTriggering = value;
-        }
+        get => m_AllowGhostTriggering;
+        set => m_AllowGhostTriggering = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool Running
     {
-        get { return m_Running; }
-        set { m_Running = value; }
+        get => m_Running;
+        set => m_Running = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public TimeSpan ResetTime
     {
-        get { return m_ResetTime; }
-        set { m_ResetTime = value; }
+        get => m_ResetTime;
+        set => m_ResetTime = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public int SpeechPace
     {
-        get { return m_SpeechPace; }
-        set { m_SpeechPace = value; }
+        get => m_SpeechPace;
+        set => m_SpeechPace = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
@@ -667,7 +637,7 @@ public class XmlDialog : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public int EntryNumber
     {
-        get { return m_CurrentEntryNumber; }
+        get => m_CurrentEntryNumber;
         set
         {
             m_CurrentEntryNumber = value;
@@ -679,80 +649,74 @@ public class XmlDialog : XmlAttachment
     [CommandProperty(AccessLevel.GameMaster)]
     public int ProximityRange
     {
-        get { return m_ProximityRange; }
-        set
-        {
-            m_ProximityRange = value;
-        }
+        get => m_ProximityRange;
+        set => m_ProximityRange = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public int ResetRange
     {
-        get { return m_ResetRange; }
-        set
-        {
-            m_ResetRange = value;
-        }
+        get => m_ResetRange;
+        set => m_ResetRange = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string ConfigFile
     {
-        get { return m_ConfigFile; }
-        set
-        {
-            m_ConfigFile = value;
-        }
+        get => m_ConfigFile;
+        set => m_ConfigFile = value;
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public bool LoadConfig
     {
-        get { return false; }
-        set { if (value == true) DoLoadNPC(null, ConfigFile); }
+        get => false;
+        set { if (value == true)
+            {
+                DoLoadNPC(null, ConfigFile);
+            }
+        }
     }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public string TriggerOnCarried
     {
-        get { return m_ItemTriggerName; }
-        set
-        {
-            m_ItemTriggerName = value;
-        }
-
+        get => m_ItemTriggerName;
+        set => m_ItemTriggerName = value;
     }
     [CommandProperty(AccessLevel.GameMaster)]
     public string NoTriggerOnCarried
     {
-        get { return m_NoItemTriggerName; }
-        set
-        {
-            m_NoItemTriggerName = value;
-        }
-
+        get => m_NoItemTriggerName;
+        set => m_NoItemTriggerName = value;
     }
 
     public SpeechEntry CurrentEntry
     {
-        get { return m_CurrentEntry; }
+        get => m_CurrentEntry;
         set
         {
 
             // get the entry corresponding to the number
             m_CurrentEntry = value;
             if (m_CurrentEntry != null)
+            {
                 m_CurrentEntryNumber = m_CurrentEntry.EntryNumber;
+            }
             else
+            {
                 m_CurrentEntryNumber = -1;
+            }
         }
     }
 
     // see if the DependsOn property contains the specified id
     public bool CheckDependsOn(SpeechEntry s, int id)
     {
-        if (s == null || s.DependsOn == null) return false;
+        if (s == null || s.DependsOn == null)
+        {
+            return false;
+        }
 
         // parse the DependsOn string
         string[] args = s.DependsOn.Split(',');
@@ -760,7 +724,10 @@ public class XmlDialog : XmlAttachment
         {
             try
             {
-                if (int.Parse(args[i].Trim()) == id) return true;
+                if (int.Parse(args[i].Trim()) == id)
+                {
+                    return true;
+                }
             }
             catch { }
         }
@@ -769,14 +736,21 @@ public class XmlDialog : XmlAttachment
 
     private SpeechEntry FindMatchingKeyword(Mobile from, string keyword, int currententryid)
     {
-        if (m_SpeechEntries == null) return null;
+        if (m_SpeechEntries == null)
+        {
+            return null;
+        }
+
         ArrayList matchlist = new ArrayList();
 
         // go through all of the speech entries and find those that depend on the current entry
         foreach (SpeechEntry s in m_SpeechEntries)
         {
             // ignore self-referencing entries
-            if (CheckDependsOn(s, s.ID)) continue;
+            if (CheckDependsOn(s, s.ID))
+            {
+                continue;
+            }
 
             // start processing if set for spontaneous activation (banter), already active, or waiting in the default state
             if ((CheckDependsOn(s, -1) || CheckDependsOn(s, -2)) && !IsActive || CheckDependsOn(s, currententryid) && (IsActive || currententryid == 0))
@@ -873,7 +847,10 @@ public class XmlDialog : XmlAttachment
 
     private void ExecuteGump(Mobile mob, string gumpstring)
     {
-        if (gumpstring == null || gumpstring.Length <= 0) return;
+        if (gumpstring == null || gumpstring.Length <= 0)
+        {
+            return;
+        }
 
         string status_str = null;
 
@@ -917,7 +894,11 @@ public class XmlDialog : XmlAttachment
 
     private void ExecuteAction(Mobile mob, string action)
     {
-        if (action == null || action.Length <= 0) return;
+        if (action == null || action.Length <= 0)
+        {
+            return;
+        }
+
         string status_str = null;
         XmlSpawner.SpawnObject TheSpawn = new XmlSpawner.SpawnObject(null, 0);
 
@@ -995,16 +976,16 @@ public class XmlDialog : XmlAttachment
         }
     }
 
-    public override bool HandlesOnSpeech
-    {
-        get { return m_Running; }
-    }
+    public override bool HandlesOnSpeech => m_Running;
 
 
     public override void OnSpeech(SpeechEventArgs e)
     {
 
-        if (e.Mobile == null) return;
+        if (e.Mobile == null)
+        {
+            return;
+        }
 
         // dont handle your own speech
         if (e.Mobile == AttachedTo as Mobile || e.Mobile.AccessLevel > TriggerAccessLevel)
@@ -1013,7 +994,10 @@ public class XmlDialog : XmlAttachment
             return;
         }
 
-        if (m_HoldProcessing) return;
+        if (m_HoldProcessing)
+        {
+            return;
+        }
 
         bool lockconversation = true;
         bool ishandled = false;
@@ -1044,7 +1028,9 @@ public class XmlDialog : XmlAttachment
         {
 
             if (!Utility.InRange(e.Mobile.Location, loc, m_ProximityRange))
+            {
                 return;
+            }
 
             CheckForReset();
 
@@ -1062,13 +1048,16 @@ public class XmlDialog : XmlAttachment
         }
     }
 
-    public override bool HandlesOnMovement { get { return m_Running; } }
+    public override bool HandlesOnMovement => m_Running;
 
     public override void OnMovement(MovementEventArgs e)
     {
         Mobile m = e.Mobile;
 
-        if (m == null || m.AccessLevel > TriggerAccessLevel) return;
+        if (m == null || m.AccessLevel > TriggerAccessLevel)
+        {
+            return;
+        }
 
         Point3D loc = new Point3D(0, 0, 0);
         Map map;
@@ -1121,9 +1110,15 @@ public class XmlDialog : XmlAttachment
 
     private bool IsInRange(IEntity e1, IEntity e2, int range)
     {
-        if (e1 == null || e2 == null) return false;
+        if (e1 == null || e2 == null)
+        {
+            return false;
+        }
 
-        if (e1.Map != e2.Map) return false;
+        if (e1.Map != e2.Map)
+        {
+            return false;
+        }
 
         return Utility.InRange(e1.Location, e2.Location, range);
     }
@@ -1148,7 +1143,9 @@ public class XmlDialog : XmlAttachment
         m_ActivePlayer = null;
         // turn off the timer
         if (m_Timer != null)
+        {
             m_Timer.Stop();
+        }
     }
 
     private void DelayedSpeech(object state)
@@ -1227,12 +1224,18 @@ public class XmlDialog : XmlAttachment
     public bool ProcessSpeech(Mobile m, string speech)
     {
 
-        if (m_HoldProcessing) return true;
+        if (m_HoldProcessing)
+        {
+            return true;
+        }
 
         // check the speech against the entries that depend on the present entry
         SpeechEntry matchentry = FindMatchingKeyword(m, speech, ID);
 
-        if (matchentry == null) return false;
+        if (matchentry == null)
+        {
+            return false;
+        }
 
         // when attempting to process speech-triggered speech, check for oncarried dependencies
         // This will not apply to movement-triggered speech (banter with -1 dependson) which will continue to be activated
@@ -1245,7 +1248,10 @@ public class XmlDialog : XmlAttachment
             bool found = BaseXmlSpawner.CheckForCarried(m, TriggerOnCarried) || matchentry.IgnoreCarried;
 
             // is the player carrying the right item, if not then dont process
-            if (!found) return false;
+            if (!found)
+            {
+                return false;
+            }
         }
 
         // if player-carried noitem triggering is set then test for the presence of an item in the players pack that should block triggering
@@ -1254,14 +1260,19 @@ public class XmlDialog : XmlAttachment
             bool notfound = BaseXmlSpawner.CheckForNotCarried(m, NoTriggerOnCarried) || matchentry.IgnoreCarried;
 
             // is the player carrying the right item, if so then dont process
-            if (!notfound) return false;
+            if (!notfound)
+            {
+                return false;
+            }
         }
 
         ResponseString = speech;
 
         // the player that successfully activates a conversation by speech becomes the exclusive conversationalist until the npc resets
         if (speech != null && m != null)
+        {
             m_ActivePlayer = m;
+        }
 
         // calculate the delay before activating the entry
         int prepause = 1; // 1 sec by default
@@ -1290,10 +1301,14 @@ public class XmlDialog : XmlAttachment
     public void DoTimer(TimeSpan delay, Mobile trigmob)
     {
         if (!m_Running)
+        {
             return;
+        }
 
         if (m_Timer != null)
+        {
             m_Timer.Stop();
+        }
 
         m_Timer = new InternalTimer(this, delay, trigmob);
         m_Timer.Start();
@@ -1342,7 +1357,10 @@ public class XmlDialog : XmlAttachment
 
     public void DoLoadNPC(Mobile from, string filename)
     {
-        if (filename == null || filename.Length <= 0) return;
+        if (filename == null || filename.Length <= 0)
+        {
+            return;
+        }
 
         string dirname;
         if (Directory.Exists(DefsDir) == true)
@@ -1397,7 +1415,10 @@ public class XmlDialog : XmlAttachment
             if (fileerror)
             {
                 if (from != null && !from.Deleted)
+                {
                     from.SendMessage(33, "Error reading npc file {0}", dirname);
+                }
+
                 return;
             }
 
@@ -1493,24 +1514,33 @@ public class XmlDialog : XmlAttachment
                 Reset();
 
                 if (from != null && !from.Deleted)
+                {
                     from.SendMessage("Loaded npc from file {0}", dirname);
+                }
             }
             else
             {
                 if (from != null && !from.Deleted)
+                {
                     from.SendMessage(33, "No npc data found in: {0}", dirname);
+                }
             }
         }
         else
         {
             if (from != null && !from.Deleted)
+            {
                 from.SendMessage(33, "File not found: {0}", dirname);
+            }
         }
     }
 
     public void DoSaveNPC(Mobile from, string filename, bool updateconfig)
     {
-        if (filename == null || filename.Length <= 0) return;
+        if (filename == null || filename.Length <= 0)
+        {
+            return;
+        }
 
         // Create the data set
         DataSet ds = new DataSet(NPCDataSetName);
@@ -1647,7 +1677,10 @@ public class XmlDialog : XmlAttachment
         if (ds == null)
         {
             if (from != null && !from.Deleted)
+            {
                 from.SendMessage("Empty dataset. File {0} not saved.", dirname);
+            }
+
             return false;
         }
 
@@ -1662,15 +1695,23 @@ public class XmlDialog : XmlAttachment
         if (file_error)
         {
             if (from != null && !from.Deleted)
+            {
                 from.SendMessage("Error trying to save to file {0}", dirname);
+            }
+
             return false;
         }
         else
         {
             if (from != null && !from.Deleted)
+            {
                 from.SendMessage("Saved npc to file {0}", dirname);
+            }
+
             if (updateconfig)
+            {
                 ConfigFile = configname;
+            }
         }
 
         return true;
@@ -1710,7 +1751,10 @@ public class XmlDialog : XmlAttachment
         }
         public override void OnResponse(NetState state, RelayInfo info)
         {
-            if (info == null || state == null || state.Mobile == null) return;
+            if (info == null || state == null || state.Mobile == null)
+            {
+                return;
+            }
 
             int radiostate = -1;
             if (info.Switches.Length > 0)
@@ -1725,7 +1769,9 @@ public class XmlDialog : XmlAttachment
                         if (radiostate == 1)
                         { // accept
                             if (m_dialog != null)
+                            {
                                 m_dialog.SaveFile(state.Mobile, m_ds, m_filename, m_configname, m_updateconfig);
+                            }
                         }
                         else
                         {
@@ -1750,10 +1796,9 @@ public class XmlDialog : XmlAttachment
     {
         private CommandEventArgs m_e;
         public SaveNPCTarget(CommandEventArgs e)
-            : base(30, false, TargetFlags.None)
-        {
+            : base(30, false, TargetFlags.None) =>
             m_e = e;
-        }
+
         protected override void OnTarget(Mobile from, object targeted)
         {
             string filename = m_e.GetString(0);
@@ -1790,10 +1835,9 @@ public class XmlDialog : XmlAttachment
     {
         private CommandEventArgs m_e;
         public LoadNPCTarget(CommandEventArgs e)
-            : base(30, false, TargetFlags.None)
-        {
+            : base(30, false, TargetFlags.None) =>
             m_e = e;
-        }
+
         protected override void OnTarget(Mobile from, object targeted)
         {
             string filename = m_e.GetString(0);

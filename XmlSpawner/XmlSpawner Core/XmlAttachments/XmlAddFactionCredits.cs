@@ -13,33 +13,19 @@ public class XmlAddFactionCredits : XmlAttachment
     }
 
     [Attachable]
-    public XmlAddFactionCredits(int value)
-    {
-        Value = value;
-    }
+    public XmlAddFactionCredits(int value) => Value = value;
 
     [CommandProperty(AccessLevel.GameMaster)]
     public int Value
     {
-        get
-        {
-            return m_DataValue;
-        }
-        set
-        {
-            m_DataValue = value;
-        }
+        get => m_DataValue;
+        set => m_DataValue = value;
     }
     // These are the various ways in which the message attachment can be constructed.
     // These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
     // Other overloads could be defined to handle other types of arguments
-    public override bool HandlesOnKilled
-    {
-        get
-        {
-            return true;
-        }
-    }
+    public override bool HandlesOnKilled => true;
+
     public override void Serialize(IGenericWriter writer)
     {
         base.Serialize(writer);
@@ -89,7 +75,9 @@ public class XmlAddFactionCredits : XmlAttachment
         base.OnKill(killed, killer);
 
         if (killer == null)
+        {
             return;
+        }
 
         // for players just add it immediately
         XmlMobFactions x = (XmlMobFactions)XmlAttach.FindAttachment(AttachedTo, typeof(XmlMobFactions));
@@ -101,8 +89,5 @@ public class XmlAddFactionCredits : XmlAttachment
         }
     }
 
-    public override string OnIdentify(Mobile from)
-    {
-        return $"{Value} Mob Faction Credits";
-    }
+    public override string OnIdentify(Mobile from) => $"{Value} Mob Faction Credits";
 }

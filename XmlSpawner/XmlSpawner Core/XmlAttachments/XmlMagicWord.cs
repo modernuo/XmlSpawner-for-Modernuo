@@ -22,7 +22,9 @@ public class XmlMagicWord : XmlAttachment
     private bool m_RequireIdentification = false; // by default no identification is required for the mod to be activatable
 
     // this property can be set allowing individual items to determine whether they must be identified for the mod to be activatable
-    public bool RequireIdentification { get { return m_RequireIdentification; } set {m_RequireIdentification = value; } }
+    public bool RequireIdentification { get => m_RequireIdentification;
+        set => m_RequireIdentification = value;
+    }
 
     // a serial constructor is REQUIRED
     public XmlMagicWord(ASerial serial) : base(serial)
@@ -111,7 +113,10 @@ public class XmlMagicWord : XmlAttachment
             m_Identified = true;
         }
 
-        if(RequireIdentification && !m_Identified) return null;
+        if(RequireIdentification && !m_Identified)
+        {
+            return null;
+        }
 
         if(Refractory > TimeSpan.Zero)
         {
@@ -138,9 +143,13 @@ public class XmlMagicWord : XmlAttachment
         get
         {
             if(AttachedTo is BaseWeapon || AttachedTo is BaseArmor)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
     }
 
@@ -149,22 +158,32 @@ public class XmlMagicWord : XmlAttachment
         get
         {
             if(AttachedTo is BaseWeapon || AttachedTo is BaseArmor)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
     }
 
-    public override bool HandlesOnSpeech { get { return true; } }
+    public override bool HandlesOnSpeech => true;
 
     public override void OnSpeech(SpeechEventArgs e )
     {
         base.OnSpeech(e);
 
-        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player) return;
+        if(e.Mobile == null || e.Mobile.AccessLevel > AccessLevel.Player)
+        {
+            return;
+        }
 
         // dont respond to other players speech if this is attached to a mob
-        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile) return;
+        if(AttachedTo is Mobile && (Mobile)AttachedTo != e.Mobile)
+        {
+            return;
+        }
 
         if(e.Speech == Word)
         {
@@ -182,9 +201,15 @@ public class XmlMagicWord : XmlAttachment
 
     public override void OnTrigger(object activator, Mobile m)
     {
-        if(m == null || Word == null || RequireIdentification && !m_Identified) return;
+        if(m == null || Word == null || RequireIdentification && !m_Identified)
+        {
+            return;
+        }
 
-        if(DateTime.Now < m_EndTime) return;
+        if(DateTime.Now < m_EndTime)
+        {
+            return;
+        }
 
         string msgstr = "Activating the power of " + Word;
 
@@ -240,7 +265,10 @@ public class XmlMagicWord : XmlAttachment
                     b.Owners.Add( m );
                     b.SetControlMaster( m );
                     if(b.Controlled)
+                    {
                         m.SendMessage("You master the beast!");
+                    }
+
                     break;
                 }
             case "Santor":
@@ -250,7 +278,10 @@ public class XmlMagicWord : XmlAttachment
                     b.Owners.Add( m );
                     b.SetControlMaster( m );
                     if(b.Controlled)
+                    {
                         m.SendMessage("You master the beast!");
+                    }
+
                     break;
                 }
             default:

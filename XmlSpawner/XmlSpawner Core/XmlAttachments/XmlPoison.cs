@@ -10,10 +10,7 @@ public class XmlPoison : XmlAttachment
     }
 
     [Attachable]
-    public XmlPoison(int level)
-    {
-        p_level = level;
-    }
+    public XmlPoison(int level) => p_level = level;
 
     // when attached to a mobile, it should gain poison immunity and a poison
 
