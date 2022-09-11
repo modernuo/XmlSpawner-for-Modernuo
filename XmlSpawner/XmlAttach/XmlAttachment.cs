@@ -134,12 +134,17 @@ public abstract class XmlAttachment : IXmlAttachment
 
     public bool Deleted => m_Deleted;
 
-    public bool DoDelete { get => false;
-        set { if (value)
+    public bool DoDelete {
+        get => false;
+        set
         {
-            Delete();
+            if (value)
+            {
+                Delete();
+            }
         }
-    } }
+
+    }
 
     [CommandProperty(AccessLevel.GameMaster)]
     public int SerialValue => m_Serial.Value;
@@ -282,8 +287,6 @@ public abstract class XmlAttachment : IXmlAttachment
     public virtual void OnEquip(Mobile from)
     {
     }
-
-
 
     public virtual void OnRemoved(object parent)
     {
