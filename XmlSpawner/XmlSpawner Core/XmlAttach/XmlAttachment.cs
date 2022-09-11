@@ -77,7 +77,7 @@ public interface IXmlAttachment
 
     string DisplayedProperties(Mobile from);
 
-    void AddProperties(ObjectPropertyList list);
+    void AddProperties(IPropertyList list);
 
     string AttachedBy { get; }
 
@@ -360,7 +360,7 @@ public abstract class XmlAttachment : IXmlAttachment
     public virtual string DisplayedProperties(Mobile from) => OnIdentify(from);
 
 
-    public virtual void AddProperties(ObjectPropertyList list)
+    public virtual void AddProperties(IPropertyList list)
     {
     }
 

@@ -2359,7 +2359,7 @@ public class XmlAttach
         return damageTaken;
     }
 
-    public static void AddAttachmentProperties(object parent, ObjectPropertyList list)
+    public static void AddAttachmentProperties(object parent, IPropertyList list)
     {
         if (parent == null)
         {

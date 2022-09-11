@@ -51,7 +51,7 @@ public class XmlTitle : XmlAttachment
             }
         }
     }
-    public static void AddTitles(object o, ObjectPropertyList list)
+    public static void AddTitles(object o, IPropertyList list)
     {
         var alist = XmlAttach.FindAttachments(o, typeof(XmlTitle));
 

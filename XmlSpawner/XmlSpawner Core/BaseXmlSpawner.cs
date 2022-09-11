@@ -98,7 +98,7 @@ public class BaseXmlSpawner
         TRIGMOB,
         PLAYERSINRANGE
     }
-    #region Static variable declarations
+
     // name of mobile used to issue commands via the COMMAND keyword.  The accesslevel of the mobile will determine
     // the accesslevel of commands that can be issued.
     // if this is null, then COMMANDS can only be issued when triggered by players of the appropriate accesslevel
@@ -113,9 +113,7 @@ public class BaseXmlSpawner
     private static readonly char[] commadelim = { ',' };
     private static readonly char[] semicolondelim = { ';' };
     private static readonly char[] literalend = { '§' };
-    #endregion
 
-    #region Keywords
     public static bool IsValueKeyword(string str)
     {
         if (string.IsNullOrEmpty(str) || !char.IsUpper(str[0]))
@@ -173,9 +171,6 @@ public class BaseXmlSpawner
 
         valuemodKeywordHash.Remove(name);
     }
-    #endregion
-
-    #region KeywordTag
 
     public class KeywordTag
     {
@@ -466,9 +461,6 @@ public class BaseXmlSpawner
         return null;
     }
 
-    #endregion
-
-    #region Property parsing methods
     private static string InternalGetValue(object o, PropertyInfo p, int index)
     {
         Type type = p.PropertyType;
@@ -1473,9 +1465,7 @@ public class BaseXmlSpawner
         }
         return no_error;
     }
-    #endregion
 
-    #region Property testing
     public static bool TestMobProperty(XmlSpawner spawner, Mobile mobile, string testString, out string status_str)
     {
         status_str = null;
@@ -2341,10 +2331,7 @@ public class BaseXmlSpawner
         }
         return invertreturn;
     }
-    #endregion
 
-    #region Search object methods
-    #region XMLQuest Required
     public static Item SearchMobileForItem(Mobile m, string targetName, string typeStr, bool searchbank) => SearchMobileForItem(m, targetName, typeStr, searchbank, false);
 
 
@@ -2910,7 +2897,7 @@ public class BaseXmlSpawner
         }
         return has_no_such_item;
     }
-    #endregion
+
     public static Item FindItemByName(XmlSpawner fromspawner, string name, string typestr)
     {
         if (name == null)
@@ -3272,9 +3259,7 @@ public class BaseXmlSpawner
 
         return foundmobile;
     }
-    #endregion
 
-    #region String parsing methods
     public static string ApplySubstitution(XmlSpawner spawner, object o, string typeName)
     {
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -3575,10 +3560,6 @@ public class BaseXmlSpawner
         return args;
     }
 
-    #endregion
-
-    #region Spawn methods
-
     public static void AddSpawnItem(XmlSpawner spawner, object invoker, XmlSpawner.SpawnObject theSpawn, Item item, Point3D location, Map map, Mobile trigmob, bool requiresurface,
         string propertyString, out string status_str)
     {
@@ -3707,7 +3688,6 @@ public class BaseXmlSpawner
         XmlSpawner spawner = invoker as XmlSpawner;
 
         // check for any special keywords that might appear in the type such as SET, GIVE, or TAKE
-        #region typeKeyword
         if (IsTypeKeyword(typeName))
         {
             typeKeyword kw = typeKeywordHash[typeName];
@@ -3965,13 +3945,11 @@ public class BaseXmlSpawner
             // indicate successful keyword spawn
             return true;
         }
-        #endregion
 
         // should never get here
         status_str = "unrecognized keyword";
         return false;
     }
-    #endregion
 
     public static List<Item> GetItems(Region r)
     {

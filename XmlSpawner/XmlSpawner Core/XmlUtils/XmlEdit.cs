@@ -1287,9 +1287,7 @@ public class XmlEditDialogGump : Gump
                         args[5] = SaveFilename;
 
                         XmlTextEntryBook book = new XmlTextEntryBook(0, String.Empty, m_Dialog.Name, 20, true);
-                        #region OLD METHOD
                         //XmlTextEntryBook book = new XmlTextEntryBook(0, String.Empty, m_Dialog.Name, 20, true, new XmlTextEntryBookCallback(ProcessXmlEditBookEntry), args);
-                        #endregion
                         if (m_Dialog.m_TextEntryBook == null)
                         {
                             m_Dialog.m_TextEntryBook = new ArrayList();

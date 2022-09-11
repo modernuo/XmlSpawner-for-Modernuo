@@ -1026,7 +1026,7 @@ public class XmlSpawnerGump : Gump
                 }
             case 3: // Complete respawn
                 {
-                    m_Spawner.Respawn();
+                    m_Spawner.TryRespawn();
                     //m_Spawner.AdvanceSequential();
                     m_Spawner.m_killcount = 0;
                     break;
