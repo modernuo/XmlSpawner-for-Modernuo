@@ -96,7 +96,7 @@ public class XmlGetAttGump : Gump
             targetType = AssemblyHandler.FindTypeByName(Searchtype);
             if (targetType == null)
             {
-                status_str = "Invalid type: " + Searchtype;
+                status_str = $"Invalid type: {Searchtype}";
                 return newarray;
             }
         }

@@ -45,7 +45,7 @@ public class XmlDex : XmlAttachment
         // apply the mod
         if (AttachedTo is Mobile mobile)
         {
-            mobile.AddStatMod(new StatMod(StatType.Dex, "XmlDex"+Name, m_Value, m_Duration));
+            mobile.AddStatMod(new StatMod(StatType.Dex, $"XmlDex{Name}", m_Value, m_Duration));
         }
         // and then remove the attachment
         Timer.DelayCall(TimeSpan.Zero, Delete);

@@ -205,7 +205,7 @@ public class XmlMagicWord : XmlAttachment
             return;
         }
 
-        string msgstr = "Activating the power of " + Word;
+        string msgstr = $"Activating the power of {Word}";
 
         // assign powers to certain words
         switch (Word)

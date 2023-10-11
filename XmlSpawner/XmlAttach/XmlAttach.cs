@@ -225,7 +225,7 @@ public class XmlAttach
                 return true;
             }
 
-            e.Mobile.SendMessage("Usage: " + Usage);
+            e.Mobile.SendMessage($"Usage: {Usage}");
             return false;
         }
 
@@ -313,7 +313,7 @@ public class XmlAttach
                 return true;
             }
 
-            e.Mobile.SendMessage("Usage: " + Usage);
+            e.Mobile.SendMessage($"Usage: {Usage}");
             return false;
         }
 
@@ -1777,10 +1777,10 @@ public class XmlAttach
 
                     for (int j = 0; j < paramList.Length; j++)
                     {
-                        parms += ", " + paramList[j].Name;
+                        parms += $", {paramList[j].Name}";
                     }
 
-                    parmliststr += parms + "\n";
+                    parmliststr += $"{parms}\n";
                 }
             }
         }

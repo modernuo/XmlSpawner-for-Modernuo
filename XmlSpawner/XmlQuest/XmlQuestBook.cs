@@ -2,7 +2,6 @@ using Server.Gumps;
 using Server.Mobiles;
 using System.Collections;
 
-
 /*
 ** XmlQuestBook class
 **
@@ -12,7 +11,6 @@ namespace Server.Items;
 [Flippable(0x1E5E, 0x1E5F)]
 public class PlayerQuestBoard : XmlQuestBook
 {
-
     public override bool IsDecoContainer => false;
 
     public PlayerQuestBoard(Serial serial) : base(serial)
@@ -43,10 +41,8 @@ public class PlayerQuestBoard : XmlQuestBook
     }
 }
 
-
 public class XmlQuestBook : Container
 {
-
     private PlayerMobile m_Owner;
     private bool m_Locked;
 

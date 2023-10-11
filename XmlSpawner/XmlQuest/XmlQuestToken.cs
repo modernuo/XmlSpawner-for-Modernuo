@@ -929,7 +929,7 @@ public abstract class XmlQuestToken : Item, IXmlQuest
         {
             if (PlayerMade)
             {
-                return "PQ: " + base.Name;
+                return $"PQ: {base.Name}";
             }
 
             return base.Name;

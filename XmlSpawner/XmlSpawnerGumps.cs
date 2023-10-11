@@ -35,7 +35,7 @@ public class TextEntryGump : Gump
         AddImageTiled(23, 5, 214, 270, 0x52);
         AddImageTiled(24, 6, 213, 261, 0xBBC);
 
-        string label = spawner.Name + " entry " + index;
+        string label = $"{spawner.Name} entry {index}";
         AddLabel(28, 10, 0x384, label);
 
         // OK button

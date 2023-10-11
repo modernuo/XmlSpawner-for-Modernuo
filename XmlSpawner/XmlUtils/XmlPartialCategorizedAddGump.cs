@@ -67,7 +67,7 @@ public class XmlPartialCategorizedAddGump : Gump
                 {
                     for (int j = 0; j < se.Parameters.Length; j++)
                     {
-                        labelstr += ", " + se.Parameters[j].Name;
+                        labelstr += $", {se.Parameters[j].Name}";
                     }
                 }
 

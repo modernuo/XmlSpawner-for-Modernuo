@@ -663,7 +663,7 @@ public class XmlQuestStatusGump : Gump
             {
                 entrynumber = questitem.Journal.Count;
             }
-            string m_entryid = "Personal entry #" + entrynumber;
+            string m_entryid = $"Personal entry #{entrynumber}";
 
             // entryid text entry area
             //AddImageTiled(23, 0, 214, 23, 0x52);
@@ -741,7 +741,7 @@ public class XmlQuestStatusGump : Gump
                     entryid = entry.Text;
                 }
 
-                m_questitem.AddJournalEntry = entryid + ":" + entrytext;
+                m_questitem.AddJournalEntry = $"{entryid}:{entrytext}";
             }
             // open a new journal gump
             state.Mobile.CloseGump<XmlQuestStatusGump>();

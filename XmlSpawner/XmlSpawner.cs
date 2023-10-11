@@ -951,7 +951,7 @@ public class XmlSpawner : Item, ISpawner
                     return;
                 }
             }
-            status_str = "invalid region: " + value;
+            status_str = $"invalid region: {value}";
             m_Region = null;
         }
     }
@@ -1843,7 +1843,7 @@ public class XmlSpawner : Item, ISpawner
         list.Add(m_Running ? 1060742 : 1060743); // Active - Inactive
 
         // add whitespace to the beginning to avoid any problem with names that begin with # and are interpreted as cliloc ids
-        list.Add(1042971, " " + Name);             // ~1_val~
+        list.Add(1042971, $" {Name}");             // ~1_val~
         list.Add(1060656, m_Count.ToString());     // amount to make: ~1_val~
         list.Add(1061169, m_HomeRange.ToString()); // range ~1_val~
 
@@ -2062,7 +2062,7 @@ public class XmlSpawner : Item, ISpawner
 
                 if (o == null)
                 {
-                    status_str = "invalid type specification: " + arglist[0];
+                    status_str = $"invalid type specification: {arglist[0]}";
                 }
                 else
                 if (o is Mobile mobile)
@@ -4404,7 +4404,7 @@ public class XmlSpawner : Item, ISpawner
         if (from != null)
         {
             from.SendMessage(string.Format("UnLoading {0} objects{1} from file {2}.",
-                "XmlSpawner", !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty, filename));
+                "XmlSpawner", !string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}" : string.Empty, filename));
         }
 
         // Create the data set
@@ -5829,7 +5829,6 @@ public class XmlSpawner : Item, ISpawner
 
     public static void XmlLoadFromStream(Stream fs, string filename, string SpawnerPrefix, Mobile from, Point3D fromloc, Map frommap, bool loadrelative, int maxrange, bool loadnew, out int processedmaps, out int processedspawners, bool verbose)
     {
-
         processedmaps = 0;
         processedspawners = 0;
 
@@ -5840,7 +5839,6 @@ public class XmlSpawner : Item, ISpawner
 
         // assign an id that will be used to distinguish the newly loaded spawners by appending it to their name
         Guid newloadid = Guid.NewGuid();
-
 
         int TotalCount = 0;
         int TrammelCount = 0;
@@ -5863,8 +5861,7 @@ public class XmlSpawner : Item, ISpawner
 
         if (from != null)
         {
-            from.SendMessage(string.Format("Loading {0} objects{1} from file {2}.", "XmlSpawner",
-                !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty, filename));
+            from.SendMessage($"Loading {"XmlSpawner"} objects{(!string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}" : string.Empty)} from file {filename}.");
         }
 
         // Create the data set
@@ -5915,7 +5912,7 @@ public class XmlSpawner : Item, ISpawner
                     }
 
                     // Check if there is any spawner name criteria specified on the load
-                    if (SpawnerPrefix == null || SpawnerPrefix.Length == 0 || SpawnName.StartsWith(SpawnerPrefix))
+                    if (string.IsNullOrEmpty(SpawnerPrefix) || SpawnName.StartsWith(SpawnerPrefix))
                     {
                         // Try load the GUID (might not work so create a new GUID)
                         Guid SpawnId = Guid.NewGuid();
@@ -7009,12 +7006,12 @@ public class XmlSpawner : Item, ISpawner
         if (SaveAllMaps)
         {
             e.Mobile.SendMessage(string.Format("Saving {0} objects{1} to file {2} from {3}.", "XmlSpawner",
-                !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty, dirname, e.Mobile.Map));
+                !string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}" : string.Empty, dirname, e.Mobile.Map));
         }
         else
         {
             e.Mobile.SendMessage(string.Format("Saving {0} obejcts{1} to file {2} from the entire world.", "XmlSpawner",
-                !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty, dirname));
+                !string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}" : string.Empty, dirname));
         }
 
 
@@ -7412,11 +7409,13 @@ public class XmlSpawner : Item, ISpawner
 
             if (WipeAll)
             {
-                e.Mobile.SendMessage("Removing ALL XmlSpawner objects from the world{0}.", !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty);
+                e.Mobile.SendMessage("Removing ALL XmlSpawner objects from the world{0}.", !string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}"
+                    : string.Empty);
             }
             else
             {
-                e.Mobile.SendMessage("Removing ALL XmlSpawner objects from {0}{1}.", e.Mobile.Map, !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty);
+                e.Mobile.SendMessage("Removing ALL XmlSpawner objects from {0}{1}.", e.Mobile.Map, !string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}"
+                    : string.Empty);
             }
 
             // Delete Xml spawner's in the world based on the mobiles current map
@@ -7494,11 +7493,13 @@ public class XmlSpawner : Item, ISpawner
 
             if (RespawnAll)
             {
-                e.Mobile.SendMessage("Respawning ALL XmlSpawner objects from the world{0}.", !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty);
+                e.Mobile.SendMessage("Respawning ALL XmlSpawner objects from the world{0}.", !string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}"
+                    : string.Empty);
             }
             else
             {
-                e.Mobile.SendMessage("Respawning ALL XmlSpawner objects from {0}{1}.", e.Mobile.Map, !string.IsNullOrEmpty(SpawnerPrefix) ? " beginning with " + SpawnerPrefix : string.Empty);
+                e.Mobile.SendMessage("Respawning ALL XmlSpawner objects from {0}{1}.", e.Mobile.Map, !string.IsNullOrEmpty(SpawnerPrefix) ? $" beginning with {SpawnerPrefix}"
+                    : string.Empty);
             }
 
             // Respawn Xml spawner's in the world based on the mobiles current map
@@ -9110,13 +9111,13 @@ public class XmlSpawner : Item, ISpawner
                                     }
                                     else
                                     {
-                                        status_str = "invalid #CONDITION specification: " + args[0];
+                                        status_str = $"invalid #CONDITION specification: {args[0]}";
                                     }
                                     break;
                                 }
                             default:
                                 {
-                                    status_str = "invalid # specification: " + args[0];
+                                    status_str = $"invalid # specification: {args[0]}";
                                     break;
                                 }
                         }
@@ -9178,7 +9179,7 @@ public class XmlSpawner : Item, ISpawner
 
                 if (o == null)
                 {
-                    status_str = "invalid type specification: " + arglist[0];
+                    status_str = $"invalid type specification: {arglist[0]}";
                     return true;
                 }
                 try
@@ -9270,7 +9271,7 @@ public class XmlSpawner : Item, ISpawner
             }
             else
             {
-                status_str = "invalid type specification: " + typeName;
+                status_str = $"invalid type specification: {typeName}";
                 return true;
             }
         }
@@ -12321,7 +12322,7 @@ public class XmlSpawner : Item, ISpawner
 
                             m_WarnTimer.Add(Location, Map, TypeName);
 
-                            status_str = "invalid type: " + typeName;
+                            status_str = $"invalid type: {typeName}";
                         }
 
                         // Read in the number of spawns already
