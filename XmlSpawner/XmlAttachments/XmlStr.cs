@@ -46,7 +46,7 @@ public class XmlStr : XmlAttachment
         // apply the mod
         if (AttachedTo is Mobile mobile)
         {
-            ((Mobile)AttachedTo).AddStatMod(new StatMod(StatType.Str, "XmlStr" + Name, m_Value, m_Duration));
+            ((Mobile)AttachedTo).AddStatMod(new StatMod(StatType.Str, $"XmlStr{Name}", m_Value, m_Duration));
         }
         // and then remove the attachment
         Timer.DelayCall(TimeSpan.Zero, Delete);

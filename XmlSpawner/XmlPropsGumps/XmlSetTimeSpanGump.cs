@@ -123,7 +123,7 @@ public class XmlSetTimeSpanGump : Gump
                     {
                         try
                         {
-                            toSet = TimeSpan.Parse(h.Text + ":" + m.Text + ":" + s.Text);
+                            toSet = TimeSpan.Parse($"{h.Text}:{m.Text}:{s.Text}");
                             shouldSet = true;
                             shouldSend = true;
 

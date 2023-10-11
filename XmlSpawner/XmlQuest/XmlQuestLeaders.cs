@@ -404,9 +404,9 @@ public class XmlQuestLeaders
             Directory.CreateDirectory(m_QuestLeaderboardSaveDirectory);
         }
 
-        WriteQuestLeaderboardXml(filename + ".xml",  nranks);
+        WriteQuestLeaderboardXml($"{filename}.xml",  nranks);
 
-        WriteQuestLeaderboardHtml(filename + ".html",  nranks);
+        WriteQuestLeaderboardHtml($"{filename}.html",  nranks);
 
     }
 

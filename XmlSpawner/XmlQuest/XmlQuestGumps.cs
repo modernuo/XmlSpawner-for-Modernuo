@@ -729,7 +729,7 @@ public class XmlSimpleGump : Gump
                                         TextRelay te = info.GetTextEntry(j);
                                         if (te != null && te.Text.Length > 0)
                                         {
-                                            textresponse += te.Text + " ";
+                                            textresponse += $"{te.Text} ";
                                         }
                                     }
                                     catch {}
@@ -744,11 +744,11 @@ public class XmlSimpleGump : Gump
                             }
                             if (radioresponse != null && radioresponse.Length > 0)
                             {
-                                responsestring += " " + radioresponse;
+                                responsestring += $" {radioresponse}";
                             }
                             if (textresponse != null && textresponse.Length > 0)
                             {
-                                responsestring += " " + textresponse;
+                                responsestring += $" {textresponse}";
                             }
 
                             m_gumpcallback(from, m_invoker, responsestring);

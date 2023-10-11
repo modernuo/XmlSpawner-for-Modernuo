@@ -71,7 +71,7 @@ public class SpawnerExporter
                 return true;
             }
 
-            e.Mobile.SendMessage("Usage: " + Usage);
+            e.Mobile.SendMessage($"Usage: {Usage}");
             return false;
         }
 

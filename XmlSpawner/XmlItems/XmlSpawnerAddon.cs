@@ -74,21 +74,21 @@ public class XmlSpawnerAddon : BaseAddon
             catch
             {
                 newaddon.Delete();
-                status_str = "Bad Multi file : " + filename;
+                status_str = $"Bad Multi file : {filename}";
                 return null;
             }
 
             if (ncomponents == 0)
             {
                 newaddon.Delete();
-                status_str += " : " + filename;
+                status_str += $" : {filename}";
                 return null;
             }
 
         }
         else
         {
-            status_str = "No such file : " + filename;
+            status_str = $"No such file : {filename}";
         }
 
         return newaddon;
@@ -241,7 +241,7 @@ public class XmlSpawnerAddon : BaseAddon
         }
         else
         {
-            status_str = "No such file : " + filename;
+            status_str = $"No such file : {filename}";
         }
 
         if (badformat)

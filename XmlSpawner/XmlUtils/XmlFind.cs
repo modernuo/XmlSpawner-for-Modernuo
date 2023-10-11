@@ -29,10 +29,8 @@ public class XmlFindGump : Gump
             m_commandstring = commandstring;
         }
 
-
         public void XmlFindThreadMain()
         {
-
             if (m_From == null)
             {
                 return;
@@ -50,7 +48,7 @@ public class XmlFindGump : Gump
                 false, false, false, false, false, false, 0, 0);
 
             // display the updated gump synched with the main server thread
-            Timer.DelayCall(TimeSpan.Zero, GumpDisplayCallback, m_From, gump, status_str);
+            Core.LoopContext.Post(() => GumpDisplayCallback(m_From, gump, status_str));
 
         }
 
@@ -65,8 +63,6 @@ public class XmlFindGump : Gump
                 }
             }
         }
-
-
     }
 
     private const int MaxEntries = 18;
@@ -407,7 +403,7 @@ public class XmlFindGump : Gump
             targetType = AssemblyHandler.FindTypeByName(criteria.Searchtype);
             if (targetType == null)
             {
-                status_str = "Invalid type: " + criteria.Searchtype;
+                status_str = $"Invalid type: {criteria.Searchtype}";
                 return newarray;
             }
         }
@@ -425,7 +421,7 @@ public class XmlFindGump : Gump
             {
                 itemarray = new ArrayList(itemvalues);
             }
-            catch (SystemException e) { status_str = "Unable to search World.Items: " + e.Message; }
+            catch (SystemException e) { status_str = $"Unable to search World.Items: {e.Message}"; }
         }
 
         if (itemarray != null)
@@ -441,7 +437,6 @@ public class XmlFindGump : Gump
                 bool hasmap = false;
                 bool hasspawnerr = false;
                 bool hasvalidhidden = false;
-
 
                 if (i == null || i.Deleted)
                 {
@@ -488,6 +483,7 @@ public class XmlFindGump : Gump
                 {
                     hasname = true;
                 }
+
                 if (criteria.Dosearchname && !hasname)
                 {
                     continue;
@@ -665,7 +661,7 @@ public class XmlFindGump : Gump
                 {
                     mobilearray = new ArrayList(mobilevalues);
                 }
-                catch (SystemException e) { status_str = "Unable to search World.Mobiles: " + e.Message; }
+                catch (SystemException e) { status_str = $"Unable to search World.Mobiles: {e.Message}"; }
             }
 
             if (mobilearray != null)
@@ -894,16 +890,35 @@ public class XmlFindGump : Gump
                 type,    // type
                 null,    // name
                 null     // entry
-           ),
+            ),
 
             null, -1, 0, null, null,
             false, false, false, false, false, false, x, y)
     {
     }
 
-
-    public XmlFindGump(Mobile from, Point3D startloc, Map startmap, bool firststart, bool extension, bool descend, SearchCriteria criteria, ArrayList searchlist, int selected, int displayfrom, string savefilename,
-        string commandstring, bool sorttype, bool sortname, bool sortrange, bool sortmap, bool sortselect, bool selectall, int X, int Y)
+    public XmlFindGump(
+        Mobile from,
+        Point3D startloc,
+        Map startmap,
+        bool firststart,
+        bool extension,
+        bool descend,
+        SearchCriteria criteria,
+        ArrayList searchlist,
+        int selected,
+        int displayfrom,
+        string savefilename,
+        string commandstring,
+        bool sorttype,
+        bool sortname,
+        bool sortrange,
+        bool sortmap,
+        bool sortselect,
+        bool selectall,
+        int X,
+        int Y
+    )
         : base(X, Y)
     {
 
@@ -950,7 +965,6 @@ public class XmlFindGump : Gump
             AddBackground(0, 0, 170, height, 5054);
             AddAlphaRegion(0, 0, 170, height);
         }
-
 
         // ----------------
         // SORT section
@@ -1201,7 +1215,8 @@ public class XmlFindGump : Gump
                 AddLabel(180, y - 50, 68, $"Found {m_SearchList.Count} items/mobiles");
                 AddLabel(400, y - 50, 68,
                     $"Displaying {DisplayFrom}-{(DisplayFrom + MaxEntries < m_SearchList.Count ? DisplayFrom + MaxEntries : m_SearchList.Count)}"
-               );
+                );
+
                 // count the number of selected objects
                 int count = 0;
                 foreach (SearchEntry e in m_SearchList)
@@ -1310,8 +1325,7 @@ public class XmlFindGump : Gump
                         mapstr = item.Map.ToString();
                     }
                 }
-                else
-                if (o is Mobile)
+                else if (o is Mobile)
                 {
                     Mobile mob = (Mobile)e.Object;
                     // change the color if it is in a container

@@ -315,7 +315,7 @@ public class XmlUse : XmlAttachment
 
                 if (o == null)
                 {
-                    status_str = "invalid type specification: " + arglist[0];
+                    status_str = $"invalid type specification: {arglist[0]}";
                 }
                 else
                 if (o is Mobile mobile)

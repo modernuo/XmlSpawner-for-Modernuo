@@ -1194,7 +1194,7 @@ public class BaseXmlSpawner
                             // see if it was successful
                             if (result != "Property has been set.")
                             {
-                                status_str = arglist[0] + " : " + result;
+                                status_str = $"{arglist[0]} : {result}";
                                 no_error = false;
                             }
                             if (singlearglist.Length > 1 && singlearglist[1] != null)
@@ -1213,7 +1213,7 @@ public class BaseXmlSpawner
                             // see if it was successful
                             if (result != "Property has been set.")
                             {
-                                status_str = arglist[0] + " : " + result;
+                                status_str = $"{arglist[0]} : {result}";
                                 no_error = false;
                             }
                             if (arglist.Length < 3)
@@ -1245,7 +1245,7 @@ public class BaseXmlSpawner
                                     {
                                         incvalue = $"{Utility.RandomMinMax(min, max)}";
                                     }
-                                    else { status_str = "Invalid INC args : " + arglist[1]; no_error = false; }
+                                    else { status_str = $"Invalid INC args : {arglist[1]}"; no_error = false; }
                                 }
                                 else
                                 {
@@ -1281,21 +1281,21 @@ public class BaseXmlSpawner
                                         tmpstr = ((int)(d0 + d1)).ToString();
                                     }
                                     else
-                                    { status_str = "Invalid INC args : " + arglist[1]; no_error = false; }
+                                    { status_str = $"Invalid INC args : {arglist[1]}"; no_error = false; }
 
                                     // set the property value using the incremented value
                                     string result = SetPropertyValue(spawner, o, arglist[0], tmpstr);
                                     // see if it was successful
                                     if (result != "Property has been set.")
                                     {
-                                        status_str = arglist[0] + " : " + result;
+                                        status_str = $"{arglist[0]} : {result}";
                                         no_error = false;
                                     }
                                 }
                             }
                             else
                             {
-                                status_str = "Invalid INC args : " + arglist[1];
+                                status_str = $"Invalid INC args : {arglist[1]}";
                                 no_error = false;
                             }
                             if (arglist.Length < 3)
@@ -1321,7 +1321,7 @@ public class BaseXmlSpawner
                                 {
                                     mob_id = FindMobileByName(spawner, value_keywordargs[1], typestr); // the format of this will be 0xvalue "name"
                                 }
-                                catch { status_str = "Invalid MOB args : " + arglist[1]; no_error = false; }
+                                catch { status_str = $"Invalid MOB args : {arglist[1]}"; no_error = false; }
                                 // set the property value using this format (M) id name
 
                                 string result = SetPropertyObject(spawner, o, arglist[0], mob_id);
@@ -1329,7 +1329,7 @@ public class BaseXmlSpawner
                                 // see if it was successful
                                 if (result != "Property has been set.")
                                 {
-                                    status_str = arglist[0] + " : " + result;
+                                    status_str = $"{arglist[0]} : {result}";
                                     no_error = false;
                                 }
                             }
@@ -1351,7 +1351,7 @@ public class BaseXmlSpawner
                             // see if it was successful
                             if (result != "Property has been set.")
                             {
-                                status_str = arglist[0] + " : " + result;
+                                status_str = $"{arglist[0]} : {result}";
                                 no_error = false;
                             }
                             if (arglist.Length < 3)
@@ -1403,7 +1403,7 @@ public class BaseXmlSpawner
                             // see if it was successful
                             if (result != "Property has been set.")
                             {
-                                status_str = arglist[0] + " : " + result;
+                                status_str = $"{arglist[0]} : {result}";
                                 no_error = false;
                             }
                             if (arglist.Length < 3)
@@ -1431,7 +1431,7 @@ public class BaseXmlSpawner
                             // see if it was successful
                             if (result != "Property has been set.")
                             {
-                                status_str = arglist[0] + " : " + result;
+                                status_str = $"{arglist[0]} : {result}";
                                 no_error = false;
                             }
                             if (singlearglist.Length > 1 && singlearglist[1] != null)
@@ -1449,7 +1449,7 @@ public class BaseXmlSpawner
                             // see if it was successful
                             if (result != "Property has been set.")
                             {
-                                status_str = arglist[0] + " : " + result;
+                                status_str = $"{arglist[0]} : {result}";
                                 no_error = false;
                             }
                             if (arglist.Length < 3)
@@ -1820,7 +1820,7 @@ public class BaseXmlSpawner
         string[] arglist = ParseString(testString, 2, "=><!");
         if (arglist.Length < 2)
         {
-            status_str = "invalid property string : " + testString;
+            status_str = $"invalid property string : {testString}";
             return false;
         }
         bool hasequal = false;
@@ -1862,7 +1862,7 @@ public class BaseXmlSpawner
         // see if it was successful
         if (ptype1 == null)
         {
-            status_str = arglist[0] + " : " + value1;
+            status_str = $"{arglist[0]} : {value1}";
 
             return invertreturn;
             //return false;
@@ -1873,7 +1873,7 @@ public class BaseXmlSpawner
         // see if it was successful
         if (ptype2 == null)
         {
-            status_str = arglist[1] + " : " + value2;
+            status_str = $"{arglist[1]} : {value2}";
 
             return invertreturn;
             //return false;
@@ -1907,7 +1907,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid timespan comparison : {0}" + testString;
+                    status_str = $"invalid timespan comparison : {{0}}{testString}";
                 }
             }
             else if (hasnotequals)
@@ -1922,7 +1922,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid timespan comparison : {0}" + testString;
+                    status_str = $"invalid timespan comparison : {{0}}{testString}";
                 }
             }
             else if (hasgreaterthan)
@@ -1937,7 +1937,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid timespan comparison : {0}" + testString;
+                    status_str = $"invalid timespan comparison : {{0}}{testString}";
                 }
             }
             else
@@ -1952,7 +1952,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid timespan comparison : {0}" + testString;
+                    status_str = $"invalid timespan comparison : {{0}}{testString}";
                 }
             }
         }
@@ -1972,7 +1972,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid DateTime comparison : {0}" + testString;
+                    status_str = $"invalid DateTime comparison : {{0}}{testString}";
                 }
             }
             else if (hasnotequals)
@@ -1987,7 +1987,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid DateTime comparison : {0}" + testString;
+                    status_str = $"invalid DateTime comparison : {{0}}{testString}";
                 }
             }
             else if (hasgreaterthan)
@@ -2002,7 +2002,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid DateTime comparison : {0}" + testString;
+                    status_str = $"invalid DateTime comparison : {{0}}{testString}";
                 }
             }
             else
@@ -2017,7 +2017,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid DateTime comparison : {0}" + testString;
+                    status_str = $"invalid DateTime comparison : {{0}}{testString}";
                 }
             }
         }
@@ -2034,7 +2034,7 @@ public class BaseXmlSpawner
                 }
                 catch
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasnotequals)
@@ -2048,7 +2048,7 @@ public class BaseXmlSpawner
                 }
                 catch
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasgreaterthan)
@@ -2060,7 +2060,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                catch { status_str = "invalid int comparison : {0}" + testString; }
+                catch { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
             else
             {
@@ -2071,7 +2071,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                catch { status_str = "invalid int comparison : {0}" + testString; }
+                catch { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
         }
         else if (ptype2 == typeof(double) && IsNumeric(ptype1))
@@ -2087,7 +2087,7 @@ public class BaseXmlSpawner
                 }
                 catch
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasnotequals)
@@ -2101,7 +2101,7 @@ public class BaseXmlSpawner
                 }
                 catch
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasgreaterthan)
@@ -2113,7 +2113,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                catch { status_str = "invalid int comparison : {0}" + testString; }
+                catch { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
             else
             {
@@ -2124,7 +2124,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                catch { status_str = "invalid int comparison : {0}" + testString; }
+                catch { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
         }
         else if (ptype1 == typeof(double) && IsNumeric(ptype2))
@@ -2140,7 +2140,7 @@ public class BaseXmlSpawner
                 }
                 catch
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasnotequals)
@@ -2154,7 +2154,7 @@ public class BaseXmlSpawner
                 }
                 catch
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasgreaterthan)
@@ -2166,7 +2166,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                catch { status_str = "invalid int comparison : {0}" + testString; }
+                catch { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
             else
             {
@@ -2177,7 +2177,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                catch { status_str = "invalid int comparison : {0}" + testString; }
+                catch { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
         }
         else if (ptype1 == typeof(double) && ptype2 == typeof(double))
@@ -2195,7 +2195,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasnotequals)
@@ -2209,7 +2209,7 @@ public class BaseXmlSpawner
                 }
                 else
                 {
-                    status_str = "invalid int comparison : {0}" + testString;
+                    status_str = $"invalid int comparison : {{0}}{testString}";
                 }
             }
             else if (hasgreaterthan)
@@ -2221,7 +2221,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid int comparison : {0}" + testString; }
+                else { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
             else
             {
@@ -2232,7 +2232,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid int comparison : {0}" + testString; }
+                else { status_str = $"invalid int comparison : {{0}}{testString}"; }
             }
         }
         else if (ptype2 == typeof(bool) && ptype1 == typeof(bool))
@@ -2247,7 +2247,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid bool comparison : {0}" + testString; }
+                else { status_str = $"invalid bool comparison : {{0}}{testString}"; }
             }
             else if (hasnotequals)
             {
@@ -2258,7 +2258,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid bool comparison : {0}" + testString; }
+                else { status_str = $"invalid bool comparison : {{0}}{testString}"; }
             }
         }
         else if (ptype2 == typeof(double) || ptype2 == typeof(double))
@@ -2274,7 +2274,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid double comparison : {0}" + testString; }
+                else { status_str = $"invalid double comparison : {{0}}{testString}"; }
             }
             else if (hasnotequals)
             {
@@ -2285,7 +2285,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid double comparison : {0}" + testString; }
+                else { status_str = $"invalid double comparison : {{0}}{testString}"; }
             }
             else if (hasgreaterthan)
             {
@@ -2296,7 +2296,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid double comparison : {0}" + testString; }
+                else { status_str = $"invalid double comparison : {{0}}{testString}"; }
             }
             else
             {
@@ -2307,7 +2307,7 @@ public class BaseXmlSpawner
                         return !invertreturn;
                     }
                 }
-                else { status_str = "invalid double comparison : {0}" + testString; }
+                else { status_str = $"invalid double comparison : {{0}}{testString}"; }
             }
         }
         else
@@ -3729,7 +3729,7 @@ public class BaseXmlSpawner
 
                             if (setitem == null)
                             {
-                                status_str = "cant find unique item :" + keywordargs[1];
+                                status_str = $"cant find unique item :{keywordargs[1]}";
                                 return false;
                             }
 
